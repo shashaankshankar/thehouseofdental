@@ -166,3 +166,29 @@ The appointment form collects only the approved minimum field categories, avoids
 - The strict validator remains intentionally blocked by those seven practice assets.
 - Browser QA covers 320×568, 390×844, 412×915, 768×1024, and 1440×900 contact captures, menu Escape/focus, route/indexability states, form error states, and the branded 404. Evidence is in `docs/evidence/phase-5/`.
 - Production remains blocked by the appointment handler/notification/security integration, secure forms destination, offers/referral/insurance/savings inputs, legal copy, and named approvals. No deployment was performed.
+
+## Phase 6 implementation status — 2026-08-04
+
+Phase 6 is implemented in the local static artifact and intentionally undeployed.
+
+### Acquisition integration
+
+- Rebuilt the homepage around a single static office-exterior hero with the audit direction “Advanced Dentistry, Designed Around You,” Winter Park location context, personalized care copy, appointment/phone CTAs, and no carousel.
+- Added the maintainable trust strip, direct patient-goal pathways, provisional featured-care order, doctor credibility, manual patient-perspective tabs, benefit-led technology cards, neutral payment questions, location/hours/directions, and final appointment CTA.
+- Added `the-house-of-dental-site/data/acquisition.json` as the source of truth for featured services, patient-goal paths, navigation labels, approval gates, and provisional-priority basis.
+- Reworked the shared header/footer navigation to generate grouped Services links, New Patients, Patient Resources, About, Reviews, Contact, phone, and Request Appointment from that configuration. Facial Aesthetics, Laser/QuietNite, offers, and referral remain gated and absent from public acquisition surfaces.
+- Updated the Services overview to consume the same featured-service and patient-goal configuration so acquisition order and direct destinations remain synchronized.
+- Removed homepage/reviews hard-coded review totals and ratings; the public review CTA now uses Read Verified Patient Reviews.
+- Preserved mobile sticky Call + Request Appointment actions, accessible mobile accordions, manual testimonials, and accessible technology dialogs.
+- Reduced hero height/padding and compacted the trust strip for short landscape tablet viewports so verified proof is visible above the sticky bar.
+
+### Phase 6 verification and evidence
+
+- `npm test` — passed all five tests, including the Phase 6 acquisition/gating regression test.
+- `npm run validate` — passed all 42 routes with seven known About-team pending-asset warnings; strict validation remains blocked by those assets.
+- Local browser QA passed the 12 required viewports, 63 homepage same-origin links across 22 unique routes, all same-origin fragments, phone/directions/appointment destinations, mobile menu focus/Escape, desktop Services dropdown, sticky actions, manual testimonials, and technology dialog lifecycle.
+- Evidence is saved under `docs/evidence/phase-6/`; the release gate and still-provisional priorities are recorded in `phase-6-release-gate.md` and `docs/PRACTICE-DECISIONS.md`.
+
+### Remaining gates
+
+Practice priority inputs, Facial Aesthetics approval, dental laser facts, Sleep/QuietNite protocol, review-source ownership, appointment integration, offers/referral terms, legal copy, hours, authentic team assets, and named clinical/compliance approvals remain unresolved. No deployment was performed.

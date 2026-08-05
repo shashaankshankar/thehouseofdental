@@ -1,0 +1,62 @@
+{
+  "phase": 6,
+  "date": "2026-08-04",
+  "deployment": "not performed",
+  "localPreview": "http://127.0.0.1:4173/",
+  "build": {
+    "generatedRoutes": 42,
+    "indexableRoutes": 24,
+    "plannedOrGatedRoutes": 5,
+    "npmTest": "pass",
+    "npmValidate": "pass with 7 documented pending About-team asset warnings"
+  },
+  "viewportChecks": [
+    {"viewport": "320x568", "documentScrollWidth": 320, "actualScrollXAfterAttempt": 0, "overflowX": "clip", "headerClipped": false, "ctasFit": true, "ctaTouchTargets": true, "stickyVisible": true},
+    {"viewport": "360x800", "documentScrollWidth": 360, "actualScrollXAfterAttempt": 0, "overflowX": "clip", "headerClipped": false, "ctasFit": true, "ctaTouchTargets": true, "stickyVisible": true},
+    {"viewport": "375x812", "documentScrollWidth": 375, "actualScrollXAfterAttempt": 0, "overflowX": "clip", "headerClipped": false, "ctasFit": true, "ctaTouchTargets": true, "stickyVisible": true},
+    {"viewport": "390x844", "documentScrollWidth": 390, "actualScrollXAfterAttempt": 0, "overflowX": "clip", "headerClipped": false, "ctasFit": true, "ctaTouchTargets": true, "stickyVisible": true},
+    {"viewport": "412x915", "documentScrollWidth": 412, "actualScrollXAfterAttempt": 0, "overflowX": "clip", "headerClipped": false, "ctasFit": true, "ctaTouchTargets": true, "stickyVisible": true},
+    {"viewport": "768x1024", "documentScrollWidth": 768, "actualScrollXAfterAttempt": 0, "overflowX": "clip", "headerClipped": false, "ctasFit": true, "ctaTouchTargets": true, "stickyVisible": true},
+    {"viewport": "820x1180", "documentScrollWidth": 820, "actualScrollXAfterAttempt": 0, "overflowX": "clip", "headerClipped": false, "ctasFit": true, "ctaTouchTargets": true, "stickyVisible": true},
+    {"viewport": "1024x768", "documentScrollWidth": 1024, "actualScrollXAfterAttempt": 0, "overflowX": "clip", "headerClipped": false, "ctasFit": true, "ctaTouchTargets": true, "stickyVisible": true},
+    {"viewport": "1280x720", "documentScrollWidth": 1280, "actualScrollXAfterAttempt": 0, "overflowX": "clip", "headerClipped": false, "ctasFit": true, "ctaTouchTargets": true, "stickyVisible": false},
+    {"viewport": "1366x768", "documentScrollWidth": 1366, "actualScrollXAfterAttempt": 0, "overflowX": "clip", "headerClipped": false, "ctasFit": true, "ctaTouchTargets": true, "stickyVisible": false},
+    {"viewport": "1440x900", "documentScrollWidth": 1440, "actualScrollXAfterAttempt": 0, "overflowX": "clip", "headerClipped": false, "ctasFit": true, "ctaTouchTargets": true, "stickyVisible": false},
+    {"viewport": "1920x1080", "documentScrollWidth": 1920, "actualScrollXAfterAttempt": 0, "overflowX": "clip", "headerClipped": false, "ctasFit": true, "ctaTouchTargets": true, "stickyVisible": false}
+  ],
+  "shortTabletTrustCheck": {
+    "viewport": "1024x768",
+    "heroBottom": 613,
+    "trustItemsBottom": 707,
+    "stickyTop": 709,
+    "fullVerifiedProofAboveSticky": true
+  },
+  "linkSweep": {
+    "homepageSameOriginLinks": 63,
+    "uniqueSameOriginRoutes": 22,
+    "routeFailures": [],
+    "fragmentFailures": [],
+    "phoneHref": "tel:+14076781400",
+    "directionsHref": "https://goo.gl/maps/CT32JzwGHYR7qNJX6",
+    "appointmentHref": "contact.html#book"
+  },
+  "interactionChecks": {
+    "mobileMenu": "pass: quick Call and Request Appointment actions first; accessible Services accordion; Escape closes and returns focus to the trigger",
+    "desktopServicesDropdown": "pass: grouped Featured care, patient goals, and All Services links",
+    "stickyActions": "pass: visible at mobile widths; Request Appointment reaches /contact.html#book",
+    "manualTestimonials": "pass: Testimonial 2 selects and reports Testimonial 2 of 3",
+    "technologyDialog": "pass: CT Scan dialog opens with aria-hidden=false and closes with Escape",
+    "keyboardScreenReaderStructure": "pass: skip link, banner, navigation, labeled menu, aria-expanded submenu buttons, dialog, tabs, and quick-action navigation exposed"
+  },
+  "claimScan": {
+    "homepageForbiddenTerms": [],
+    "publicIndexableClinicalGatedHits": [],
+    "reviewCountOrRatingHitsAcrossIndexableOutput": [],
+    "notes": "Special Offers and Referral Program remain absent from the homepage/global navigation; the existing Phase 5 offers route remains neutral and gated. Facial Aesthetics, Laser Dentistry, QuietNite, and Sleep Better remain absent from public acquisition surfaces."
+  },
+  "screenshots": {
+    "homepage": "home-{320x568,360x800,375x812,390x844,412x915,768x1024,820x1180,1024x768,1280x720,1366x768,1440x900,1920x1080}.png",
+    "navigation": ["mobile-menu-390x844.png", "desktop-services-dropdown-1440x900.png"],
+    "services": ["services-390x844.png", "services-1440x900.png"]
+  }
+}

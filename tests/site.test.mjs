@@ -9,6 +9,7 @@ const outputRoot = path.join(projectRoot, "dist");
 const configRoot = path.join(projectRoot, "the-house-of-dental-site", "config");
 const routes = JSON.parse(fs.readFileSync(path.join(configRoot, "routes.json"), "utf8"));
 const enabledRoutes = routes.filter((route) => route.enabled);
+const acquisition = JSON.parse(fs.readFileSync(path.join(projectRoot, "the-house-of-dental-site", "data", "acquisition.json"), "utf8"));
 const siteConfig = JSON.parse(fs.readFileSync(path.join(configRoot, "site.json"), "utf8"));
 const resolveRegistryText = (value) => String(value)
   .replaceAll("{{BRAND_NAME}}", siteConfig.brand.name)
@@ -59,4 +60,50 @@ test("unresolved config values are explicit and not silently substituted", () =>
   assert.match(config.contact.email.status, /unresolved/i);
   assert.match(config.appointmentUrl.status, /local|unresolved/i);
   assert.ok(config.contact.hours.rows.length > 0);
+});
+
+test("Phase 6 acquisition surfaces stay data-driven and approval-gated", () => {
+  const homeHtml = fs.readFileSync(path.join(outputRoot, "index.html"), "utf8");
+  const servicesHtml = fs.readFileSync(path.join(outputRoot, "services.html"), "utf8");
+  const mainJs = fs.readFileSync(path.join(projectRoot, "the-house-of-dental-site", "main.js"), "utf8");
+  const enabledFeatured = acquisition.featuredServices.filter((item) => item.enabled !== false);
+  const enabledGoals = acquisition.goalPaths.filter((item) => item.enabled !== false);
+  const disabledItems = [
+    ...acquisition.featuredServices.filter((item) => item.enabled === false),
+    ...acquisition.navigation.topLevel.filter((item) => item.enabled === false),
+    ...acquisition.goalPaths.filter((item) => item.enabled === false)
+  ];
+
+  assert.match(homeHtml, /Advanced Dentistry,[\s\S]*Designed Around You/);
+  assert.match(homeHtml, /Dentist in Winter Park, Florida/);
+  assert.match(homeHtml, /Personalized dental care/);
+  assert.match(homeHtml, /Read Verified Patient Reviews/);
+  assert.doesNotMatch(homeHtml, /(?:5\.0|332|Google Rating|Google Reviews)/i);
+  assert.doesNotMatch(homeHtml, /carousel|autoplay|auto-rotat|setInterval/i);
+  assert.doesNotMatch(mainJs, /setInterval\s*\(/i);
+
+  for (const item of enabledFeatured) {
+    assert.match(homeHtml, new RegExp(`data-acquisition-path="featured"[\\s\\S]*?${item.title.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\$&")}`));
+    const target = routes.find((route) => route.id === item.routeId);
+    assert.ok(target && homeHtml.includes(target.output), `${item.routeId} destination`);
+  }
+  for (const item of enabledGoals) {
+    assert.ok(homeHtml.includes(`data-acquisition-goal="${item.id}"`), `${item.id} goal card`);
+    assert.ok(servicesHtml.includes(`data-acquisition-goal="${item.id}"`), `${item.id} Services card`);
+    const target = routes.find((route) => route.id === item.routeId);
+    assert.ok(target && homeHtml.includes(target.output), `${item.id} destination`);
+  }
+  for (const item of disabledItems) {
+    const label = item.title || item.label || item.id;
+    assert.doesNotMatch(homeHtml, new RegExp(label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `${label} is gated from home`);
+  }
+
+  assert.match(homeHtml, /Services/);
+  assert.match(homeHtml, /New Patients/);
+  assert.match(homeHtml, /Patient Resources/);
+  assert.match(homeHtml, /About/);
+  assert.match(homeHtml, /Reviews/);
+  assert.match(homeHtml, /Contact/);
+  assert.doesNotMatch(homeHtml, /Special Offers|Referral Program/);
+  assert.doesNotMatch(servicesHtml, /href="#goal-/);
 });

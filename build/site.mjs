@@ -17,6 +17,7 @@ const routes = readJson(path.join(configDir, "routes.json"));
 const technologyData = readJson(path.join(siteRoot, "data", "technology.json"));
 const serviceData = readJson(path.join(siteRoot, "data", "services.json"));
 const servicePages = readJson(path.join(siteRoot, "data", "service-pages.json"));
+const acquisitionData = readJson(path.join(siteRoot, "data", "acquisition.json"));
 const layout = readText(path.join(templateDir, "layout.html"));
 const headerTemplate = readText(path.join(templateDir, "header.html"));
 const footerTemplate = readText(path.join(templateDir, "footer.html"));
@@ -126,6 +127,90 @@ const appointmentHref = (route) => {
     : relativeOutputHref(route.output, appointmentTarget.output);
   return `${href}${appointmentHash}`;
 };
+
+const validateAcquisitionRoute = (item, label) => {
+  assert(item.routeId, `${label} is missing routeId`);
+  const target = routeById.get(item.routeId);
+  assert(target, `${label} points to unknown route: ${item.routeId}`);
+  if (item.enabled !== false) {
+    assert(target.enabled, `${label} points to a disabled route: ${item.routeId}`);
+    assert(target.pageType !== "draft", `${label} cannot publish a draft route: ${item.routeId}`);
+  }
+  return target;
+};
+
+for (const item of acquisitionData.featuredServices || []) validateAcquisitionRoute(item, `Featured service ${item.routeId || "(unknown)"}`);
+for (const item of acquisitionData.goalPaths || []) validateAcquisitionRoute(item, `Goal path ${item.id || "(unknown)"}`);
+for (const item of acquisitionData.navigation?.topLevel || []) validateAcquisitionRoute(item, `Top-level navigation ${item.label || "(unknown)"}`);
+for (const group of ["newPatients", "resources", "about"]) {
+  for (const item of acquisitionData.navigation?.[group] || []) validateAcquisitionRoute(item, `Navigation item ${group}/${item.label || "(unknown)"}`);
+}
+
+const publicItems = (items = []) => items.filter((item) => item.enabled !== false);
+const acquisitionHref = (route, item) => routeHref(route, item.routeId, item.suffix || "");
+const revealDelay = (index) => index % 4 === 0 ? "" : ` rv-d${(index % 4)}`;
+
+const renderFeaturedServiceCards = (route) => publicItems(acquisitionData.featuredServices)
+  .map((item, index) => `<a class="featured-service-card rv${revealDelay(index)}" href="${htmlEscape(acquisitionHref(route, item))}" data-acquisition-path="featured">
+  <span class="service-card-number">${String(index + 1).padStart(2, "0")}</span><span class="service-card-label">${htmlEscape(item.goal)}</span><h3>${htmlEscape(item.title)}</h3><p>${htmlEscape(item.description)}</p><span class="card-link">${htmlEscape(item.cta)} <span aria-hidden="true">→</span></span>
+</a>`).join("\n");
+
+const renderGoalCards = (route) => publicItems(acquisitionData.goalPaths)
+  .map((item, index) => `<a class="goal-card rv${revealDelay(index)}${item.tone === "urgent" ? " goal-card-urgent" : ""}" href="${htmlEscape(acquisitionHref(route, item))}" data-acquisition-goal="${htmlEscape(item.id)}">
+  <span class="goal-icon" aria-hidden="true">${htmlEscape(item.number)}</span><h3>${htmlEscape(item.label)}</h3><p>${htmlEscape(item.description)}</p><span class="card-link">${htmlEscape(item.cta)} <span aria-hidden="true">→</span></span>
+</a>`).join("\n");
+
+const renderTrustStrip = (route) => `<div class="trust-strip" aria-label="Practice proof and next steps">
+  <a class="trust-item" href="${htmlEscape(routeHref(route, "about", "#dr-patel"))}"><span class="trust-label">Provider</span><strong>Dr. Mainak Patel, DMD</strong></a>
+  <a class="trust-item" href="${htmlEscape(routeHref(route, "same-day-crowns"))}"><span class="trust-label">Technology</span><strong>Same-Day CEREC&reg; Crowns</strong></a>
+  <a class="trust-item" href="${htmlEscape(routeHref(route, "new-patients", "#what-to-expect"))}"><span class="trust-label">New patients</span><strong>Appointments · Call to confirm</strong></a>
+  <a class="trust-item" href="${htmlEscape(routeHref(route, "reviews"))}"><span class="trust-label">Patient perspective</span><strong>Read Verified Patient Reviews <span aria-hidden="true">→</span></strong></a>
+</div>`;
+
+const renderServicesMenu = (route) => {
+  const featured = publicItems(acquisitionData.featuredServices).map((item) => `<li><a href="${htmlEscape(acquisitionHref(route, item))}">${htmlEscape(item.title)}</a></li>`).join("\n");
+  const goals = publicItems(acquisitionData.goalPaths).map((item) => `<li><a href="${htmlEscape(acquisitionHref(route, item))}">${htmlEscape(item.label)}</a></li>`).join("\n");
+  return `<ul class="drop">
+  <li class="drop-label">Featured care</li>
+  ${featured}
+  <li class="drop-label">Choose by patient goal</li>
+  ${goals}
+  <li class="drop-label">Directory</li>
+  <li><a href="${htmlEscape(routeHref(route, "all-services"))}">All Services</a></li>
+</ul>`;
+};
+
+const renderSubmenu = (route, items) => `<ul class="drop">
+  ${items.map((item) => `<li><a href="${htmlEscape(acquisitionHref(route, item))}">${htmlEscape(item.label)}</a></li>`).join("\n  ")}
+</ul>`;
+
+const renderTopLevelNavigation = (route) => publicItems(acquisitionData.navigation.topLevel)
+  .map((item) => {
+    const href = htmlEscape(acquisitionHref(route, item));
+    let submenu = "";
+    if (item.menu === "services") submenu = renderServicesMenu(route);
+    if (item.menu === "new-patients") submenu = renderSubmenu(route, acquisitionData.navigation.newPatients);
+    if (item.menu === "resources") submenu = renderSubmenu(route, acquisitionData.navigation.resources);
+    if (item.menu === "about") submenu = renderSubmenu(route, acquisitionData.navigation.about);
+    return `<li><a href="${href}">${htmlEscape(item.label)}</a>${submenu}</li>`;
+  }).join("\n      ");
+
+const renderMobileNavActions = (route) => `<li class="menu-mobile-actions" aria-label="Quick actions">
+  <a class="menu-action-call" href="${htmlEscape(`tel:${config.contact.phone.tel}`)}">Call <span>${htmlEscape(config.contact.phone.display)}</span></a>
+  <a class="menu-action-request" href="${htmlEscape(appointmentHref(route))}">Request Appointment</a>
+</li>`;
+
+const renderOptionalFooterServices = (route) => publicItems(acquisitionData.navigation.topLevel)
+  .filter((item) => item.routeId === "facial-aesthetics")
+  .map((item) => `<li><a href="${htmlEscape(acquisitionHref(route, item))}">${htmlEscape(item.label)}</a></li>`)
+  .join("\n          ");
+
+const renderOptionalHomepageSections = (route) => publicItems(acquisitionData.featuredServices)
+  .filter((item) => ["facial-aesthetics", "laser-dentistry", "quietnite"].includes(item.routeId))
+  .map((item) => `<section class="sec sec-ivory acquisition-optional" id="${htmlEscape(item.routeId)}">
+  <div class="wrap optional-acquisition-card"><div><p class="eyebrow rv">${htmlEscape(item.goal)}</p><h2 class="rv rv-d1">${htmlEscape(item.title)}</h2><p class="rv rv-d2">${htmlEscape(item.description)}</p></div><a class="btn rv rv-d2" href="${htmlEscape(acquisitionHref(route, item))}">${htmlEscape(item.cta)}</a></div>
+</section>`)
+  .join("\n");
 
 const hoursRows = config.contact.hours.rows.map((row) => `<tr><td>${htmlEscape(row.day)}</td><td>${htmlEscape(row.display)}</td></tr>`).join("\n");
 const hoursDisplay = String(config.contact.hours.display).split("\n").map(htmlEscape).join("<br>");
@@ -395,11 +480,18 @@ const renderPage = (route) => {
   content = content.replaceAll("{{BREADCRUMB}}", renderBreadcrumb(route));
   content = content.replaceAll("{{TECHNOLOGY_DATA}}", inlineJson(technologyData));
   content = content.replaceAll("{{SERVICE_DATA}}", inlineJson(serviceData));
+  content = content.replaceAll("{{FEATURED_SERVICE_CARDS}}", renderFeaturedServiceCards(route));
+  content = content.replaceAll("{{PATIENT_GOAL_CARDS}}", renderGoalCards(route));
+  content = content.replaceAll("{{TRUST_STRIP}}", renderTrustStrip(route));
+  content = content.replaceAll("{{OPTIONAL_HOMEPAGE_SECTIONS}}", renderOptionalHomepageSections(route));
   if (route.servicePage) content = content.replaceAll("{{SERVICE_PAGE_CONTENT}}", renderServiceContent(route));
   content = applyTokens(content, {
     "{{APPOINTMENT_HREF}}": htmlEscape(appointmentHref(route)),
     "{{PHONE_HREF}}": htmlEscape(`tel:${config.contact.phone.tel}`),
     "{{PHONE_DISPLAY}}": htmlEscape(config.contact.phone.display),
+    "{{ALL_SERVICES_HREF}}": htmlEscape(routeHref(route, "all-services")),
+    "{{ABOUT_HREF}}": htmlEscape(routeHref(route, "about")),
+    "{{REVIEWS_HREF}}": htmlEscape(routeHref(route, "reviews")),
     "{{MAP_URL}}": htmlEscape(config.contact.mapUrl.value),
     "{{ADDRESS_STREET}}": htmlEscape(config.contact.address.street),
     "{{ADDRESS_LOCALITY}}": htmlEscape(config.contact.address.locality),
@@ -430,23 +522,9 @@ const renderPage = (route) => {
     "{{PHONE_DISPLAY}}": htmlEscape(config.contact.phone.display),
     "{{APPOINTMENT_HREF}}": htmlEscape(appointmentHref(route)),
     "{{ASSET_HREF:logo.svg}}": htmlEscape(assetHref(route, "assets/logo.svg")),
-    "{{HREF:home}}": htmlEscape(routeHref(route, "home")),
-    "{{HREF:facial-aesthetics}}": htmlEscape(routeHref(route, "facial-aesthetics")),
-    "{{HREF:services}}": htmlEscape(routeHref(route, "services")),
-    "{{HREF:all-services}}": htmlEscape(routeHref(route, "all-services")),
-    "{{HREF:dental-implants}}": htmlEscape(routeHref(route, "dental-implants")),
-    "{{HREF:same-day-crowns}}": htmlEscape(routeHref(route, "same-day-crowns")),
-    "{{HREF:invisalign}}": htmlEscape(routeHref(route, "invisalign")),
-    "{{HREF:pre-post-op}}": htmlEscape(routeHref(route, "pre-post-op")),
-    "{{HREF:new-patients}}": htmlEscape(routeHref(route, "new-patients")),
-    "{{HREF:new-patient-forms}}": htmlEscape(routeHref(route, "new-patient-forms")),
-    "{{HREF:insurance-financing}}": htmlEscape(routeHref(route, "insurance-financing")),
-    "{{HREF:special-offers}}": htmlEscape(routeHref(route, "special-offers")),
-    "{{HREF:patient-resources}}": htmlEscape(routeHref(route, "patient-resources")),
-    "{{HREF:emergency-dentistry}}": htmlEscape(routeHref(route, "emergency-dentistry")),
-    "{{HREF:reviews}}": htmlEscape(routeHref(route, "reviews")),
-    "{{HREF:about}}": htmlEscape(routeHref(route, "about")),
-    "{{HREF:contact}}": htmlEscape(routeHref(route, "contact"))
+    "{{HOME_HREF}}": htmlEscape(routeHref(route, "home")),
+    "{{TOP_LEVEL_NAV}}": renderTopLevelNavigation(route),
+    "{{MOBILE_NAV_ACTIONS}}": renderMobileNavActions(route)
   }, `${route.id} header`);
   const footer = applyTokens(footerTemplate, {
     "{{BRAND_NAME}}": htmlEscape(config.brand.name),
@@ -459,25 +537,10 @@ const renderPage = (route) => {
     "{{ADDRESS_POSTAL}}": htmlEscape(config.contact.address.postalCode),
     "{{SOCIAL_LINKS}}": renderSocialLinks(),
     "{{LEGAL_LINKS}}": renderLegalLinks(route),
+    "{{FOOTER_OPTIONAL_SERVICES}}": renderOptionalFooterServices(route),
+    "{{HREF_ALL_SERVICES}}": htmlEscape(routeHref(route, "all-services")),
     "{{ASSET_HREF:logo.svg}}": htmlEscape(assetHref(route, "assets/logo.svg")),
-    "{{HREF:home}}": htmlEscape(routeHref(route, "home")),
-    "{{HREF:facial-aesthetics}}": htmlEscape(routeHref(route, "facial-aesthetics")),
-    "{{HREF:services}}": htmlEscape(routeHref(route, "services")),
-    "{{HREF:all-services}}": htmlEscape(routeHref(route, "all-services")),
-    "{{HREF:restorative-dentistry}}": htmlEscape(routeHref(route, "restorative-dentistry")),
-    "{{HREF:dental-implants}}": htmlEscape(routeHref(route, "dental-implants")),
-    "{{HREF:same-day-crowns}}": htmlEscape(routeHref(route, "same-day-crowns")),
-    "{{HREF:invisalign}}": htmlEscape(routeHref(route, "invisalign")),
-    "{{HREF:preventive-care}}": htmlEscape(routeHref(route, "preventive-care")),
-    "{{HREF:oral-surgery}}": htmlEscape(routeHref(route, "oral-surgery")),
-    "{{HREF:new-patients}}": htmlEscape(routeHref(route, "new-patients")),
-    "{{HREF:new-patient-forms}}": htmlEscape(routeHref(route, "new-patient-forms")),
-    "{{HREF:insurance-financing}}": htmlEscape(routeHref(route, "insurance-financing")),
-    "{{HREF:special-offers}}": htmlEscape(routeHref(route, "special-offers")),
-    "{{HREF:patient-resources}}": htmlEscape(routeHref(route, "patient-resources")),
-    "{{HREF:emergency-dentistry}}": htmlEscape(routeHref(route, "emergency-dentistry")),
-    "{{HREF:reviews}}": htmlEscape(routeHref(route, "reviews")),
-    "{{HREF:about}}": htmlEscape(routeHref(route, "about"))
+    "{{HOME_HREF}}": htmlEscape(routeHref(route, "home"))
   }, `${route.id} footer`);
   const stickyActions = applyTokens(stickyActionsTemplate, {
     "{{PHONE_HREF}}": `tel:${htmlEscape(config.contact.phone.tel)}`,

@@ -93,3 +93,21 @@ The existing Facial Aesthetics priority recommendation is therefore preserved as
 | Confirmation and 404 states | Keep appointment/offer status pages noindex and non-claiming; serve a branded local 404 with urgent and phone paths | Connect success redirects only after a real handler reports success; verify production 404 status and links |
 
 Phase 5 remains local-only. The exact test and release blocker record is in `docs/evidence/phase-5/`.
+
+## Phase 6 acquisition integration decision record — 2026-08-04
+
+Phase 6 integrates the completed service and patient-support routes into the main acquisition experience. The implementation remains local-only and intentionally undeployed.
+
+| Decision area | Phase 6 local choice | Guardrail / next approval |
+|---|---|---|
+| Homepage positioning | Use the audit direction “Advanced Dentistry, Designed Around You,” with Winter Park context, personalized dental care, implants, same-day crowns, preventive care, and appointment/phone CTAs | Keep the hero focused and static; confirm any future service or differentiator claims before publication |
+| Featured service order | Use the provisional hybrid order Dental Implants → Same-Day Crowns → Invisalign | `the-house-of-dental-site/data/acquisition.json` is the source of truth; practice priorities, capacity, margins, case acceptance, seasonality, and de-emphasized services remain pending |
+| Patient goals | Publish Replace Missing Teeth, Relieve Dental Pain, Improve My Smile, Straighten My Teeth, Feel More Comfortable, and Schedule Routine Care | Each enabled path maps to a dedicated local route; Sleep Better remains disabled until the Phase 4 gate is resolved |
+| Facial Aesthetics | Keep it in the configuration as disabled and absent from public homepage/nav surfaces | Phase 4 must approve offerings, provider qualifications, claims, media, and public placement |
+| Laser / QuietNite | Keep both featured candidates disabled; do not add public navigation or claims | Phase 4 device/protocol, clinical, provider, and aftercare decisions remain unresolved |
+| Trust proof | Use Dr. Mainak Patel, DMD; Same-Day CEREC Crowns; call-to-confirm new-patient availability; and Read Verified Patient Reviews | Do not hard-code review totals or ratings; a maintained source and update owner are still needed |
+| Offers / referral | Keep Special Offers and Referral Program out of the homepage/global navigation | Phase 5 terms, eligibility, reward, expiry, disclosures, and availability require approval |
+| Navigation | Use Services with grouped featured/goal/directory links, New Patients, Patient Resources, About, Reviews, Contact, phone, and Request Appointment | Preserve mobile quick actions first, accessible accordions, and no hidden/unreachable links |
+| Measurement | Leave conversion attributes available without placeholder analytics IDs | Phase 9 may add approved analytics identifiers and ownership; no IDs were invented |
+
+The complete Phase 6 evidence and release gate are in `docs/evidence/phase-6/`. No deployment was performed.

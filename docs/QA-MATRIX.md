@@ -147,3 +147,20 @@ Normal viewport checks found no horizontal overflow and all H1/main/template reg
 | 404 | Missing route returns HTTP 404 and branded page with Home, Services, Contact, phone, urgent path | Pass | `404-390x844.png`, `phase-5-browser-qa.json` |
 | Assets | Normal and strict validation | Normal pass with seven known About-team warnings; strict remains blocked by those warnings | `npm run validate`, `npm run validate:strict` |
 | Release gate | Do not deploy until integration/legal/practice blockers resolve | Complete as local-only handoff | `phase-5-release-gate.md` |
+
+## Phase 6 acquisition QA matrix — 2026-08-04
+
+| Scope | Check | Result | Evidence |
+|---|---|---|---|
+| Five-second comprehension | 390×844 and 1440×900 static hero review | Pass; practice, Winter Park location, care categories, next action, and premium office imagery are immediately legible | `home-390x844.png`, `home-1440x900.png` |
+| Required responsive matrix | 320×568, 360×800, 375×812, 390×844, 412×915, 768×1024, 820×1180, 1024×768, 1280×720, 1366×768, 1440×900, 1920×1080 | Pass; document scroll width matches viewport, actual horizontal scroll remains 0, headers are not clipped, CTAs fit, and mobile sticky actions are present | `phase-6-browser-qa.json`, `home-*.png` |
+| Short tablet hierarchy | 1024×768 hero/trust/sticky relationship | Pass; all four verified trust values clear the sticky bar after height-specific refinement | `home-1024x768.png`, `phase-6-browser-qa.json` |
+| Global desktop nav | Services, New Patients, Patient Resources, About, Reviews, Contact, phone, Request Appointment at 1440px | Pass; no 1440px clipping; Services dropdown is grouped rather than a wall of equal links | `desktop-services-dropdown-1440x900.png` |
+| Global mobile nav | Call and Request Appointment first; Services/Resources accordions; no hidden/unreachable links | Pass; menu focus entry, submenu state, Escape close, and focus return verified | `mobile-menu-390x844.png`, `phase-6-integration-tests.md` |
+| Homepage pathways | Featured services and six enabled patient goals | Pass; every enabled item leads to a real route; Services overview consumes the same configuration | `phase-6-browser-qa.json`, `services-390x844.png`, `services-1440x900.png` |
+| Sticky actions | Mobile Call and Request Appointment | Pass; `tel:+14076781400` and `/contact.html#book` verified without submitting the form | `phase-6-browser-qa.json` |
+| Directions | Homepage directions link | Pass; maintained Google Maps target verified | `phase-6-browser-qa.json` |
+| Keyboard/screen reader structure | Skip link, banner/nav labels, menu aria-expanded, accordion buttons, tabs, dialog lifecycle | Pass locally; accessible snapshot and Escape/focus checks completed | `phase-6-integration-tests.md` |
+| Trust/claims | No hard-coded review total/rating, unapproved offer, referral, Facial Aesthetics, Laser, QuietNite, Sleep Better, or fabricated credential on homepage/nav | Pass; homepage and indexable-output scans are clean | `phase-6-browser-qa.json`, Phase 6 regression test |
+| Carousel guardrail | Static focused hero and manual testimonials only | Pass; no carousel/autoplay/auto-rotation or `setInterval` behavior | Phase 6 regression test |
+| Release gate | Do not deploy; record provisional service order and open approvals | Complete as local-only handoff | `phase-6-release-gate.md`, `docs/PRACTICE-DECISIONS.md` |

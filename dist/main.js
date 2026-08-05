@@ -199,8 +199,10 @@
       item.li.classList.toggle("open-sub", open);
       item.button.setAttribute("aria-expanded", String(open));
       item.button.setAttribute("aria-label", `${open ? "Close" : "Open"} ${item.link.textContent.trim()} submenu`);
+      item.li.querySelector(".drop")?.setAttribute("aria-hidden", String(isMobileNav() ? !open : false));
     };
     const closeSubmenus = () => submenuButtons.forEach((item) => setSubmenu(item, false));
+    submenuButtons.forEach((item) => setSubmenu(item, false));
     const setMenuInert = (inert) => {
       if (inert) {
         menu.setAttribute("inert", "");

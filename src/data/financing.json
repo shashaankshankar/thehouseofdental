@@ -1,0 +1,11 @@
+{
+  "provider": "Cherry Payment Plans",
+  "heading": "Estimate Your Monthly Payment",
+  "description": "Split treatment costs into smaller, more manageable payments. Slide to your estimated treatment cost.",
+  "minimum": 500,
+  "maximum": 15000,
+  "step": 100,
+  "initial": 3000,
+  "applyUrl": "https://withcherry.com/",
+  "disclosure": "*4 interest-free payments every 2 weeks available for amounts up to $3,000. Longer plans run up to 60 months with qualifying 0% APR, or as low as 5.99% APR for interest-bearing plans. Estimates above are illustrations only — your actual terms are provided by Cherry after a quick application with a soft credit check that won't affect your credit score."
+}

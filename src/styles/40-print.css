@@ -1,0 +1,80 @@
+PRINT STYLESHEET — clean output, nothing cut off
+   ============================================================ */
+@media print {
+  @page { size: letter portrait; margin: 0.75in 0.7in; }
+
+  html, body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 11pt;
+    overflow: visible !important;
+  }
+
+  /* Hide all chrome */
+  header.site, footer.site, .care-nav, .aesthetic-nav, .download-bar,
+  .care-dl, .burger, .menu, .band, .btn, .svcmodal, .marquee,
+  .hero-strip, .quote-nav, .contact-quick, form { display: none !important; }
+
+  /* Neutralize theme backgrounds */
+  section, .sec, .sec-noir, .sec-ivory, .care-block,
+  .care-block:nth-of-type(even), .care-row, .care-pre {
+    background: #fff !important;
+    color: #000 !important;
+    border-color: #bbb !important;
+    box-shadow: none !important;
+  }
+
+  /* Reveal animations must not hide content when printing */
+  .rv, .rv-img, .rv-line, .view {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    display: block !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  h1, h2, h3, .care-label, .eyebrow, .care-post-title, .care-pre h3 {
+    color: #000 !important;
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+  .eyebrow::before, .eyebrow::after { background: #999 !important; }
+
+  p, li { color: #222 !important; orphans: 3; widows: 3; }
+
+  /* Keep each instruction card intact across page breaks */
+  .care-row, .care-pre, .expect-row {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1px solid #ccc !important;
+    padding: 10pt 12pt !important;
+    margin-bottom: 8pt !important;
+  }
+  .care-grid, .expect-grid {
+    display: block !important;
+    border: none !important;
+  }
+
+  /* Each procedure starts a fresh page */
+  .care-block {
+    break-before: page;
+    page-break-before: always;
+    padding: 0 !important;
+    border: none !important;
+  }
+  .care-block:first-of-type { break-before: avoid; page-break-before: avoid; }
+
+  .page-hero, .page-hero-center { padding: 0 0 12pt !important; }
+  .page-hero-center::before { display: none !important; }
+  .crumb { display: none !important; }
+
+  a { color: #000 !important; text-decoration: none !important; }
+  a[href^="tel:"]::after { content: " (" attr(href) ")"; font-size: 9pt; }
+
+  img { max-width: 100% !important; break-inside: avoid; }
+  .wrap, .wrap-narrow { width: 100% !important; max-width: none !important; }
+}
+
+
+/* ---------- Care page: grouped nav + dividers ---------- */

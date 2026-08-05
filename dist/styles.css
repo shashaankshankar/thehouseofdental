@@ -130,6 +130,7 @@ section { position: relative; z-index: 2; }
 }
 
 /* ---------- Header ---------- */
+
 .topbar {
   background: var(--noir);
   border-bottom: 1px solid var(--line-dark);
@@ -887,6 +888,7 @@ footer.site {
 .band .btn:hover { color: var(--gold); }
 
 /* ---------- Responsive ---------- */
+
 @media (max-width: 1000px) {
   .svc-grid { grid-template-columns: 1fr 1fr; }
   .offers { grid-template-columns: 1fr; }
@@ -1451,6 +1453,7 @@ body.modal-open { overflow: hidden; }
 
 
 /* ---------- Image failure fallback (scoped to images ONLY) ---------- */
+
 .svcmodal .panel img,
 .split .media img {
   background: linear-gradient(150deg, rgba(198,161,91,0.18), rgba(28,27,24,0.85));
@@ -2003,7 +2006,8 @@ a.quick-card:hover { background: rgba(198,161,91,0.08); }
 }
 
 /* ============================================================
-   PRINT STYLESHEET — clean output, nothing cut off
+
+PRINT STYLESHEET — clean output, nothing cut off
    ============================================================ */
 @media print {
   @page { size: letter portrait; margin: 0.75in 0.7in; }
@@ -2083,6 +2087,7 @@ a.quick-card:hover { background: rgba(198,161,91,0.08); }
 
 
 /* ---------- Care page: grouped nav + dividers ---------- */
+
 .care-nav .wrap { flex-direction: column; gap: 0.7rem; align-items: center; }
 .care-nav-group {
   display: flex;
@@ -2283,3 +2288,38 @@ a.quick-card:hover { background: rgba(198,161,91,0.08); }
   }
   .mobile-actions a + a { background: var(--gold-deep); color: var(--noir); }
 }
+
+.u-inline-001{justify-content:center}
+.u-inline-002{margin-top:5rem}
+.u-inline-003{text-align:center;margin-top:2rem;color:rgba(28,27,24,0.72);font-size:0.9rem}
+.u-inline-004{color:var(--mist)}
+.u-inline-005{display:none}
+.u-inline-006{padding-top:3.5rem}
+.u-inline-007{margin-bottom:3rem}
+.u-inline-008{color:var(--gold)}
+.u-inline-009{align-items:center;margin-top:0.6rem}
+.u-inline-010{min-width:280px}
+.u-inline-011{font-size:0.74rem;color:var(--mist);margin-top:1rem;text-align:center}
+.u-inline-012{margin-top:2rem}
+.u-inline-013{margin-top:2.4rem}
+.u-inline-014{background-image:url('assets/office-exterior.jpg')}
+.u-inline-015{margin-top:2.2rem}
+.u-inline-016{padding:0}
+.u-inline-017{padding:4.5rem 0}
+.u-inline-018{text-align:center;margin-top:3rem}
+.u-inline-019{margin-top:3.2rem}
+.u-inline-020{padding-top:0}
+.u-inline-021{margin-top:2.8rem}
+.u-inline-022{margin-top:2.2rem;display:flex;gap:1.2rem;flex-wrap:wrap}
+.u-inline-023{font-size:1rem;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1.4rem;font-family:var(--sans);font-weight:400}
+.u-inline-024{margin-top:1.6rem;font-size:0.85rem;color:var(--mist)}
+.u-inline-025{text-align:center}
+.u-inline-026{color:var(--mist);margin-top:1.2rem}
+.u-inline-027{max-width:62ch;margin:1.4rem auto 0;color:var(--mist)}
+.u-inline-028{font-size:clamp(1.6rem,2.8vw,2.2rem)}
+.u-inline-029{padding:4rem 0 0}
+.u-inline-030{grid-column:1/-1}
+.u-inline-031{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.6rem}
+.u-inline-032{border-color:var(--gold-deep);color:var(--gold-deep)}
+.u-inline-033{border-color:var(--line-light);color:rgba(28,27,24,0.6)}
+.u-inline-034{padding:0.7rem 1.6rem}

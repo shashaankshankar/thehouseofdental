@@ -4,7 +4,9 @@
   "version": "1.0.0",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "validate": "node scripts/validate.mjs",
-    "test": "node --test tests/site.test.mjs"
+    "clean": "node scripts/clean.mjs",
+    "validate": "node scripts/validate.mjs dist",
+    "test": "node --test tests/site.test.mjs",
+    "check": "npm run build && npm run validate && npm test && node --check dist/main.js"
   }
 }

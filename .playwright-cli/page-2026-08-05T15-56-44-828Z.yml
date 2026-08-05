@@ -1,0 +1,362 @@
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "The House of Dental — home" [ref=e5] [cursor=pointer]:
+        - /url: index.html
+        - img "The House of Dental — Aesthetics · Implants · Smile Design" [ref=e6]
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link "Facial Aesthetics" [ref=e9] [cursor=pointer]:
+            - /url: facial-aesthetics.html
+        - listitem [ref=e10]:
+          - link "Services" [ref=e11] [cursor=pointer]:
+            - /url: services.html
+        - listitem [ref=e12]:
+          - link "New Patients" [ref=e13] [cursor=pointer]:
+            - /url: new-patients.html
+        - listitem [ref=e14]:
+          - link "Reviews" [ref=e15] [cursor=pointer]:
+            - /url: reviews.html
+        - listitem [ref=e16]:
+          - link "About Us" [ref=e17] [cursor=pointer]:
+            - /url: about.html
+        - listitem [ref=e18]:
+          - link "Contact" [ref=e19] [cursor=pointer]:
+            - /url: contact.html
+        - listitem [ref=e20]:
+          - link "(407) 678-1400" [ref=e21] [cursor=pointer]:
+            - /url: tel:+14076781400
+        - listitem [ref=e22]:
+          - link "Book" [ref=e23] [cursor=pointer]:
+            - /url: contact.html#book
+  - main [ref=e24]:
+    - generic [ref=e25]:
+      - generic [ref=e27]:
+        - paragraph [ref=e28]: Aesthetics · Implants · Smile Design
+        - heading [level=1] [ref=e29]:
+          - text: The Art of the
+          - emphasis [ref=e30]: Confident
+          - text: Smile
+        - paragraph [ref=e31]: Transformative dental implants, comprehensive one-day restorations, and same-day crowns — advanced dental care, crafted for stunning results.
+        - generic [ref=e32]:
+          - link "Book Appointment" [ref=e33] [cursor=pointer]:
+            - /url: contact.html#book
+          - link "Explore Services" [ref=e34] [cursor=pointer]:
+            - /url: services.html
+      - generic [ref=e36]:
+        - generic [ref=e37]: 5.0 Google Rating
+        - generic [ref=e38]: 332 Patient Reviews
+        - generic [ref=e39]: Same-Day CEREC® Crowns
+        - generic [ref=e40]: Dr. Mainak Patel, DMD
+    - generic [ref=e42]:
+      - generic [ref=e43]:
+        - paragraph [ref=e44]: Precision-Crafted Restorations
+        - heading "Restoring the Natural Beauty of Your Smile" [level=2] [ref=e45]
+        - paragraph [ref=e46]: Look to The House of Dental to restore the natural beauty of your smile. We specialize in the highest quality restorations — dental implants, full mouth restorations, dental crowns, and more — using top-quality materials and technologies to ensure the best, healthiest outcomes.
+        - paragraph [ref=e47]: Dr. Patel will work with you every step of the way, restoring your smile with customized care tailored to your needs.
+        - link "Our Philosophy" [ref=e49] [cursor=pointer]:
+          - /url: about.html
+      - img "Woman smiling after visiting The House of Dental in Winter Park, FL" [ref=e51]
+    - generic [ref=e54]:
+      - generic [ref=e55]:
+        - generic [ref=e56]: "0"
+        - text: Google Rating
+      - generic [ref=e57]:
+        - generic [ref=e58]: "0"
+        - text: Patient Reviews
+      - generic [ref=e59]:
+        - generic [ref=e60]: "0"
+        - text: Complete Restorations
+      - generic [ref=e61]:
+        - generic [ref=e62]: "0"
+        - text: PPO Carriers Accepted
+    - generic [ref=e64]:
+      - generic [ref=e65]:
+        - text: Dental Implants
+        - generic [ref=e66]: ◆
+        - text: Same-Day Crowns
+        - generic [ref=e67]: ◆
+        - text: Veneers
+        - generic [ref=e68]: ◆
+        - text: Invisalign®
+        - generic [ref=e69]: ◆
+        - text: Full Mouth Restoration
+        - generic [ref=e70]: ◆
+        - text: Scaling & Root Planing
+        - generic [ref=e71]: ◆
+        - text: Sedation Dentistry
+        - generic [ref=e72]: ◆
+      - generic [ref=e73]:
+        - text: Dental Implants
+        - generic [ref=e74]: ◆
+        - text: Same-Day Crowns
+        - generic [ref=e75]: ◆
+        - text: Veneers
+        - generic [ref=e76]: ◆
+        - text: Invisalign®
+        - generic [ref=e77]: ◆
+        - text: Full Mouth Restoration
+        - generic [ref=e78]: ◆
+        - text: Scaling & Root Planing
+        - generic [ref=e79]: ◆
+        - text: Sedation Dentistry
+        - generic [ref=e80]: ◆
+    - generic [ref=e82]:
+      - generic [ref=e83]:
+        - paragraph [ref=e84]: The Collection
+        - heading "Comprehensive Care for Every Smile" [level=2] [ref=e85]
+        - paragraph [ref=e86]: From cosmetic to preventive dentistry — dental services for people of all ages, delivered with unmatched attention to detail.
+      - generic [ref=e87]:
+        - link "Restorative Dental Implants Life-changing tooth replacement — from single implants to full arch implant-supported dentures, long-lasting and made especially for you." [ref=e88] [cursor=pointer]:
+          - /url: services.html#implants
+          - generic [ref=e89]: Restorative
+          - heading "Dental Implants" [level=3] [ref=e90]
+          - paragraph [ref=e91]: Life-changing tooth replacement — from single implants to full arch implant-supported dentures, long-lasting and made especially for you.
+        - link "CEREC® Same-Day Crowns Precision-crafted restorations completed in a single visit. No temporaries, no follow-up appointments necessary." [ref=e92] [cursor=pointer]:
+          - /url: services.html#crowns
+          - generic [ref=e93]: CEREC®
+          - heading "Same-Day Crowns" [level=3] [ref=e94]
+          - paragraph [ref=e95]: Precision-crafted restorations completed in a single visit. No temporaries, no follow-up appointments necessary.
+        - link "Cosmetic Porcelain Veneers Specialty porcelain restorations designed to give you a glowing, camera-ready smile." [ref=e96] [cursor=pointer]:
+          - /url: services.html#veneers
+          - generic [ref=e97]: Cosmetic
+          - heading "Porcelain Veneers" [level=3] [ref=e98]
+          - paragraph [ref=e99]: Specialty porcelain restorations designed to give you a glowing, camera-ready smile.
+        - link "Orthodontic Invisalign® Clear aligner therapy for teens and adults — straighten discreetly, without brackets or wires." [ref=e100] [cursor=pointer]:
+          - /url: services.html#invisalign
+          - generic [ref=e101]: Orthodontic
+          - heading "Invisalign®" [level=3] [ref=e102]
+          - paragraph [ref=e103]: Clear aligner therapy for teens and adults — straighten discreetly, without brackets or wires.
+        - link "Facial Aesthetics The Aesthetics Suite DEKA laser resurfacing, Emage 3D skin analysis, and custom HydroDerm facials — beyond the smile." [ref=e104] [cursor=pointer]:
+          - /url: facial-aesthetics.html
+          - generic [ref=e105]: Facial Aesthetics
+          - heading "The Aesthetics Suite" [level=3] [ref=e106]
+          - paragraph [ref=e107]: DEKA laser resurfacing, Emage 3D skin analysis, and custom HydroDerm facials — beyond the smile.
+        - link "Comfort Sedation Dentistry Calm, anxiety-free appointments for patients who want a more relaxed experience." [ref=e108] [cursor=pointer]:
+          - /url: services.html#sedation
+          - generic [ref=e109]: Comfort
+          - heading "Sedation Dentistry" [level=3] [ref=e110]
+          - paragraph [ref=e111]: Calm, anxiety-free appointments for patients who want a more relaxed experience.
+      - link "Explore All Services" [ref=e113] [cursor=pointer]:
+        - /url: services.html
+    - generic [ref=e115]:
+      - generic [ref=e116]:
+        - paragraph [ref=e117]: Technology & Aesthetics
+        - heading "Where Craft Meets Innovation" [level=2] [ref=e118]
+        - paragraph [ref=e119]: The House of Dental invests in advanced technology across dentistry and facial aesthetics alike — select any to see how it works.
+      - paragraph [ref=e120]: The Aesthetics Suite
+      - generic [ref=e121]:
+        - button "Laser Aesthetics DEKA CO2 Facial Resurfacing Laser Learn More" [ref=e122] [cursor=pointer]:
+          - generic [ref=e123]: Laser Aesthetics
+          - heading "DEKA CO2 Facial Resurfacing Laser" [level=3] [ref=e124]
+          - text: Learn More
+        - button "Collagen Induction Microneedling Learn More" [ref=e125] [cursor=pointer]:
+          - generic [ref=e126]: Collagen Induction
+          - heading "Microneedling" [level=3] [ref=e127]
+          - text: Learn More
+        - button "Diagnostic Imaging Emage 3D Skin Scanner Learn More" [ref=e128] [cursor=pointer]:
+          - generic [ref=e129]: Diagnostic Imaging
+          - heading "Emage 3D Skin Scanner" [level=3] [ref=e130]
+          - text: Learn More
+        - button "Signature Treatment Custom HydroDerm Facials Learn More" [ref=e131] [cursor=pointer]:
+          - generic [ref=e132]: Signature Treatment
+          - heading "Custom HydroDerm Facials" [level=3] [ref=e133]
+          - text: Learn More
+      - paragraph [ref=e134]: Dental Technology
+      - generic [ref=e135]:
+        - button "Chairside Milling CEREC® Same-Day Crowns Learn More" [ref=e136] [cursor=pointer]:
+          - generic [ref=e137]: Chairside Milling
+          - heading "CEREC® Same-Day Crowns" [level=3] [ref=e138]
+          - text: Learn More
+        - button "3D Imaging CT Scan (Cone Beam) Learn More" [ref=e139] [cursor=pointer]:
+          - generic [ref=e140]: 3D Imaging
+          - heading "CT Scan (Cone Beam)" [level=3] [ref=e141]
+          - text: Learn More
+        - button "Fully Digital Digital Scans & X-Rays Learn More" [ref=e142] [cursor=pointer]:
+          - generic [ref=e143]: Fully Digital
+          - heading "Digital Scans & X-Rays" [level=3] [ref=e144]
+          - text: Learn More
+        - button "Implantology Computer-Guided Surgery Learn More" [ref=e145] [cursor=pointer]:
+          - generic [ref=e146]: Implantology
+          - heading "Computer-Guided Surgery" [level=3] [ref=e147]
+          - text: Learn More
+      - link "Explore Facial Aesthetics" [ref=e149] [cursor=pointer]:
+        - /url: facial-aesthetics.html
+    - generic [ref=e151]:
+      - generic [ref=e152]:
+        - paragraph [ref=e153]: Exclusive Pricing
+        - heading "Our Offer" [level=2] [ref=e154]
+        - paragraph [ref=e155]: We are committed to helping each patient receive the high-quality care they deserve.
+      - generic [ref=e157]:
+        - paragraph [ref=e158]: Implant Special
+        - heading "Dental Implants" [level=3] [ref=e159]
+        - paragraph [ref=e160]: From $2,998
+        - paragraph [ref=e161]: Includes the implant, abutment, and crown — all in one price. Contact us today to schedule an appointment.
+        - link "Learn More" [ref=e162] [cursor=pointer]:
+          - /url: services.html#implants
+    - generic [ref=e164]:
+      - generic [ref=e165]:
+        - heading "Experiencing a Dental Emergency?" [level=3] [ref=e166]
+        - paragraph [ref=e167]: We'll help you get out of pain — fast.
+      - link "Call (407) 678-1400" [ref=e168] [cursor=pointer]:
+        - /url: tel:+14076781400
+    - generic [ref=e170]:
+      - img "Dr. Mainak Patel, DMD — The House of Dental, Winter Park, FL" [ref=e172]
+      - generic [ref=e173]:
+        - paragraph [ref=e174]: The Doctor
+        - heading "Meet Dr. Mainak Patel" [level=2] [ref=e175]
+        - paragraph [ref=e176]: Dr. Patel is dedicated to providing only the best dental care, working closely with each patient to meet their specific needs. With a strong passion and commitment to unprecedented care and service, he constantly pursues continuing education to stay on the leading edge of dental technology.
+        - paragraph [ref=e177]: A leader in computer-assisted dentistry and minimally invasive guided surgeries, Dr. Patel is a fellow of the International Congress of Oral Implantologists and a member of the prestigious American Academy of Implant Dentistry.
+        - link "His Story" [ref=e179] [cursor=pointer]:
+          - /url: about.html#dr-patel
+    - generic [ref=e181]:
+      - paragraph [ref=e182]: See What Our Patients Say
+      - generic [ref=e183]: “
+      - generic [ref=e184]:
+        - paragraph [ref=e185]: Dr. Patel and his staff are simply the best. They do such a thorough and amazing job — so nice and so professional. If you are currently looking for a new dentist, absolutely go to Dr. Patel.
+        - paragraph [ref=e186]: Eric A.
+      - generic [ref=e187]:
+        - button "Testimonial 1" [ref=e188] [cursor=pointer]
+        - button "Testimonial 2" [ref=e189] [cursor=pointer]
+        - button "Testimonial 3" [ref=e190] [cursor=pointer]
+        - button "Testimonial 4" [ref=e191] [cursor=pointer]
+      - link "Read All Reviews" [ref=e193] [cursor=pointer]:
+        - /url: reviews.html
+    - generic [ref=e195]:
+      - generic [ref=e196]:
+        - paragraph [ref=e197]: Smile Transformations
+        - heading "The Work Speaks for Itself" [level=2] [ref=e198]
+        - paragraph [ref=e199]: Full-mouth restorations, dental implants, crowns, and veneers — a few of the smiles restored by Dr. Patel and his team. Drag the gold line to compare.
+      - generic [ref=e200]:
+        - generic [ref=e201]:
+          - img "Smile before restoration"
+          - generic [ref=e202]:
+            - img "Smile after restoration"
+          - slider "Before and after comparison 1" [ref=e203]: ↔
+          - generic: Before
+          - generic: After
+        - generic [ref=e204]:
+          - img "Smile before restoration"
+          - generic [ref=e205]:
+            - img "Smile after restoration"
+          - slider "Before and after comparison 2" [ref=e206]: ↔
+          - generic: Before
+          - generic: After
+        - generic [ref=e207]:
+          - img "Smile before restoration"
+          - generic [ref=e208]:
+            - img "Smile after restoration"
+          - slider "Before and after comparison 3" [ref=e209]: ↔
+          - generic: Before
+          - generic: After
+    - generic [ref=e211]:
+      - generic [ref=e212]:
+        - paragraph [ref=e213]: Visit Us
+        - heading "Smile With Confidence" [level=2] [ref=e214]
+        - paragraph [ref=e215]: Our dedicated dental professionals will help you achieve a smile you can be proud of. Call our office or book online to schedule your appointment today.
+        - generic [ref=e216]:
+          - link "Book Appointment" [ref=e217] [cursor=pointer]:
+            - /url: contact.html#book
+          - link "(407) 678-1400" [ref=e218] [cursor=pointer]:
+            - /url: tel:+14076781400
+      - generic [ref=e219]:
+        - heading "Office Hours" [level=3] [ref=e220]
+        - table [ref=e221]:
+          - rowgroup [ref=e222]:
+            - row [ref=e223]:
+              - cell "Monday" [ref=e224]
+              - cell "8:00am — 3:00pm" [ref=e225]
+            - row [ref=e226]:
+              - cell "Tuesday" [ref=e227]
+              - cell "8:00am — 3:00pm" [ref=e228]
+            - row [ref=e229]:
+              - cell "Wednesday" [ref=e230]
+              - cell "8:00am — 3:00pm" [ref=e231]
+            - row [ref=e232]:
+              - cell "Thursday" [ref=e233]
+              - cell "8:00am — 3:00pm" [ref=e234]
+        - paragraph [ref=e235]: 6504 University Blvd, Winter Park, FL 32792
+  - contentinfo [ref=e236]:
+    - generic [ref=e237]:
+      - link "The House of Dental — home" [ref=e240] [cursor=pointer]:
+        - /url: index.html
+        - img "The House of Dental — Aesthetics · Implants · Smile Design" [ref=e241]
+      - paragraph [ref=e243]: Advanced dental care for stunning results — creating beautiful smiles in Winter Park, Florida.
+      - generic [ref=e244]:
+        - generic [ref=e245]:
+          - heading "Information" [level=4] [ref=e246]
+          - list [ref=e247]:
+            - listitem [ref=e248]:
+              - link "About Us" [ref=e249] [cursor=pointer]:
+                - /url: about.html
+            - listitem [ref=e250]:
+              - link "Meet Dr. Patel" [ref=e251] [cursor=pointer]:
+                - /url: about.html#dr-patel
+            - listitem [ref=e252]:
+              - link "New Patients" [ref=e253] [cursor=pointer]:
+                - /url: new-patients.html
+            - listitem [ref=e254]:
+              - link "Insurance & Financing" [ref=e255] [cursor=pointer]:
+                - /url: new-patients.html#insurance
+            - listitem [ref=e256]:
+              - link "Special Offers" [ref=e257] [cursor=pointer]:
+                - /url: new-patients.html#offers
+            - listitem [ref=e258]:
+              - link "Savings Plan" [ref=e259] [cursor=pointer]:
+                - /url: new-patients.html#savings-plan
+            - listitem [ref=e260]:
+              - link "Reviews" [ref=e261] [cursor=pointer]:
+                - /url: reviews.html
+        - generic [ref=e262]:
+          - heading "Services" [level=4] [ref=e263]
+          - list [ref=e264]:
+            - listitem [ref=e265]:
+              - link "Facial Aesthetics" [ref=e266] [cursor=pointer]:
+                - /url: facial-aesthetics.html
+            - listitem [ref=e267]:
+              - link "Restorative" [ref=e268] [cursor=pointer]:
+                - /url: services.html#restorative
+            - listitem [ref=e269]:
+              - link "Cosmetic" [ref=e270] [cursor=pointer]:
+                - /url: services.html#cosmetic
+            - listitem [ref=e271]:
+              - link "Preventive" [ref=e272] [cursor=pointer]:
+                - /url: services.html#preventive
+            - listitem [ref=e273]:
+              - link "Invisalign®" [ref=e274] [cursor=pointer]:
+                - /url: services.html#invisalign
+            - listitem [ref=e275]:
+              - link "Oral Surgery" [ref=e276] [cursor=pointer]:
+                - /url: services.html#oral-surgery
+            - listitem [ref=e277]:
+              - link "Sedation" [ref=e278] [cursor=pointer]:
+                - /url: services.html#sedation
+        - generic [ref=e279]:
+          - heading "Contact" [level=4] [ref=e280]
+          - list [ref=e281]:
+            - listitem [ref=e282]:
+              - link "6504 University Blvd, Winter Park, FL 32792" [ref=e283] [cursor=pointer]:
+                - /url: https://goo.gl/maps/CT32JzwGHYR7qNJX6
+                - text: 6504 University Blvd,Winter Park, FL 32792
+            - listitem [ref=e284]:
+              - link "(407) 678-1400" [ref=e285] [cursor=pointer]:
+                - /url: tel:+14076781400
+            - listitem [ref=e286]:
+              - link "Instagram" [ref=e287] [cursor=pointer]:
+                - /url: https://www.instagram.com/winterparkdental/
+            - listitem [ref=e288]:
+              - link "Facebook" [ref=e289] [cursor=pointer]:
+                - /url: https://www.facebook.com/Winter-Park-Dental-Dr-Mainak-Patel-442390222484934
+      - generic [ref=e290]:
+        - generic [ref=e291]: © The House of Dental. All rights reserved.
+        - generic [ref=e292]:
+          - link "Terms & Conditions" [ref=e293] [cursor=pointer]:
+            - /url: terms.html
+          - text: ·
+          - link "Privacy Policy" [ref=e294] [cursor=pointer]:
+            - /url: privacy.html
+          - text: ·
+          - link "Accessibility" [ref=e295] [cursor=pointer]:
+            - /url: accessibility.html

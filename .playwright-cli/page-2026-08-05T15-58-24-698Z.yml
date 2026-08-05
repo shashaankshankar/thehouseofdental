@@ -1,0 +1,171 @@
+- generic [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "The House of Dental — home" [ref=e5] [cursor=pointer]:
+        - /url: index.html
+        - img "The House of Dental — Aesthetics · Implants · Smile Design" [ref=e6]
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link "Facial Aesthetics" [ref=e9] [cursor=pointer]:
+            - /url: facial-aesthetics.html
+        - listitem [ref=e10]:
+          - link "Services" [ref=e11] [cursor=pointer]:
+            - /url: services.html
+        - listitem [ref=e12]:
+          - link "New Patients" [ref=e13] [cursor=pointer]:
+            - /url: new-patients.html
+        - listitem [ref=e14]:
+          - link "Reviews" [ref=e15] [cursor=pointer]:
+            - /url: reviews.html
+        - listitem [ref=e16]:
+          - link "About Us" [ref=e17] [cursor=pointer]:
+            - /url: about.html
+        - listitem [ref=e18]:
+          - link "Contact" [ref=e19] [cursor=pointer]:
+            - /url: contact.html
+        - listitem [ref=e20]:
+          - link "(407) 678-1400" [ref=e21] [cursor=pointer]:
+            - /url: tel:+14076781400
+        - listitem [ref=e22]:
+          - link "Book" [ref=e23] [cursor=pointer]:
+            - /url: contact.html#book
+  - main [ref=e24]:
+    - generic [ref=e26]:
+      - paragraph [ref=e27]: Contact
+      - heading "Visit The House of Dental" [level=1] [ref=e28]
+      - paragraph [ref=e29]:
+        - link "Home" [ref=e30] [cursor=pointer]:
+          - /url: index.html
+        - text: /Contact
+    - generic [ref=e32]:
+      - generic [ref=e33]:
+        - paragraph [ref=e34]: Book Appointment
+        - heading "Schedule Your Visit" [level=2] [ref=e35]
+        - paragraph [ref=e36]:
+          - text: Send us a note and our front desk will call to confirm — or reach us directly at
+          - link "(407) 678-1400" [ref=e37] [cursor=pointer]:
+            - /url: tel:+14076781400
+          - text: .
+      - generic [ref=e38]:
+        - link "Call (407) 678-1400" [ref=e39] [cursor=pointer]:
+          - /url: tel:+14076781400
+          - generic [ref=e40]: Call
+          - generic [ref=e41]: (407) 678-1400
+        - link "Visit 6504 University Blvd Winter Park, FL 32792" [ref=e42] [cursor=pointer]:
+          - /url: https://goo.gl/maps/CT32JzwGHYR7qNJX6
+          - generic [ref=e43]: Visit
+          - generic [ref=e44]: 6504 University BlvdWinter Park, FL 32792
+        - generic [ref=e45]:
+          - generic [ref=e46]: Hours
+          - generic [ref=e47]: Monday — Thursday8:00am — 3:00pm
+      - generic [ref=e49]:
+        - generic [ref=e50]:
+          - generic [ref=e51]: Full Name
+          - textbox "Full Name" [ref=e52]: Draft Patient
+        - generic [ref=e53]:
+          - generic [ref=e54]: Phone Number
+          - textbox "Phone Number" [ref=e55]: "4075550100"
+        - generic [ref=e56]:
+          - generic [ref=e57]: Email
+          - textbox "Email" [ref=e58]: draft@example.com
+        - generic [ref=e59]:
+          - generic [ref=e60]: New Patient?
+          - combobox "New Patient?" [ref=e61]:
+            - option "Yes" [selected]
+            - option "No"
+        - generic [ref=e62]:
+          - generic [ref=e63]: How Can We Help?
+          - textbox "How Can We Help?" [ref=e64]:
+            - /placeholder: Tell us what you're looking for — a cleaning, a consultation, or something urgent.
+        - generic [ref=e65]:
+          - button "Review Request" [active] [ref=e66] [cursor=pointer]
+          - paragraph [ref=e67]: Please don't include sensitive medical details. Online delivery is not connected yet; call the office to schedule.
+          - status [ref=e68]:
+            - text: Nothing was sent. Please call
+            - link "(407) 678-1400" [ref=e129] [cursor=pointer]:
+              - /url: tel:+14076781400
+            - text: to schedule while online requests are being connected.
+  - contentinfo [ref=e69]:
+    - generic [ref=e70]:
+      - link "The House of Dental — home" [ref=e73] [cursor=pointer]:
+        - /url: index.html
+        - img "The House of Dental — Aesthetics · Implants · Smile Design" [ref=e74]
+      - paragraph [ref=e76]: Advanced dental care for stunning results — creating beautiful smiles in Winter Park, Florida.
+      - generic [ref=e77]:
+        - generic [ref=e78]:
+          - heading "Information" [level=4] [ref=e79]
+          - list [ref=e80]:
+            - listitem [ref=e81]:
+              - link "About Us" [ref=e82] [cursor=pointer]:
+                - /url: about.html
+            - listitem [ref=e83]:
+              - link "Meet Dr. Patel" [ref=e84] [cursor=pointer]:
+                - /url: about.html#dr-patel
+            - listitem [ref=e85]:
+              - link "New Patients" [ref=e86] [cursor=pointer]:
+                - /url: new-patients.html
+            - listitem [ref=e87]:
+              - link "Insurance & Financing" [ref=e88] [cursor=pointer]:
+                - /url: new-patients.html#insurance
+            - listitem [ref=e89]:
+              - link "Special Offers" [ref=e90] [cursor=pointer]:
+                - /url: new-patients.html#offers
+            - listitem [ref=e91]:
+              - link "Savings Plan" [ref=e92] [cursor=pointer]:
+                - /url: new-patients.html#savings-plan
+            - listitem [ref=e93]:
+              - link "Reviews" [ref=e94] [cursor=pointer]:
+                - /url: reviews.html
+        - generic [ref=e95]:
+          - heading "Services" [level=4] [ref=e96]
+          - list [ref=e97]:
+            - listitem [ref=e98]:
+              - link "Facial Aesthetics" [ref=e99] [cursor=pointer]:
+                - /url: facial-aesthetics.html
+            - listitem [ref=e100]:
+              - link "Restorative" [ref=e101] [cursor=pointer]:
+                - /url: services.html#restorative
+            - listitem [ref=e102]:
+              - link "Cosmetic" [ref=e103] [cursor=pointer]:
+                - /url: services.html#cosmetic
+            - listitem [ref=e104]:
+              - link "Preventive" [ref=e105] [cursor=pointer]:
+                - /url: services.html#preventive
+            - listitem [ref=e106]:
+              - link "Invisalign®" [ref=e107] [cursor=pointer]:
+                - /url: services.html#invisalign
+            - listitem [ref=e108]:
+              - link "Oral Surgery" [ref=e109] [cursor=pointer]:
+                - /url: services.html#oral-surgery
+            - listitem [ref=e110]:
+              - link "Sedation" [ref=e111] [cursor=pointer]:
+                - /url: services.html#sedation
+        - generic [ref=e112]:
+          - heading "Contact" [level=4] [ref=e113]
+          - list [ref=e114]:
+            - listitem [ref=e115]:
+              - link "6504 University Blvd, Winter Park, FL 32792" [ref=e116] [cursor=pointer]:
+                - /url: https://goo.gl/maps/CT32JzwGHYR7qNJX6
+                - text: 6504 University Blvd,Winter Park, FL 32792
+            - listitem [ref=e117]:
+              - link "(407) 678-1400" [ref=e118] [cursor=pointer]:
+                - /url: tel:+14076781400
+            - listitem [ref=e119]:
+              - link "Instagram" [ref=e120] [cursor=pointer]:
+                - /url: https://www.instagram.com/winterparkdental/
+            - listitem [ref=e121]:
+              - link "Facebook" [ref=e122] [cursor=pointer]:
+                - /url: https://www.facebook.com/Winter-Park-Dental-Dr-Mainak-Patel-442390222484934
+      - generic [ref=e123]:
+        - generic [ref=e124]: © The House of Dental. All rights reserved.
+        - generic [ref=e125]:
+          - link "Terms & Conditions" [ref=e126] [cursor=pointer]:
+            - /url: terms.html
+          - text: ·
+          - link "Privacy Policy" [ref=e127] [cursor=pointer]:
+            - /url: privacy.html
+          - text: ·
+          - link "Accessibility" [ref=e128] [cursor=pointer]:
+            - /url: accessibility.html

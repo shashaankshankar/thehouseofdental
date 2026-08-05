@@ -1,7 +1,0 @@
-Phase 8 local HTTP status check — 2026-08-05
-
-Preview server: http://127.0.0.1:4173/
-Representative homepage: 200
-Unknown path /phase-8-does-not-exist: 404
-
-The unknown path rendered the generated branded 404 route. This is local evidence only; repeat the check against the production host during launch smoke testing.

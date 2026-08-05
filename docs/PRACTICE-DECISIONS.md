@@ -127,3 +127,38 @@ The complete Phase 6 evidence and release gate are in `docs/evidence/phase-6/`. 
 | 31 | Release boundary | Treat the Phase 7 build, screenshots, PDF review, and QA as a local handoff only; do not deploy until practice, clinical, compliance, rights, and operational gates are cleared |
 
 The Phase 7 evidence and release gate are recorded in `docs/evidence/phase-7/` and `docs/AUTHENTIC-MEDIA-MANIFEST.csv`.
+
+## Phase 8 SEO and migration decisions — 2026-08-05
+
+| Decision area | Phase 8 local baseline | Gate before launch |
+|---|---|---|
+| Canonical domain | Use `https://winterparkdental.com` as a provisional current-domain baseline; do not publish a new-domain canonical or execute a domain move | Practice/legal owner confirms the final domain and brand relationship; if moved, verify both properties, deploy one-to-one 301s, submit the new sitemap, and use Change of Address only for the approved move |
+| NAP and hours | Use `6504 University Blvd, Winter Park, FL 32792`, `(407) 678-1400`, `office@winterparkdental.com`, map URL, and the observed Mon–Thu 8–3 / Fri by appointment / Sat–Sun closed display | Practice re-confirms ownership, exact hours, email, map pin, and every GBP/contact source before production |
+| Social metadata | Reuse the local office-exterior image for every route while route-specific approved social media is unavailable | Practice approves the image, alt text, and any route-specific treatment media/rights |
+| Structured data | Emit one graph per route; homepage has WebSite/Organization/Dentist, provider content has linked Person, real service pages have Service and only visible FAQPage | Practice/clinical owner verifies NAP, hours, provider, offered services, FAQ copy, URLs, sameAs, and claims |
+| Redirects | Keep 24 candidate one-hop 301 rules in `config/redirects.json` and generated `_redirects`; no mass-home redirects | Production crawl/export and final content parity review confirm every source/destination before host configuration is changed |
+| Blog | Inventory 22 observed article URLs plus category/pagination paths; keep author and medical-review fields empty until source evidence exists | Production sitemap/content crawl plus analytics/Search Console export identifies priority articles and supplies source-backed content, dates, authors, review status, links, and image rights |
+| Sitemap | Generate only from enabled indexable routes; current-domain sitemap is not submitted | Final domain decision, full URL reconciliation, and live crawl verification |
+| Deployment | No deployment, DNS change, Search Console submission, or Change of Address performed | Release owner signs `docs/SEO-LAUNCH-CHECKLIST.md` after all practice, clinical, legal, analytics, and form gates resolve |
+
+The live current-site observations and blocked sitemap retrieval are recorded in `docs/evidence/phase-8/live-current-site.md`. The complete route decisions are in `docs/URL-INVENTORY.csv`.
+
+## Phase 9 privacy, measurement, and campaign decisions — 2026-08-05
+
+Phase 9 adds a privacy-aware, vendor-neutral measurement contract and a reusable campaign-page structure. It does not install a vendor, create an account, submit data externally, or approve a public campaign. The following decisions are the local implementation boundary:
+
+| Decision area | Phase 9 local choice | Guardrail / next approval |
+|---|---|---|
+| Measurement mode | Keep nonessential measurement disabled; expose only a debug/session buffer for local QA | Approve the vendor, consent behavior, retention, property/container, event map, and publish owner before activation |
+| Event vocabulary | Use named events for phone, appointment, form start, confirmed form success, directions, financing, offers, referrals, implant, aesthetics, QuietNite, and emergency intent; use `form_state` only for diagnostics | Practice/marketing and privacy owners approve definitions and destination mapping; success events remain backend-confirmed |
+| Event payload | Permit only `event`, `page_type`, `service_slug`, `cta_location`, `conversion_type`, `campaign_source`, and `state` | Never add name, phone, email, message, symptoms, diagnosis, treatment details, referral-friend data, raw URLs, page content, or free text |
+| Attribution | Store approved UTM tokens and referrer hostname in session storage only; omit `utm_term` and raw referrer data | Privacy review and documented UTM ownership are required before any external analytics mapping |
+| Form/CRM | Keep the appointment handler, CRM/provider, endpoint, and attribution mapping unconfigured; no form success is claimed locally | Approve secure destination, server controls, notification/SLA, retention, access, and live success/failure tests |
+| Call tracking | Preserve the canonical static phone; do not substitute a tracking number | Approve vendor, NAP replacement policy, recording/consent, and call-quality verification |
+| Consent | Record no vendor/no decision and keep analytics, advertising, session recording, and call recording off | Approve jurisdictional category behavior and vendor configuration before enabling nonessential processing |
+| Campaign template | Use one governance-rich template with audience, source, intent, message, CTA, proof, expectations, limitations, FAQs, attribution, thank-you behavior, and approval state | Practice, clinical, compliance, SEO, and implementation owners approve each brief before media or public linking |
+| Campaign indexability | Keep all nine variants local/noindex and out of the sitemap; canonicalize only to explicit durable targets | SEO owner approves any durable indexable page, canonical, paid-only variant, expiry, and redirect/removal plan |
+| Blocked campaigns | Keep Facial Aesthetics, Laser Dentistry, and QuietNite inquiry paths disabled; keep offer/referral terms pending | Resolve the existing Phase 4 clinical/practice gates and Phase 5 terms/backend/privacy gates first |
+| Operations | Record agency access, brief, approval, release, rollback, reporting, and incident ownership in `docs/MARKETING-OPERATIONS.md` | Practice owner assigns named owners and least-privilege access before agency work or spend |
+
+The release gate is in `docs/evidence/phase-9/phase-9-release-gate.md`. No deployment was performed.

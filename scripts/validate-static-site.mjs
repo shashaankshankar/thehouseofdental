@@ -38,6 +38,11 @@ const routeOutputs = new Set();
 const titles = new Map();
 const descriptions = new Map();
 const h1Values = new Map();
+const canonicalFor = (route) => {
+  const target = route.canonicalTargetId ? routeById.get(route.canonicalTargetId) : route;
+  const canonicalPath = target?.canonicalPath || route.canonicalPath;
+  return `${canonicalBase}${canonicalPath === "/" ? "/" : canonicalPath}`;
+};
 
 if (!exists(outputRoot)) addError(`Missing generated output directory: ${outputRoot}`);
 if (!config.canonical.status) addError("Canonical base URL must carry an explicit status in config/site.json");
@@ -113,7 +118,7 @@ for (const route of enabledRoutes) {
   const ogUrls = [...html.matchAll(/<meta\b[^>]*property=["']og:url["'][^>]*content=["']([^"']*)["'][^>]*>/gi)].map((match) => match[1]);
   if (titlesInPage.length !== 1 || !titlesInPage[0]) addError(`${route.output} must contain exactly one non-empty title`);
   if (descriptionsInPage.length !== 1 || !descriptionsInPage[0]) addError(`${route.output} must contain exactly one meta description`);
-  if (canonicalInPage.length !== 1 || canonicalInPage[0] !== `${canonicalBase}${route.canonicalPath === "/" ? "/" : route.canonicalPath}`) addError(`${route.output} canonical does not match the route registry`);
+  if (canonicalInPage.length !== 1 || canonicalInPage[0] !== canonicalFor(route)) addError(`${route.output} canonical does not match the route registry`);
   if (h1s.length !== 1 || !h1s[0]) addError(`${route.output} must contain exactly one non-empty H1`);
   if (robots.length !== 1 || (route.indexable && !/^index, follow/.test(robots[0])) || (!route.indexable && !/^noindex, nofollow/.test(robots[0]))) addError(`${route.output} robots metadata does not match indexability`);
   if (ogTitles.length !== 1 || ogTitles[0] !== resolveRegistryText(route.title)) addError(`${route.output} must contain one route-specific og:title`);
@@ -125,7 +130,7 @@ for (const route of enabledRoutes) {
   if ((html.match(/<footer\b/gi) || []).length !== 1) addError(`${route.output} must contain exactly one shared footer`);
 
   const ids = new Map();
-  for (const match of html.matchAll(/\bid=["']([^"']+)["']/gi)) ids.set(match[1], (ids.get(match[1]) || 0) + 1);
+  for (const match of html.matchAll(/(?:^|\s)id\s*=["']([^"']+)["']/gi)) ids.set(match[1], (ids.get(match[1]) || 0) + 1);
   for (const [id, count] of ids) if (count > 1) addError(`${route.output} contains duplicate id="${id}" (${count})`);
 
   const jsonLd = [...html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)];
@@ -153,7 +158,7 @@ if (!exists(sitemapPath)) addError("Missing generated sitemap.xml");
 else {
   const sitemap = fs.readFileSync(sitemapPath, "utf8");
   const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-  const expectedUrls = enabledRoutes.filter((route) => route.indexable).map((route) => `${canonicalBase}${route.canonicalPath === "/" ? "/" : route.canonicalPath}`);
+  const expectedUrls = enabledRoutes.filter((route) => route.indexable).map(canonicalFor);
   if (sitemapUrls.length !== expectedUrls.length || sitemapUrls.some((url) => !expectedUrls.includes(url)) || expectedUrls.some((url) => !sitemapUrls.includes(url))) addError("sitemap.xml coverage does not match enabled indexable routes");
 }
 

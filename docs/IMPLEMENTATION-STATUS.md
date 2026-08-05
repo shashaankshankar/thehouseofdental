@@ -223,3 +223,78 @@ Practice priority inputs, Facial Aesthetics approval, dental laser facts, Sleep/
 ### Remaining practice inputs
 
 The release gate still requires named provider/clinical approval, review source/update ownership and consent, clinical owners/dates for each guide, the exact QuietNite protocol, confirmed technology workflows, and practice-owned rights-cleared media. The complete list is in `docs/evidence/phase-7/phase-7-release-gate.md`.
+
+## Phase 8 — SEO-safe replacement and migration package
+
+**Status:** Implemented locally and verification-ready; production release remains blocked.
+**Date:** 2026-08-05
+
+### Implemented
+
+- Switched the generated metadata/schema/social baseline to the current public `winterparkdental.com` domain and marked it explicitly provisional/blocked pending the practice/legal domain decision.
+- Propagated the current observed email and hours into config, footer, contact content, NAP/schema, migration inventory, and launch documentation while retaining practice-confirmation gates.
+- Added page-level OG/Twitter fields, a shared local social image, one coherent homepage practice graph, linked provider Person data, service Service/visible FAQPage data, breadcrumbs, and review-schema guardrails.
+- Added `the-house-of-dental-site/config/redirects.json` and generated `dist/_redirects` with 24 candidate one-hop 301s. No deployment or host configuration change was made.
+- Replaced the URL inventory with the required nine-field migration table covering current navigation, service, provider/technology, new-patient, legal, blog/category/article, sitemap, and robots decisions. Current sitemap/blog completeness is explicitly held where a production crawl is unavailable.
+- Added the 22-entry blog manifest, blog index/article source templates, and `docs/BLOG-PUBLISHING.md`; no author, medical-review, update-date, or article equivalence was invented.
+- Added `docs/SEO-LAUNCH-CHECKLIST.md` and current-site evidence under `docs/evidence/phase-8/`.
+- Added `scripts/validate-phase-8.mjs` and the Phase 8 regression test.
+- Sequential verification passed: `npm run build`, `npm run validate`, `npm run validate:phase8`, `npm run validate:strict`, and `npm test` (seven tests). The local preview returned HTTP 200 for `/` and HTTP 404 for an unknown path.
+
+### Remaining blockers
+
+- Practice/legal final domain and brand relationship.
+- Production crawl/export of the current sitemap and all URLs, including orphan and blog/category/article URLs.
+- Analytics/Search Console access for URL and blog prioritization.
+- Practice, clinical, legal, media-rights, form/integration, GBP, review-source, and hours approvals already recorded in earlier phase gates.
+
+No deployment, DNS change, Search Console submission, Change of Address, or live redirect change was performed.
+
+## Phase 9 — privacy-aware measurement and marketing-agency readiness
+
+**Status:** Implemented locally; nonessential integrations and public campaign release remain blocked.
+**Date:** 2026-08-05
+
+### Implemented
+
+- Added `data/measurement.json` as the vendor-neutral event source of truth with the requested named events, diagnostic form states, exact allowed fields, session-only attribution, debug behavior, and prohibited payload keys.
+- Added a reusable campaign-page template and nine governed campaign records for implants, same-day crowns, facial aesthetics, Invisalign, QuietNite, Laser Dentistry, Emergency Dentistry, New Patient Offer, and Referral Program.
+- Added campaign registry routes that render locally as `noindex, nofollow`, stay out of the sitemap and public/indexable links, and canonicalize only where an explicit durable service target is named.
+- Added safe event attributes to phone, appointment, directions, financing, service, emergency, and form surfaces. No free-text form value is read by the event layer.
+- Made form-start diagnostic tracking and named success events conditional on confirmed backend success. Offer/referral/aesthetics/QuietNite success or inquiry paths remain reserved or blocked until their approvals and destinations exist.
+- Added `docs/MEASUREMENT-EVENT-VALIDATION.md` and `docs/MARKETING-OPERATIONS.md` with contract, privacy, ownership, access, brief, approval, release, rollback, reporting, incident, and dashboard requirements.
+- Added `scripts/validate-phase-9.mjs`, `npm run validate:phase9`, generated contract/indexability evidence, and the Phase 9 release gate.
+
+### Integration status — live versus placeholder
+
+| Integration | Local state | Live? |
+|---|---|---|
+| GA4 | `measurementId: null`; no script or network call | No |
+| Tag manager | `containerId: null`; no script or network call | No |
+| Call tracking | Vendor/number `null`; canonical static NAP phone retained | No |
+| CRM/practice-management attribution | Provider/endpoint `null`; mapping gate false | No |
+| Consent platform | Vendor `null`; required decision `null`; nonessential categories disabled | No |
+| Ad pixels/session recording/call recording | No configuration or generated scripts | No |
+| Appointment/contact handler | Handler URL/provider `null`; local truthful unconfigured/error states | No |
+
+The local debug buffer is not a live marketing integration. It is available only with `hod_debug=1` or `hod_debug=true`, remains in the current browser session, and performs no external request.
+
+### Verification
+
+- `npm run build` — passed; 53 enabled static HTML routes generated and 25 indexable URLs emitted.
+- `npm test` — passed after the Phase 9 changes.
+- `npm run validate` — passed; Phase 8 validation continues to honor campaign canonical targets.
+- `npm run validate:phase8` — passed; campaign variants remain outside sitemap/indexable counts.
+- `npm run validate:phase9` — passed; nine campaign variants, event contract, privacy gates, and generated vendor surface checked.
+- Browser QA evidence is recorded under `docs/evidence/phase-9/`; the final local matrix covers campaign indexability, debug events, form lifecycle, payload keys, network surface, responsive layout, and keyboard/focus states.
+
+### Remaining blockers
+
+- Final practice/legal brand and domain decision, NAP/hours/map confirmation, and named public campaign approvals.
+- Phase 4 clinical/provider/protocol/media approvals for Facial Aesthetics, dental Laser Dentistry, and QuietNite.
+- Phase 5 offer/referral terms, consent, secure backend, anti-abuse controls, expiry owner, and disclosures.
+- Approved form destination, server-side validation, spam/rate controls, notifications, retention, SLA, and live success/failure testing.
+- Optional analytics, tag manager, call-tracking, CRM, and consent vendor decisions with named owners, access, privacy review, and event mapping.
+- Production crawl/Search Console/GBP access and final SEO/cutover evidence.
+
+No deployment, vendor registration, external data submission, DNS change, Search Console action, or ad campaign activation was performed.

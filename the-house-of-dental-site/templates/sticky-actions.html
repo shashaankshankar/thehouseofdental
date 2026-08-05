@@ -1,4 +1,4 @@
 <nav class="mobile-actions" aria-label="Quick actions">
-  <a href="{{PHONE_HREF}}"><span aria-hidden="true">Call</span><span class="sr-only">Call {{PHONE_DISPLAY}}</span></a>
-  <a href="{{APPOINTMENT_HREF}}"><span aria-hidden="true">Request Appointment</span><span class="sr-only">Request an appointment</span></a>
+  <a href="{{PHONE_HREF}}" data-hod-event="click_to_call" data-hod-cta-location="sticky_phone" data-hod-conversion-type="call"><span aria-hidden="true">Call</span><span class="sr-only">Call {{PHONE_DISPLAY}}</span></a>
+  <a href="{{APPOINTMENT_HREF}}" data-hod-event="appointment_click" data-hod-cta-location="sticky_request" data-hod-conversion-type="appointment_request"><span aria-hidden="true">Request Appointment</span><span class="sr-only">Request an appointment</span></a>
 </nav>

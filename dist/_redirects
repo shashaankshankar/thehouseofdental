@@ -1,0 +1,27 @@
+# Phase 8 migration artifact — review and test before deployment.
+# Cloudflare Pages _redirects format; no domain move is configured.
+# Blocked current URLs remain in docs/URL-INVENTORY.csv until content parity is approved.
+/about-us/ /about.html 301
+/about-us/meet-dr-mainak-patel/ /about.html#dr-patel 301
+/about-us/meet-our-team/ /about.html#team 301
+/about-us/our-technologies/ /technology/ 301
+/dental-services/ /services.html 301
+/dental-services/restorative-dentistry/ /services/restorative-dentistry/ 301
+/dental-services/restorative-dentistry/dental-implants-winter-park-fl/ /services/dental-implants/ 301
+/dental-services/restorative-dentistry/dentures-winter-park-fl/ /services/dentures/ 301
+/dental-services/restorative-dentistry/cerec-same-day-dental-crowns-winter-park-fl/ /services/same-day-crowns/ 301
+/dental-services/restorative-dentistry/root-canals-winter-park-fl/ /services/root-canal-therapy/ 301
+/dental-services/cosmetic-dentistry/ /services/cosmetic-dentistry/ 301
+/dental-services/cosmetic-dentistry/dental-veneers-winter-park-fl/ /services/porcelain-veneers/ 301
+/dental-services/preventive-care-cleanings/ /services/preventive-care/ 301
+/dental-services/invisalign/ /services/invisalign/ 301
+/dental-services/oral-surgery/ /services/oral-surgery/ 301
+/dental-services/sedation-dentistry/ /services/sedation-dentistry/ 301
+/dental-services/tmj-treatment-winter-park-fl/ /services/tmj-treatment/ 301
+/new-patients/ /new-patients.html 301
+/patient-reviews/ /reviews.html 301
+/contact-us/ /contact.html 301
+/terms-conditions/ /terms/ 301
+/privacy-policy/ /privacy/ 301
+/accessibility-commitment/ /accessibility/ 301
+/sitemap_index.xml /sitemap.xml 301

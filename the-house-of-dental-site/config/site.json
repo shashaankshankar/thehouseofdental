@@ -5,9 +5,9 @@
     "status": "Visual rebrand retained from Phase 1; practice/legal relationship is pending confirmation."
   },
   "canonical": {
-    "baseUrl": "https://thehouseofdental.com",
-    "status": "provisional",
-    "note": "Retained from the Phase 1 source. The canonical domain remains pending practice/legal approval and is not a launch decision."
+    "baseUrl": "https://winterparkdental.com",
+    "status": "provisional_current_domain_baseline_blocked_pending_practice_legal_domain_decision",
+    "note": "Phase 8 uses the current public domain as a non-deployed migration baseline because the practice has not approved a domain move. Do not deploy a domain move or submit Change of Address until the decision is approved."
   },
   "contact": {
     "phone": {
@@ -28,20 +28,28 @@
       "status": "Retained from Phase 1 source; practice confirmation is pending."
     },
     "hours": {
-      "display": "Monday — Thursday\n8:00am — 3:00pm",
+      "display": "Monday — Thursday\n8:00am — 3:00pm\nFriday — By appointment only\nSaturday — Closed\nSunday — Closed",
       "rows": [
-        {"day": "Monday", "display": "8:00am — 3:00pm"},
-        {"day": "Tuesday", "display": "8:00am — 3:00pm"},
-        {"day": "Wednesday", "display": "8:00am — 3:00pm"},
-        {"day": "Thursday", "display": "8:00am — 3:00pm"}
+        {"day": "Monday", "dayOfWeek": "Monday", "display": "8:00am — 3:00pm", "opens": "08:00", "closes": "15:00"},
+        {"day": "Tuesday", "dayOfWeek": "Tuesday", "display": "8:00am — 3:00pm", "opens": "08:00", "closes": "15:00"},
+        {"day": "Wednesday", "dayOfWeek": "Wednesday", "display": "8:00am — 3:00pm", "opens": "08:00", "closes": "15:00"},
+        {"day": "Thursday", "dayOfWeek": "Thursday", "display": "8:00am — 3:00pm", "opens": "08:00", "closes": "15:00"},
+        {"day": "Friday", "dayOfWeek": "Friday", "display": "By appointment only", "opens": null, "closes": null},
+        {"day": "Saturday", "dayOfWeek": "Saturday", "display": "Closed", "opens": null, "closes": null},
+        {"day": "Sunday", "dayOfWeek": "Sunday", "display": "Closed", "opens": null, "closes": null}
       ],
-      "status": "Retained from Phase 1 source; complete hours and Friday-by-appointment status are pending practice confirmation."
+      "status": "Observed on the live current contact page on 2026-08-05; practice confirmation remains required before launch."
     },
     "email": {
-      "value": null,
-      "status": "unresolved",
-      "note": "Do not publish an office email until the practice confirms it."
+      "value": "office@winterparkdental.com",
+      "status": "observed_on_live_current_site_2026-08-05_practice_confirmation_pending",
+      "note": "Current public contact page displays this address; practice must re-confirm ownership before launch."
     }
+  },
+  "socialImage": {
+    "path": "/assets/office-exterior-wide-1200x881.jpg",
+    "alt": "The House of Dental office exterior in Winter Park, Florida",
+    "status": "existing_local_practice_asset_reused; route-specific treatment media is not supplied"
   },
   "socialUrls": [
     {
@@ -73,10 +81,43 @@
       "secureUrl": null,
       "status": "blocked_destination_verification_required"
     },
+    "measurement": {
+      "dataLayer": {
+        "enabled": false,
+        "status": "vendor_neutral_contract_only_nonessential_tracking_disabled",
+        "debugQueryParam": "hod_debug"
+      },
+      "ga4": {
+        "measurementId": null,
+        "status": "not_configured_no_approved_id_or_consent_decision"
+      },
+      "tagManager": {
+        "containerId": null,
+        "status": "not_configured_no_approved_id_or_consent_decision"
+      },
+      "callTracking": {
+        "vendor": null,
+        "trackingNumber": null,
+        "approved": false,
+        "status": "not_configured_preserve_canonical_nap_and_static_phone"
+      },
+      "crmAttribution": {
+        "provider": null,
+        "endpoint": null,
+        "approved": false,
+        "status": "not_configured_no_practice_management_or_crm_destination"
+      },
+      "consent": {
+        "vendor": null,
+        "required": null,
+        "status": "no_vendor_or_decision_nonessential_tracking_disabled",
+        "categories": ["necessary", "analytics", "advertising", "session_recording", "call_recording"]
+      }
+    },
     "analytics": {
       "status": "no_analytics_or_call_tracking_configured",
-      "allowedFields": ["page_type", "cta_location", "conversion_type", "campaign_source", "state"],
-      "prohibitedFields": ["name", "phone", "email", "message", "symptoms", "diagnosis", "treatment_details", "referral_friend_data"]
+      "allowedFields": ["event", "page_type", "service_slug", "cta_location", "conversion_type", "campaign_source", "state"],
+      "prohibitedFields": ["name", "phone", "email", "message", "symptoms", "diagnosis", "treatment_details", "referral_friend_data", "page_content", "referrer_url", "utm_term"]
     }
   },
   "reviewSource": {

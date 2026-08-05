@@ -1,0 +1,153 @@
+{
+  "format": "Cloudflare Pages _redirects",
+  "deployed": false,
+  "rules": [
+    {
+      "source": "/about-us/",
+      "destination": "/about.html",
+      "status": 301,
+      "reason": "Current About page to equivalent practice/about page"
+    },
+    {
+      "source": "/about-us/meet-dr-mainak-patel/",
+      "destination": "/about.html#dr-patel",
+      "status": 301,
+      "reason": "Current provider page to the visible provider section"
+    },
+    {
+      "source": "/about-us/meet-our-team/",
+      "destination": "/about.html#team",
+      "status": 301,
+      "reason": "Current team page to the visible team section"
+    },
+    {
+      "source": "/about-us/our-technologies/",
+      "destination": "/technology/",
+      "status": 301,
+      "reason": "Current technology page to the confirmed technology page"
+    },
+    {
+      "source": "/dental-services/",
+      "destination": "/services.html",
+      "status": 301,
+      "reason": "Current service hub to the equivalent service hub"
+    },
+    {
+      "source": "/dental-services/restorative-dentistry/",
+      "destination": "/services/restorative-dentistry/",
+      "status": 301,
+      "reason": "One-to-one restorative category mapping"
+    },
+    {
+      "source": "/dental-services/restorative-dentistry/dental-implants-winter-park-fl/",
+      "destination": "/services/dental-implants/",
+      "status": 301,
+      "reason": "One-to-one dental implants mapping"
+    },
+    {
+      "source": "/dental-services/restorative-dentistry/dentures-winter-park-fl/",
+      "destination": "/services/dentures/",
+      "status": 301,
+      "reason": "One-to-one dentures mapping"
+    },
+    {
+      "source": "/dental-services/restorative-dentistry/cerec-same-day-dental-crowns-winter-park-fl/",
+      "destination": "/services/same-day-crowns/",
+      "status": 301,
+      "reason": "One-to-one CEREC same-day crowns mapping"
+    },
+    {
+      "source": "/dental-services/restorative-dentistry/root-canals-winter-park-fl/",
+      "destination": "/services/root-canal-therapy/",
+      "status": 301,
+      "reason": "One-to-one root canal mapping"
+    },
+    {
+      "source": "/dental-services/cosmetic-dentistry/",
+      "destination": "/services/cosmetic-dentistry/",
+      "status": 301,
+      "reason": "One-to-one cosmetic category mapping"
+    },
+    {
+      "source": "/dental-services/cosmetic-dentistry/dental-veneers-winter-park-fl/",
+      "destination": "/services/porcelain-veneers/",
+      "status": 301,
+      "reason": "One-to-one porcelain veneers mapping"
+    },
+    {
+      "source": "/dental-services/preventive-care-cleanings/",
+      "destination": "/services/preventive-care/",
+      "status": 301,
+      "reason": "One-to-one preventive care mapping"
+    },
+    {
+      "source": "/dental-services/invisalign/",
+      "destination": "/services/invisalign/",
+      "status": 301,
+      "reason": "One-to-one Invisalign mapping"
+    },
+    {
+      "source": "/dental-services/oral-surgery/",
+      "destination": "/services/oral-surgery/",
+      "status": 301,
+      "reason": "One-to-one oral surgery mapping"
+    },
+    {
+      "source": "/dental-services/sedation-dentistry/",
+      "destination": "/services/sedation-dentistry/",
+      "status": 301,
+      "reason": "One-to-one sedation dentistry mapping"
+    },
+    {
+      "source": "/dental-services/tmj-treatment-winter-park-fl/",
+      "destination": "/services/tmj-treatment/",
+      "status": 301,
+      "reason": "One-to-one TMJ mapping"
+    },
+    {
+      "source": "/new-patients/",
+      "destination": "/new-patients.html",
+      "status": 301,
+      "reason": "Current new-patient hub to equivalent hub"
+    },
+    {
+      "source": "/patient-reviews/",
+      "destination": "/reviews.html",
+      "status": 301,
+      "reason": "Current reviews page to equivalent review-source status page"
+    },
+    {
+      "source": "/contact-us/",
+      "destination": "/contact.html",
+      "status": 301,
+      "reason": "Current contact page to equivalent contact page"
+    },
+    {
+      "source": "/terms-conditions/",
+      "destination": "/terms/",
+      "status": 301,
+      "reason": "Current legal page to the reviewed-content placeholder"
+    },
+    {
+      "source": "/privacy-policy/",
+      "destination": "/privacy/",
+      "status": 301,
+      "reason": "Current legal page to the reviewed-content placeholder"
+    },
+    {
+      "source": "/accessibility-commitment/",
+      "destination": "/accessibility/",
+      "status": 301,
+      "reason": "Current accessibility page to the reviewed-content placeholder"
+    },
+    {
+      "source": "/sitemap_index.xml",
+      "destination": "/sitemap.xml",
+      "status": 301,
+      "reason": "Current sitemap index to the generated single sitemap"
+    }
+  ],
+  "activeRuleCount": 24,
+  "noHomeRedirects": true,
+  "noChains": true
+}

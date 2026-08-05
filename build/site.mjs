@@ -18,12 +18,16 @@ const technologyData = readJson(path.join(siteRoot, "data", "technology.json"));
 const serviceData = readJson(path.join(siteRoot, "data", "services.json"));
 const servicePages = readJson(path.join(siteRoot, "data", "service-pages.json"));
 const acquisitionData = readJson(path.join(siteRoot, "data", "acquisition.json"));
+const measurementData = readJson(path.join(siteRoot, "data", "measurement.json"));
+const campaignPageData = readJson(path.join(siteRoot, "data", "campaign-pages.json"));
 const careGuidesData = readJson(path.join(siteRoot, "data", "care-guides.json"));
+const redirects = readJson(path.join(configDir, "redirects.json"));
 const layout = readText(path.join(templateDir, "layout.html"));
 const headerTemplate = readText(path.join(templateDir, "header.html"));
 const footerTemplate = readText(path.join(templateDir, "footer.html"));
 const breadcrumbTemplate = readText(path.join(templateDir, "breadcrumb.html"));
 const stickyActionsTemplate = readText(path.join(templateDir, "sticky-actions.html"));
+const campaignPageTemplate = readText(path.join(templateDir, "campaign-page.html"));
 
 const fail = (message) => {
   throw new Error(message);
@@ -60,11 +64,22 @@ assert(config.contact?.phone?.display && config.contact?.phone?.tel, "config/sit
 assert(config.contact?.address?.street && config.contact?.address?.locality && config.contact?.address?.region && config.contact?.address?.postalCode, "config/site.json must provide the complete address");
 assert(config.contact?.hours?.status, "config/site.json must document contact.hours status");
 assert(Array.isArray(config.contact?.hours?.rows) && config.contact.hours.rows.length > 0, "config/site.json must provide contact.hours.rows");
+assert(config.socialImage?.path && config.socialImage?.alt, "config/site.json must provide socialImage.path and socialImage.alt");
 assert(config.reviewSource?.status, "config/site.json must document reviewSource status");
 assert(config.analytics?.status, "config/site.json must document analytics status");
 assert(config.appointmentUrl?.path && config.appointmentUrl?.status, "config/site.json must document appointmentUrl path and status");
 assert(config.integrations?.appointmentForm?.status, "config/site.json must document appointment form integration status");
 assert(Object.prototype.hasOwnProperty.call(config.integrations.appointmentForm, "handlerUrl"), "config/site.json must declare appointmentForm.handlerUrl, including null when unconfigured");
+assert(config.integrations?.measurement?.dataLayer?.status, "config/site.json must document measurement data-layer status");
+assert(Object.prototype.hasOwnProperty.call(config.integrations.measurement.dataLayer, "enabled"), "config/site.json must declare measurement dataLayer.enabled");
+assert(config.integrations.measurement.ga4?.status, "config/site.json must document GA4 status");
+assert(config.integrations.measurement.tagManager?.status, "config/site.json must document tag-manager status");
+assert(config.integrations.measurement.callTracking?.status, "config/site.json must document call-tracking status");
+assert(config.integrations.measurement.crmAttribution?.status, "config/site.json must document CRM attribution status");
+assert(config.integrations.measurement.consent?.status, "config/site.json must document consent status");
+assert(measurementData.version && Array.isArray(measurementData.conversionEvents), "data/measurement.json must declare the Phase 9 event contract");
+assert(Array.isArray(measurementData.allowedFields) && measurementData.allowedFields.includes("state"), "data/measurement.json must declare approved event fields");
+assert(campaignPageData.status && campaignPageData.campaigns, "data/campaign-pages.json must declare campaign records and status");
 assert(Array.isArray(careGuidesData.guides) && careGuidesData.guides.length > 0, "data/care-guides.json must provide public care guides");
 assert(careGuidesData.status, "data/care-guides.json must declare a content-system status");
 
@@ -101,6 +116,30 @@ for (const route of routes) {
     assert(route.serviceName && route.serviceType && route.servicePage, `Service route ${route.id} must declare serviceName, serviceType, and servicePage`);
     assert(servicePages[route.servicePage], `Service route ${route.id} is missing data/service-pages.json entry: ${route.servicePage}`);
   }
+  if (route.campaignPage) {
+    assert(route.campaignPage && campaignPageData.campaigns[route.campaignPage], `Campaign route ${route.id} is missing data/campaign-pages.json entry`);
+    const campaign = campaignPageData.campaigns[route.campaignPage];
+    assert(campaign.landingPageId && campaign.intent && campaign.trafficSource && campaign.searchIntent, `Campaign ${route.id} is missing audience/source intent metadata`);
+    assert(campaign.approvalGate && campaign.status && Object.prototype.hasOwnProperty.call(campaign, "canonicalTargetId"), `Campaign ${route.id} is missing approval or canonicalization metadata`);
+    assert(campaignPageData.campaigns[route.campaignPage].thankYouRouteId === null || routeById.has(campaignPageData.campaigns[route.campaignPage].thankYouRouteId) || routes.some((candidate) => candidate.id === campaignPageData.campaigns[route.campaignPage].thankYouRouteId), `Campaign ${route.id} has an unknown thank-you route`);
+  }
+}
+
+for (const route of routes) {
+  if (!route.canonicalTargetId) continue;
+  const target = routeById.get(route.canonicalTargetId);
+  assert(target, `Route ${route.id} points to an unknown canonical target: ${route.canonicalTargetId}`);
+  assert(target.id !== route.id, `Route ${route.id} cannot canonicalize to itself through canonicalTargetId`);
+  assert(target.enabled && target.indexable, `Route ${route.id} must canonicalize only to an enabled indexable route`);
+}
+
+const redirectBySource = new Map();
+for (const redirect of redirects) {
+  assert(redirect.source && redirect.destination, "Each redirect must provide source and destination paths");
+  assert(redirect.status === 301, `Redirect ${redirect.source} must use a single-hop 301`);
+  assert(!redirectBySource.has(redirect.source), `Redirect registry contains duplicate source: ${redirect.source}`);
+  assert(redirect.destination !== "/" && redirect.destination !== "/index.html", `Redirect ${redirect.source} cannot point to the homepage`);
+  redirectBySource.set(redirect.source, redirect);
 }
 
 const appointmentParts = String(config.appointmentUrl.path).split("#");
@@ -236,7 +275,16 @@ const renderOptionalHomepageSections = (route) => publicItems(acquisitionData.fe
 const hoursRows = config.contact.hours.rows.map((row) => `<tr><td>${htmlEscape(row.day)}</td><td>${htmlEscape(row.display)}</td></tr>`).join("\n");
 const hoursDisplay = String(config.contact.hours.display).split("\n").map(htmlEscape).join("<br>");
 
-const canonicalUrl = (route) => `${canonicalBase}${route.canonicalPath === "/" ? "/" : route.canonicalPath}`;
+const canonicalUrl = (route) => {
+  const canonicalRoute = route.canonicalTargetId ? routeById.get(route.canonicalTargetId) : route;
+  const canonicalPath = canonicalRoute?.canonicalPath || route.canonicalPath;
+  return `${canonicalBase}${canonicalPath === "/" ? "/" : canonicalPath}`;
+};
+const absoluteAssetUrl = (relativePath) => `${canonicalBase}/${String(relativePath).replace(/^\/+/, "")}`;
+const socialImageUrl = (route) => {
+  const image = route.socialImage || config.socialImage.path;
+  return /^https?:\/\//i.test(image) ? image : absoluteAssetUrl(image);
+};
 
 const renderBreadcrumb = (route) => {
   if (!route.breadcrumb.length) return "";
@@ -268,7 +316,8 @@ const metadataFor = (route) => {
   const title = resolveRegistryText(route.title);
   const description = resolveRegistryText(route.description);
   const robots = route.indexable ? "index, follow, max-image-preview:large" : "noindex, nofollow";
-  const socialImage = route.socialImage ? `\n<meta property="og:image" content="${htmlEscape(route.socialImage)}">\n<meta name="twitter:image" content="${htmlEscape(route.socialImage)}">` : "";
+  const socialImage = socialImageUrl(route);
+  const socialImageAlt = route.socialImageAlt || config.socialImage.alt;
   return `<title>${htmlEscape(title)}</title>
 <meta name="description" content="${htmlEscape(description)}">
 <meta name="robots" content="${robots}">
@@ -280,9 +329,15 @@ const metadataFor = (route) => {
 <meta property="og:description" content="${htmlEscape(description)}">
 <meta property="og:url" content="${htmlEscape(canonical)}">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="${htmlEscape(socialImage)}">
+<meta property="og:image:alt" content="${htmlEscape(socialImageAlt)}">
+<meta property="og:image:type" content="image/jpeg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${htmlEscape(title)}">
-<meta name="twitter:description" content="${htmlEscape(description)}">${socialImage}`;
+<meta name="twitter:description" content="${htmlEscape(description)}">
+<meta name="twitter:url" content="${htmlEscape(canonical)}">
+<meta name="twitter:image" content="${htmlEscape(socialImage)}">
+<meta name="twitter:image:alt" content="${htmlEscape(socialImageAlt)}">`;
 };
 
 const schemaScript = (value) => {
@@ -306,37 +361,83 @@ const renderCarePdf = (route, id) => {
   return `<a class="btn" href="${htmlEscape(assetHref(route, guide.pdf))}" download>Download &amp; Print These Instructions (PDF)</a>`;
 };
 
+const websiteId = `${canonicalBase}/#website`;
+const organizationId = `${canonicalBase}/#organization`;
+const practiceId = `${canonicalBase}/#practice`;
+const providerId = `${canonicalBase}/about.html#provider`;
+
+const providerNode = {
+  "@type": "Person",
+  "@id": providerId,
+  "name": "Dr. Mainak Patel",
+  "honorificSuffix": "DMD",
+  "jobTitle": "Dentist",
+  "url": `${canonicalBase}/about.html#dr-patel`,
+  "worksFor": {"@id": practiceId},
+  "affiliation": {"@id": organizationId}
+};
+
+const openingHours = config.contact.hours.rows
+  .filter((row) => row.dayOfWeek && row.opens && row.closes)
+  .map((row) => ({
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": row.dayOfWeek,
+    "opens": row.opens,
+    "closes": row.closes
+  }));
+
 const renderSchema = (route) => {
   const canonical = canonicalUrl(route);
+  const pageUrl = `${canonicalBase}${route.canonicalPath === "/" ? "/" : route.canonicalPath}`;
   const title = resolveRegistryText(route.title);
   const description = resolveRegistryText(route.description);
   const h1 = resolveRegistryText(route.h1);
   const webPage = {
     "@type": "WebPage",
-    "@id": `${canonical}#webpage`,
-    "url": canonical,
+    "@id": `${pageUrl}#webpage`,
+    "url": pageUrl,
     "name": title,
     "description": description,
     "headline": h1,
-    "isPartOf": {"@id": `${canonicalBase}/#website`}
+    "isPartOf": {"@id": websiteId}
   };
   const graph = [webPage];
   if (route.id === "home") {
     graph.unshift(
       {
         "@type": "WebSite",
-        "@id": `${canonicalBase}/#website`,
+        "@id": websiteId,
         "url": `${canonicalBase}/`,
         "name": config.brand.name,
         "alternateName": config.brand.alternateName,
-        "publisher": {"@id": `${canonicalBase}/#practice`}
+        "publisher": {"@id": organizationId}
+      },
+      {
+        "@type": "Organization",
+        "@id": organizationId,
+        "name": config.brand.name,
+        "alternateName": config.brand.alternateName,
+        "url": `${canonicalBase}/`,
+        "telephone": config.contact.phone.tel.startsWith("+") ? config.contact.phone.tel : `+${config.contact.phone.tel}`,
+        "logo": {"@type": "ImageObject", "url": absoluteAssetUrl("assets/logo.svg")},
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": config.contact.address.street,
+          "addressLocality": config.contact.address.locality,
+          "addressRegion": config.contact.address.region,
+          "postalCode": config.contact.address.postalCode,
+          "addressCountry": config.contact.address.country
+        },
+        "sameAs": config.socialUrls.filter((social) => social.url).map((social) => social.url),
+        "founder": {"@id": providerId}
       },
       {
         "@type": "Dentist",
-        "@id": `${canonicalBase}/#practice`,
+        "@id": practiceId,
         "name": config.brand.name,
         "alternateName": config.brand.alternateName,
         "url": `${canonicalBase}/`,
+        "image": socialImageUrl(route),
         "telephone": config.contact.phone.tel.startsWith("+") ? config.contact.phone.tel : `+${config.contact.phone.tel}`,
         "address": {
           "@type": "PostalAddress",
@@ -346,14 +447,26 @@ const renderSchema = (route) => {
           "postalCode": config.contact.address.postalCode,
           "addressCountry": config.contact.address.country
         },
-        "sameAs": config.socialUrls.filter((social) => social.url).map((social) => social.url)
+        "hasMap": config.contact.mapUrl.value,
+        "sameAs": config.socialUrls.filter((social) => social.url).map((social) => social.url),
+        "parentOrganization": {"@id": organizationId},
+        "founder": {"@id": providerId},
+        "openingHoursSpecification": openingHours,
+        "availableService": routes
+          .filter((candidate) => candidate.enabled && candidate.indexable && candidate.pageType === "service")
+          .map((candidate) => ({"@id": `${canonicalUrl(candidate)}#service`}))
       }
     );
+    graph.push(providerNode);
+  }
+  if (route.id === "about" || route.id === "dr-mainak-patel-draft") {
+    webPage.mainEntity = {"@id": providerId};
+    graph.push(providerNode);
   }
   if (route.breadcrumb.length > 1) {
     graph.push({
       "@type": "BreadcrumbList",
-      "@id": `${canonical}#breadcrumb`,
+      "@id": `${pageUrl}#breadcrumb`,
       "itemListElement": route.breadcrumb.map((crumb, position) => ({
         "@type": "ListItem",
         "position": position + 1,
@@ -370,8 +483,21 @@ const renderSchema = (route) => {
       "name": route.serviceName,
       "serviceType": route.serviceType,
       "description": description,
-      "provider": {"@id": `${canonicalBase}/#practice`}
+      "provider": {"@id": practiceId}
     });
+    const servicePage = servicePages[route.servicePage];
+    if (servicePage?.faqs?.length) {
+      graph.push({
+        "@type": "FAQPage",
+        "@id": `${canonical}#faq`,
+        "url": canonical,
+        "mainEntity": servicePage.faqs.map((faq) => ({
+          "@type": "Question",
+          "name": faq.q,
+          "acceptedAnswer": {"@type": "Answer", "text": faq.a}
+        }))
+      });
+    }
   }
   return schemaScript({"@context": "https://schema.org", "@graph": graph});
 };
@@ -395,6 +521,13 @@ const serviceActionHref = (route, type, relatedId = null) => {
   if (type === "self") return "#what-it-is";
   if (type === "related") return serviceHref(route, relatedId);
   return appointmentHref(route);
+};
+
+const serviceActionAttributes = (route, href, location) => {
+  const isPhone = href.startsWith("tel:");
+  const inquiryEvent = route.id === "dental-implants" ? "implant_inquiry" : "";
+  const events = isPhone ? ["click_to_call"] : ["appointment_click", inquiryEvent];
+  return `data-hod-events="${htmlEscape(events.filter(Boolean).join(","))}" data-hod-cta-location="${htmlEscape(location)}" data-hod-conversion-type="${isPhone ? "call" : "appointment_request"}" data-hod-service-slug="${htmlEscape(route.servicePage || "")}"`;
 };
 
 const renderServiceList = (items) => items.map((item) => `<li>${htmlEscape(item)}</li>`).join("\n");
@@ -424,8 +557,8 @@ const renderServiceContent = (route) => {
       <h1 class="rv in">${htmlEscape(route.h1)}</h1>
       <p class="service-lead rv in">${htmlEscape(data.lead)}</p>
       <div class="service-actions rv in">
-        <a class="btn btn-solid" href="${htmlEscape(primaryHref)}">${htmlEscape(data.primaryCta)}</a>
-        <a class="btn" href="${htmlEscape(secondaryHref)}">${htmlEscape(data.secondaryCta)}</a>
+        <a class="btn btn-solid" href="${htmlEscape(primaryHref)}" ${serviceActionAttributes(route, primaryHref, "service_hero_primary")}>${htmlEscape(data.primaryCta)}</a>
+        <a class="btn" href="${htmlEscape(secondaryHref)}" ${serviceActionAttributes(route, secondaryHref, "service_hero_secondary")}>${htmlEscape(data.secondaryCta)}</a>
       </div>
     </div>
     <aside class="service-hero-note rv in" aria-label="Service summary">
@@ -486,7 +619,7 @@ const renderServiceContent = (route) => {
       </section>
 
       <section class="service-section service-financing">
-        <p class="eyebrow">Planning the investment</p><h2>Insurance &amp; financing questions</h2><p>${htmlEscape(data.financing)}</p><a class="text-link" href="${htmlEscape(relativeOutputHref(route.output, routeById.get("new-patients").output))}#insurance">Review new-patient payment information <span aria-hidden="true">→</span></a>
+        <p class="eyebrow">Planning the investment</p><h2>Insurance &amp; financing questions</h2><p>${htmlEscape(data.financing)}</p><a class="text-link" href="${htmlEscape(relativeOutputHref(route.output, routeById.get("new-patients").output))}#insurance" data-hod-event="financing_click" data-hod-cta-location="service_financing" data-hod-conversion-type="financing" data-hod-service-slug="${htmlEscape(route.servicePage || "")}">Review new-patient payment information <span aria-hidden="true">→</span></a>
       </section>
 
       <section class="service-section" id="questions">
@@ -502,10 +635,130 @@ const renderServiceContent = (route) => {
 </section>
 
 <section class="service-cta band">
-  <div class="wrap service-cta-grid"><div><p class="eyebrow">Ready when you are</p><h2>Talk with the Winter Park team</h2><p>Ask a question, request an evaluation, or call if your concern feels urgent.</p></div><div class="service-actions"><a class="btn" href="${htmlEscape(primaryHref)}">${htmlEscape(data.primaryCta)}</a><a class="btn" href="${htmlEscape(phoneHref)}">${htmlEscape(config.contact.phone.display)}</a></div></div>
+  <div class="wrap service-cta-grid"><div><p class="eyebrow">Ready when you are</p><h2>Talk with the Winter Park team</h2><p>Ask a question, request an evaluation, or call if your concern feels urgent.</p></div><div class="service-actions"><a class="btn" href="${htmlEscape(primaryHref)}" ${serviceActionAttributes(route, primaryHref, "service_footer_primary")}>${htmlEscape(data.primaryCta)}</a><a class="btn" href="${htmlEscape(phoneHref)}" data-hod-event="click_to_call" data-hod-cta-location="service_footer_phone" data-hod-conversion-type="call" data-hod-service-slug="${htmlEscape(route.servicePage || "")}">${htmlEscape(config.contact.phone.display)}</a></div></div>
 </section>
 
-<section class="sec sec-noir service-location"><div class="wrap service-location-grid"><div><p class="eyebrow">Local trust</p><h2>Care in Winter Park, Florida</h2><p>The House of Dental is located at ${htmlEscape(config.contact.address.street)}, ${htmlEscape(config.contact.address.locality)}, ${htmlEscape(config.contact.address.region)} ${htmlEscape(config.contact.address.postalCode)}.</p></div><div><table class="hours-table">${hoursRows}</table><a class="text-link" href="${htmlEscape(config.contact.mapUrl.value)}" target="_blank" rel="noopener">Get directions <span aria-hidden="true">→</span></a></div></div></section>`;
+<section class="sec sec-noir service-location"><div class="wrap service-location-grid"><div><p class="eyebrow">Local trust</p><h2>Care in Winter Park, Florida</h2><p>The House of Dental is located at ${htmlEscape(config.contact.address.street)}, ${htmlEscape(config.contact.address.locality)}, ${htmlEscape(config.contact.address.region)} ${htmlEscape(config.contact.address.postalCode)}.</p></div><div><table class="hours-table">${hoursRows}</table><a class="text-link" href="${htmlEscape(config.contact.mapUrl.value)}" target="_blank" rel="noopener" data-hod-event="directions_click" data-hod-cta-location="service_location" data-hod-conversion-type="directions" data-hod-service-slug="${htmlEscape(route.servicePage || "")}">Get directions <span aria-hidden="true">→</span></a></div></div></section>`;
+};
+
+const campaignForRoute = (route) => {
+  if (!route.campaignPage) return null;
+  const campaign = campaignPageData.campaigns[route.campaignPage];
+  assert(campaign, `Missing campaign data for ${route.id}`);
+  return campaign;
+};
+
+const campaignList = (items = []) => items.map((item) => `<li>${htmlEscape(item)}</li>`).join("\n");
+
+const campaignEventAttributes = (campaign, events, location, conversionType = "appointment_request") => {
+  const eventNames = events.filter(Boolean).join(",");
+  const serviceSlug = campaign.serviceSlug ? ` data-hod-service-slug="${htmlEscape(campaign.serviceSlug)}"` : "";
+  return `data-hod-events="${htmlEscape(eventNames)}" data-hod-cta-location="${htmlEscape(location)}" data-hod-conversion-type="${htmlEscape(conversionType)}" data-hod-campaign-id="${htmlEscape(campaign.landingPageId)}"${serviceSlug}`;
+};
+
+const renderCampaignProof = (route, campaign) => {
+  const durableLink = campaign.canonicalTargetId && routeById.get(campaign.canonicalTargetId)
+    ? `<a class="text-link text-link-light" href="${htmlEscape(routeHref(route, campaign.canonicalTargetId))}">Review the durable page <span aria-hidden="true">→</span></a>`
+    : "";
+  return `<p>${htmlEscape(campaign.proof)}</p>${durableLink}`;
+};
+
+const renderCampaignGovernance = (route, campaign) => {
+  const canonicalTarget = campaign.canonicalTargetId ? routeById.get(campaign.canonicalTargetId) : null;
+  const canonicalLabel = canonicalTarget ? `Canonical target: ${canonicalTarget.canonicalPath}` : "Canonical self; no approved durable target";
+  const eventLabel = campaign.conversionEvent || "No inquiry event enabled";
+  const successLabel = campaign.successEvent || "No success event configured";
+  const thankYouTarget = campaign.thankYouRouteId ? routeById.get(campaign.thankYouRouteId) : null;
+  return `<dl class="campaign-governance-list">
+  <div><dt>Audience</dt><dd>${htmlEscape(campaign.audience)}</dd></div>
+  <div><dt>Traffic source</dt><dd>${htmlEscape(campaign.trafficSource)}</dd></div>
+  <div><dt>Search/ad intent</dt><dd>${htmlEscape(campaign.searchIntent)}</dd></div>
+  <div><dt>Landing-page ID</dt><dd><code>${htmlEscape(campaign.landingPageId)}</code></dd></div>
+  <div><dt>Inquiry event</dt><dd><code>${htmlEscape(eventLabel)}</code></dd></div>
+  <div><dt>Confirmed-success event</dt><dd><code>${htmlEscape(successLabel)}</code></dd></div>
+  <div><dt>Thank-you route</dt><dd>${htmlEscape(thankYouTarget?.canonicalPath || "Not configured")}</dd></div>
+  <div><dt>Indexability</dt><dd>${htmlEscape(route.indexable ? "Indexable after approval" : "Noindex local preview")}; ${htmlEscape(canonicalLabel)}</dd></div>
+  <div><dt>Approval gate</dt><dd>${htmlEscape(campaign.approvalGate)}</dd></div>
+</dl>`;
+};
+
+const campaignPrimaryHref = (route, campaign) => {
+  if (!campaign.primaryCta) return null;
+  if (campaign.primaryCta.startsWith("Explore") && campaign.canonicalTargetId && routeById.has(campaign.canonicalTargetId)) {
+    return routeHref(route, campaign.canonicalTargetId);
+  }
+  if (campaign.status === "ready_for_named_approval" && campaign.primaryCta.toLowerCase().includes("call")) {
+    return `tel:${config.contact.phone.tel}`;
+  }
+  if (campaign.status === "ready_for_named_approval") return appointmentHref(route);
+  return null;
+};
+
+const renderCampaignAction = (route, campaign, location, compact = false) => {
+  const href = campaignPrimaryHref(route, campaign);
+  if (!href) return `<span class="draft-button campaign-disabled-action" aria-disabled="true">Campaign action not enabled</span>`;
+  const isEmergency = campaign.conversionEvent === "emergency_call";
+  const events = isEmergency ? ["emergency_call"] : ["appointment_click", campaign.conversionEvent];
+  const conversionType = isEmergency ? "emergency_call" : campaign.conversionEvent || "appointment_request";
+  const label = compact && campaign.primaryCta.startsWith("Explore") ? "Review the durable page" : campaign.primaryCta;
+  return `<a class="btn ${compact ? "" : "btn-solid"}" href="${htmlEscape(href)}" ${campaignEventAttributes(campaign, events, location, conversionType)}>${htmlEscape(label)}</a>`;
+};
+
+const renderCampaignCtaActions = (route, campaign) => {
+  const primary = renderCampaignAction(route, campaign, "campaign_primary", true);
+  const isEmergency = campaign.conversionEvent === "emergency_call";
+  const phoneEvent = isEmergency ? "emergency_call" : "click_to_call";
+  const phoneAttrs = campaignEventAttributes(campaign, [phoneEvent], "campaign_phone", isEmergency ? "emergency_call" : "call");
+  return `${primary}<a class="btn" href="${htmlEscape(`tel:${config.contact.phone.tel}`)}" ${phoneAttrs}>Call ${htmlEscape(config.contact.phone.display)}</a>`;
+};
+
+const renderCampaignContent = (route) => {
+  const campaign = campaignForRoute(route);
+  const primaryActions = campaign.status === "ready_for_named_approval"
+    ? `<div class="campaign-actions rv in">${renderCampaignAction(route, campaign, "campaign_hero", false)}<a class="btn" href="${htmlEscape(`tel:${config.contact.phone.tel}`)}" ${campaignEventAttributes(campaign, [campaign.conversionEvent === "emergency_call" ? "emergency_call" : "click_to_call"], "campaign_hero_phone", campaign.conversionEvent === "emergency_call" ? "emergency_call" : "call")}>Call ${htmlEscape(config.contact.phone.display)}</a></div>`
+    : `<div class="campaign-actions rv in"><span class="draft-button campaign-disabled-action" aria-disabled="true">Campaign action not enabled</span><span class="campaign-action-note">${htmlEscape(campaign.approvalGate)}</span></div>`;
+  const faqMarkup = campaign.faqs.map((faq) => `<article class="campaign-faq"><h3>${htmlEscape(faq.q)}</h3><p>${htmlEscape(faq.a)}</p></article>`).join("\n");
+  return applyTokens(campaignPageTemplate, {
+    "{{CAMPAIGN_INTENT}}": htmlEscape(campaign.intent),
+    "{{CAMPAIGN_HEADLINE}}": htmlEscape(campaign.headline),
+    "{{CAMPAIGN_SUPPORT}}": htmlEscape(campaign.support),
+    "{{CAMPAIGN_PRIMARY_ACTIONS}}": primaryActions,
+    "{{CAMPAIGN_PROOF}}": renderCampaignProof(route, campaign),
+    "{{CAMPAIGN_MESSAGE}}": htmlEscape(campaign.message),
+    "{{CAMPAIGN_EXPLANATION}}": htmlEscape(campaign.explanation),
+    "{{CAMPAIGN_GOVERNANCE}}": renderCampaignGovernance(route, campaign),
+    "{{CAMPAIGN_AUDIENCE}}": htmlEscape(campaign.audience),
+    "{{CAMPAIGN_EXPECTATIONS}}": `<ul class="campaign-list">${campaignList(campaign.expectations)}</ul>`,
+    "{{CAMPAIGN_LIMITATIONS}}": `<ul class="campaign-list">${campaignList(campaign.limitations)}</ul>`,
+    "{{CAMPAIGN_FAQS}}": faqMarkup,
+    "{{CAMPAIGN_DISCLAIMER}}": htmlEscape(campaign.disclaimer),
+    "{{CAMPAIGN_CTA_HEADING}}": htmlEscape(campaign.ctaHeading),
+    "{{CAMPAIGN_CTA_COPY}}": htmlEscape(campaign.ctaCopy),
+    "{{CAMPAIGN_CTA_ACTIONS}}": renderCampaignCtaActions(route, campaign),
+    "{{MAP_URL}}": htmlEscape(config.contact.mapUrl.value),
+    "{{FINANCING_HREF}}": htmlEscape(routeHref(route, "insurance-financing"))
+  }, `${route.id} campaign template`);
+};
+
+const measurementRuntimeConfig = (route) => {
+  const measurement = config.integrations.measurement;
+  const consentApproved = measurement.consent?.status === "approved";
+  const campaign = campaignForRoute(route);
+  return {
+    version: measurementData.version,
+    enabled: measurement.dataLayer.enabled === true && consentApproved,
+    debugQueryParam: measurement.dataLayer.debugQueryParam || measurementData.debug.queryParam,
+    allowedEvents: [...measurementData.conversionEvents, ...(measurementData.diagnosticEvents || [])],
+    allowedFields: measurementData.allowedFields,
+    stateValues: measurementData.stateValues,
+    attribution: measurementData.attribution,
+    crmMappingEnabled: measurement.crmAttribution?.approved === true && Boolean(measurement.crmAttribution?.endpoint),
+    ownHost: new URL(canonicalBase).hostname,
+    routeId: route.id,
+    pageType: route.pageType,
+    serviceSlug: route.servicePage || campaign?.serviceSlug || null,
+    campaignId: campaign?.landingPageId || null
+  };
 };
 
 const renderPage = (route) => {
@@ -522,6 +775,7 @@ const renderPage = (route) => {
   content = content.replace(/\{\{CARE_META:([^}]+)\}\}/g, (_match, id) => renderCareMeta(id));
   content = content.replace(/\{\{CARE_PDF:([^}]+)\}\}/g, (_match, id) => renderCarePdf(route, id));
   if (route.servicePage) content = content.replaceAll("{{SERVICE_PAGE_CONTENT}}", renderServiceContent(route));
+  if (route.campaignPage) content = content.replaceAll("{{CAMPAIGN_PAGE_CONTENT}}", renderCampaignContent(route));
   content = applyTokens(content, {
     "{{APPOINTMENT_HREF}}": htmlEscape(appointmentHref(route)),
     "{{PHONE_HREF}}": htmlEscape(`tel:${config.contact.phone.tel}`),
@@ -538,6 +792,7 @@ const renderPage = (route) => {
     "{{ADDRESS_POSTAL}}": htmlEscape(config.contact.address.postalCode),
     "{{HOURS_DISPLAY}}": hoursDisplay,
     "{{HOURS_ROWS}}": hoursRows,
+    "{{EMAIL_VALUE}}": htmlEscape(config.contact.email.value || "Email pending confirmation"),
     "{{PATIENT_RESOURCES_HREF}}": htmlEscape(routeHref(route, "patient-resources")),
     "{{NEW_PATIENT_FORMS_HREF}}": htmlEscape(routeHref(route, "new-patient-forms")),
     "{{INSURANCE_FINANCING_HREF}}": htmlEscape(routeHref(route, "insurance-financing")),
@@ -574,6 +829,8 @@ const renderPage = (route) => {
     "{{ADDRESS_LOCALITY}}": htmlEscape(config.contact.address.locality),
     "{{ADDRESS_REGION}}": htmlEscape(config.contact.address.region),
     "{{ADDRESS_POSTAL}}": htmlEscape(config.contact.address.postalCode),
+    "{{EMAIL_VALUE}}": htmlEscape(config.contact.email.value || "Email pending confirmation"),
+    "{{HOURS_DISPLAY}}": hoursDisplay,
     "{{SOCIAL_LINKS}}": renderSocialLinks(),
     "{{LEGAL_LINKS}}": renderLegalLinks(route),
     "{{FOOTER_OPTIONAL_SERVICES}}": renderOptionalFooterServices(route),
@@ -589,8 +846,11 @@ const renderPage = (route) => {
   return applyTokens(layout, {
     "{{ROUTE_ID}}": htmlEscape(route.id),
     "{{PAGE_TYPE}}": htmlEscape(route.pageType),
+    "{{SERVICE_SLUG}}": htmlEscape(route.servicePage || campaignForRoute(route)?.serviceSlug || ""),
+    "{{CAMPAIGN_ID}}": htmlEscape(campaignForRoute(route)?.landingPageId || ""),
     "{{METADATA}}": metadataFor(route),
     "{{SCHEMA}}": renderSchema(route),
+    "{{MEASUREMENT_CONFIG}}": inlineJson(measurementRuntimeConfig(route)),
     "{{FONT_LINKS}}": '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital@1&display=swap" rel="stylesheet">',
     "{{STYLES_HREF}}": htmlEscape(assetHref(route, "styles.css")),
     "{{SCRIPT_HREF}}": htmlEscape(assetHref(route, "main.js")),
@@ -605,6 +865,16 @@ const renderPage = (route) => {
 const renderSitemap = () => {
   const urls = enabledRoutes.filter((route) => route.indexable).map((route) => `  <url><loc>${xmlEscape(canonicalUrl(route))}</loc><changefreq>monthly</changefreq></url>`).join("\n");
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
+};
+
+const renderRedirects = () => {
+  const lines = [
+    "# Phase 8 migration artifact — review and test before deployment.",
+    "# Cloudflare Pages _redirects format; no domain move is configured.",
+    "# Blocked current URLs remain in docs/URL-INVENTORY.csv until content parity is approved."
+  ];
+  for (const redirect of redirects) lines.push(`${redirect.source} ${redirect.destination} ${redirect.status}`);
+  return `${lines.join("\n")}\n`;
 };
 
 fs.rmSync(outputDir, { recursive: true, force: true });
@@ -622,6 +892,7 @@ for (const route of enabledRoutes) {
 const robots = readText(path.join(siteRoot, "robots.txt"));
 fs.writeFileSync(path.join(outputDir, "robots.txt"), robots.replaceAll("{{CANONICAL_BASE_URL}}", canonicalBase), "utf8");
 fs.writeFileSync(path.join(outputDir, "sitemap.xml"), renderSitemap(), "utf8");
+fs.writeFileSync(path.join(outputDir, "_redirects"), renderRedirects(), "utf8");
 
 console.log(`Built ${enabledRoutes.length} static HTML routes into ${outputRelative(outputDir)}`);
 console.log(`Sitemap covers ${enabledRoutes.filter((route) => route.indexable).length} indexable routes; ${routes.length - enabledRoutes.length} registry routes remain planned or gated.`);

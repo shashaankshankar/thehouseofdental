@@ -182,3 +182,36 @@ Normal viewport checks found no horizontal overflow and all H1/main/template reg
 | No-JS behavior | Source care panels are not initially hidden; no-js CSS fallback keeps reveal content visible; PDF links are ordinary anchors | Pass by source check | `phase-7-care-guides.json` |
 | Runtime | Browser console and local request review | Pass; zero console errors and zero external image requests | `phase-7-browser-qa.json` |
 | Release gate | Do not deploy until practice inputs, media rights, clinical review, and named ownership are complete | Complete as local-only handoff | `phase-7-release-gate.md`, `docs/AUTHENTIC-MEDIA-MANIFEST.csv` |
+
+## Phase 8 SEO and migration QA matrix — 2026-08-05
+
+| Scope | Check | Result | Evidence/command |
+|---|---|---|---|
+| Route generation | Every enabled route has generated HTML and one shared shell | Pass; all 44 enabled routes generated and checked | `npm run build`, `docs/evidence/phase-8/route-source-report.json` |
+| Metadata | One title/description/robots/canonical/OG/Twitter block, unique indexable values, social image, H1, and heading hierarchy | Pass; 44 routes checked and indexable metadata duplicates rejected | `npm run validate:phase8`, `metadata-report.json`, `heading-report.json` |
+| Schema | JSON-LD syntax, WebPage, breadcrumbs, homepage graph, linked provider, Service/visible FAQPage, no review fields | Pass; 44 JSON-LD blocks parsed and forbidden review fields rejected | `npm run validate:phase8`, `schema-report.json` |
+| Local SEO | Exact NAP, observed hours, email, natural Winter Park context, footer/contact/schema consistency | Implemented locally; practice confirmation remains required | `the-house-of-dental-site/config/site.json`, `live-current-site.md` |
+| URL migration | Required nine-column inventory, candidate one-hop 301s, no chains/loops/home catch-all, source/destination ownership | Pass locally; 24 rules checked. Production crawl/blog completeness remains blocked | `docs/URL-INVENTORY.csv`, `config/redirects.json`, `redirect-report.json` |
+| Blog preservation | 22 observed article URLs, category/pagination hold rows, null author/review fields, publishing template/instructions | Implemented as a blocked preservation package; full production crawl and analytics access remain required | `data/blog-articles.json`, `docs/BLOG-PUBLISHING.md` |
+| Sitemap/robots | Sitemap contains only enabled indexable routes; robots references the current-domain sitemap | Pass; 25 indexable URLs and the current-domain sitemap reference checked | `sitemap-report.json`, `robots-report.json` |
+| 404 | Branded 404 source plus actual local HTTP 404 for unknown path | Pass; local homepage 200 and unknown path 404 | `404-report.json`, `http-status-report.txt` |
+| Source review | Representative home/category/service/provider/blog/contact source notes | Pass for generated representatives; live blog is recorded as a current-source hold pending full crawl | `view-source-representative.md`, `live-current-site.md` |
+| Release boundary | No deploy, DNS, Search Console, or Change of Address action | Pass by instruction; launch checklist remains blocked | `docs/SEO-LAUNCH-CHECKLIST.md`, `docs/PRACTICE-DECISIONS.md` |
+
+## Phase 9 privacy-aware measurement and campaign QA matrix — 2026-08-05
+
+| Scope | Check | Result | Evidence/command |
+|---|---|---|---|
+| Event vocabulary | Required phone, appointment, form, directions, financing, offer, referral, implant, facial-aesthetics, QuietNite, and emergency events plus diagnostic `form_state` are defined | Pass; reserved events are explicitly blocked until approval | `data/measurement.json`, `phase-9-contract-report.json` |
+| Payload privacy | Event objects use only `event`, `page_type`, `service_slug`, `cta_location`, `conversion_type`, `campaign_source`, and `state`; no form value or page text enters the builder | Pass | `phase-9-contract-report.json`, `npm run validate:phase9` |
+| Attribution | Session-only UTM allowlist, hostname-only referrer, `utm_term` exclusion, token validation, and same-origin referrer exclusion | Pass | `docs/MEASUREMENT-EVENT-VALIDATION.md`, `phase-9-contract-report.json` |
+| Form lifecycle | First focus emits `form_start`; invalid/unconfigured/failure states stay diagnostic; named success requires `{ ok: true }` | Pass locally; live handler remains unavailable | `phase-9-browser-qa.json`, `phase-9-network-pii.json` |
+| Dedupe | Refresh/back/repeated success rendering does not duplicate the same session-scoped success event | Pass in local browser adapter test | `phase-9-browser-qa.json` |
+| Campaign templates | Nine campaign records render audience/source/intent/message/CTA/proof/expectations/limitations/FAQ/approval/attribution/thank-you governance | Pass | `phase-9-campaign-indexability.json` |
+| Campaign indexability | All variants are noindex, absent from sitemap and public/indexable links; explicit durable canonical targets match route decisions | Pass | `phase-9-campaign-indexability.json`, `npm run validate:phase9` |
+| Blocked campaign events | Facial Aesthetics, QuietNite, and Laser Dentistry do not expose inquiry events before Phase 4 approval; offers/referrals do not expose success clicks | Pass | `phase-9-campaign-indexability.json` |
+| Vendor surface | GA4, GTM, ad pixels, session recording, call recording, call tracking, CRM, and consent vendor remain absent/unconfigured | Pass | `phase-9-contract-report.json`, `phase-9-network-pii.json` |
+| Responsive campaign pages | Mobile 390×844, tablet 768×1024, and desktop 1440×900 render without horizontal overflow with visible H1/main and governed CTA state | Pass locally | `phase-9-browser-qa.json`, `campaign-*-{mobile,tablet,desktop}.png` |
+| Keyboard/focus | Skip link, menu, CTA focus, form labels/errors, blocked CTA semantics, and return-focus behavior remain usable on representative campaign/contact routes | Pass locally | `phase-9-browser-qa.json` |
+| Operations | Ownership, least-privilege access, brief, approvals, release/rollback, cadence, incidents, and dashboard metric definitions are documented | Pass as handoff documentation | `docs/MARKETING-OPERATIONS.md` |
+| Release boundary | No deployment, vendor registration, ad activation, or external analytics request | Pass by instruction | `docs/evidence/phase-9/phase-9-release-gate.md` |

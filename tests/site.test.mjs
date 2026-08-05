@@ -44,7 +44,9 @@ test("generated source exposes crawlable metadata, H1, text, and links", () => {
     const description = html.match(/<meta name="description" content="([^"]*)">/i)?.[1];
     assert.equal(htmlDecode(title || ""), resolveRegistryText(route.title), `${route.id} title source`);
     assert.equal(htmlDecode(description || ""), resolveRegistryText(route.description), `${route.id} description source`);
-    assert.match(html, new RegExp(`<link rel="canonical" href="[^\"]+${route.canonicalPath === "/" ? "" : route.canonicalPath.replaceAll("/", "\\/")}"`), `${route.id} canonical source`);
+    const canonicalRoute = route.canonicalTargetId ? routes.find((candidate) => candidate.id === route.canonicalTargetId) : route;
+    const canonicalPath = canonicalRoute?.canonicalPath || route.canonicalPath;
+    assert.match(html, new RegExp(`<link rel="canonical" href="[^\"]+${canonicalPath === "/" ? "" : canonicalPath.replaceAll("/", "\\/")}"`), `${route.id} canonical source`);
     assert.match(html, /<main\b[^>]*id="main-content"[\s\S]*?<h1\b[^>]*>[\s\S]*?<\/h1>/i, `${route.id} H1 and page text source`);
     assert.match(html, /<a\b[^>]*href="(?:\.\.\/|\.\/|[^h][^\"]*\.html)/i, `${route.id} internal links source`);
   }
@@ -56,10 +58,31 @@ test("unresolved config values are explicit and not silently substituted", () =>
   assert.match(config.reviewSource.status, /unresolved/i);
   assert.equal(config.analytics.ga4MeasurementId, null);
   assert.match(config.analytics.status, /placeholders/i);
-  assert.equal(config.contact.email.value, null);
-  assert.match(config.contact.email.status, /unresolved/i);
+  assert.equal(config.contact.email.value, "office@winterparkdental.com");
+  assert.match(config.contact.email.status, /observed_on_live_current_site/i);
   assert.match(config.appointmentUrl.status, /local|unresolved/i);
   assert.ok(config.contact.hours.rows.length > 0);
+});
+
+test("Phase 8 migration baseline and approval gates are explicit", () => {
+  const homeHtml = fs.readFileSync(path.join(outputRoot, "index.html"), "utf8");
+  const aboutHtml = fs.readFileSync(path.join(outputRoot, "about.html"), "utf8");
+  const implantsHtml = fs.readFileSync(path.join(outputRoot, "services", "dental-implants", "index.html"), "utf8");
+  const redirects = JSON.parse(fs.readFileSync(path.join(configRoot, "redirects.json"), "utf8"));
+  const blogManifest = JSON.parse(fs.readFileSync(path.join(projectRoot, "the-house-of-dental-site", "data", "blog-articles.json"), "utf8"));
+  const inventoryHeader = fs.readFileSync(path.join(projectRoot, "docs", "URL-INVENTORY.csv"), "utf8").split(/\r?\n/, 1)[0];
+
+  assert.equal(siteConfig.canonical.baseUrl, "https://winterparkdental.com");
+  assert.match(siteConfig.canonical.status, /provisional.*blocked/i);
+  assert.match(homeHtml, /<meta property="og:image" content="https:\/\/winterparkdental\.com\/assets\/office-exterior-wide-1200x881\.jpg">/);
+  assert.match(homeHtml, /"@type"\s*:\s*"Organization"/);
+  assert.match(aboutHtml, /"@type"\s*:\s*"Person"/);
+  assert.match(implantsHtml, /"@type"\s*:\s*"FAQPage"/);
+  assert.doesNotMatch(homeHtml, /thehouseofdental\.com/i);
+  assert.ok(redirects.length > 0 && redirects.every((rule) => rule.status === 301));
+  assert.equal(blogManifest.articles.length, 22);
+  assert.equal(blogManifest.articles.filter((article) => article.author === null && article.medicalReview === null).length, 22);
+  assert.equal(inventoryHeader, "current_url,final_destination,content_parity,redirect_code,canonical,indexability,owner,status,notes");
 });
 
 test("Phase 6 acquisition surfaces stay data-driven and approval-gated", () => {
@@ -150,4 +173,38 @@ test("Phase 7 trust, technology, care, and media gates are explicit", () => {
   assert.match(pageHtml.care, /aria-controls="care-panel-implants"/);
   assert.match(pageHtml.care, /If you have trouble breathing or swallowing/);
   assert.doesNotMatch(pageHtml.care, /complete-care-guide\.pdf|quietnite-care\.pdf/i);
+});
+
+test("Phase 9 measurement and campaign gates are explicit", () => {
+  const sourceRoot = path.join(projectRoot, "the-house-of-dental-site");
+  const measurement = JSON.parse(fs.readFileSync(path.join(sourceRoot, "data", "measurement.json"), "utf8"));
+  const campaigns = JSON.parse(fs.readFileSync(path.join(sourceRoot, "data", "campaign-pages.json"), "utf8"));
+  const sitemap = fs.readFileSync(path.join(outputRoot, "sitemap.xml"), "utf8");
+  const mainJs = fs.readFileSync(path.join(sourceRoot, "main.js"), "utf8");
+  const expectedEvents = [
+    "click_to_call", "appointment_click", "form_start", "appointment_submit_success", "contact_submit_success",
+    "directions_click", "financing_click", "offer_claim", "referral_submit_success", "implant_inquiry",
+    "facial_aesthetics_inquiry", "quietnite_inquiry", "emergency_call"
+  ];
+
+  assert.equal(siteConfig.integrations.measurement.dataLayer.enabled, false);
+  assert.equal(siteConfig.integrations.measurement.ga4.measurementId, null);
+  assert.equal(siteConfig.integrations.measurement.tagManager.containerId, null);
+  assert.equal(siteConfig.integrations.measurement.callTracking.trackingNumber, null);
+  assert.equal(siteConfig.integrations.measurement.crmAttribution.endpoint, null);
+  assert.equal(siteConfig.integrations.measurement.consent.vendor, null);
+  assert.deepEqual(measurement.allowedFields, ["event", "page_type", "service_slug", "cta_location", "conversion_type", "campaign_source", "state"]);
+  for (const eventName of expectedEvents) assert.ok(measurement.conversionEvents.includes(eventName), eventName);
+  assert.match(mainJs, /if \(result\?\.ok\)/);
+  assert.match(mainJs, /window\.sessionStorage/);
+  assert.doesNotMatch(mainJs, /window\.localStorage/);
+
+  for (const route of enabledRoutes.filter((candidate) => candidate.campaignPage)) {
+    const html = fs.readFileSync(path.join(outputRoot, route.output), "utf8");
+    assert.match(html, /data-page-type="campaign"/);
+    assert.match(html, /meta name="robots" content="noindex, nofollow"/);
+    assert.ok(!sitemap.includes(`https://winterparkdental.com${route.canonicalPath}`), `${route.id} sitemap`);
+    assert.doesNotMatch(html, /data-hod-events="[^"]*(?:appointment_submit_success|contact_submit_success|offer_claim|referral_submit_success)[^"]*"/);
+    assert.ok(campaigns.campaigns[route.campaignPage], `${route.id} campaign record`);
+  }
 });

@@ -1,0 +1,24 @@
+<!--
+  Non-generated blog article fragment. Keep all fields source-backed. The
+  publishing process must leave author and medical-review fields empty until
+  the current article supplies or approves them.
+-->
+<article class="sec sec-ivory blog-article" data-blog-article data-source-url="{{SOURCE_URL}}">
+  <div class="wrap wrap-reading">
+    {{BREADCRUMB}}
+    <p class="eyebrow">{{BLOG_CATEGORY}}</p>
+    <h1>{{BLOG_TITLE}}</h1>
+    <div class="article-meta">
+      <time datetime="{{PUBLISHED_DATE}}">{{PUBLISHED_DATE_DISPLAY}}</time>
+      {{AUTHOR_LINE}}
+      {{MEDICAL_REVIEW_LINE}}
+    </div>
+    {{FEATURED_IMAGE}}
+    <div class="article-body">
+      {{ARTICLE_BODY}}
+    </div>
+    <nav class="article-related" aria-label="Related dental resources">
+      {{RELATED_LINKS}}
+    </nav>
+  </div>
+</article>

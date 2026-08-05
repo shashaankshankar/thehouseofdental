@@ -1,0 +1,537 @@
+{
+  "canonicalBase": "https://winterparkdental.com",
+  "routeCount": 53,
+  "indexableCount": 25,
+  "routes": [
+    {
+      "id": "home",
+      "output": "index.html",
+      "indexable": true,
+      "title": "Dentist in Winter Park, FL | The House of Dental | Advanced Dentistry",
+      "description": "Personalized dental care in Winter Park, Florida, including dental implants, same-day CEREC crowns, preventive care, and Invisalign. Request an appointment or call (407) 678-1400.",
+      "canonical": "https://winterparkdental.com/",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "services",
+      "output": "services.html",
+      "indexable": true,
+      "title": "Dental Services in Winter Park, FL | Implants, Crowns, Veneers &amp; Invisalign",
+      "description": "Comprehensive dental services in Winter Park, FL — dental implants, same-day CEREC crowns, porcelain veneers, Invisalign, root canals, dentures, and sedation dentistry.",
+      "canonical": "https://winterparkdental.com/services.html",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "facial-aesthetics",
+      "output": "facial-aesthetics.html",
+      "indexable": false,
+      "title": "Facial Aesthetics — Internal Draft | Approval Required | The House of Dental",
+      "description": "Internal Phase 4 content draft for a possible Facial Aesthetics category. Active offerings, provider qualifications, claims, recovery guidance, and authentic media require practice and clinical approval.",
+      "canonical": "https://winterparkdental.com/facial-aesthetics.html",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "phase-4-drafts",
+      "output": "drafts/index.html",
+      "indexable": false,
+      "title": "Phase 4 Content Drafts | Internal Review Only | The House of Dental",
+      "description": "Noindex internal content drafts for unresolved Facial Aesthetics, Laser Dentistry, Sleep &amp; Snoring, and QuietNite practice-input gates.",
+      "canonical": "https://winterparkdental.com/drafts/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "facial-deka-draft",
+      "output": "drafts/facial-aesthetics/deka-co2/index.html",
+      "indexable": false,
+      "title": "DEKA CO2 Resurfacing — Internal Draft | Approval Required | The House of Dental",
+      "description": "Noindex internal draft for DEKA CO2 resurfacing content. Active offering, provider, clinical claims, recovery guidance, and approved media are unresolved.",
+      "canonical": "https://winterparkdental.com/drafts/facial-aesthetics/deka-co2/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "facial-microneedling-draft",
+      "output": "drafts/facial-aesthetics/microneedling/index.html",
+      "indexable": false,
+      "title": "Microneedling — Internal Draft | Approval Required | The House of Dental",
+      "description": "Noindex internal draft for Microneedling content. Active offering, provider, clinical claims, recovery guidance, and approved media are unresolved.",
+      "canonical": "https://winterparkdental.com/drafts/facial-aesthetics/microneedling/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "facial-emage-draft",
+      "output": "drafts/facial-aesthetics/emage-3d-skin-analysis/index.html",
+      "indexable": false,
+      "title": "Emage 3D Skin Analysis — Internal Draft | Approval Required | The House of Dental",
+      "description": "Noindex internal draft for Emage 3D Skin Analysis content. Active offering, provider, clinical claims, report language, and approved media are unresolved.",
+      "canonical": "https://winterparkdental.com/drafts/facial-aesthetics/emage-3d-skin-analysis/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "facial-hydroderm-draft",
+      "output": "drafts/facial-aesthetics/custom-hydroderm-facials/index.html",
+      "indexable": false,
+      "title": "Custom HydroDerm Facials — Internal Draft | Approval Required | The House of Dental",
+      "description": "Noindex internal draft for Custom HydroDerm Facial content. Active offering, provider, clinical claims, recovery guidance, and approved media are unresolved.",
+      "canonical": "https://winterparkdental.com/drafts/facial-aesthetics/custom-hydroderm-facials/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "laser-dentistry-draft",
+      "output": "drafts/laser-dentistry/index.html",
+      "indexable": false,
+      "title": "Laser Dentistry — Internal Draft | Practice Input Required | The House of Dental",
+      "description": "Noindex internal draft for a possible dental Laser Dentistry page. Device, procedures, provider training, indications, limitations, and aftercare are unconfirmed.",
+      "canonical": "https://winterparkdental.com/drafts/laser-dentistry/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "sleep-snoring-draft",
+      "output": "drafts/sleep-snoring/index.html",
+      "indexable": false,
+      "title": "Sleep &amp; Snoring Care — Internal Draft | Protocol Required | The House of Dental",
+      "description": "Noindex internal draft for Sleep &amp; Snoring content. The offered protocol, diagnosis relationship, physician coordination, candidacy, alternatives, and follow-up are unresolved.",
+      "canonical": "https://winterparkdental.com/drafts/sleep-snoring/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "quietnite-draft",
+      "output": "drafts/quietnite/index.html",
+      "indexable": false,
+      "title": "QuietNite — Internal Draft | Protocol Conflict Blocked | The House of Dental",
+      "description": "Noindex internal draft for QuietNite. The practice materials conflict on oral-appliance versus laser protocol, so no treatment description or offer is published.",
+      "canonical": "https://winterparkdental.com/drafts/quietnite/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "new-patients",
+      "output": "new-patients.html",
+      "indexable": true,
+      "title": "New Patients | Insurance, Financing &amp; Offers | The House of Dental",
+      "description": "Plan your first visit at The House of Dental in Winter Park, FL. Learn about insurance, financing, the savings plan, and current patient offers.",
+      "canonical": "https://winterparkdental.com/new-patients.html",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "patient-resources",
+      "output": "patient-resources/index.html",
+      "indexable": true,
+      "title": "Patient Resources | Forms, Care &amp; Contact Paths | The House of Dental",
+      "description": "Find patient-support paths for The House of Dental in Winter Park, including care instructions, new-patient access, payment questions, offers, and urgent phone routing.",
+      "canonical": "https://winterparkdental.com/patient-resources/",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "new-patient-forms",
+      "output": "new-patients/forms/index.html",
+      "indexable": false,
+      "title": "New Patient Forms | Secure Destination Pending | The House of Dental",
+      "description": "New-patient form access for The House of Dental in Winter Park, with the secure destination held until the practice verifies the approved system.",
+      "canonical": "https://winterparkdental.com/new-patients/forms/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "about",
+      "output": "about.html",
+      "indexable": true,
+      "title": "About The House of Dental | Dr. Mainak Patel | Winter Park, FL",
+      "description": "Meet Dr. Mainak Patel and The House of Dental team in Winter Park, FL. Learn about the practice, technology, and patient-centered approach.",
+      "canonical": "https://winterparkdental.com/about.html",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "technology",
+      "output": "technology/index.html",
+      "indexable": true,
+      "title": "Dental Technology | CEREC Workflow | The House of Dental",
+      "description": "Learn how the confirmed CEREC workflow may support selected same-day crown visits at The House of Dental in Winter Park, with other technology references held for approval.",
+      "canonical": "https://winterparkdental.com/technology/",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "dr-mainak-patel-draft",
+      "output": "drafts/about/dr-mainak-patel/index.html",
+      "indexable": false,
+      "title": "Dr. Mainak Patel, DMD | Provider Review Draft | The House of Dental",
+      "description": "Noindex provider-page draft for Dr. Mainak Patel. Credentials, affiliations, media, and named approval remain pending practice review.",
+      "canonical": "https://winterparkdental.com/drafts/about/dr-mainak-patel/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "reviews",
+      "output": "reviews.html",
+      "indexable": true,
+      "title": "Patient Reviews | The House of Dental | Winter Park, FL",
+      "description": "Read patient experiences with The House of Dental in Winter Park, FL, and learn how to contact the team about your next visit.",
+      "canonical": "https://winterparkdental.com/reviews.html",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "contact",
+      "output": "contact.html",
+      "indexable": true,
+      "title": "Contact The House of Dental | Book an Appointment | Winter Park, FL",
+      "description": "Contact The House of Dental in Winter Park, FL to request an appointment, call the office, get directions, and review current hours.",
+      "canonical": "https://winterparkdental.com/contact.html",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "pre-post-op",
+      "output": "pre-post-op.html",
+      "indexable": true,
+      "title": "Pre- &amp; Post-Operative Care Instructions | The House of Dental",
+      "description": "Printable pre- and post-operative care instructions for selected dental treatments from The House of Dental.",
+      "canonical": "https://winterparkdental.com/pre-post-op.html",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "emergency-dentistry",
+      "output": "patient-resources/emergency-dentistry/index.html",
+      "indexable": false,
+      "title": "Urgent Dental Needs | Phone-First Routing | The House of Dental",
+      "description": "Phone-first urgent dental routing for The House of Dental in Winter Park, with emergency-department guidance and no online diagnosis or response-time promise.",
+      "canonical": "https://winterparkdental.com/patient-resources/emergency-dentistry/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "thank-you-appointment",
+      "output": "thank-you/appointment/index.html",
+      "indexable": false,
+      "title": "Appointment Request Status | The House of Dental",
+      "description": "Noindex appointment-request confirmation destination reserved for an approved intake integration at The House of Dental.",
+      "canonical": "https://winterparkdental.com/thank-you/appointment/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "thank-you-offer",
+      "output": "thank-you/offer/index.html",
+      "indexable": false,
+      "title": "Offer Request Status | The House of Dental",
+      "description": "Noindex offer-request status destination reserved for an approved offer and intake workflow at The House of Dental.",
+      "canonical": "https://winterparkdental.com/thank-you/offer/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "404",
+      "output": "404.html",
+      "indexable": false,
+      "title": "Page Not Found | The House of Dental",
+      "description": "The requested page could not be found. Return to The House of Dental homepage or contact the Winter Park office.",
+      "canonical": "https://winterparkdental.com/404.html",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "all-services",
+      "output": "services/all-services/index.html",
+      "indexable": true,
+      "title": "All Dental Services in Winter Park, FL | The House of Dental",
+      "description": "Browse the full confirmed dental service directory for The House of Dental in Winter Park, Florida, with plain-language and clinical labels for each care path.",
+      "canonical": "https://winterparkdental.com/services/all-services/",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "restorative-dentistry",
+      "output": "services/restorative-dentistry/index.html",
+      "indexable": true,
+      "title": "Restorative Dentistry in Winter Park, FL | The House of Dental",
+      "description": "Explore restorative dentistry in Winter Park, Florida, including confirmed care paths for damaged, missing, or painful teeth and a consultation-first next step.",
+      "canonical": "https://winterparkdental.com/services/restorative-dentistry/",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "dental-implants",
+      "output": "services/dental-implants/index.html",
+      "indexable": true,
+      "title": "Dental Implants in Winter Park, FL | The House of Dental",
+      "description": "Learn about dental implants in Winter Park, Florida, including tooth-replacement options, consultation steps, comfort planning, alternatives, and maintenance.",
+      "canonical": "https://winterparkdental.com/services/dental-implants/",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "same-day-crowns",
+      "output": "services/same-day-crowns/index.html",
+      "indexable": true,
+      "title": "Same-Day Crowns in Winter Park, FL | The House of Dental",
+      "description": "Explore same-day crowns in Winter Park, Florida, with CEREC technology context, candidacy questions, consultation steps, care expectations, and appointment next steps.",
+      "canonical": "https://winterparkdental.com/services/same-day-crowns/",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "dentures",
+      "output": "services/dentures/index.html",
+      "indexable": true,
+      "title": "Dentures in Winter Park, FL | The House of Dental",
+      "description": "Explore dentures and implant-supported denture options in Winter Park, Florida, with consultation-first guidance on fit, goals, alternatives, care, and next steps.",
+      "canonical": "https://winterparkdental.com/services/dentures/",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "root-canal-therapy",
+      "output": "services/root-canal-therapy/index.html",
+      "indexable": true,
+      "title": "Root Canal Therapy in Winter Park, FL | The House of Dental",
+      "description": "Learn about root canal therapy in Winter Park, Florida, including pain-focused evaluation, tooth-saving goals, alternatives, comfort planning, and care guidance.",
+      "canonical": "https://winterparkdental.com/services/root-canal-therapy/",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "cosmetic-dentistry",
+      "output": "services/cosmetic-dentistry/index.html",
+      "indexable": true,
+      "title": "Cosmetic Dentistry in Winter Park, FL | The House of Dental",
+      "description": "Explore cosmetic dentistry in Winter Park, Florida, with a consultation-first approach to smile goals, porcelain options, limitations, maintenance, and next steps.",
+      "canonical": "https://winterparkdental.com/services/cosmetic-dentistry/",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "porcelain-veneers",
+      "output": "services/porcelain-veneers/index.html",
+      "indexable": true,
+      "title": "Porcelain Veneers in Winter Park, FL | The House of Dental",
+      "description": "Explore porcelain veneers in Winter Park, Florida, with guidance on smile goals, consultation, candidacy, conservative alternatives, maintenance, and care expectations.",
+      "canonical": "https://winterparkdental.com/services/porcelain-veneers/",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "preventive-care",
+      "output": "services/preventive-care/index.html",
+      "indexable": true,
+      "title": "Preventive Care in Winter Park, FL | The House of Dental",
+      "description": "Plan preventive dental care in Winter Park, Florida, with exams, cleanings, oral-health education, comfort-focused visits, and a clear new-patient next step.",
+      "canonical": "https://winterparkdental.com/services/preventive-care/",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "periodontal-therapy",
+      "output": "services/periodontal-therapy/index.html",
+      "indexable": true,
+      "title": "Periodontal Therapy in Winter Park, FL | The House of Dental",
+      "description": "Learn about periodontal therapy and scaling and root planing in Winter Park, Florida, with evaluation, comfort, maintenance, alternatives, and care guidance.",
+      "canonical": "https://winterparkdental.com/services/periodontal-therapy/",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "invisalign",
+      "output": "services/invisalign/index.html",
+      "indexable": true,
+      "title": "Invisalign in Winter Park, FL | The House of Dental",
+      "description": "Explore Invisalign clear aligner care in Winter Park, Florida, with consultation guidance on goals, candidacy, expectations, limitations, retention, and next steps.",
+      "canonical": "https://winterparkdental.com/services/invisalign/",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "oral-surgery",
+      "output": "services/oral-surgery/index.html",
+      "indexable": true,
+      "title": "Oral Surgery in Winter Park, FL | The House of Dental",
+      "description": "Start an oral surgery evaluation in Winter Park, Florida, with a consultation-first explanation of scope, comfort, diagnostic planning, aftercare, and referral boundaries.",
+      "canonical": "https://winterparkdental.com/services/oral-surgery/",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "sedation-dentistry",
+      "output": "services/sedation-dentistry/index.html",
+      "indexable": true,
+      "title": "Sedation Dentistry in Winter Park, FL | The House of Dental",
+      "description": "Ask about sedation dentistry in Winter Park, Florida, with comfort-focused consultation guidance on candidacy, preparation, safety questions, alternatives, and next steps.",
+      "canonical": "https://winterparkdental.com/services/sedation-dentistry/",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "tmj-treatment",
+      "output": "services/tmj-treatment/index.html",
+      "indexable": true,
+      "title": "TMJ Evaluation &amp; Treatment in Winter Park, FL | The House of Dental",
+      "description": "Request a TMJ evaluation in Winter Park, Florida, with patient-safe guidance on jaw concerns, diagnostic steps, treatment boundaries, comfort, maintenance, and alternatives.",
+      "canonical": "https://winterparkdental.com/services/tmj-treatment/",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "insurance-financing",
+      "output": "new-patients/insurance-financing/index.html",
+      "indexable": true,
+      "title": "Insurance &amp; Financing Questions | Winter Park, FL | The House of Dental",
+      "description": "Review the questions to ask about insurance, financing, and the in-office savings plan at The House of Dental; current plan and lender details require office confirmation.",
+      "canonical": "https://winterparkdental.com/new-patients/insurance-financing/",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "special-offers",
+      "output": "new-patients/special-offers/index.html",
+      "indexable": true,
+      "title": "Special Offers | Current Terms Pending | The House of Dental",
+      "description": "Evergreen Special Offers hub for The House of Dental; no public offer is listed until eligibility, inclusions, restrictions, expiry, and approval are confirmed.",
+      "canonical": "https://winterparkdental.com/new-patients/special-offers/",
+      "robots": "index, follow, max-image-preview:large",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "referral-program",
+      "output": "patient-resources/referral-program/index.html",
+      "indexable": false,
+      "title": "Referral Program | Pending Terms Approval | The House of Dental",
+      "description": "Planned referral-program page; eligibility, rewards, consent, and disclosures require practice, legal, and compliance approval.",
+      "canonical": "https://winterparkdental.com/patient-resources/referral-program/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "campaign-dental-implants",
+      "output": "campaigns/dental-implants/index.html",
+      "indexable": false,
+      "title": "Dental Implant Consultation Campaign | Review Required | The House of Dental",
+      "description": "Local noindex campaign variant for dental implant consultation traffic. Campaign copy, provider proof, form handling, and measurement require named approval.",
+      "canonical": "https://winterparkdental.com/services/dental-implants/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "campaign-same-day-crowns",
+      "output": "campaigns/same-day-crowns/index.html",
+      "indexable": false,
+      "title": "Same-Day Crowns Campaign | Review Required | The House of Dental",
+      "description": "Local noindex campaign variant for same-day crown traffic. The confirmed CEREC context, claims, form handling, and measurement require approval.",
+      "canonical": "https://winterparkdental.com/services/same-day-crowns/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "campaign-facial-aesthetics",
+      "output": "campaigns/facial-aesthetics/index.html",
+      "indexable": false,
+      "title": "Facial Aesthetics Campaign | Internal Draft | The House of Dental",
+      "description": "Noindex internal campaign structure for facial-aesthetics review. Active offerings, provider qualifications, claims, media, form handling, and measurement remain blocked.",
+      "canonical": "https://winterparkdental.com/campaigns/facial-aesthetics/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "campaign-invisalign",
+      "output": "campaigns/invisalign/index.html",
+      "indexable": false,
+      "title": "Invisalign Consultation Campaign | Review Required | The House of Dental",
+      "description": "Local noindex campaign variant for clear-aligner traffic. Campaign copy, provider proof, form handling, and measurement require named approval.",
+      "canonical": "https://winterparkdental.com/services/invisalign/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "campaign-quietnite",
+      "output": "campaigns/quietnite/index.html",
+      "indexable": false,
+      "title": "QuietNite Campaign | Protocol Conflict Blocked | The House of Dental",
+      "description": "Noindex internal campaign structure for QuietNite. The oral-appliance versus laser protocol conflict remains unresolved.",
+      "canonical": "https://winterparkdental.com/campaigns/quietnite/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "campaign-laser-dentistry",
+      "output": "campaigns/laser-dentistry/index.html",
+      "indexable": false,
+      "title": "Laser Dentistry Campaign | Practice Input Required | The House of Dental",
+      "description": "Noindex internal campaign structure for dental Laser Dentistry. Device, procedure, provider, clinical, and measurement facts remain unconfirmed.",
+      "canonical": "https://winterparkdental.com/campaigns/laser-dentistry/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "campaign-emergency-dentistry",
+      "output": "campaigns/emergency-dentistry/index.html",
+      "indexable": false,
+      "title": "Emergency Dentistry Campaign | Phone-First Review | The House of Dental",
+      "description": "Noindex local campaign variant for urgent dental routing. Hours, after-hours guidance, clinical/legal wording, and measurement require approval.",
+      "canonical": "https://winterparkdental.com/campaigns/emergency-dentistry/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "campaign-new-patient-offer",
+      "output": "campaigns/new-patient-offer/index.html",
+      "indexable": false,
+      "title": "New Patient Offer Campaign | Terms Required | The House of Dental",
+      "description": "Noindex internal campaign structure for a future new-patient offer. Terms, expiry, backend confirmation, consent, and measurement remain blocked.",
+      "canonical": "https://winterparkdental.com/campaigns/new-patient-offer/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "campaign-referral-program",
+      "output": "campaigns/referral-program/index.html",
+      "indexable": false,
+      "title": "Patient Referral Program Campaign | Terms Required | The House of Dental",
+      "description": "Noindex internal campaign structure for a future patient referral program. Terms, consent, secure submission, CRM mapping, and measurement remain blocked.",
+      "canonical": "https://winterparkdental.com/campaigns/referral-program/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "privacy",
+      "output": "privacy/index.html",
+      "indexable": false,
+      "title": "Privacy Policy | Pending Legal Review | The House of Dental",
+      "description": "Planned Privacy Policy page; reviewed legal content is required before publication.",
+      "canonical": "https://winterparkdental.com/privacy/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "terms",
+      "output": "terms/index.html",
+      "indexable": false,
+      "title": "Terms &amp; Conditions | Pending Legal Review | The House of Dental",
+      "description": "Planned Terms &amp; Conditions page; reviewed legal content is required before publication.",
+      "canonical": "https://winterparkdental.com/terms/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "accessibility",
+      "output": "accessibility/index.html",
+      "indexable": false,
+      "title": "Accessibility Statement | Pending Review | The House of Dental",
+      "description": "Planned accessibility statement; reviewed public content is required before publication.",
+      "canonical": "https://winterparkdental.com/accessibility/",
+      "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    }
+  ]
+}

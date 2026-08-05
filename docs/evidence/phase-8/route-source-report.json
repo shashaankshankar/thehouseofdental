@@ -1,0 +1,388 @@
+{
+  "generatedRouteCount": 53,
+  "generatedRoutes": [
+    {
+      "id": "home",
+      "output": "index.html",
+      "indexable": true
+    },
+    {
+      "id": "services",
+      "output": "services.html",
+      "indexable": true
+    },
+    {
+      "id": "facial-aesthetics",
+      "output": "facial-aesthetics.html",
+      "indexable": false
+    },
+    {
+      "id": "phase-4-drafts",
+      "output": "drafts/index.html",
+      "indexable": false
+    },
+    {
+      "id": "facial-deka-draft",
+      "output": "drafts/facial-aesthetics/deka-co2/index.html",
+      "indexable": false
+    },
+    {
+      "id": "facial-microneedling-draft",
+      "output": "drafts/facial-aesthetics/microneedling/index.html",
+      "indexable": false
+    },
+    {
+      "id": "facial-emage-draft",
+      "output": "drafts/facial-aesthetics/emage-3d-skin-analysis/index.html",
+      "indexable": false
+    },
+    {
+      "id": "facial-hydroderm-draft",
+      "output": "drafts/facial-aesthetics/custom-hydroderm-facials/index.html",
+      "indexable": false
+    },
+    {
+      "id": "laser-dentistry-draft",
+      "output": "drafts/laser-dentistry/index.html",
+      "indexable": false
+    },
+    {
+      "id": "sleep-snoring-draft",
+      "output": "drafts/sleep-snoring/index.html",
+      "indexable": false
+    },
+    {
+      "id": "quietnite-draft",
+      "output": "drafts/quietnite/index.html",
+      "indexable": false
+    },
+    {
+      "id": "new-patients",
+      "output": "new-patients.html",
+      "indexable": true
+    },
+    {
+      "id": "patient-resources",
+      "output": "patient-resources/index.html",
+      "indexable": true
+    },
+    {
+      "id": "new-patient-forms",
+      "output": "new-patients/forms/index.html",
+      "indexable": false
+    },
+    {
+      "id": "about",
+      "output": "about.html",
+      "indexable": true
+    },
+    {
+      "id": "technology",
+      "output": "technology/index.html",
+      "indexable": true
+    },
+    {
+      "id": "dr-mainak-patel-draft",
+      "output": "drafts/about/dr-mainak-patel/index.html",
+      "indexable": false
+    },
+    {
+      "id": "reviews",
+      "output": "reviews.html",
+      "indexable": true
+    },
+    {
+      "id": "contact",
+      "output": "contact.html",
+      "indexable": true
+    },
+    {
+      "id": "pre-post-op",
+      "output": "pre-post-op.html",
+      "indexable": true
+    },
+    {
+      "id": "emergency-dentistry",
+      "output": "patient-resources/emergency-dentistry/index.html",
+      "indexable": false
+    },
+    {
+      "id": "thank-you-appointment",
+      "output": "thank-you/appointment/index.html",
+      "indexable": false
+    },
+    {
+      "id": "thank-you-offer",
+      "output": "thank-you/offer/index.html",
+      "indexable": false
+    },
+    {
+      "id": "404",
+      "output": "404.html",
+      "indexable": false
+    },
+    {
+      "id": "all-services",
+      "output": "services/all-services/index.html",
+      "indexable": true
+    },
+    {
+      "id": "restorative-dentistry",
+      "output": "services/restorative-dentistry/index.html",
+      "indexable": true
+    },
+    {
+      "id": "dental-implants",
+      "output": "services/dental-implants/index.html",
+      "indexable": true
+    },
+    {
+      "id": "same-day-crowns",
+      "output": "services/same-day-crowns/index.html",
+      "indexable": true
+    },
+    {
+      "id": "dentures",
+      "output": "services/dentures/index.html",
+      "indexable": true
+    },
+    {
+      "id": "root-canal-therapy",
+      "output": "services/root-canal-therapy/index.html",
+      "indexable": true
+    },
+    {
+      "id": "cosmetic-dentistry",
+      "output": "services/cosmetic-dentistry/index.html",
+      "indexable": true
+    },
+    {
+      "id": "porcelain-veneers",
+      "output": "services/porcelain-veneers/index.html",
+      "indexable": true
+    },
+    {
+      "id": "preventive-care",
+      "output": "services/preventive-care/index.html",
+      "indexable": true
+    },
+    {
+      "id": "periodontal-therapy",
+      "output": "services/periodontal-therapy/index.html",
+      "indexable": true
+    },
+    {
+      "id": "invisalign",
+      "output": "services/invisalign/index.html",
+      "indexable": true
+    },
+    {
+      "id": "oral-surgery",
+      "output": "services/oral-surgery/index.html",
+      "indexable": true
+    },
+    {
+      "id": "sedation-dentistry",
+      "output": "services/sedation-dentistry/index.html",
+      "indexable": true
+    },
+    {
+      "id": "tmj-treatment",
+      "output": "services/tmj-treatment/index.html",
+      "indexable": true
+    },
+    {
+      "id": "insurance-financing",
+      "output": "new-patients/insurance-financing/index.html",
+      "indexable": true
+    },
+    {
+      "id": "special-offers",
+      "output": "new-patients/special-offers/index.html",
+      "indexable": true
+    },
+    {
+      "id": "referral-program",
+      "output": "patient-resources/referral-program/index.html",
+      "indexable": false
+    },
+    {
+      "id": "campaign-dental-implants",
+      "output": "campaigns/dental-implants/index.html",
+      "indexable": false
+    },
+    {
+      "id": "campaign-same-day-crowns",
+      "output": "campaigns/same-day-crowns/index.html",
+      "indexable": false
+    },
+    {
+      "id": "campaign-facial-aesthetics",
+      "output": "campaigns/facial-aesthetics/index.html",
+      "indexable": false
+    },
+    {
+      "id": "campaign-invisalign",
+      "output": "campaigns/invisalign/index.html",
+      "indexable": false
+    },
+    {
+      "id": "campaign-quietnite",
+      "output": "campaigns/quietnite/index.html",
+      "indexable": false
+    },
+    {
+      "id": "campaign-laser-dentistry",
+      "output": "campaigns/laser-dentistry/index.html",
+      "indexable": false
+    },
+    {
+      "id": "campaign-emergency-dentistry",
+      "output": "campaigns/emergency-dentistry/index.html",
+      "indexable": false
+    },
+    {
+      "id": "campaign-new-patient-offer",
+      "output": "campaigns/new-patient-offer/index.html",
+      "indexable": false
+    },
+    {
+      "id": "campaign-referral-program",
+      "output": "campaigns/referral-program/index.html",
+      "indexable": false
+    },
+    {
+      "id": "privacy",
+      "output": "privacy/index.html",
+      "indexable": false
+    },
+    {
+      "id": "terms",
+      "output": "terms/index.html",
+      "indexable": false
+    },
+    {
+      "id": "accessibility",
+      "output": "accessibility/index.html",
+      "indexable": false
+    }
+  ],
+  "representativeRows": [
+    {
+      "id": "home",
+      "output": "index.html",
+      "title": "Dentist in Winter Park, FL | The House of Dental | Advanced Dentistry",
+      "canonical": "https://winterparkdental.com/",
+      "h1": "Advanced Dentistry, Designed Around You",
+      "metadataTags": 4,
+      "jsonLdTypes": [
+        "WebSite",
+        "Organization",
+        "Dentist",
+        "WebPage",
+        "Person"
+      ]
+    },
+    {
+      "id": "services",
+      "output": "services.html",
+      "title": "Dental Services in Winter Park, FL | Implants, Crowns, Veneers &amp; Invisalign",
+      "canonical": "https://winterparkdental.com/services.html",
+      "h1": "Dental Services in Winter Park, Florida",
+      "metadataTags": 4,
+      "jsonLdTypes": [
+        "WebPage",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "id": "about",
+      "output": "about.html",
+      "title": "About The House of Dental | Dr. Mainak Patel | Winter Park, FL",
+      "canonical": "https://winterparkdental.com/about.html",
+      "h1": "About The House of Dental",
+      "metadataTags": 4,
+      "jsonLdTypes": [
+        "WebPage",
+        "Person",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "id": "dr-mainak-patel-draft",
+      "output": "drafts/about/dr-mainak-patel/index.html",
+      "title": "Dr. Mainak Patel, DMD | Provider Review Draft | The House of Dental",
+      "canonical": "https://winterparkdental.com/drafts/about/dr-mainak-patel/",
+      "h1": "Dr. Mainak Patel, DMD",
+      "metadataTags": 4,
+      "jsonLdTypes": [
+        "WebPage",
+        "Person",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "id": "reviews",
+      "output": "reviews.html",
+      "title": "Patient Reviews | The House of Dental | Winter Park, FL",
+      "canonical": "https://winterparkdental.com/reviews.html",
+      "h1": "A transparent place to start",
+      "metadataTags": 4,
+      "jsonLdTypes": [
+        "WebPage",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "id": "contact",
+      "output": "contact.html",
+      "title": "Contact The House of Dental | Book an Appointment | Winter Park, FL",
+      "canonical": "https://winterparkdental.com/contact.html",
+      "h1": "Visit The House of Dental",
+      "metadataTags": 4,
+      "jsonLdTypes": [
+        "WebPage",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "id": "dental-implants",
+      "output": "services/dental-implants/index.html",
+      "title": "Dental Implants in Winter Park, FL | The House of Dental",
+      "canonical": "https://winterparkdental.com/services/dental-implants/",
+      "h1": "Dental Implants in Winter Park, Florida",
+      "metadataTags": 4,
+      "jsonLdTypes": [
+        "WebPage",
+        "BreadcrumbList",
+        "Service",
+        "FAQPage"
+      ]
+    },
+    {
+      "id": "cosmetic-dentistry",
+      "output": "services/cosmetic-dentistry/index.html",
+      "title": "Cosmetic Dentistry in Winter Park, FL | The House of Dental",
+      "canonical": "https://winterparkdental.com/services/cosmetic-dentistry/",
+      "h1": "Cosmetic Dentistry in Winter Park, Florida",
+      "metadataTags": 4,
+      "jsonLdTypes": [
+        "WebPage",
+        "BreadcrumbList",
+        "Service",
+        "FAQPage"
+      ]
+    },
+    {
+      "id": "blog",
+      "output": "live current source: https://winterparkdental.com/blog/ (local route disabled pending content crawl)",
+      "title": "Blog | Winter Park Dental",
+      "canonical": "https://winterparkdental.com/blog/",
+      "h1": "Blog",
+      "metadataTags": "observed-current-source; local route not generated",
+      "jsonLdTypes": [
+        "source-hold; production crawl required"
+      ]
+    }
+  ]
+}

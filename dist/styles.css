@@ -835,7 +835,7 @@ footer.site {
   text-align: center;
 }
 .foot-legal { justify-content: center; text-align: center; }
-.foot-grid h4 {
+.foot-grid h3 {
   font-size: 0.7rem;
   letter-spacing: 0.4em;
   text-transform: uppercase;
@@ -3549,4 +3549,72 @@ html { scroll-padding-bottom: 7rem; }
   .trust-strip { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .trust-item { padding: 0.8rem 1rem 0.9rem; }
   .trust-item strong { font-size: 0.96rem; }
+}
+
+/* Phase 9 governed campaign variants */
+.campaign-hero { padding: clamp(6.5rem, 13vw, 11rem) 0 clamp(4rem, 8vw, 7rem); }
+.campaign-hero-grid,
+.campaign-brief-grid,
+.campaign-detail-grid,
+.campaign-location-grid,
+.campaign-cta-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr); gap: clamp(2rem, 6vw, 6rem); align-items: start; }
+.campaign-hero h1 { max-width: 12ch; margin: 0.8rem 0 1.4rem; }
+.campaign-lede { max-width: 52ch; color: var(--mist); font-size: clamp(1.05rem, 1.8vw, 1.28rem); line-height: 1.7; }
+.campaign-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem; margin-top: 2rem; }
+.campaign-hero-proof { padding: 1.5rem; border: 1px solid var(--line-dark); background: rgba(255,255,255,0.03); }
+.campaign-hero-proof p { margin: 0 0 1rem; color: var(--mist); line-height: 1.7; }
+.campaign-proof-label,
+.campaign-governance dt { display: block; color: var(--gold); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; }
+.campaign-brief-section { padding-top: clamp(4rem, 8vw, 7rem); padding-bottom: clamp(4rem, 8vw, 7rem); }
+.campaign-brief-copy h2 { max-width: 16ch; margin: 0.7rem 0 1rem; }
+.campaign-brief-copy > p:last-child { max-width: 62ch; color: rgba(28,27,24,0.76); line-height: 1.75; }
+.campaign-governance { padding: clamp(1.3rem, 3vw, 2rem); border: 1px solid var(--line-light); background: rgba(255,255,255,0.55); }
+.campaign-governance h2 { margin: 0.65rem 0 1.15rem; font-size: clamp(1.5rem, 2.5vw, 2.1rem); }
+.campaign-governance-list { display: grid; gap: 0.9rem; margin: 0; }
+.campaign-governance-list div { padding-top: 0.9rem; border-top: 1px solid var(--line-light); }
+.campaign-governance-list div:first-child { padding-top: 0; border-top: 0; }
+.campaign-governance dd { margin: 0.25rem 0 0; color: rgba(28,27,24,0.75); font-size: 0.88rem; line-height: 1.55; }
+.campaign-governance code { padding: 0.08rem 0.25rem; background: rgba(28,27,24,0.07); color: var(--ink); font-size: 0.78rem; }
+.campaign-detail-section { padding-top: clamp(4rem, 8vw, 7rem); padding-bottom: clamp(4rem, 8vw, 7rem); }
+.campaign-detail-grid > div:first-child h2 { max-width: 14ch; margin-top: 0.7rem; }
+.campaign-detail-copy { display: grid; gap: 2rem; }
+.campaign-detail-copy section { padding-bottom: 1.5rem; border-bottom: 1px solid var(--line-dark); }
+.campaign-detail-copy h3 { margin: 0 0 0.55rem; color: var(--gold); font-family: var(--font-sans); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; }
+.campaign-detail-copy p { max-width: 58ch; margin: 0; color: var(--mist); line-height: 1.75; }
+.campaign-list { display: grid; gap: 0.55rem; margin: 0; padding-left: 1.15rem; color: var(--mist); line-height: 1.7; }
+.campaign-faq-section { padding-top: clamp(4rem, 8vw, 7rem); padding-bottom: clamp(4rem, 8vw, 7rem); }
+.campaign-faq-wrap > h2 { margin: 0.7rem 0 1.8rem; }
+.campaign-faq-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.campaign-faq { padding: 1.3rem; border: 1px solid var(--line-light); background: rgba(255,255,255,0.5); }
+.campaign-faq h3 { margin: 0 0 0.65rem; font-family: var(--font-sans); font-size: 1rem; font-weight: 500; }
+.campaign-faq p { margin: 0; color: rgba(28,27,24,0.74); font-size: 0.9rem; line-height: 1.65; }
+.campaign-location-section { padding-top: clamp(3.5rem, 7vw, 6rem); padding-bottom: clamp(3.5rem, 7vw, 6rem); }
+.campaign-location-grid h2 { margin: 0.7rem 0 0.9rem; }
+.campaign-location-grid p { max-width: 55ch; color: var(--mist); line-height: 1.7; }
+.campaign-location-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: start; }
+.campaign-cta { padding: clamp(3.5rem, 7vw, 6rem) 0; }
+.campaign-cta h2 { margin: 0.7rem 0 0.9rem; }
+.campaign-cta p { max-width: 56ch; color: var(--mist); line-height: 1.7; }
+.campaign-disabled-action { display: inline-flex; cursor: not-allowed; opacity: 0.72; }
+.campaign-action-note { max-width: 32ch; color: var(--mist); font-size: 0.78rem; line-height: 1.5; }
+
+@media (max-width: 800px) {
+  .campaign-hero-grid,
+  .campaign-brief-grid,
+  .campaign-detail-grid,
+  .campaign-location-grid,
+  .campaign-cta-grid { grid-template-columns: 1fr; gap: 2.2rem; }
+  .campaign-hero h1 { max-width: 16ch; }
+  .campaign-faq-grid { grid-template-columns: 1fr; }
+  .campaign-location-actions .btn,
+  .campaign-cta .campaign-actions .btn { width: 100%; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .campaign-hero { padding-top: 5.5rem; }
+  .campaign-hero-proof,
+  .campaign-governance,
+  .campaign-faq { padding: 1.1rem; }
+  .campaign-actions { align-items: stretch; flex-direction: column; }
+  .campaign-actions > * { width: 100%; text-align: center; }
 }

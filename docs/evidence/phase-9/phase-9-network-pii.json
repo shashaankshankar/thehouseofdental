@@ -1,0 +1,39 @@
+{
+  "version": "phase-9-v1",
+  "date": "2026-08-05",
+  "environment": "local static preview at http://127.0.0.1:4173/contact.html",
+  "requestsReviewed": 8,
+  "formPostRequests": 0,
+  "vendorRequests": [],
+  "analyticsOrAdvertisingRequests": [],
+  "sessionRecordingRequests": [],
+  "callRecordingRequests": [],
+  "crmRequests": [],
+  "consentVendorRequests": [],
+  "allowlistedExternalPresentationRequests": [
+    "https://fonts.googleapis.com/",
+    "https://fonts.gstatic.com/"
+  ],
+  "localStaticRequests": [
+    "contact.html",
+    "styles.css",
+    "main.js",
+    "assets/logo.svg"
+  ],
+  "debugPayloadReview": {
+    "allowedKeys": [
+      "event",
+      "page_type",
+      "service_slug",
+      "cta_location",
+      "conversion_type",
+      "campaign_source",
+      "state"
+    ],
+    "prohibitedKeyMatches": [],
+    "rawUtmOrReferrerUrlMatches": [],
+    "formValueMatches": [],
+    "freeTextMatches": []
+  },
+  "result": "No external measurement or marketing request observed; local synthetic form success remained browser-only."
+}

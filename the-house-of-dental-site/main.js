@@ -21,6 +21,136 @@
       return style.display !== "none" && style.visibility !== "hidden" && el.getClientRects().length > 0;
     });
 
+  /* ----- Privacy-safe measurement contract ----- */
+  const measurementNode = document.querySelector("[data-hod-measurement-config]");
+  let measurementConfig = {};
+  try {
+    measurementConfig = JSON.parse(measurementNode?.textContent || "{}");
+  } catch (error) {
+    measurementConfig = {};
+  }
+  const debugParam = measurementConfig.debugQueryParam || "hod_debug";
+  const debugEnabled = ["1", "true"].includes(new URLSearchParams(window.location.search).get(debugParam));
+  const measurementEnabled = measurementConfig.enabled === true;
+  const canEmitMeasurement = measurementEnabled || debugEnabled;
+  const measurementStorageKey = "hod:measurement:v1";
+  const successEventNames = new Set(["appointment_submit_success", "contact_submit_success", "offer_claim", "referral_submit_success"]);
+  const readMeasurementStorage = () => {
+    try {
+      return JSON.parse(window.sessionStorage.getItem(measurementStorageKey) || "{}");
+    } catch (error) {
+      return {};
+    }
+  };
+  const writeMeasurementStorage = (value) => {
+    try {
+      window.sessionStorage.setItem(measurementStorageKey, JSON.stringify(value));
+    } catch (error) {
+      /* Storage can be blocked; the in-memory contract still remains usable. */
+    }
+  };
+  let measurementStorage = readMeasurementStorage();
+  const safeToken = (value) => {
+    const token = String(value || "").trim().toLowerCase();
+    return /^[a-z0-9][a-z0-9._~-]{0,79}$/.test(token) ? token : null;
+  };
+  const safeHost = (value) => {
+    try {
+      const host = new URL(value).hostname.toLowerCase();
+      return /^[a-z0-9.-]{1,253}$/.test(host) ? host : null;
+    } catch (error) {
+      return null;
+    }
+  };
+  const captureAttribution = () => {
+    const url = new URL(window.location.href);
+    const allowedQueryKeys = measurementConfig.attribution?.allowedQueryKeys || ["utm_source", "utm_medium", "utm_campaign", "utm_content"];
+    const incoming = {};
+    allowedQueryKeys.forEach((key) => {
+      const value = safeToken(url.searchParams.get(key));
+      if (value) incoming[key] = value;
+    });
+    const referrerHost = safeHost(document.referrer);
+    if (referrerHost && referrerHost !== measurementConfig.ownHost) incoming.referrer_host = referrerHost;
+    const hasIncoming = Object.keys(incoming).length > 0;
+    if (!measurementStorage.attribution) measurementStorage.attribution = {};
+    if (hasIncoming) {
+      if (!measurementStorage.attribution.first) measurementStorage.attribution.first = incoming;
+      measurementStorage.attribution.last = incoming;
+    } else if (!measurementStorage.attribution.first && referrerHost && referrerHost !== measurementConfig.ownHost) {
+      measurementStorage.attribution.first = { referrer_host: referrerHost };
+      measurementStorage.attribution.last = { referrer_host: referrerHost };
+    }
+    const campaignId = safeToken(document.body.dataset.campaignId);
+    if (campaignId && !measurementStorage.attribution.landing_page_id) {
+      measurementStorage.attribution.landing_page_id = campaignId;
+    }
+    writeMeasurementStorage(measurementStorage);
+  };
+  captureAttribution();
+  const getAttribution = () => measurementStorage.attribution?.last || measurementStorage.attribution?.first || {};
+  const getCampaignSource = () => {
+    const attribution = getAttribution();
+    if (attribution.utm_source) return attribution.utm_source;
+    if (attribution.referrer_host) return safeToken(`referrer_${attribution.referrer_host.replaceAll(".", "_")}`) || "referral";
+    return "direct";
+  };
+  const rememberJourney = (element) => {
+    const serviceSlug = safeToken(element?.dataset.hodServiceSlug || document.body.dataset.serviceSlug);
+    const campaignId = safeToken(element?.dataset.hodCampaignId || document.body.dataset.campaignId);
+    if (!serviceSlug && !campaignId) return;
+    measurementStorage.journey = {
+      ...(measurementStorage.journey || {}),
+      ...(serviceSlug ? { service_slug: serviceSlug } : {}),
+      ...(campaignId ? { campaign_id: campaignId } : {})
+    };
+    writeMeasurementStorage(measurementStorage);
+  };
+  const getServiceSlug = (element) => safeToken(
+    element?.dataset.hodServiceSlug || document.body.dataset.serviceSlug || measurementStorage.journey?.service_slug
+  );
+  const getOnceKey = (key) => `emitted:${String(key || "event").toLowerCase().replace(/[^a-z0-9._~-]+/g, "_").slice(0, 120)}`;
+  const wasEmitted = (key) => Boolean(measurementStorage.emitted?.[getOnceKey(key)]);
+  const markEmitted = (key) => {
+    measurementStorage.emitted = {...(measurementStorage.emitted || {}), [getOnceKey(key)]: true};
+    writeMeasurementStorage(measurementStorage);
+  };
+  const contextFor = (element, overrides = {}) => ({
+    page_type: safeToken(overrides.pageType || document.body.dataset.pageType) || "page",
+    service_slug: safeToken(overrides.serviceSlug || getServiceSlug(element)),
+    cta_location: safeToken(overrides.ctaLocation || element?.dataset.hodCtaLocation || "content") || "content",
+    conversion_type: safeToken(overrides.conversionType || element?.dataset.hodConversionType || "conversion") || "conversion",
+    campaign_source: getCampaignSource(),
+    state: overrides.state || "activated"
+  });
+  const emitMeasurementEvent = (eventName, element, overrides = {}, onceKey = null) => {
+    if (!canEmitMeasurement) return false;
+    const allowedEvents = new Set(measurementConfig.allowedEvents || []);
+    if (!allowedEvents.has(eventName)) return false;
+    if (onceKey && wasEmitted(onceKey)) return false;
+    const event = {event: eventName, ...contextFor(element, overrides)};
+    if (!Array.isArray(window.__HOD_EVENTS__) && debugEnabled) window.__HOD_EVENTS__ = [];
+    if (Array.isArray(window.__HOD_EVENTS__)) window.__HOD_EVENTS__.push(event);
+    if ((measurementEnabled || debugEnabled) && !Array.isArray(window.dataLayer)) window.dataLayer = [];
+    if ((measurementEnabled || debugEnabled) && Array.isArray(window.dataLayer)) window.dataLayer.push(event);
+    if (onceKey) markEmitted(onceKey);
+    return true;
+  };
+  const resetMeasurement = ({clearAttribution = false} = {}) => {
+    measurementStorage = clearAttribution ? {} : {...measurementStorage, emitted: {}};
+    writeMeasurementStorage(measurementStorage);
+    if (Array.isArray(window.__HOD_EVENTS__)) window.__HOD_EVENTS__.length = 0;
+    if (Array.isArray(window.dataLayer)) window.dataLayer.length = 0;
+  };
+  window.__HOD_MEASUREMENT__ = {
+    enabled: measurementEnabled,
+    debug: debugEnabled,
+    config: measurementConfig,
+    track: (eventName, details = {}) => emitMeasurementEvent(eventName, null, details, details.onceKey || null),
+    getAttribution,
+    reset: resetMeasurement
+  };
+
   /* ----- Header height variable (fixed header offset) ----- */
   const hdr = document.querySelector("header.site");
   const setHeadH = () => {
@@ -538,17 +668,37 @@
   });
 
   /* ----- Accessible form integration adapter ----- */
-  const emitSafeFormEvent = (form, state) => {
-    const event = {
-      event: "form_state",
-      page_type: document.body.dataset.pageType || "page",
-      cta_location: form.dataset.ctaLocation || "appointment_form",
-      conversion_type: form.dataset.conversionType || form.name || "form",
-      campaign_source: form.dataset.source || "website",
-      state
+  const emitFormState = (form, state) => emitMeasurementEvent("form_state", form, {
+    ctaLocation: form.dataset.ctaLocation || "appointment_form",
+    conversionType: form.dataset.conversionType || "form",
+    state: state === "validation_error" ? "validation_error" : state === "timeout" ? "timeout" : state === "blocked" || state === "blocked_unconfigured" ? "blocked" : state === "server_error" || state === "network_error" ? "failure" : "started"
+  });
+  const emitFormSuccess = (form) => {
+    const eventName = form.dataset.hodSuccessEvent;
+    if (!successEventNames.has(eventName)) return false;
+    const journeyKey = measurementStorage.journey?.campaign_id || measurementStorage.journey?.service_slug || "direct";
+    const onceKey = ["success", form.dataset.hodFormId || form.name || "form", eventName, journeyKey].join(":");
+    return emitMeasurementEvent(eventName, form, {
+      ctaLocation: form.dataset.ctaLocation || "appointment_form",
+      conversionType: form.dataset.conversionType || "form",
+      state: "success"
+    }, onceKey);
+  };
+  const appendApprovedCrmAttribution = (payload, form) => {
+    if (measurementConfig.crmMappingEnabled !== true) return;
+    const attribution = getAttribution();
+    const fields = {
+      campaign_source: getCampaignSource(),
+      campaign_medium: attribution.utm_medium,
+      campaign_name: attribution.utm_campaign,
+      campaign_content: attribution.utm_content,
+      referrer_host: attribution.referrer_host,
+      service_slug: getServiceSlug(form),
+      landing_page_id: measurementStorage.journey?.campaign_id || measurementStorage.attribution?.landing_page_id
     };
-    if (Array.isArray(window.dataLayer)) window.dataLayer.push(event);
-    if (Array.isArray(window.__HOD_EVENTS__)) window.__HOD_EVENTS__.push(event);
+    Object.entries(fields).forEach(([key, value]) => {
+      if (value) payload.set(key, value);
+    });
   };
 
   document.querySelectorAll("form").forEach((form) => {
@@ -560,6 +710,8 @@
     const honeypot = form.querySelector("[data-honeypot]");
     let inFlight = false;
     let invalidTimer = null;
+    let formStarted = false;
+    const formId = form.dataset.hodFormId || form.name || form.id || "form";
 
     const fieldError = (field) => field?.id ? document.getElementById(`${field.id}-error`) : null;
     const labelFor = (field) => field?.labels?.[0]?.textContent?.replace(/\s+/g, " ").trim() || "This field";
@@ -611,7 +763,7 @@
         summary.focus({ preventScroll: true });
       }
       showStatus("Please review the highlighted fields before sending.", "validation");
-      emitSafeFormEvent(form, "validation_error");
+      emitFormState(form, "validation_error");
       return false;
     };
     const setSubmitting = (value) => {
@@ -666,6 +818,16 @@
       if (field.checkValidity()) clearFieldError(field);
       if (form.checkValidity()) clearSummary();
     });
+    form.addEventListener("focusin", () => {
+      if (formStarted) return;
+      formStarted = true;
+      rememberJourney(form);
+      emitMeasurementEvent("form_start", form, {
+        ctaLocation: form.dataset.ctaLocation || "appointment_form",
+        conversionType: form.dataset.conversionType || "form",
+        state: "started"
+      }, ["form_start", document.body.dataset.route || "page", formId].join(":"));
+    });
     retry?.addEventListener("click", () => form.requestSubmit());
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -676,20 +838,21 @@
       if (!showValidation()) return;
       if (honeypot?.value.trim()) {
         showStatus("We could not send this request. Please call the office instead.", "error");
-        emitSafeFormEvent(form, "blocked");
+        emitFormState(form, "blocked");
         return;
       }
 
       const endpoint = (form.dataset.handlerUrl || "").trim();
       const payload = new FormData(form);
+      appendApprovedCrmAttribution(payload, form);
       setSubmitting(true);
       if (retry) retry.hidden = true;
       showStatus("Preparing your request…", "loading");
-      emitSafeFormEvent(form, "submit_start");
+      emitFormState(form, "submit_start");
       try {
         const result = await sendToApprovedHandler(payload, endpoint);
         if (result?.ok) {
-          emitSafeFormEvent(form, "success");
+          emitFormSuccess(form);
           showStatus("Your request was sent to the approved intake system. Opening the confirmation page…", "success");
           const successUrl = form.dataset.successUrl;
           if (successUrl) window.setTimeout(() => window.location.assign(successUrl), 120);
@@ -697,15 +860,15 @@
         }
         if (result?.kind === "unconfigured") {
           showStatus("Online appointment requests are not connected in this local build, so nothing was sent. Please call the office to request an appointment.", "error");
-          emitSafeFormEvent(form, "blocked_unconfigured");
+          emitFormState(form, "blocked_unconfigured");
         } else if (result?.kind === "server") {
           showStatus("The intake system did not accept this request. Nothing was confirmed. Try again or call the office.", "error");
           if (retry) retry.hidden = false;
-          emitSafeFormEvent(form, "server_error");
+          emitFormState(form, "server_error");
         } else {
           showStatus("The request could not be sent. Nothing was confirmed. Check your connection and try again, or call the office.", "error");
           if (retry) retry.hidden = false;
-          emitSafeFormEvent(form, "network_error");
+          emitFormState(form, "network_error");
         }
       } catch (error) {
         const timedOut = error?.name === "AbortError";
@@ -713,25 +876,37 @@
           ? "The request timed out before it could be confirmed. Nothing was confirmed. Try again or call the office."
           : "The request could not be sent. Nothing was confirmed. Check your connection and try again, or call the office.", "error");
         if (retry) retry.hidden = false;
-        emitSafeFormEvent(form, timedOut ? "timeout" : "network_error");
+        emitFormState(form, timedOut ? "timeout" : "network_error");
       } finally {
         setSubmitting(false);
       }
     });
   });
 
-  /* ----- Privacy-safe conversion-source hooks ----- */
-  document.querySelectorAll("[data-conversion-source]").forEach((element) => {
+  /* ----- Privacy-safe conversion hooks ----- */
+  const inferEventNames = (element) => {
+    const explicit = element.dataset.hodEvents || element.dataset.hodEvent;
+    if (explicit) return explicit.split(",").map((value) => value.trim()).filter(Boolean);
+    const source = (element.dataset.conversionSource || "").toLowerCase();
+    const href = (element.getAttribute("href") || "").toLowerCase();
+    if (source.includes("emergency") || source.includes("urgent") || element.closest(".urgent-callout, .emergency-primary")) return ["emergency_call"];
+    if (source.includes("direction") || source.includes("map")) return ["directions_click"];
+    if (source.includes("financing") || source.includes("insurance") || source.includes("payment")) return ["financing_click"];
+    if (href.startsWith("tel:")) return ["click_to_call"];
+    if (href.includes("contact.html#book") || href.includes("contact/#book") || href === "#book" || source.includes("appointment") || source.includes("request")) return ["appointment_click"];
+    return [];
+  };
+  document.querySelectorAll("a[href]").forEach((element) => {
     element.addEventListener("click", () => {
-      const event = {
-        event: "cta_click",
-        page_type: document.body.dataset.pageType || "page",
-        cta_location: element.dataset.ctaLocation || "content",
-        conversion_type: element.dataset.conversionType || "cta",
-        campaign_source: element.dataset.conversionSource || "website"
-      };
-      if (Array.isArray(window.dataLayer)) window.dataLayer.push(event);
-      if (Array.isArray(window.__HOD_EVENTS__)) window.__HOD_EVENTS__.push(event);
+      rememberJourney(element);
+      inferEventNames(element).forEach((eventName) => {
+        if (successEventNames.has(eventName) || eventName === "form_start") return;
+        emitMeasurementEvent(eventName, element, {
+          ctaLocation: element.dataset.hodCtaLocation || element.dataset.conversionSource || "content",
+          conversionType: element.dataset.hodConversionType || (eventName === "click_to_call" || eventName === "emergency_call" ? "call" : eventName === "directions_click" ? "directions" : eventName === "financing_click" ? "financing" : "appointment_request"),
+          state: "activated"
+        });
+      });
     });
   });
 

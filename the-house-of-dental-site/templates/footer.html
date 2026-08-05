@@ -8,7 +8,7 @@
     <p class="foot-tag">Personalized dental care for Winter Park, Florida — advanced dentistry designed around you.</p>
     <div class="foot-grid">
       <div>
-        <h4>Information</h4>
+        <h3>Information</h3>
         <ul>
           <li><a href="{{HOME_HREF}}">Home</a></li>
           <li><a href="{{HOME_HREF}}#patient-goals">How Can We Help?</a></li>
@@ -18,7 +18,7 @@
         </ul>
       </div>
       <div>
-        <h4>Services</h4>
+        <h3>Services</h3>
         <ul>
           <li><a href="{{HOME_HREF}}#featured-care">Featured Care</a></li>
           <li><a href="{{HOME_HREF}}#patient-goals">Choose by Patient Goal</a></li>
@@ -27,10 +27,12 @@
         </ul>
       </div>
       <div>
-        <h4>Contact</h4>
+        <h3>Contact</h3>
         <ul>
-          <li><a href="{{MAP_URL}}" target="_blank" rel="noopener">{{ADDRESS_STREET}},<br>{{ADDRESS_LOCALITY}}, {{ADDRESS_REGION}} {{ADDRESS_POSTAL}}</a></li>
-          <li><a href="{{PHONE_HREF}}">{{PHONE_DISPLAY}}</a></li>
+          <li><a href="{{MAP_URL}}" target="_blank" rel="noopener" data-hod-event="directions_click" data-hod-cta-location="footer_directions" data-hod-conversion-type="directions">{{ADDRESS_STREET}},<br>{{ADDRESS_LOCALITY}}, {{ADDRESS_REGION}} {{ADDRESS_POSTAL}}</a></li>
+          <li><a href="{{PHONE_HREF}}" data-hod-event="click_to_call" data-hod-cta-location="footer_phone" data-hod-conversion-type="call">{{PHONE_DISPLAY}}</a></li>
+          <li><a href="mailto:{{EMAIL_VALUE}}">{{EMAIL_VALUE}}</a></li>
+          <li><span class="footer-hours-label">Hours</span><span>{{HOURS_DISPLAY}}</span></li>
           {{SOCIAL_LINKS}}
         </ul>
       </div>

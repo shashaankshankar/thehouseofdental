@@ -1,0 +1,5 @@
+{
+  "path": "dist/robots.txt",
+  "text": "User-agent: *\nAllow: /\n\nSitemap: https://winterparkdental.com/sitemap.xml\n",
+  "references": "https://winterparkdental.com/sitemap.xml"
+}

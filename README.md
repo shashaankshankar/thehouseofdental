@@ -18,7 +18,9 @@ Phase 2 adds a dependency-free static build around the existing Phase 1 HTML/CSS
 npm run build             # cleanly generate dist/
 npm run serve             # serve dist/ at http://127.0.0.1:4173/
 npm run validate          # validate generated routes and report approved pending-asset warnings
-npm run validate:strict   # also fail on the 11 explicitly pending team/aesthetics assets
+npm run validate:strict   # validate the generated artifact with all asset gates enforced
+npm run validate:phase8   # validate Phase 8 metadata, schema, sitemap, robots, redirects, inventory, and 404 source
+npm run validate:phase9   # validate the privacy-safe event contract, campaign indexability, and vendor gates
 npm test                  # clean build plus structural regression tests
 ```
 
@@ -38,7 +40,13 @@ Global navigation, phone/address/hours display, footer links, skip link, sticky 
 
 The route registry owns one title, description, H1, canonical, indexability state, social-image field, breadcrumb trail, page type, and approval status per route. The build emits one metadata block per page and omits `og:image`/`twitter:image` when no approved social image exists.
 
-Each page receives a `WebPage` JSON-LD node. The homepage additionally receives one practice `Dentist` and one `WebSite` node. Interior pages receive `BreadcrumbList` only when a visible breadcrumb is defined. Self-serving aggregate ratings and the repeated blanket Dentist block were intentionally removed.
+Each page receives a `WebPage` JSON-LD node. The homepage additionally receives one practice `Organization`, `Dentist`, and `WebSite` graph; provider content links a `Person` to the practice; real service pages may expose visible FAQPage content. Interior pages receive `BreadcrumbList` only when a visible breadcrumb is defined. Self-serving aggregate ratings and the repeated blanket Dentist block were intentionally removed.
+
+## Phase 8 migration safety
+
+Phase 8 uses `https://winterparkdental.com` as a provisional current-domain baseline because the practice/legal domain decision is blocked. It adds page-level social metadata, local NAP/hours updates, a one-hop platform redirect registry, a current URL/blog inventory, blog preservation templates/instructions, and a launch checklist. The generated `_redirects`, sitemap, robots file, metadata/schema reports, route-source report, and view-source notes are saved under `docs/evidence/phase-8/` after `npm run validate:phase8`.
+
+The current blog and sitemap-only URL crawl remain explicitly blocked until a production crawl/export and analytics/Search Console access are available. Do not deploy this artifact or submit Search Console changes until `docs/SEO-LAUNCH-CHECKLIST.md` and `docs/PRACTICE-DECISIONS.md` are cleared by the practice, clinical, legal, and operational owners.
 
 ## Assets and validation
 
@@ -51,3 +59,11 @@ Responsive parity and Phase 1 browser evidence are stored under `docs/evidence/p
 Phase 5 adds patient-support and lead-conversion infrastructure outside the homepage: New Patient Forms, Insurance & Financing, Special Offers, Patient Resources, urgent phone-first routing, legal-review placeholders, appointment/offer status routes, and a branded 404. The appointment form is intentionally unconnected until an approved scheduling/CRM/practice-management destination exists; the local build never claims a request was sent when it was not.
 
 See `docs/evidence/phase-5/phase-5-release-gate.md`, `phase-5-integration-tests.md`, and `phase-5-browser-qa.json` for the exact QA matrix and remaining blockers. Normal validation currently reports seven pre-existing missing About-team assets; strict validation remains blocked by those assets. Do not deploy this artifact until the practice, legal, and integration approvals are complete.
+
+## Phase 9 measurement and agency handoff
+
+Phase 9 adds a vendor-neutral event contract and nine reusable campaign variants. Campaign variants are local/noindex, excluded from the sitemap and public/indexable links, and canonicalized only to explicit durable service targets. No GA4, tag manager, ad pixel, session recorder, call recorder, call-tracking number, CRM endpoint, or consent vendor is configured. The appointment form remains truthful and unconnected until an approved backend exists; success events are reserved for confirmed backend success.
+
+Read `docs/MEASUREMENT-EVENT-VALIDATION.md` for the allowed event fields, named events, session-only attribution, debug procedure, prohibited payloads, and live-versus-placeholder integration status. Read `docs/MARKETING-OPERATIONS.md` for practice/agency ownership, least-privilege access, brief and approval gates, release/rollback, incident handling, cadence, and dashboard requirements. Phase 9 evidence is generated under `docs/evidence/phase-9/` by `npm run validate:phase9`.
+
+No deployment, vendor registration, ad activation, external analytics request, or marketing campaign release was performed.

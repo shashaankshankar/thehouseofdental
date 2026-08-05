@@ -5,8 +5,8 @@
     <ul id="primary-navigation" class="menu" aria-label="Primary navigation">
       {{MOBILE_NAV_ACTIONS}}
       {{TOP_LEVEL_NAV}}
-      <li class="nav-phone"><a href="{{PHONE_HREF}}">{{PHONE_DISPLAY}}</a></li>
-      <li><a class="btn btn-solid" href="{{APPOINTMENT_HREF}}" style="padding:0.7rem 1.6rem">Request Appointment</a></li>
+      <li class="nav-phone"><a href="{{PHONE_HREF}}" data-hod-event="click_to_call" data-hod-cta-location="header_phone" data-hod-conversion-type="call">{{PHONE_DISPLAY}}</a></li>
+      <li><a class="btn btn-solid" href="{{APPOINTMENT_HREF}}" data-hod-event="appointment_click" data-hod-cta-location="header_request" data-hod-conversion-type="appointment_request" style="padding:0.7rem 1.6rem">Request Appointment</a></li>
     </ul>
   </div>
 </header>

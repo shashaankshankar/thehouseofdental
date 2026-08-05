@@ -1,0 +1,8 @@
+{
+  "output": "404.html",
+  "generated": true,
+  "indexable": false,
+  "branded": true,
+  "expectedHttpStatusForUnknownPath": 404,
+  "verifiedBy": "scripts/serve-static.mjs local static server check"
+}

@@ -109,3 +109,38 @@ No Phase 5 row is a practice or legal approval. The detailed release gate and te
 | Before/after and testimonial proof | No patient photo, quote, testimonial, or before/after case is published | Original source, patient consent, case labels, clinical review, and website/advertising usage rights |
 
 Nothing in this register is public approval. The release gate and evidence are in `docs/evidence/phase-7/phase-7-release-gate.md` and the `docs/evidence/phase-7/` JSON records.
+
+## Phase 8 SEO, schema, migration, and content register — 2026-08-05
+
+| Area | Local Phase 8 treatment | Approval or access required before production |
+|---|---|---|
+| Domain/canonical | Current `winterparkdental.com` is a provisional, non-deployed baseline; no new-domain canonical is emitted | Practice/legal final brand/domain decision and, if moved, both-domain verification, DNS/TLS, one-to-one redirects, Change of Address, sitemap, and redirect-retention plan |
+| NAP/hours/email | Current public observations are propagated through content, footer, contact, schema, and launch docs with pending confirmation status | Practice confirms street, phone, email, map, hours, and GBP source of truth |
+| Metadata | Every generated route has one title, description, canonical, robots, OG/Twitter block, shared local social image, H1, and controlled indexability | SEO/content owner approves final copy and route indexability |
+| Structured data | Homepage graph, linked provider Person, service Service/visible FAQPage, breadcrumbs, and no review markup are generated locally | Practice/clinical owner verifies identity, NAP, hours, service reality, FAQ visibility, provider data, and sameAs |
+| Redirects | Candidate `_redirects` file contains direct one-hop 301s and no home catch-all | Production crawl, final parity review, host syntax check, status/destination/loop tests, and release-owner approval |
+| Blog preservation | 22 observed current articles are manifest-backed; index/article templates and publishing instructions are ready; author/review fields are null | Analytics/Search Console export, full source crawl, article body/media/rights, author/date/review evidence, internal-link audit, and content/clinical approvals |
+| Local SEO | Launch checklist covers GBP appointment/service URL with UTM pattern, review process, directions/map, and truthful local partnerships | Practice/marketing owner supplies approved GBP link, UTM ownership, review policy, map, and partnership targets |
+| Launch evidence | Reports under `docs/evidence/phase-8/` will capture metadata, schema, headings, sitemap, robots, redirects, inventory, route source, and 404 checks | Final crawl, live HTTP smoke test, Search Console URL inspection, and release signoff |
+
+Nothing in this Phase 8 register is production approval. Do not deploy or submit Search Console changes while the domain, sitemap crawl, blog source, clinical, legal, form, analytics, and practice-owner gates remain open.
+
+## Phase 9 privacy-aware measurement and campaign register — 2026-08-05
+
+Nothing in this register enables a production vendor or approves a public campaign. The Phase 9 artifact is local-only and vendor-neutral.
+
+| Area | Local Phase 9 treatment | Approval or access required before production |
+|---|---|---|
+| Event contract | Named CTA, form-start, backend-success, directions, financing, emergency, implant, and reserved offer/referral/inquiry events are documented in `data/measurement.json`; only aggregate context fields are allowed | Practice/marketing, privacy, implementation, and clinical/compliance owners approve event definitions, destinations, retention, and QA |
+| Form success | `appointment_submit_success` and `contact_submit_success` are emitted only after an approved handler returns confirmed success; current handler remains `null` | Secure handler/CRM/practice-management destination, server validation, spam controls, notification owner, retention, SLA, and live test |
+| Attribution | Session-only storage accepts `utm_source`, `utm_medium`, `utm_campaign`, and `utm_content`; referrer is hostname-only; `utm_term`, raw URLs, and free text are rejected | Privacy review, approved UTM convention, retention/access decision, and agency reporting owner |
+| GA4/tag manager | No measurement ID, container ID, vendor script, or network integration exists; generated data layer is disabled except local debug buffers | Approved vendor/property, consent behavior, data-processing terms, event mapping, access owner, and two-person publish review |
+| Call tracking | No vendor or tracking number; canonical static phone/NAP remains in use | Approved provider, tracking-number/NAP policy, recording/consent decision, call-quality owner, and live tests |
+| CRM attribution | No provider, endpoint, or field mapping; runtime gate is false | Approved destination, aggregate mapping, retention, access controls, failure/retry behavior, and privacy review |
+| Consent | No consent vendor or required decision is configured; nonessential tracking remains disabled | Jurisdiction/vendor/category decision before analytics, advertising, session recording, or call recording |
+| Campaign portfolio | Nine reusable variants exist as noindex local previews; paid/social/offer/referral variants do not expose unapproved claims or success paths | Named page brief, practice/clinical/compliance approval, approved media/terms, traffic owner, expiry owner, and release QA |
+| Facial Aesthetics / QuietNite / Laser | Structures exist only as blocked Phase 4 previews; no inquiry event or active CTA is emitted | Resolve offering, provider, device/protocol, clinical boundaries, media, form destination, privacy, and named approval |
+| New-patient offer / referral | Terms-pending noindex previews; no offer or referral claim/submission event is active | Exact terms, eligibility, expiry, consent, anti-abuse controls, secure backend confirmation, disclosures, and ownership |
+| Indexability | Campaign variants are excluded from sitemap and public/indexable links; durable targets are explicit where approved | SEO owner approves durable canonical, indexability, paid-only treatment, and removal/expiry plan |
+
+See `docs/MEASUREMENT-EVENT-VALIDATION.md`, `docs/MARKETING-OPERATIONS.md`, and `docs/evidence/phase-9/phase-9-release-gate.md`. Do not deploy while these gates remain open.

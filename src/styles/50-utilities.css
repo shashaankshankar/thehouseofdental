@@ -152,6 +152,26 @@
   .plan-card { padding: 2.6rem 1.8rem 2.2rem; }
   .plan-flag { right: 1.8rem; }
 }
+
+/* Shared card language: one border, lift, and hover accent across the site. */
+.svc-card,
+.tech-card,
+.offer,
+.plan-card,
+.review-card {
+  border-width: 1px;
+  border-style: solid;
+  transition: transform 0.4s var(--ease), border-color 0.4s var(--ease), background 0.4s var(--ease);
+}
+.svc-card:hover,
+.tech-card:hover,
+.offer:hover,
+.plan-card:hover,
+.review-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold);
+}
+
 /* ---------- Production essentials ---------- */
 .skip-link {
   position: fixed;

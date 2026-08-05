@@ -24,20 +24,15 @@
   }
   .menu.open { transform: none; }
   .menu > li > a { font-size: 1rem; }
-  .nav-phone a { font-size: 1rem !important; }
   .menu .btn { display: inline-block; margin-top: 0.6rem; }
-  .drop {
-    position: static;
-    transform: none;
-    opacity: 1;
-    visibility: visible;
-    border: none;
-    background: none;
+  .menu > li + li::before { display: none; }
+  .drop,
+  .has-submenu:hover > .drop,
+  .has-submenu:focus-within > .drop {
     display: none;
-    text-align: center;
-    padding: 0.4rem 0 0;
+    opacity: 0;
+    visibility: hidden;
   }
-  .menu > li.open-sub .drop { display: block; }
   .split { grid-template-columns: 1fr; }
   .split .media { order: -1; }
   .svc-row { grid-template-columns: 1fr; }
@@ -144,12 +139,15 @@
   gap: 1.6rem;
 }
 .svc-card {
+  display: block;
   position: relative;
   border: 1px solid var(--line-light);
   background: #fff;
   cursor: pointer;
   padding: 0;
   text-align: left;
+  text-decoration: none;
+  color: inherit;
   font-family: inherit;
   overflow: hidden;
   transition: transform 0.55s var(--ease), border-color 0.5s, background 0.5s;
@@ -327,11 +325,14 @@ body.modal-open { overflow: hidden; }
   gap: 1.6rem;
 }
 .tech-card {
+  display: block;
   position: relative;
   border: 1px solid var(--line-light);
   background: #fff;
   padding: 2.4rem 1.8rem 2.2rem;
   text-align: left;
+  text-decoration: none;
+  color: inherit;
   font-family: inherit;
   cursor: pointer;
   overflow: hidden;
@@ -437,13 +438,18 @@ body.modal-open { overflow: hidden; }
 /* ---- Laptop: 1400px and below (7 nav items need tighter spacing) ---- */
 @media (max-width: 1400px) {
   .menu { gap: 1.5rem; }
+  .menu > li + li::before { left: -0.75rem; }
   .menu > li > a { font-size: 0.72rem; letter-spacing: 0.16em; }
   .logo-img { height: 56px; }
-  .menu .btn { padding: 0.65rem 1.3rem; }
+  .menu > li:last-child .btn { padding: 0.68rem 1.1rem; }
 }
 
 /* ---- Large tablet & small laptop: 1024px and below ---- */
 @media (max-width: 1024px) {
+  header.site .nav {
+    width: 92vw;
+    padding-left: 0;
+  }
   .wrap, .wrap-narrow { width: min(1200px, 92vw); }
   .logo-img { height: 54px; }
   .tech-grid { grid-template-columns: repeat(2, 1fr); }
@@ -457,7 +463,7 @@ body.modal-open { overflow: hidden; }
 
 /* ---- Tablet portrait: 900px and below ---- */
 @media (max-width: 900px) {
-  .sec { padding: clamp(3.5rem, 8vh, 6rem) 0; }
+  .sec { padding: var(--space-mobile) 0; }
   .svc-cards { grid-template-columns: repeat(2, 1fr); }
   .team-grid { grid-template-columns: repeat(2, 1fr); }
   .member.lead { grid-column: span 2; }
@@ -509,6 +515,7 @@ body.modal-open { overflow: hidden; }
 
 /* ---- Phone portrait: 560px and below ---- */
 @media (max-width: 560px) {
+  header.site .nav { width: 90vw; }
   .wrap, .wrap-narrow { width: 90vw; }
   .svc-cards, .tech-grid, #facial-aesthetics .tech-grid.dark { grid-template-columns: 1fr; }
   .team-grid { grid-template-columns: 1fr; max-width: 340px; margin-inline: auto; }
@@ -522,7 +529,8 @@ body.modal-open { overflow: hidden; }
   .hero p.lede { font-size: 0.98rem; margin-bottom: 2rem; }
   .hero-strip .wrap { grid-template-columns: 1fr 1fr; }
   .hero-cta .btn { text-align: center; }
-  .btn { padding: 0.9rem 1.6rem; font-size: 0.68rem; letter-spacing: 0.22em; }
+  .btn { padding: 0.78rem 1.35rem; font-size: 0.68rem; letter-spacing: 0.22em; }
+  .btn-lg { padding: 0.9rem 1.6rem; }
   .quote-body { font-size: 1.05rem; }
   .foot-legal { flex-direction: column; gap: 0.7rem; font-size: 0.6rem; }
   .marquee-track { font-size: 0.8rem; letter-spacing: 0.28em; gap: 2.4rem; }
@@ -531,7 +539,7 @@ body.modal-open { overflow: hidden; }
   .svcmodal .content { padding: 1.5rem 1.3rem 1.8rem; }
   .svcmodal h2 { font-size: 1.4rem; }
   .ba { aspect-ratio: 4/3; }
-  .center-head { margin-bottom: 2.4rem; }
+  .center-head, .section-head { margin-bottom: 2.4rem; }
 }
 
 /* ---- Very small phones: 380px and below ---- */
@@ -549,7 +557,6 @@ body.modal-open { overflow: hidden; }
   .svc-card:hover, .tech-card:hover, .offer:hover, .member:hover .portrait img {
     transform: none;
   }
-  .drop { opacity: 1; visibility: visible; }
 }
 
 /* ---- Landscape phones: reclaim vertical space ---- */

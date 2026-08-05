@@ -34,13 +34,49 @@ test("appointment form remains fail closed", async () => {
   assert.match(script, /Nothing was sent/);
 });
 
+test("service and technology details are statically discoverable", async () => {
+  const services = await readFile("dist/services.html", "utf8");
+  const about = await readFile("dist/about.html", "utf8");
+  const script = await readFile("dist/main.js", "utf8");
+  assert.ok((services.match(/class="inline-detail/g) || []).length >= 14);
+  assert.ok((about.match(/data-detail-kind="technology"/g) || []).length >= 8);
+  assert.match(services, /id="implants"[^>]*data-detail-kind="service"/);
+  assert.match(about, /id="cerec"[^>]*data-detail-kind="technology"/);
+  assert.doesNotMatch(script, /fetch\(.*(?:services|technology)\.json/);
+  assert.match(script, /history\.pushState/);
+});
+
 test("shared navigation and footer are generated consistently", async () => {
   const fullPages = ["index.html", "about.html", "contact.html", "facial-aesthetics.html", "new-patients.html", "pre-post-op.html", "reviews.html", "services.html"];
+  const expectedNavigation = ["Services", "Facial Aesthetics", "New Patients", "About", "Reviews", "Contact", "Book"];
   for (const page of fullPages) {
     const html = await readFile(`dist/${page}`, "utf8");
     assert.match(html, /id="primary-navigation"/, page);
     assert.match(html, /Terms &amp; Conditions/, page);
     assert.match(html, /aria-label="Quick contact"/, page);
+    const navigation = html.match(/<ul class="menu" id="primary-navigation">([\s\S]*?)<\/header>/)?.[1] || "";
+    const labels = [...navigation.matchAll(/<a data-primary-link[^>]*>([^<]+)<\/a>/g)].map((match) => match[1].trim());
+    assert.deepEqual(labels, expectedNavigation, page);
+    assert.equal((navigation.match(/class="drop"/g) || []).length, 4, page);
+    assert.doesNotMatch(navigation, /submenu-toggle/, page);
+    assert.doesNotMatch(navigation, /nav-phone/, page);
+  }
+});
+
+test("homepage follows the focused patient journey", async () => {
+  const html = await readFile("dist/index.html", "utf8");
+  const sections = ["home-services", "why-us", "dr-patel-home", "home-reviews", "visit"];
+  let previous = html.indexOf('class="hero"');
+
+  assert.ok(previous >= 0);
+  for (const id of sections) {
+    const position = html.indexOf(`id="${id}"`);
+    assert.ok(position > previous, `${id} should follow the prior homepage section`);
+    previous = position;
+  }
+
+  for (const removedDetail of ["techmodal", "offer-single", "ba-grid", "marquee-track"]) {
+    assert.doesNotMatch(html, new RegExp(removedDetail), removedDetail);
   }
 });
 

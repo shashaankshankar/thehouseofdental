@@ -8,6 +8,8 @@ const escapeAttribute = (value = "") => value.replaceAll("&", "&amp;").replaceAl
 const site = JSON.parse(await read(join(source, "data/site.json")));
 const reviews = JSON.parse(await read(join(source, "data/reviews.json")));
 const financing = JSON.parse(await read(join(source, "data/financing.json")));
+const services = JSON.parse(await read(join(source, "data/services.json")));
+const technology = JSON.parse(await read(join(source, "data/technology.json")));
 const templates = {
   full: {
     header: await read(join(source, "templates/header-full.html")),
@@ -36,11 +38,27 @@ await writeFile(join(output, "main.js"), `${scriptSources.join("\n\n")}\n`);
 
 const mobileActions = '<nav class="mobile-actions" aria-label="Quick contact"><a href="tel:+14076781400">Call</a><a href="contact.html#book">Request Appointment</a></nav>';
 const escapeText = (value = "") => value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+const decodeEntities = (value = "") => value
+  .replaceAll("&amp;", "&")
+  .replaceAll("&mdash;", "—")
+  .replaceAll("&ndash;", "–")
+  .replaceAll("&times;", "×")
+  .replaceAll("&reg;", "®");
+const inlineDetails = (data, kind) => Object.entries(data).map(([key, item], index) => {
+  const title = decodeEntities(item.title);
+  const category = decodeEntities(item.cat);
+  const paragraphs = item.paras.map((paragraph) => `<p>${escapeText(decodeEntities(paragraph))}</p>`).join("");
+  const items = item.items?.length ? `<ul>${item.items.map((entry) => `<li>${escapeText(decodeEntities(entry))}</li>`).join("")}</ul>` : "";
+  const soon = item.soon ? `<p class="soon-note">This service is coming soon to The House of Dental. Call <a href="tel:+14076781400">(407) 678-1400</a> to be notified when it launches.</p>` : "";
+  return `<article class="inline-detail rv ${index % 2 ? "inline-detail-alt" : ""}" id="${escapeAttribute(key)}" data-detail-kind="${kind}" data-detail-key="${escapeAttribute(key)}"><div class="inline-detail-media"><img decoding="async" src="${escapeAttribute(item.img)}" alt="${escapeAttribute(title)}"></div><div class="inline-detail-copy"><span class="kicker">${escapeText(category)}</span><h2>${escapeText(title)}</h2><div class="detail-body">${paragraphs}${items}${soon}</div><a class="btn btn-solid" href="contact.html#book">Request Appointment</a></div></article>`;
+}).join("\n");
+const serviceDetails = `<section class="inline-details service-details" aria-labelledby="service-details-title"><div class="sr-only" id="service-details-title">Service details</div>${inlineDetails(services, "service")}</section>`;
+const technologyDetails = `<section class="inline-details technology-details" aria-labelledby="technology-details-title"><div class="sr-only" id="technology-details-title">Technology details</div>${inlineDetails(technology, "technology")}</section>`;
 const reviewCards = reviews.map((review) => `<div class="review-card rv ${review.delay}"><p class="stars">★★★★★</p><p>&ldquo;${escapeText(review.text)}&rdquo;</p><p class="who">${escapeText(review.author)}</p></div>`).join("");
 const money = (value) => `$${Math.round(value).toLocaleString("en-US")}`;
 const financingCalculator = `<div class="cherry-box rv"><p class="eyebrow u-inline-001">${escapeText(financing.provider)}</p><h3>${escapeText(financing.heading)}</h3><p class="cherry-sub">${escapeText(financing.description)}</p><div class="cherry-amount"><span id="chr-amt">${money(financing.initial)}</span></div><input type="range" id="chr-range" min="${financing.minimum}" max="${financing.maximum}" step="${financing.step}" value="${financing.initial}" aria-label="Estimated treatment cost"><div class="cherry-plans"><div class="cherry-plan"><span class="val" id="chr-bi">${money(financing.initial / 4)} <i>&times;4</i></span><span class="lbl">Every 2 Weeks*</span></div><div class="cherry-plan"><span class="val" id="chr-24">${money(financing.initial / 24)}<i>/mo</i></span><span class="lbl">24 Months</span></div><div class="cherry-plan"><span class="val" id="chr-60">${money(financing.initial / 60)}<i>/mo</i></span><span class="lbl">60 Months</span></div></div><a class="btn btn-solid" href="${escapeAttribute(financing.applyUrl)}" id="chr-apply" target="_blank" rel="noopener">Apply With Cherry</a><p class="cherry-note">${escapeText(financing.disclosure)}</p></div>`;
 for (const [file, page] of Object.entries(site.pages)) {
-  const content = (await read(join(source, "pages", file))).replace("{{REVIEWS}}", reviewCards).replace("{{FINANCING_CALCULATOR}}", financingCalculator);
+  const content = (await read(join(source, "pages", file))).replace("{{REVIEWS}}", reviewCards).replace("{{FINANCING_CALCULATOR}}", financingCalculator).replace("{{SERVICE_DETAILS}}", serviceDetails).replace("{{TECHNOLOGY_DETAILS}}", technologyDetails);
   const shell = templates[page.shell];
   const canonical = page.canonical ? `<link rel="canonical" href="${escapeAttribute(page.canonical)}">` : "";
   const description = page.description ? `<meta name="description" content="${escapeAttribute(page.description)}">` : "";

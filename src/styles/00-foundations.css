@@ -19,6 +19,10 @@
   --serif: "Marcellus", "Times New Roman", serif;
   --sans: "Jost", "Century Gothic", sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --content-wide: 1200px;
+  --content-narrow: 820px;
+  --space-section: clamp(5rem, 10vh, 8rem);
+  --space-mobile: clamp(3.5rem, 8vh, 6rem);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -83,12 +87,12 @@ h1, h2, h3, .display {
 .serif-i { font-style: italic; font-family: "Cormorant Garamond", var(--serif); }
 
 /* ---------- Layout primitives ---------- */
-.wrap { width: min(1200px, 90vw); margin-inline: auto; }
-.wrap-narrow { width: min(820px, 90vw); margin-inline: auto; }
+.wrap { width: min(var(--content-wide), 90vw); margin-inline: auto; }
+.wrap-narrow { width: min(var(--content-narrow), 90vw); margin-inline: auto; }
 
 section { position: relative; z-index: 2; }
 
-.sec { padding: clamp(5rem, 11vh, 9rem) 0; }
+.sec { padding: var(--space-section) 0; }
 
 .sec-ivory {
   background: var(--ivory);

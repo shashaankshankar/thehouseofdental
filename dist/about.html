@@ -4,56 +4,43 @@
     <a class="brand" href="index.html" aria-label="The House of Dental — home"><img decoding="async" class="logo-img" src="assets/logo.svg" alt="The House of Dental — Aesthetics · Implants · Smile Design"></a>
     <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="primary-navigation"><span></span><span></span><span></span></button>
     <ul class="menu" id="primary-navigation">
-      <li>
-        <a href="facial-aesthetics.html">Facial Aesthetics</a>
-        <ul class="drop">
-          <li><a href="facial-aesthetics.html#deka-laser">DEKA CO2 Facial Resurfacing Laser</a></li>
-          <li><a href="facial-aesthetics.html#microneedling">Microneedling</a></li>
-          <li><a href="facial-aesthetics.html#emage-scan">Emage 3D Skin Analysis</a></li>
-          <li><a href="facial-aesthetics.html#hydroderm-facial">Custom HydroDerm Facials</a></li>
+      <li class="has-submenu">
+        <a data-primary-link href="services.html">Services</a>
+        <ul class="drop" id="nav-services">
+          <li><a href="services.html"><strong>All Services</strong><span>Explore complete dental care</span></a></li>
+          <li><a href="services.html#implants"><strong>Dental Implants</strong><span>Restore missing teeth</span></a></li>
+          <li><a href="services.html#crowns"><strong>Same-Day Crowns</strong><span>One-visit restorations</span></a></li>
+          <li><a href="services.html#veneers"><strong>Cosmetic Dentistry</strong><span>Veneers and smile design</span></a></li>
+          <li><a href="pre-post-op.html"><strong>Patient Care Guides</strong><span>Before and after your visit</span></a></li>
         </ul>
       </li>
-      <li>
-        <a href="services.html">Services</a>
-        <ul class="drop">
-          <li><a href="pre-post-op.html"><strong class="u-inline-008">Pre-Op &amp; Post-Op Care</strong></a></li>
-          <li class="drop-label">Restorative</li>
-          <li><a href="services.html#implants">Dental Implants</a></li>
-          <li><a href="services.html#crowns">Same-Day Crowns</a></li>
-          <li><a href="services.html#dentures">Dentures</a></li>
-          <li><a href="services.html#root-canals">Root Canals</a></li>
-          <li><a href="services.html#srp">Scaling &amp; Root Planing</a></li>
-          <li class="drop-label">Cosmetic</li>
-          <li><a href="services.html#veneers">Veneers</a></li>
-          <li class="drop-label">More</li>
-          <li><a href="services.html#preventive">Preventive Care</a></li>
-          <li><a href="services.html#invisalign">Invisalign&reg;</a></li>
-          <li><a href="services.html#oral-surgery">Oral Surgery</a></li>
-          <li><a href="services.html#sedation">Sedation Dentistry</a></li>
-          <li><a href="services.html#tmj">TMJ Treatment</a></li>
-          <li><a href="services.html#quietnite">QuietNite Sleep Appliance</a></li>
+      <li class="has-submenu">
+        <a data-primary-link href="facial-aesthetics.html">Facial Aesthetics</a>
+        <ul class="drop" id="nav-aesthetics">
+          <li><a href="facial-aesthetics.html"><strong>Aesthetics Overview</strong><span>Explore the complete suite</span></a></li>
+          <li><a href="facial-aesthetics.html#deka-laser"><strong>Laser Resurfacing</strong><span>DEKA CO2 treatments</span></a></li>
+          <li><a href="facial-aesthetics.html#emage-scan"><strong>Skin Analysis &amp; Facials</strong><span>Personalized aesthetic care</span></a></li>
         </ul>
       </li>
-      <li>
-        <a href="new-patients.html">New Patients</a>
-        <ul class="drop">
-          <li><a href="new-patients.html#insurance">Insurance &amp; Financing</a></li>
-          <li><a href="new-patients.html#offers">Special Offers</a></li>
-          <li><a href="new-patients.html#savings-plan">Savings Plan</a></li>
+      <li class="has-submenu">
+        <a data-primary-link href="new-patients.html">New Patients</a>
+        <ul class="drop" id="nav-patients">
+          <li><a href="new-patients.html"><strong>Getting Started</strong><span>What new patients can expect</span></a></li>
+          <li><a href="new-patients.html#insurance"><strong>Insurance &amp; Financing</strong><span>Payment information</span></a></li>
+          <li><a href="new-patients.html#savings-plan"><strong>Savings Plan</strong><span>In-office membership options</span></a></li>
         </ul>
       </li>
-      <li><a href="reviews.html">Reviews</a></li>
-      <li>
-        <a href="about.html">About Us</a>
-        <ul class="drop">
-          <li><a href="about.html#dr-patel">Meet Dr. Patel</a></li>
-          <li><a href="about.html#team">Meet the Team</a></li>
-          <li><a href="about.html#technologies">Our Technologies</a></li>
+      <li class="has-submenu">
+        <a data-primary-link href="about.html">About</a>
+        <ul class="drop" id="nav-about">
+          <li><a href="about.html"><strong>Our Practice</strong><span>Philosophy and patient experience</span></a></li>
+          <li><a href="about.html#dr-patel"><strong>Meet Dr. Patel</strong><span>Experience and approach</span></a></li>
+          <li><a href="about.html#technologies"><strong>Our Technology</strong><span>Tools behind your care</span></a></li>
         </ul>
       </li>
-      <li><a href="contact.html">Contact</a></li>
-      <li class="nav-phone"><a href="tel:+14076781400">(407) 678-1400</a></li>
-      <li><a class="btn btn-solid u-inline-034" href="contact.html#book">Book</a></li>
+      <li><a data-primary-link href="reviews.html">Reviews</a></li>
+      <li><a data-primary-link href="contact.html">Contact</a></li>
+      <li><a data-primary-link class="btn btn-solid u-inline-034" href="contact.html#book">Book</a></li>
     </ul>
   </div>
 </header>
@@ -208,27 +195,35 @@
       <p class="rv rv-d2 u-inline-004">Advanced technologies and cutting-edge tools make each appointment as smooth and seamless as possible. Select any to learn how it works.</p>
     </div>
     <div class="tech-grid">
-      <button class="tech-card rv" id="cerec" data-tech="cerec" type="button">
+      <a class="tech-card rv" href="#cerec" data-tech="cerec">
         <span class="cat">Chairside Milling</span>
         <h3>CEREC® Same-Day Crowns</h3>
         <span class="more">Learn More</span>
-      </button>
-      <button class="tech-card rv" id="ct-scan" data-tech="ct-scan" type="button">
+      </a>
+      <a class="tech-card rv" href="#ct-scan" data-tech="ct-scan">
         <span class="cat">3D Imaging</span>
         <h3>CT Scan (Cone Beam)</h3>
         <span class="more">Learn More</span>
-      </button>
-      <button class="tech-card rv" id="digital-scans" data-tech="digital-scans" type="button">
+      </a>
+      <a class="tech-card rv" href="#digital-scans" data-tech="digital-scans">
         <span class="cat">Fully Digital</span>
         <h3>Digital Scans & X-Rays</h3>
         <span class="more">Learn More</span>
-      </button>
-      <button class="tech-card rv" id="guided-surgery" data-tech="guided-surgery" type="button">
+      </a>
+      <a class="tech-card rv" href="#guided-surgery" data-tech="guided-surgery">
         <span class="cat">Implantology</span>
         <h3>Computer-Guided Surgery</h3>
         <span class="more">Learn More</span>
-      </button>
+      </a>
     </div>
+    <section class="inline-details technology-details" aria-labelledby="technology-details-title"><div class="sr-only" id="technology-details-title">Technology details</div><article class="inline-detail rv " id="cerec" data-detail-kind="technology" data-detail-key="cerec"><div class="inline-detail-media"><img decoding="async" src="assets/office-exterior.jpg" alt="CEREC® Same-Day Crowns"></div><div class="inline-detail-copy"><span class="kicker">Chairside Milling</span><h2>CEREC® Same-Day Crowns</h2><div class="detail-body"><p>CEREC lets us design, mill, and place a permanent ceramic crown in a single appointment. A digital scan of your tooth becomes a 3D model on screen, and our in-office milling unit carves the restoration from a solid block of ceramic while you wait.</p><p>The result: no impression putty, no temporary crown to fall off, and no second appointment weeks later. You walk in with a damaged tooth and walk out with a finished, color-matched restoration.</p></div><a class="btn btn-solid" href="contact.html#book">Request Appointment</a></div></article>
+<article class="inline-detail rv inline-detail-alt" id="ct-scan" data-detail-kind="technology" data-detail-key="ct-scan"><div class="inline-detail-media"><img decoding="async" src="assets/office-exterior.jpg" alt="CT Scan (Cone Beam)"></div><div class="inline-detail-copy"><span class="kicker">3D Imaging</span><h2>CT Scan (Cone Beam)</h2><div class="detail-body"><p>Our cone beam CT scanner captures a complete three-dimensional view of your teeth, jaw, nerves, and sinuses in a single rotation — detail a traditional two-dimensional X-ray simply cannot show.</p><p>This is what makes guided implant surgery possible. Dr. Patel can measure bone density and volume, map the exact position of nerves, and plan the precise angle and depth of an implant before ever beginning the procedure. It means fewer surprises, less invasive surgery, and more predictable outcomes.</p></div><a class="btn btn-solid" href="contact.html#book">Request Appointment</a></div></article>
+<article class="inline-detail rv " id="digital-scans" data-detail-kind="technology" data-detail-key="digital-scans"><div class="inline-detail-media"><img decoding="async" src="assets/office-exterior.jpg" alt="Digital Scans &amp; X-Rays"></div><div class="inline-detail-copy"><span class="kicker">Fully Digital</span><h2>Digital Scans &amp; X-Rays</h2><div class="detail-body"><p>We replaced messy impression trays with a handheld intraoral scanner that builds a precise digital model of your mouth in minutes — more comfortable, more accurate, and instantly viewable on screen.</p><p>Our digital radiographs use significantly less radiation than traditional film X-rays and appear immediately, so Dr. Patel can show you exactly what he's seeing and explain it in real time.</p></div><a class="btn btn-solid" href="contact.html#book">Request Appointment</a></div></article>
+<article class="inline-detail rv inline-detail-alt" id="guided-surgery" data-detail-kind="technology" data-detail-key="guided-surgery"><div class="inline-detail-media"><img decoding="async" src="assets/office-exterior.jpg" alt="Computer-Guided Surgery"></div><div class="inline-detail-copy"><span class="kicker">Implantology</span><h2>Computer-Guided Surgery</h2><div class="detail-body"><p>Using CT data, implant placement is planned digitally down to the millimeter, then executed with a custom surgical guide that directs the placement exactly as planned.</p><p>Because the position is determined before surgery begins, the procedure is more precise and far less invasive — often meaning smaller incisions, less discomfort, and a faster recovery than freehand placement.</p></div><a class="btn btn-solid" href="contact.html#book">Request Appointment</a></div></article>
+<article class="inline-detail rv " id="deka" data-detail-kind="technology" data-detail-key="deka"><div class="inline-detail-media"><img decoding="async" src="assets/office-exterior.jpg" alt="DEKA CO2 Facial Resurfacing Laser"></div><div class="inline-detail-copy"><span class="kicker">Laser Aesthetics</span><h2>DEKA CO2 Facial Resurfacing Laser</h2><div class="detail-body"><p>DEKA is a leading name in medical laser technology, used for skin resurfacing and rejuvenation treatments that address fine lines, uneven texture, sun damage, pigmentation, and scarring.</p><p>The laser works by delivering precisely controlled energy to the skin, stimulating the body's natural collagen production and encouraging fresh, healthy tissue to replace damaged surface layers — with treatment intensity tailored to each patient's skin and goals.</p></div><a class="btn btn-solid" href="contact.html#book">Request Appointment</a></div></article>
+<article class="inline-detail rv inline-detail-alt" id="emage" data-detail-kind="technology" data-detail-key="emage"><div class="inline-detail-media"><img decoding="async" src="assets/office-exterior.jpg" alt="Emage 3D Skin Scanner"></div><div class="inline-detail-copy"><span class="kicker">Diagnostic Imaging</span><h2>Emage 3D Skin Scanner</h2><div class="detail-body"><p>The Emage scanner captures a detailed three-dimensional analysis of your skin — revealing sun damage, pigmentation, pore condition, wrinkles, and texture beneath the surface that the naked eye cannot detect.</p><p>It turns aesthetic treatment into something measurable. We can establish an objective baseline before treatment begins, build a plan around what your skin actually needs, and show you side-by-side progress over time rather than asking you to guess at the results.</p></div><a class="btn btn-solid" href="contact.html#book">Request Appointment</a></div></article>
+<article class="inline-detail rv " id="hydroderm" data-detail-kind="technology" data-detail-key="hydroderm"><div class="inline-detail-media"><img decoding="async" src="assets/office-exterior.jpg" alt="Custom HydroDerm Facials"></div><div class="inline-detail-copy"><span class="kicker">Signature Treatment</span><h2>Custom HydroDerm Facials</h2><div class="detail-body"><p>A multi-step hydrating facial treatment that cleanses, gently exfoliates, extracts impurities, and infuses the skin with hydrating serums — all in one session, with no downtime.</p><p>Each facial is customized rather than one-size-fits-all: the serums and intensity are selected based on your skin's needs, which is where the Emage scanner comes in. Results are immediate — smoother texture, refined pores, and a visible glow.</p></div><a class="btn btn-solid" href="contact.html#book">Request Appointment</a></div></article>
+<article class="inline-detail rv inline-detail-alt" id="microneedling" data-detail-kind="technology" data-detail-key="microneedling"><div class="inline-detail-media"><img decoding="async" src="assets/office-exterior.jpg" alt="Microneedling"></div><div class="inline-detail-copy"><span class="kicker">Collagen Induction</span><h2>Microneedling</h2><div class="detail-body"><p>Microneedling — collagen induction therapy — uses a precision device to create thousands of microscopic channels in the skin, triggering the body's natural wound-healing cascade.</p><p>As the skin repairs those channels it produces fresh collagen and elastin, softening acne scars, refining texture, tightening pores, and firming skin from within. Because it works without heat, it's safe across all skin types.</p></div><a class="btn btn-solid" href="contact.html#book">Request Appointment</a></div></article></section>
   </div>
 </section>
 
@@ -238,7 +233,7 @@
   <div class="backdrop" data-close></div>
   <div class="panel">
     <button class="close" data-close aria-label="Close">&times;</button>
-    <img decoding="async" id="techm-img" src="" alt="">
+    <img decoding="async" id="techm-img" src="assets/office-exterior.jpg" alt="">
     <div class="content">
       <span class="kicker" id="techm-cat"></span>
       <h2 id="techm-title"></h2>
@@ -256,7 +251,7 @@
       <h3>Ready to Meet Us in Person?</h3>
       <p>Schedule your visit at our Winter Park office.</p>
     </div>
-    <a class="btn" href="contact.html#book">Book Appointment</a>
+    <a class="btn btn-solid" href="contact.html#book">Request Appointment</a>
   </div>
 </section>
 

@@ -18,17 +18,6 @@
       document.body.style.overflow = open ? "hidden" : "";
     });
     menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", close));
-    menu.querySelectorAll(":scope > li").forEach((item) => {
-      const submenu = item.querySelector(".drop");
-      const link = item.querySelector(":scope > a");
-      if (!submenu || !link) return;
-      link.addEventListener("click", (event) => {
-        if (innerWidth > 1024 || item.classList.contains("open-sub")) return;
-        event.preventDefault();
-        menu.querySelectorAll(".open-sub").forEach((openItem) => openItem.classList.remove("open-sub"));
-        item.classList.add("open-sub");
-      });
-    });
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && menu.classList.contains("open")) {
         close();
@@ -37,7 +26,7 @@
     });
   }
   const current = location.pathname.split("/").pop() || "index.html";
-  document.querySelectorAll(".menu > li > a").forEach((link) => {
+  document.querySelectorAll("[data-primary-link]").forEach((link) => {
     if (link.getAttribute("href")?.split("#")[0] === current) link.classList.add("active");
   });
 })();

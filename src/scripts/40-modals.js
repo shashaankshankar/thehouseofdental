@@ -1,61 +1,65 @@
 (() => {
   const definitions = [
-    { dialog: "svcmodal", trigger: ".svc-card", key: "svc", data: "data/services.json", prefix: "svcm" },
-    { dialog: "techmodal", trigger: ".tech-card", key: "tech", data: "data/technology.json", prefix: "techm" }
+    { dialog: "svcmodal", trigger: ".svc-card", key: "svc", kind: "service", prefix: "svcm" },
+    { dialog: "techmodal", trigger: ".tech-card", key: "tech", kind: "technology", prefix: "techm" }
   ];
-  const appendText = (parent, tag, text) => {
-    const element = document.createElement(tag);
-    element.textContent = text;
-    parent.appendChild(element);
-  };
-  const decode = (text) => {
-    return new DOMParser().parseFromString(`<!doctype html><body>${text}`, "text/html").body.textContent;
-  };
-  definitions.forEach(async (definition) => {
+
+  definitions.forEach((definition) => {
     const dialog = document.getElementById(definition.dialog);
     if (!dialog) return;
-    const response = await fetch(definition.data);
-    if (!response.ok) return;
-    const data = await response.json();
+
+    document.body.classList.add("js-enhanced");
     const image = document.getElementById(`${definition.prefix}-img`);
     const category = document.getElementById(`${definition.prefix}-cat`);
     const title = document.getElementById(`${definition.prefix}-title`);
     const body = document.getElementById(`${definition.prefix}-body`);
-    const soon = document.getElementById(`${definition.prefix}-soon`);
     let returnFocus;
+
+    const getDetail = (id) => document.querySelector(`[data-detail-kind="${definition.kind}"][data-detail-key="${CSS.escape(id)}"]`);
+    const getTrigger = (id) => document.querySelector(`${definition.trigger}[data-${definition.key}="${CSS.escape(id)}"]`);
     const close = () => {
       dialog.classList.remove("open");
       document.body.classList.remove("modal-open");
       returnFocus?.focus();
     };
     const open = (id, trigger) => {
-      const item = data[id];
-      if (!item) return;
+      const detail = getDetail(id);
+      if (!detail) return;
       returnFocus = trigger || document.activeElement;
-      image.src = item.img;
-      image.alt = item.title;
-      category.textContent = decode(item.cat);
-      title.textContent = decode(item.title);
-      body.replaceChildren();
-      item.paras.forEach((paragraph) => appendText(body, "p", decode(paragraph)));
-      if (item.items?.length) {
-        const list = document.createElement("ul");
-        item.items.forEach((text) => appendText(list, "li", decode(text)));
-        body.appendChild(list);
+      const detailImage = detail.querySelector("img");
+      const detailCategory = detail.querySelector(".kicker");
+      const detailTitle = detail.querySelector("h2");
+      const detailBody = detail.querySelector(".detail-body");
+      if (detailImage) {
+        image.src = detailImage.currentSrc || detailImage.src;
+        image.alt = detailImage.alt;
       }
-      if (soon) soon.hidden = !item.soon;
+      category.textContent = detailCategory?.textContent || "";
+      title.textContent = detailTitle?.textContent || "";
+      body.replaceChildren(...[...(detailBody?.children || [])].map((element) => element.cloneNode(true)));
       dialog.classList.add("open");
       document.body.classList.add("modal-open");
       dialog.querySelector("[data-close]")?.focus();
     };
-    document.querySelectorAll(definition.trigger).forEach((trigger) => trigger.addEventListener("click", () => open(trigger.dataset[definition.key], trigger)));
+
+    document.querySelectorAll(definition.trigger).forEach((trigger) => {
+      trigger.setAttribute("aria-haspopup", "dialog");
+      trigger.addEventListener("click", (event) => {
+        event.preventDefault();
+        const id = trigger.dataset[definition.key];
+        history.pushState(null, "", `#${id}`);
+        open(id, trigger);
+      });
+    });
     dialog.querySelectorAll("[data-close]").forEach((element) => element.addEventListener("click", close));
     document.addEventListener("keydown", (event) => event.key === "Escape" && dialog.classList.contains("open") && close());
+
     const openHash = () => {
       const id = location.hash.slice(1).split("/").pop();
-      if (data[id]) open(id, document.getElementById(id));
+      if (getDetail(id)) open(id, getTrigger(id) || getDetail(id));
     };
-    openHash();
     addEventListener("hashchange", openHash);
+    addEventListener("popstate", openHash);
+    openHash();
   });
 })();

@@ -1,31 +1,12 @@
-AESTHETICS MEDIA APPROVAL GATE
-==============================
+AUTHENTIC FACIAL AESTHETICS MEDIA INTAKE — PHASE 7
 
-These are internal asset requirements for the Phase 4 noindex drafts. The
-public site must not fall back to stock, remote, or AI-generated people or
-treatment images when an approved local asset is missing. The draft pages use
-polished media slots until the practice supplies and approves the files.
+Facial Aesthetics remains a noindex internal draft. No aesthetic image is included in the local build and no stock CDN or generated image is permitted.
 
-REQUIRED FILES AND SUBJECTS
----------------------------
+Requested device/workflow files:
+- deka-laser.jpg — DEKA CO2 workflow, if the device and active offering are confirmed
+- microneedling.jpg — consented microneedling treatment context
+- emage-scanner.jpg — Emage 3D skin-analysis workflow
+- hydroderm-facial.jpg — consented HydroDerm treatment context
+- aesthetics-team.jpg — consented aesthetics team, optional
 
-  deka-laser.jpg        -- actual DEKA equipment or treatment room
-  microneedling.jpg     -- approved practice treatment-room or equipment image
-  emage-scanner.jpg     -- actual scanner or analysis room
-  hydroderm-facial.jpg  -- actual equipment or treatment room
-
-SPECIFICATIONS FOR EACH FILE
------------------------------
-
-  Format:       JPG or WebP
-  Desktop:      1600 x 1200 px minimum, 4:3 landscape
-  Mobile crop:  800 x 600 px minimum, or an approved responsive crop
-  Rights:       documented practice, manufacturer, or photographer usage rights
-  Consent:      documented consent for every identifiable patient or staff member
-  Alt intent:   plain-language subject description approved with the asset
-  Approval:     named practice/compliance approver and approval date
-
-Do not use stock or AI-generated people, treatment scenes, or apparent patient
-outcomes as if they were the practice's own. Do not publish a device or service
-image until the corresponding active offering, provider, clinical scope, and
-claim language are approved in the Phase 4 content register.
+Capture standard: desktop source at 1600×1200px or larger, mobile crop at 800×600px or larger, with an intentional object position. Record rights, patient/staff consent, subject, purpose, approved alt intent, crop notes, and named owner in docs/AUTHENTIC-MEDIA-MANIFEST.csv before any file is referenced.

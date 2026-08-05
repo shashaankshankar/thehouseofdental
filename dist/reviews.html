@@ -58,13 +58,13 @@
 <link rel="stylesheet" href="styles.css">
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
 </head>
-<body data-route="reviews" data-page-type="reviews">
+<body class="no-js" data-route="reviews" data-page-type="reviews">
 
 <a class="skip-link" href="#main-content">Skip to main content</a>
 
 <header class="site">
   <div class="wrap nav">
-    <a class="brand" href="index.html" aria-label="The House of Dental — home"><img class="logo-img" src="assets/logo.svg" alt="The House of Dental — home"></a>
+    <a class="brand" href="index.html" aria-label="The House of Dental — home"><img class="logo-img" src="assets/logo.svg" alt="The House of Dental — home" width="270" height="63"></a>
     <button class="burger" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open menu"><span></span><span></span><span></span></button>
     <ul id="primary-navigation" class="menu" aria-label="Primary navigation">
       <li class="menu-mobile-actions" aria-label="Quick actions">
@@ -100,7 +100,7 @@
       <li><a href="about.html">About</a><ul class="drop">
   <li><a href="about.html#dr-patel">Meet Dr. Patel</a></li>
   <li><a href="about.html#team">Meet the Team</a></li>
-  <li><a href="about.html#technologies">Our Technologies</a></li>
+  <li><a href="technology/index.html">Our Technologies</a></li>
 </ul></li>
       <li><a href="reviews.html">Reviews</a></li>
       <li><a href="contact.html">Contact</a></li>
@@ -116,7 +116,8 @@
 <section class="page-hero sec-noir page-hero-center">
   <div class="wrap">
     <p class="eyebrow rv in" style="justify-content:center">Patient Reviews</p>
-    <h1 class="rv in">In Their Own Words</h1>
+    <h1 class="rv in">A transparent place to start</h1>
+    <p class="rv in rv-d1" style="max-width:62ch;margin:1.4rem auto 0;color:var(--mist)">Review content belongs to the patients and the platform where it was published. This local build does not rewrite, combine, or selectively quote patient statements.</p>
     <nav class="crumb rv in" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">Reviews</span></nav>
 
   </div>
@@ -125,43 +126,33 @@
 <section class="sec-noir" style="padding:4rem 0 0">
   <div class="wrap">
     <div class="review-source-panel rv">
-      <div><span class="support-card-label">Review source</span><h2>Read patient experiences without a hard-coded total</h2><p>Review totals and ratings can change. Use the maintained review source for the current picture, then return here for selected patient perspectives.</p></div>
-      <a class="btn" href="https://www.google.com/search?q=Mainak+Patel%2C+D.M.D+Winter+Park+Dental#lrd=0x88e76f9dfec1b733:0xf41f86161d779bdf,1,,," target="_blank" rel="noopener">Read Verified Patient Reviews</a>
+      <div>
+        <span class="support-card-label">Review source</span>
+        <h2>Current review-platform details are awaiting approval</h2>
+        <p>The practice still needs to name the approved platform URL, a manual snapshot date, an update owner, and the consent record for any patient excerpts. Until then, no stale total, star rating, or manual quote is presented as current.</p>
+      </div>
+      <span class="pending-action" aria-disabled="true">Approved review link pending</span>
     </div>
   </div>
 </section>
 
 <section class="sec sec-ivory">
-  <div class="wrap">
-    <div class="review-grid">
-      <div class="review-card rv">
-        <p class="stars">★★★★★</p>
-        <p>&ldquo;I was terrified of the dentist so I just didn&rsquo;t go. My kids convinced me Dr. Patel was awesome. I saw him knowing he was going to say my teeth were in complete disarray. That&rsquo;s not what he saw — he saw someone who came to him willing to do what was needed to overcome a great fear. Each time we did procedures he explained exactly what he was doing and how everything fit into the master plan. He has won my continued support! His staff are simply amazing and I appreciate their kindness and compassion to me and my family!&rdquo;</p>
-        <p class="who">Linda G.</p>
-      </div>
-      <div class="review-card rv rv-d1">
-        <p class="stars">★★★★★</p>
-        <p>&ldquo;Dr. Patel and his staff are simply the best! They do such a thorough and amazing job cleaning my teeth. Other places definitely rush through the cleaning to jam in as many patients as they can — not Dr. Patel&rsquo;s office! They are all so nice and so professional. I would and do recommend Dr. Patel and his staff to anybody. If you are currently looking for a new dentist, absolutely go to Dr. Patel.&rdquo;</p>
-        <p class="who">Eric A.</p>
-      </div>
-      <div class="review-card rv">
-        <p class="stars">★★★★★</p>
-        <p>&ldquo;Dr. Patel and his staff are awesome! They are up to date with all of the latest procedures and practices. Explains issues, causes and options for correction in layman&rsquo;s terms. Very positive atmosphere. Best dental practice I have ever been to.&rdquo;</p>
-        <p class="who">John O.</p>
-      </div>
-      <div class="review-card rv rv-d1">
-        <p class="stars">★★★★★</p>
-        <p>&ldquo;I feel very comfortable and in good hands under the care of Dr. Patel and staff. I feel that my teeth and gums will be maintained and kept healthy. I am so lucky to have found him when I retired and I don&rsquo;t miss my other dentist at all!&rdquo;</p>
-        <p class="who">Lucille S.</p>
-      </div>
-      <div class="review-card rv" style="grid-column:1/-1">
-        <p class="stars">★★★★★</p>
-        <p>&ldquo;This is a wonderful group of people who are all incredibly skilled, compassionate and caring. I had MAJOR dental problems and was written off by every dentist I visited. Dr. Patel encouraged me from my first visit. He has an absolutely positive attitude, seeing opportunities where others see problems. Thanks to him and his team and their attention to detail, I&rsquo;m getting the best treatment and a new smile!&rdquo;</p>
-        <p class="who">Steve S.</p>
-      </div>
+  <div class="wrap-narrow">
+    <div class="review-trust-state rv" role="status">
+      <p class="eyebrow">Proof register</p>
+      <h2>What will be added after the practice confirms the source</h2>
+      <ul class="review-register">
+        <li><span>Platform</span><strong>Pending approved URL and label</strong></li>
+        <li><span>Freshness</span><strong>Pending manual snapshot date or maintained feed</strong></li>
+        <li><span>Patient statements</span><strong>Withheld until the original source and consent are documented</strong></li>
+        <li><span>Ownership</span><strong>Pending named update owner</strong></li>
+      </ul>
     </div>
-    <div style="text-align:center;margin-top:3rem" class="rv">
-      <a class="btn" href="https://www.google.com/search?q=Mainak+Patel%2C+D.M.D+Winter+Park+Dental#lrd=0x88e76f9dfec1b733:0xf41f86161d779bdf,1,,," target="_blank" rel="noopener">Read Verified Patient Reviews</a>
+    <div class="review-next-step rv rv-d1">
+      <span class="support-card-label">Need reassurance before you call?</span>
+      <h3>Ask the team what your visit will look like</h3>
+      <p>Questions about anxiety, comfort, timing, or the next step are welcome. The office can explain what is known and what needs an in-person evaluation.</p>
+      <a class="btn" href="tel:+14076781400">Call (407) 678-1400</a>
     </div>
   </div>
 </section>
@@ -169,10 +160,10 @@
 <section class="band">
   <div class="wrap">
     <div>
-      <h3>Your Smile Could Be Next</h3>
-      <p>Explore the care paths and choose the next step that feels right for you.</p>
+      <h3>Ready to talk with the team?</h3>
+      <p>Explore a care path or request an appointment.</p>
     </div>
-    <a class="btn" href="contact.html#book">Book Appointment</a>
+    <a class="btn" href="contact.html#book">Request an Appointment</a>
   </div>
 </section>
 </main>
@@ -181,7 +172,7 @@
   <div class="wrap">
     <div class="foot-mast">
       <span class="rule" aria-hidden="true"></span>
-      <a href="index.html" aria-label="The House of Dental — home"><img class="logo-img" src="assets/logo.svg" alt="The House of Dental — home"></a>
+      <a href="index.html" aria-label="The House of Dental — home"><img class="logo-img" src="assets/logo.svg" alt="The House of Dental — home" width="270" height="63"></a>
       <span class="rule" aria-hidden="true"></span>
     </div>
     <p class="foot-tag">Personalized dental care for Winter Park, Florida — advanced dentistry designed around you.</p>

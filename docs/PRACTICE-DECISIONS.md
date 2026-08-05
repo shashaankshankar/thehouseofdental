@@ -105,9 +105,25 @@ Phase 6 integrates the completed service and patient-support routes into the mai
 | Patient goals | Publish Replace Missing Teeth, Relieve Dental Pain, Improve My Smile, Straighten My Teeth, Feel More Comfortable, and Schedule Routine Care | Each enabled path maps to a dedicated local route; Sleep Better remains disabled until the Phase 4 gate is resolved |
 | Facial Aesthetics | Keep it in the configuration as disabled and absent from public homepage/nav surfaces | Phase 4 must approve offerings, provider qualifications, claims, media, and public placement |
 | Laser / QuietNite | Keep both featured candidates disabled; do not add public navigation or claims | Phase 4 device/protocol, clinical, provider, and aftercare decisions remain unresolved |
-| Trust proof | Use Dr. Mainak Patel, DMD; Same-Day CEREC Crowns; call-to-confirm new-patient availability; and Read Verified Patient Reviews | Do not hard-code review totals or ratings; a maintained source and update owner are still needed |
+| Trust proof | Use the provider-review state, Same-Day CEREC context, call-to-confirm new-patient availability, and a review-source status link | Do not hard-code review totals or ratings; a maintained source, update owner, and consent record are still needed |
 | Offers / referral | Keep Special Offers and Referral Program out of the homepage/global navigation | Phase 5 terms, eligibility, reward, expiry, disclosures, and availability require approval |
 | Navigation | Use Services with grouped featured/goal/directory links, New Patients, Patient Resources, About, Reviews, Contact, phone, and Request Appointment | Preserve mobile quick actions first, accessible accordions, and no hidden/unreachable links |
 | Measurement | Leave conversion attributes available without placeholder analytics IDs | Phase 9 may add approved analytics identifiers and ownership; no IDs were invented |
 
 The complete Phase 6 evidence and release gate are in `docs/evidence/phase-6/`. No deployment was performed.
+
+## Phase 7 decisions — 2026-08-05
+
+| # | Decision | Local implementation / guardrail |
+|---:|---|---|
+| 23 | Public provider profile approval | Keep Dr. Mainak Patel’s supplied profile in About with an explicit pending-approval state; keep the dedicated provider page noindex until a named approver confirms every credential, affiliation, expertise, role, and alt description |
+| 24 | Team portrait availability | Keep bios and use initials/text states; never request absent team files or imply that an image loaded |
+| 25 | Review source | Remove stale counts, ratings, excerpts, and self-serving review schema; publish a platform link only after the practice supplies the approved source, timestamp/update owner, and consent record |
+| 26 | Technology proof | Publish only the retained CEREC context on the dedicated Technology page and link it to Same-Day Crowns; hold digital planning/imaging, Emage, DEKA, and dental laser until device/workflow and clinical approval are documented |
+| 27 | Technology grouping | Keep dental technology and Facial Aesthetics technology in separate sections and separate approval gates; do not use state-of-the-art or superiority language |
+| 28 | Care metadata | Add `lastReviewed` and `clinicalOwner` fields to the care-guide data model but leave all eight values null until the practice supplies them |
+| 29 | Care PDFs and QuietNite | Keep the eight supplied dental PDFs public locally; hold the combined guide and QuietNite PDF in quarantine while clinical ownership and the appliance-versus-laser protocol are unresolved |
+| 30 | Authentic media | Use the local office exterior with responsive variants; use designed media-optional slots and the manifest for every missing doctor, team, office, consultation, technology, aesthetics, case, and video asset |
+| 31 | Release boundary | Treat the Phase 7 build, screenshots, PDF review, and QA as a local handoff only; do not deploy until practice, clinical, compliance, rights, and operational gates are cleared |
+
+The Phase 7 evidence and release gate are recorded in `docs/evidence/phase-7/` and `docs/AUTHENTIC-MEDIA-MANIFEST.csv`.

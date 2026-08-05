@@ -164,3 +164,21 @@ Normal viewport checks found no horizontal overflow and all H1/main/template reg
 | Trust/claims | No hard-coded review total/rating, unapproved offer, referral, Facial Aesthetics, Laser, QuietNite, Sleep Better, or fabricated credential on homepage/nav | Pass; homepage and indexable-output scans are clean | `phase-6-browser-qa.json`, Phase 6 regression test |
 | Carousel guardrail | Static focused hero and manual testimonials only | Pass; no carousel/autoplay/auto-rotation or `setInterval` behavior | Phase 6 regression test |
 | Release gate | Do not deploy; record provisional service order and open approvals | Complete as local-only handoff | `phase-6-release-gate.md`, `docs/PRACTICE-DECISIONS.md` |
+
+## Phase 7 credibility, care, and media QA matrix — 2026-08-05
+
+| Scope | Check | Result | Evidence |
+|---|---|---|---|
+| Trust media | Generated HTML/CSS has no remote image, stock CDN image, empty image source, or absent team/aesthetics request | Pass; strict validation and output scan are clean | `phase-7-asset-checks.json`, `npm run validate:strict` |
+| Responsive proof | About, provider draft, Reviews, Technology, Facial Aesthetics, homepage trust sections, and Pre/Post-Op at 390×844, 768×1024, 1440×900 | Pass; 21 full-page screenshots plus four focused mobile captures, no horizontal overflow, H1/main present | `phase-7-browser-qa.json`, `*-{mobile,tablet,desktop}.png` |
+| Provider/team | About uses pending provider approval and initials/text portrait fallbacks; dedicated provider page is noindex | Pass with practice approval gate | `about-*.png`, `provider-*.png`, `phase-7-release-gate.md` |
+| Reviews | No hard-coded count/rating, manual excerpt, fabricated statement, automatic motion, or aggregate review schema | Pass; source-status register is visible | `reviews-*.png`, Phase 7 regression test |
+| Technology | CEREC is the only confirmed public context; dental versus Facial Aesthetics gates are separated; unconfirmed devices stay held | Pass with clinical/practice gate | `technology-*.png`, `phase-7-release-gate.md` |
+| Care findability | Search for swelling, category filter, sticky treatment index, direct `#implants` fragment | Pass; 4 search results and 1 combined restorative result observed | `phase-7-care-guides.json` |
+| Care controls | Buttons expose `aria-expanded` and `aria-controls`; panels use labelled regions; click and keyboard Enter work | Pass | `phase-7-care-guides.json` |
+| Care print/download | Filtering does not remove content from print; eight local PDF links resolve; held PDFs are not public | Pass | `phase-7-care-guides.json`, `phase-7-pdf-review.json` |
+| Care clinical metadata | Eight guides have `lastReviewed` and `clinicalOwner` fields, all empty rather than invented | Pass with clinical owner gate | `data/care-guides.json`, `phase-7-care-guides.json` |
+| Urgent routing | Prominent non-diagnostic callout includes breathing/swallowing 911/ER direction and office/urgent links | Pass locally; hours/clinical wording still needs approval | `pre-post-op-*.png`, `phase-7-care-guides.json` |
+| No-JS behavior | Source care panels are not initially hidden; no-js CSS fallback keeps reveal content visible; PDF links are ordinary anchors | Pass by source check | `phase-7-care-guides.json` |
+| Runtime | Browser console and local request review | Pass; zero console errors and zero external image requests | `phase-7-browser-qa.json` |
+| Release gate | Do not deploy until practice inputs, media rights, clinical review, and named ownership are complete | Complete as local-only handoff | `phase-7-release-gate.md`, `docs/AUTHENTIC-MEDIA-MANIFEST.csv` |

@@ -225,6 +225,36 @@
     "enabled": true
   },
   {
+    "id": "technology",
+    "source": "content/technology.html",
+    "output": "technology/index.html",
+    "canonicalPath": "/technology/",
+    "title": "Dental Technology | CEREC Workflow | The House of Dental",
+    "description": "Learn how the confirmed CEREC workflow may support selected same-day crown visits at The House of Dental in Winter Park, with other technology references held for approval.",
+    "h1": "Clearer decisions, one confirmed workflow",
+    "indexable": true,
+    "socialImage": null,
+    "breadcrumb": [{"label": "Home", "path": "/"}, {"label": "About", "path": "/about.html"}, {"label": "Technology", "path": "/technology/"}],
+    "pageType": "technology",
+    "approvalStatus": "phase_7_cerec_context_only_other_devices_and_workflows_blocked_practice_input",
+    "enabled": true
+  },
+  {
+    "id": "dr-mainak-patel-draft",
+    "source": "content/dr-mainak-patel-draft.html",
+    "output": "drafts/about/dr-mainak-patel/index.html",
+    "canonicalPath": "/drafts/about/dr-mainak-patel/",
+    "title": "Dr. Mainak Patel, DMD | Provider Review Draft | The House of Dental",
+    "description": "Noindex provider-page draft for Dr. Mainak Patel. Credentials, affiliations, media, and named approval remain pending practice review.",
+    "h1": "Dr. Mainak Patel, DMD",
+    "indexable": false,
+    "socialImage": null,
+    "breadcrumb": [{"label": "Home", "path": "/"}, {"label": "About", "path": "/about.html"}, {"label": "Provider review draft", "path": "/drafts/about/dr-mainak-patel/"}],
+    "pageType": "draft",
+    "approvalStatus": "phase_7_blocked_provider_credentials_affiliations_media_and_named_approval",
+    "enabled": true
+  },
+  {
     "id": "reviews",
     "source": "content/reviews.html",
     "output": "reviews.html",

@@ -77,7 +77,7 @@ test("Phase 6 acquisition surfaces stay data-driven and approval-gated", () => {
   assert.match(homeHtml, /Advanced Dentistry,[\s\S]*Designed Around You/);
   assert.match(homeHtml, /Dentist in Winter Park, Florida/);
   assert.match(homeHtml, /Personalized dental care/);
-  assert.match(homeHtml, /Read Verified Patient Reviews/);
+  assert.match(homeHtml, /Review source status/);
   assert.doesNotMatch(homeHtml, /(?:5\.0|332|Google Rating|Google Reviews)/i);
   assert.doesNotMatch(homeHtml, /carousel|autoplay|auto-rotat|setInterval/i);
   assert.doesNotMatch(mainJs, /setInterval\s*\(/i);
@@ -106,4 +106,48 @@ test("Phase 6 acquisition surfaces stay data-driven and approval-gated", () => {
   assert.match(homeHtml, /Contact/);
   assert.doesNotMatch(homeHtml, /Special Offers|Referral Program/);
   assert.doesNotMatch(servicesHtml, /href="#goal-/);
+});
+
+test("Phase 7 trust, technology, care, and media gates are explicit", () => {
+  const sourceRoot = path.join(projectRoot, "the-house-of-dental-site");
+  const technologyData = JSON.parse(fs.readFileSync(path.join(sourceRoot, "data", "technology.json"), "utf8"));
+  const careGuides = JSON.parse(fs.readFileSync(path.join(sourceRoot, "data", "care-guides.json"), "utf8"));
+  const pageHtml = Object.fromEntries([
+    ["home", "index.html"],
+    ["about", "about.html"],
+    ["reviews", "reviews.html"],
+    ["technology", "technology/index.html"],
+    ["care", "pre-post-op.html"]
+  ].map(([id, output]) => [id, fs.readFileSync(path.join(outputRoot, output), "utf8")]));
+
+  assert.deepEqual(Object.keys(technologyData), ["cerec"]);
+  assert.equal(technologyData.cerec.img, null);
+  assert.equal(careGuides.guides.length, 8);
+  assert.ok(careGuides.guides.every((guide) => guide.lastReviewed === null && guide.clinicalOwner === null));
+
+  assert.match(pageHtml.home, /Review source status/);
+  assert.doesNotMatch(pageHtml.home, /Read Verified Patient Reviews|(?:5\.0|332|Google Rating|Google Reviews)/i);
+  assert.match(pageHtml.about, /Provider details pending approval/);
+  assert.match(pageHtml.about, /Authentic portrait pending/);
+  assert.match(pageHtml.reviews, /Approved review link pending/);
+  assert.doesNotMatch(pageHtml.reviews, /aggregateRating|reviewBody|reviewRating/i);
+  assert.match(pageHtml.technology, /CEREC/);
+  assert.match(pageHtml.technology, /Facial Aesthetics/);
+  assert.match(pageHtml.technology, /Dental laser/);
+
+  for (const [id, html] of Object.entries(pageHtml)) {
+    assert.doesNotMatch(html, /<(?:img|source)\b[^>]+(?:src|srcset)="https?:\/\//i, `${id} remote image`);
+    assert.doesNotMatch(html, /<(?:img|source)\b[^>]+(?:src|srcset)="\s*"/i, `${id} empty image source`);
+    assert.doesNotMatch(html, /assets\/(?:team|aesthetics)\/[^"']+\.(?:jpe?g|png|webp|avif|gif)/i, `${id} missing team/aesthetics asset`);
+  }
+
+  assert.equal((pageHtml.care.match(/class="care-toggle"/g) || []).length, careGuides.guides.length);
+  assert.equal((pageHtml.care.match(/class="care-panel"/g) || []).length, careGuides.guides.length);
+  assert.equal((pageHtml.care.match(/class="care-meta"/g) || []).length, careGuides.guides.length);
+  assert.equal((pageHtml.care.match(/Download &amp; Print These Instructions/g) || []).length, careGuides.guides.length);
+  assert.match(pageHtml.care, /Find instructions by treatment or concern/);
+  assert.match(pageHtml.care, /aria-expanded="true"/);
+  assert.match(pageHtml.care, /aria-controls="care-panel-implants"/);
+  assert.match(pageHtml.care, /If you have trouble breathing or swallowing/);
+  assert.doesNotMatch(pageHtml.care, /complete-care-guide\.pdf|quietnite-care\.pdf/i);
 });

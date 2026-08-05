@@ -18,6 +18,7 @@ const technologyData = readJson(path.join(siteRoot, "data", "technology.json"));
 const serviceData = readJson(path.join(siteRoot, "data", "services.json"));
 const servicePages = readJson(path.join(siteRoot, "data", "service-pages.json"));
 const acquisitionData = readJson(path.join(siteRoot, "data", "acquisition.json"));
+const careGuidesData = readJson(path.join(siteRoot, "data", "care-guides.json"));
 const layout = readText(path.join(templateDir, "layout.html"));
 const headerTemplate = readText(path.join(templateDir, "header.html"));
 const footerTemplate = readText(path.join(templateDir, "footer.html"));
@@ -64,6 +65,26 @@ assert(config.analytics?.status, "config/site.json must document analytics statu
 assert(config.appointmentUrl?.path && config.appointmentUrl?.status, "config/site.json must document appointmentUrl path and status");
 assert(config.integrations?.appointmentForm?.status, "config/site.json must document appointment form integration status");
 assert(Object.prototype.hasOwnProperty.call(config.integrations.appointmentForm, "handlerUrl"), "config/site.json must declare appointmentForm.handlerUrl, including null when unconfigured");
+assert(Array.isArray(careGuidesData.guides) && careGuidesData.guides.length > 0, "data/care-guides.json must provide public care guides");
+assert(careGuidesData.status, "data/care-guides.json must declare a content-system status");
+
+const careGuideById = new Map();
+for (const guide of careGuidesData.guides) {
+  assert(guide.id && !careGuideById.has(guide.id), `Care guide data contains duplicate id: ${guide.id || "(empty)"}`);
+  assert(guide.title && guide.category && guide.pdf, `Care guide ${guide.id || "(unknown)"} is missing title, category, or pdf`);
+  assert(Object.prototype.hasOwnProperty.call(guide, "lastReviewed"), `Care guide ${guide.id} must declare lastReviewed, including null`);
+  assert(Object.prototype.hasOwnProperty.call(guide, "clinicalOwner"), `Care guide ${guide.id} must declare clinicalOwner, including null`);
+  assert(guide.approvalStatus, `Care guide ${guide.id} must declare approvalStatus`);
+  const pdfPath = path.resolve(siteRoot, guide.pdf);
+  assert(pdfPath.startsWith(`${siteRoot}${path.sep}`) && fs.existsSync(pdfPath), `Care guide ${guide.id} references a missing local PDF: ${guide.pdf}`);
+  careGuideById.set(guide.id, guide);
+}
+for (const held of careGuidesData.heldDownloads || []) {
+  assert(held.id && held.path && held.approvalStatus, `Held care download is missing id, path, or approvalStatus`);
+  assert(fs.existsSync(path.join(siteRoot, held.path)), `Held care download is missing from quarantine: ${held.path}`);
+  assert(Object.prototype.hasOwnProperty.call(held, "lastReviewed"), `Held care download ${held.id} must declare lastReviewed, including null`);
+  assert(Object.prototype.hasOwnProperty.call(held, "clinicalOwner"), `Held care download ${held.id} must declare clinicalOwner, including null`);
+}
 
 const routeById = new Map();
 const routeByPath = new Map();
@@ -164,7 +185,7 @@ const renderTrustStrip = (route) => `<div class="trust-strip" aria-label="Practi
   <a class="trust-item" href="${htmlEscape(routeHref(route, "about", "#dr-patel"))}"><span class="trust-label">Provider</span><strong>Dr. Mainak Patel, DMD</strong></a>
   <a class="trust-item" href="${htmlEscape(routeHref(route, "same-day-crowns"))}"><span class="trust-label">Technology</span><strong>Same-Day CEREC&reg; Crowns</strong></a>
   <a class="trust-item" href="${htmlEscape(routeHref(route, "new-patients", "#what-to-expect"))}"><span class="trust-label">New patients</span><strong>Appointments · Call to confirm</strong></a>
-  <a class="trust-item" href="${htmlEscape(routeHref(route, "reviews"))}"><span class="trust-label">Patient perspective</span><strong>Read Verified Patient Reviews <span aria-hidden="true">→</span></strong></a>
+  <a class="trust-item" href="${htmlEscape(routeHref(route, "reviews"))}"><span class="trust-label">Patient perspective</span><strong>Review source status <span aria-hidden="true">→</span></strong></a>
 </div>`;
 
 const renderServicesMenu = (route) => {
@@ -270,6 +291,20 @@ const schemaScript = (value) => {
 };
 
 const inlineJson = (value) => JSON.stringify(value, null, 2).replaceAll("<", "\\u003c");
+
+const renderCareMeta = (id) => {
+  const guide = careGuideById.get(id);
+  assert(guide, `Care content references unknown guide: ${id}`);
+  const reviewed = guide.lastReviewed ? htmlEscape(guide.lastReviewed) : "Pending clinical review";
+  const owner = guide.clinicalOwner ? htmlEscape(guide.clinicalOwner) : "Pending named clinical owner";
+  return `<div class="care-meta" data-approval-status="${htmlEscape(guide.approvalStatus)}"><span><b>Last reviewed</b>${reviewed}</span><span><b>Clinical owner</b>${owner}</span></div>`;
+};
+
+const renderCarePdf = (route, id) => {
+  const guide = careGuideById.get(id);
+  assert(guide, `Care content references unknown guide: ${id}`);
+  return `<a class="btn" href="${htmlEscape(assetHref(route, guide.pdf))}" download>Download &amp; Print These Instructions (PDF)</a>`;
+};
 
 const renderSchema = (route) => {
   const canonical = canonicalUrl(route);
@@ -484,6 +519,8 @@ const renderPage = (route) => {
   content = content.replaceAll("{{PATIENT_GOAL_CARDS}}", renderGoalCards(route));
   content = content.replaceAll("{{TRUST_STRIP}}", renderTrustStrip(route));
   content = content.replaceAll("{{OPTIONAL_HOMEPAGE_SECTIONS}}", renderOptionalHomepageSections(route));
+  content = content.replace(/\{\{CARE_META:([^}]+)\}\}/g, (_match, id) => renderCareMeta(id));
+  content = content.replace(/\{\{CARE_PDF:([^}]+)\}\}/g, (_match, id) => renderCarePdf(route, id));
   if (route.servicePage) content = content.replaceAll("{{SERVICE_PAGE_CONTENT}}", renderServiceContent(route));
   content = applyTokens(content, {
     "{{APPOINTMENT_HREF}}": htmlEscape(appointmentHref(route)),
@@ -491,6 +528,8 @@ const renderPage = (route) => {
     "{{PHONE_DISPLAY}}": htmlEscape(config.contact.phone.display),
     "{{ALL_SERVICES_HREF}}": htmlEscape(routeHref(route, "all-services")),
     "{{ABOUT_HREF}}": htmlEscape(routeHref(route, "about")),
+    "{{TECHNOLOGY_HREF}}": htmlEscape(routeHref(route, "technology")),
+    "{{SAME_DAY_CROWNS_HREF}}": htmlEscape(routeHref(route, "same-day-crowns")),
     "{{REVIEWS_HREF}}": htmlEscape(routeHref(route, "reviews")),
     "{{MAP_URL}}": htmlEscape(config.contact.mapUrl.value),
     "{{ADDRESS_STREET}}": htmlEscape(config.contact.address.street),

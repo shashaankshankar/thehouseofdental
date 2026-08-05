@@ -12,13 +12,13 @@ Phase 1 does not invent or silently approve practice facts. The following items 
 | Offers | Current implant/new-patient offers, eligibility, inclusions, price, expiry, restrictions, disclosure owner | Existing displayed offer retained for review; no new terms | Practice/compliance — pending |
 | Referral program | Eligibility, benefit/reward, qualifying visit, caps, expiry, consent model, disclosure | Not added in Phase 1 | Practice/compliance/legal — pending |
 | Insurance/financing/savings plan | Current carriers, lenders, terms, rates, exclusions, estimates, renewal/cancellation rules | Existing page content retained for review | Practice/finance/compliance — pending |
-| Reviews | Current rating/count, source URL, timestamp, testimonial consent | Existing testimonials and count retained for review | Practice/marketing/compliance — pending |
-| Provider/team | Credentials, memberships, roles, bios, team names, authentic portraits, usage rights, alt descriptions | Existing text retained; missing team files remain unresolved | Practice/clinical/asset owner — pending |
+| Reviews | Current rating/count, source URL, timestamp, testimonial consent | No rating, count, excerpt, or review schema is exposed; the source-status state remains | Practice/marketing/compliance — pending |
+| Provider/team | Credentials, memberships, roles, bios, team names, authentic portraits, usage rights, alt descriptions | Bios retained with provider approval state and initials/text fallbacks; absent image files are not referenced | Practice/clinical/asset owner — pending |
 | Before/after cases | Patient consent, allowed placements, paid-ad rights, case labels | Existing imagery retained for functional QA only | Practice/compliance — pending |
 | Appointment form | Destination system, data processing, notifications, failure alerts, spam controls, response SLA, privacy notice, urgent routing | Existing form behavior retained; delivery is not claimed verified | Technical/practice/legal — blocker |
 | Analytics/call tracking | Account IDs, events, consent, data minimization, call recording/transcription notices, ownership | No tracking IDs added | Marketing/technical/privacy — pending |
 | Legal/accessibility | Reviewed Privacy, Terms, Accessibility pages and consent language | Footer labels remain a launch follow-up outside Phase 1 | Legal/compliance — pending |
-| Care guides | Clinical accuracy, last-reviewed date, owner, medication/recovery language, emergency callouts | Existing guides retained; QuietNite is visibly flagged pending | Clinical owner — pending |
+| Care guides | Clinical accuracy, last-reviewed date, owner, medication/recovery language, emergency callouts | Eight local dental guides retained with metadata fields pending; combined guide and QuietNite remain quarantined | Clinical owner — pending |
 
 ## Approval rule
 
@@ -93,3 +93,19 @@ The following are quarantined under `the-house-of-dental-site/quarantine/care-pd
 | Confirmation/404 | Non-claiming noindex status routes and branded 404 with phone/urgent links | Live success semantics, approved confirmation copy, and production 404 verification |
 
 No Phase 5 row is a practice or legal approval. The detailed release gate and test evidence are in `docs/evidence/phase-5/phase-5-release-gate.md` and `docs/evidence/phase-5/phase-5-integration-tests.md`.
+
+## Phase 7 credibility, media, technology, and care register — 2026-08-05
+
+| Area | Local Phase 7 treatment | Approval required before production |
+|---|---|---|
+| Dr. Mainak Patel | About retains a pending provider state; a dedicated `/drafts/about/dr-mainak-patel/` page contains only supplied details and is noindex | Named practice/clinical approver for DMD, education, affiliations, expertise, local connection, care philosophy, role, and final alt text |
+| Team proof | Team bios remain, but missing portraits are replaced by initials and `Authentic portrait pending`; no broken image requests remain | Authentic portraits, role/name confirmation, written consent/rights, crop approval, and alt intent |
+| Reviews | Homepage and Reviews use a source-status state with no quotes, count, rating, or review schema | Approved platform URL, source snapshot/feed, timestamp or update owner, original patient statements, and consent record |
+| Dental technology | Public Technology page names only the retained CEREC context and links to Same-Day Crowns; digital planning/imaging and dental laser remain held | Confirmed active device/workflow, patient benefit, limitations, care, provider scope, and named practice/clinical approver |
+| Facial Aesthetics technology | Emage and DEKA are separated into internal review gates; no public aesthetic device claim or image is added | Exact offering, device/workflow, provider, claims, contraindications, recovery, privacy/consent, and media approval |
+| Public dental care guides | Eight supplied dental PDFs and matching HTML guides remain available with search, filter, index, accordion, print, and direct anchors | Named clinical owner and last-reviewed date for each guide; exact medication, warning, and recovery wording review |
+| Held care material | Combined guide and QuietNite care remain outside `assets/`; aesthetic care PDFs remain quarantined | Clinical owner, review date, protocol resolution, practice/compliance approval, and replacement/public-link approval |
+| Authentic media | `docs/AUTHENTIC-MEDIA-MANIFEST.csv` records required filenames, subjects, rights/consent, crops, alt intent, and owners; only local office variants are used | Practice-owned doctor/team/office/consultation/CEREC/aesthetics/case/video media and all rights/consent/alt approvals |
+| Before/after and testimonial proof | No patient photo, quote, testimonial, or before/after case is published | Original source, patient consent, case labels, clinical review, and website/advertising usage rights |
+
+Nothing in this register is public approval. The release gate and evidence are in `docs/evidence/phase-7/phase-7-release-gate.md` and the `docs/evidence/phase-7/` JSON records.

@@ -145,7 +145,7 @@
     "about": [
       {"label": "Meet Dr. Patel", "routeId": "about", "suffix": "#dr-patel"},
       {"label": "Meet the Team", "routeId": "about", "suffix": "#team"},
-      {"label": "Our Technologies", "routeId": "about", "suffix": "#technologies"}
+      {"label": "Our Technologies", "routeId": "technology"}
     ]
   }
 }

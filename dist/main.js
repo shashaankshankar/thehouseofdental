@@ -1,5 +1,7 @@
 /* THE HOUSE OF DENTAL — shared interactions */
 (function () {
+  document.body.classList.remove("no-js");
+  document.body.classList.add("js");
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const focusableSelector = [
@@ -115,6 +117,59 @@
     dots.forEach((dot, index) => dot.addEventListener("click", () => show(index)));
     show(0);
   }
+
+  /* ----- Accessible before / after comparisons ----- */
+  /* ----- Findable care guides with no-JS content preserved ----- */
+  const careBlocks = Array.from(document.querySelectorAll(".care-block[data-care-guide]"));
+  const careSearch = document.getElementById("care-search-input");
+  const careResults = document.getElementById("care-results");
+  const careFilters = Array.from(document.querySelectorAll("[data-care-filter]"));
+  if (careBlocks.length) {
+    let activeCareCategory = "all";
+    const updateCareResults = () => {
+      const query = (careSearch?.value || "").trim().toLowerCase();
+      let visible = 0;
+      careBlocks.forEach((block) => {
+        const categoryMatch = activeCareCategory === "all" || block.dataset.careCategory === activeCareCategory;
+        const textMatch = !query || block.textContent.toLowerCase().includes(query);
+        const isVisible = categoryMatch && textMatch;
+        block.hidden = !isVisible;
+        if (isVisible) visible += 1;
+      });
+      if (careResults) {
+        careResults.textContent = query || activeCareCategory !== "all"
+          ? `Showing ${visible} of ${careBlocks.length} care guides`
+          : `Showing all ${careBlocks.length} care guides`;
+      }
+    };
+    careSearch?.addEventListener("input", updateCareResults);
+    careFilters.forEach((filter) => filter.addEventListener("click", () => {
+      activeCareCategory = filter.dataset.careFilter || "all";
+      careFilters.forEach((item) => {
+        const active = item === filter;
+        item.classList.toggle("is-active", active);
+        item.setAttribute("aria-pressed", String(active));
+      });
+      updateCareResults();
+    }));
+    updateCareResults();
+  }
+
+  document.querySelectorAll(".care-toggle").forEach((toggle) => {
+    const panelId = toggle.getAttribute("aria-controls");
+    const panel = panelId ? document.getElementById(panelId) : null;
+    const label = toggle.querySelector("span:first-child");
+    const icon = toggle.querySelector(".care-toggle-icon");
+    if (!panel) return;
+    const setExpanded = (expanded) => {
+      toggle.setAttribute("aria-expanded", String(expanded));
+      panel.hidden = !expanded;
+      if (label) label.textContent = expanded ? "Hide care instructions" : "Show care instructions";
+      if (icon) icon.textContent = expanded ? "−" : "+";
+    };
+    setExpanded(toggle.getAttribute("aria-expanded") !== "false");
+    toggle.addEventListener("click", () => setExpanded(toggle.getAttribute("aria-expanded") !== "true"));
+  });
 
   /* ----- Accessible before / after comparisons ----- */
   document.querySelectorAll(".ba").forEach((ba) => {
@@ -308,7 +363,6 @@
 
   const technologyModal = document.getElementById("techmodal");
   if (technologyData && technologyModal) {
-    const image = technologyModal.querySelector("#techm-img");
     const category = technologyModal.querySelector("#techm-cat");
     const title = technologyModal.querySelector("#techm-title");
     const body = technologyModal.querySelector("#techm-body");
@@ -316,10 +370,6 @@
     const showTechnology = (key) => {
       const record = technologyData[key];
       if (!record) return;
-      if (image) {
-        image.src = record.img || "";
-        image.alt = record.title || "";
-      }
       if (category) category.textContent = record.cat || "";
       if (title) title.innerHTML = record.title || "";
       if (body) body.innerHTML = `${richText(record.paras)}${itemList(record.items)}`;

@@ -114,7 +114,7 @@ The current public service URLs and live-catalog topics are accounted for in `do
 - `npm run build` — passed; 23 static HTML routes generated.
 - `npm test` — passed; all four structural tests passed.
 - `npm run validate` — passed for route metadata, canonical URLs, IDs, internal links, assets, JSON-LD, source boundaries, and sitemap coverage, with the 11 documented pending-asset warnings.
-- `npm run validate:strict` — intentionally remains blocked by those same 11 missing team/aesthetics assets; no new Phase 3 asset warning was introduced.
+- `npm run validate:strict` — intentionally remained blocked at the Phase 3 snapshot; Phase 7 replaces the missing image requests with explicit text/media-optional states and the current strict check passes.
 - Local Playwright route matrix — all 13 service pages returned 200 and passed title/H1, canonical, description/social metadata, breadcrumb, Service schema, visible FAQ, related-link, care-guide, CTA, static-copy, and local-destination checks.
 - Responsive/accessibility QA — Services overview, All Services, and the service-detail template were checked at 320×568, 390×844, 768×1024, 1024×768, 1366×768, and 1920×1080 with no normal horizontal overflow. Skip-link focus, mobile menu entry/containment/Escape/return focus, submenu state, desktop first focus, and enlarged-text reflow were checked; visible content remained within 320px at 200% text size after the navigation/reflow fix.
 - Evidence — 18 screenshots are saved in `docs/evidence/phase-3/`; the QA matrix records the exact filenames and results.
@@ -163,7 +163,7 @@ The appointment form collects only the approved minimum field categories, avoids
 ### Verification and blockers
 
 - `npm run build`, `npm test`, and normal validation pass; normal validation reports seven pre-existing missing About-team image warnings.
-- The strict validator remains intentionally blocked by those seven practice assets.
+- The strict validator remained intentionally blocked by those seven practice assets at the Phase 4 snapshot; Phase 7 closes that generated-output gap without inventing media.
 - Browser QA covers 320×568, 390×844, 412×915, 768×1024, and 1440×900 contact captures, menu Escape/focus, route/indexability states, form error states, and the branded 404. Evidence is in `docs/evidence/phase-5/`.
 - Production remains blocked by the appointment handler/notification/security integration, secure forms destination, offers/referral/insurance/savings inputs, legal copy, and named approvals. No deployment was performed.
 
@@ -178,17 +178,48 @@ Phase 6 is implemented in the local static artifact and intentionally undeployed
 - Added `the-house-of-dental-site/data/acquisition.json` as the source of truth for featured services, patient-goal paths, navigation labels, approval gates, and provisional-priority basis.
 - Reworked the shared header/footer navigation to generate grouped Services links, New Patients, Patient Resources, About, Reviews, Contact, phone, and Request Appointment from that configuration. Facial Aesthetics, Laser/QuietNite, offers, and referral remain gated and absent from public acquisition surfaces.
 - Updated the Services overview to consume the same featured-service and patient-goal configuration so acquisition order and direct destinations remain synchronized.
-- Removed homepage/reviews hard-coded review totals and ratings; the public review CTA now uses Read Verified Patient Reviews.
+- Removed homepage/reviews hard-coded review totals and ratings; the public review CTA now uses a transparent review-source status state.
 - Preserved mobile sticky Call + Request Appointment actions, accessible mobile accordions, manual testimonials, and accessible technology dialogs.
 - Reduced hero height/padding and compacted the trust strip for short landscape tablet viewports so verified proof is visible above the sticky bar.
 
 ### Phase 6 verification and evidence
 
 - `npm test` — passed all five tests, including the Phase 6 acquisition/gating regression test.
-- `npm run validate` — passed all 42 routes with seven known About-team pending-asset warnings; strict validation remains blocked by those assets.
+- `npm run validate` — passed all 42 routes with seven known About-team pending-asset warnings at the Phase 6 snapshot; Phase 7 removes those requests and the current normal and strict checks pass.
 - Local browser QA passed the 12 required viewports, 63 homepage same-origin links across 22 unique routes, all same-origin fragments, phone/directions/appointment destinations, mobile menu focus/Escape, desktop Services dropdown, sticky actions, manual testimonials, and technology dialog lifecycle.
 - Evidence is saved under `docs/evidence/phase-6/`; the release gate and still-provisional priorities are recorded in `phase-6-release-gate.md` and `docs/PRACTICE-DECISIONS.md`.
 
 ### Remaining gates
 
 Practice priority inputs, Facial Aesthetics approval, dental laser facts, Sleep/QuietNite protocol, review-source ownership, appointment integration, offers/referral terms, legal copy, hours, authentic team assets, and named clinical/compliance approvals remain unresolved. No deployment was performed.
+
+## Phase 7 — credibility, anxiety reduction, and existing-patient support
+
+**Status:** Implemented and verified locally; production release blocked on practice inputs; no deployment performed.
+**Date:** 2026-08-05
+
+### Implemented
+
+- Added a dedicated, noindex Dr. Mainak Patel provider-review draft and kept the public About provider proof explicitly pending approval.
+- Removed remote doctor, consultation, team, and technology image requests. Team cards now use consistent initials/text states, and the office exterior uses local wide/mobile variants.
+- Added `docs/AUTHENTIC-MEDIA-MANIFEST.csv` for all required practice-owned media, including consent, crops, alt intent, and owner fields.
+- Replaced review excerpts, stale counts, and ratings with a transparent source-status state. No patient statement or review schema is fabricated.
+- Added a dedicated Technology page with only the retained CEREC context and patient-benefit framing. Digital planning/imaging, Emage, DEKA, and dental laser are visibly held for confirmation and remain separated by dental versus Facial Aesthetics category.
+- Added `data/care-guides.json` with explicit `lastReviewed` and `clinicalOwner` fields. All eight values remain null until clinical input.
+- Preserved the eight local dental care PDFs and matching HTML instructions. Added search, category filters, sticky treatment index, direct fragments, button accordions, print restoration, urgent warning routing, and local PDF download links. Complete-care-guide and QuietNite materials remain quarantined.
+- Added a no-JS reveal fallback so page meaning and care content remain visible when the interaction script is unavailable.
+- Added Phase 7 regression tests and strict generated-output checks for empty/remote image references and absent team/aesthetics requests.
+
+### Verification and evidence
+
+- `npm run build` — passed; 44 static routes, 25 indexable sitemap routes.
+- `npm run validate` — passed.
+- `npm run validate:strict` — passed with zero pending-asset warnings.
+- `npm test` — passed all six tests.
+- Browser QA: seven review routes at 390×844, 768×1024, and 1440×900; no horizontal overflow, main/H1 present, zero console errors, and 25 screenshots saved in `docs/evidence/phase-7/` (21 full-page plus four focused mobile captures).
+- Care-guide search, filter, direct fragment, click/keyboard accordion, print-after-filter, no-JS source, urgent callout, and PDF link checks are recorded in `docs/evidence/phase-7/phase-7-care-guides.json`.
+- PDF parsing, page counts, first-page renders, and held downloads are recorded in `docs/evidence/phase-7/phase-7-pdf-review.json`.
+
+### Remaining practice inputs
+
+The release gate still requires named provider/clinical approval, review source/update ownership and consent, clinical owners/dates for each guide, the exact QuietNite protocol, confirmed technology workflows, and practice-owned rights-cleared media. The complete list is in `docs/evidence/phase-7/phase-7-release-gate.md`.

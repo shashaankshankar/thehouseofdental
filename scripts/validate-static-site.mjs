@@ -12,19 +12,7 @@ const routes = JSON.parse(fs.readFileSync(path.join(siteRoot, "config", "routes.
 const strictAssets = process.argv.includes("--strict-assets");
 const errors = [];
 const warnings = [];
-const pendingAssets = new Set([
-  "assets/team/ashley.jpg",
-  "assets/team/christy.jpg",
-  "assets/team/eishan.jpg",
-  "assets/team/emily.jpg",
-  "assets/team/jennifer.jpg",
-  "assets/team/patsi.jpg",
-  "assets/team/renee.jpg",
-  "assets/aesthetics/deka-laser.jpg",
-  "assets/aesthetics/emage-scanner.jpg",
-  "assets/aesthetics/hydroderm-facial.jpg",
-  "assets/aesthetics/microneedling.jpg"
-]);
+const pendingAssets = new Set();
 
 const addError = (message) => errors.push(message);
 const addWarning = (message) => warnings.push(message);
@@ -147,6 +135,11 @@ for (const route of enabledRoutes) {
   }
   for (const match of html.matchAll(/\b(?:href|src)=(["'])([^"']+)\1/gi)) checkTarget(filePath, match[2]);
   for (const match of html.matchAll(/\bsrcset=(["'])([^"']+)\1/gi)) match[2].split(",").forEach((candidate) => checkTarget(filePath, candidate.trim().split(/\s+/)[0]));
+  for (const match of html.matchAll(/\b(?:src|srcset)=(["'])([^"']*)\1/gi)) {
+    if (!match[2].trim()) addError(route.output + " contains an empty image request");
+    if (/https?:\/\/[^\s"']+\.(?:jpe?g|png|webp|gif|avif)(?:[?#][^\s"']*)?/i.test(match[2])) addError(route.output + " contains a hotlinked image reference: " + match[2]);
+  }
+  if (/url\(\s*["']?https?:\/\/[^)"']+\.(?:jpe?g|png|webp|gif|avif)/i.test(html)) addError(route.output + " contains a hotlinked CSS image reference");
 }
 
 const contentFiles = fs.readdirSync(path.join(siteRoot, "content")).filter((file) => file.endsWith(".html"));

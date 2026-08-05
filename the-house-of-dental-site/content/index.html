@@ -1,7 +1,12 @@
 <!-- Page content source. The build wraps this fragment in the shared document shell. -->
 <!-- HERO -->
 <section class="hero" aria-labelledby="home-heading">
-  <div class="hero-bg" aria-hidden="true" style="background-image:url('assets/office-exterior.jpg')"></div>
+  <div class="hero-bg" aria-hidden="true">
+    <picture>
+      <source media="(max-width: 720px)" srcset="assets/office-exterior-mobile-800x900.jpg 800w">
+      <img src="assets/office-exterior-wide-1200x881.jpg" srcset="assets/office-exterior-wide-1200x881.jpg 1200w, assets/office-exterior.jpg 1464w" sizes="100vw" width="1464" height="1075" alt="" fetchpriority="high">
+    </picture>
+  </div>
   <div class="wrap hero-inner">
     <p class="eyebrow rv in">Dentist in Winter Park, Florida</p>
     <h1 id="home-heading" class="rv in">Advanced Dentistry, <em>Designed Around You</em></h1>
@@ -58,8 +63,11 @@
 <!-- DOCTOR CREDIBILITY -->
 <section class="sec sec-ivory" id="doctor-credibility" aria-labelledby="doctor-heading">
   <div class="wrap split">
-    <div class="media rv-img">
-      <img src="https://winterparkdental.com/wp-content/uploads/2021/03/meet_dr_mainak_patel_winter_park_fl.jpg" alt="Dr. Mainak Patel, DMD — The House of Dental, Winter Park, Florida" loading="lazy">
+    <div class="media-slot media-slot-light media-slot-portrait rv-img" role="img" aria-label="Authentic Dr. Mainak Patel portrait not supplied">
+      <span class="media-slot-label">Doctor portrait</span>
+      <strong>Authentic portrait to be supplied</strong>
+      <p>A local portrait will be added after rights, consent, crop, and alt-text approval.</p>
+      <small>Media status: not supplied · owner: practice</small>
     </div>
     <div>
       <p class="eyebrow rv">Doctor credibility</p>
@@ -77,28 +85,12 @@
     <p class="eyebrow rv" style="justify-content:center">Patient perspective</p>
     <h2 id="reviews-heading" class="rv" style="text-align:center">Read experiences in their own words</h2>
     <p class="rv rv-d1" style="text-align:center;color:var(--mist)">Review totals are intentionally not hard-coded here. Use the maintained review source when you are ready to compare experiences.</p>
-    <span class="quote-mark" aria-hidden="true">&ldquo;</span>
-    <div class="quote-display" aria-live="polite" aria-atomic="true">
-      <div id="testimonial-1" data-quote role="tabpanel" aria-labelledby="testimonial-tab-1">
-        <p class="quote-body">Dr. Patel and his staff are simply the best. They do such a thorough and amazing job—so nice and so professional. If you are currently looking for a new dentist, absolutely go to Dr. Patel.</p>
-        <p class="quote-name">Eric A.</p>
-      </div>
-      <div id="testimonial-2" data-quote role="tabpanel" aria-labelledby="testimonial-tab-2" hidden>
-        <p class="quote-body">Each time we did procedures he explained exactly what he was doing and how everything fit into the master plan. He has won my continued support. His staff are simply amazing.</p>
-        <p class="quote-name">Linda G.</p>
-      </div>
-      <div id="testimonial-3" data-quote role="tabpanel" aria-labelledby="testimonial-tab-3" hidden>
-        <p class="quote-body">Up to date with all of the latest procedures and practices. Explains issues, causes, and options in layman&rsquo;s terms. Best dental practice I have ever been to.</p>
-        <p class="quote-name">John O.</p>
-      </div>
+    <div class="review-home-state rv" role="status">
+      <span class="support-card-label">Source-controlled proof</span>
+      <h3>Patient excerpts are held until their source is confirmed</h3>
+      <p>The review platform URL, snapshot date, consent record, and update owner are still pending practice approval. No quote or rating is rewritten into this page while those fields are unresolved.</p>
     </div>
-    <p class="quote-status" data-quote-status aria-live="polite">Testimonial 1 of 3</p>
-    <div class="quote-nav" role="tablist" aria-label="Choose a patient testimonial">
-      <button id="testimonial-tab-1" class="quote-dot on" role="tab" aria-selected="true" aria-current="true" aria-controls="testimonial-1" aria-label="Testimonial 1"></button>
-      <button id="testimonial-tab-2" class="quote-dot" role="tab" aria-selected="false" aria-current="false" aria-controls="testimonial-2" aria-label="Testimonial 2"></button>
-      <button id="testimonial-tab-3" class="quote-dot" role="tab" aria-selected="false" aria-current="false" aria-controls="testimonial-3" aria-label="Testimonial 3"></button>
-    </div>
-    <div style="margin-top:2.8rem" class="rv"><a class="btn" href="{{REVIEWS_HREF}}">Read Verified Patient Reviews</a></div>
+    <div style="margin-top:2.8rem" class="rv"><a class="btn" href="{{REVIEWS_HREF}}">Review source status</a></div>
   </div>
 </section>
 
@@ -112,9 +104,7 @@
     </div>
     <div class="tech-grid">
       <button class="tech-card rv" id="cerec" data-tech="cerec" type="button"><span class="cat">Same-day crown workflow</span><h3>CEREC&reg; Crowns</h3><span class="more">See how it supports your visit</span></button>
-      <button class="tech-card rv rv-d1" id="ct-scan" data-tech="ct-scan" type="button"><span class="cat">3D planning</span><h3>CT Scan (Cone Beam)</h3><span class="more">See how it supports planning</span></button>
-      <button class="tech-card rv rv-d2" id="digital-scans" data-tech="digital-scans" type="button"><span class="cat">Clearer explanations</span><h3>Digital Scans &amp; X-Rays</h3><span class="more">See what the team can see</span></button>
-      <button class="tech-card rv rv-d3" id="guided-surgery" data-tech="guided-surgery" type="button"><span class="cat">Implant planning</span><h3>Computer-Guided Surgery</h3><span class="more">Learn about the planning step</span></button>
+      <a class="tech-card tech-card-link rv rv-d1" href="{{TECHNOLOGY_HREF}}"><span class="cat">Dedicated page</span><h3>Technology &amp; approval gates</h3><span class="more">See what is confirmed</span></a>
     </div>
   </div>
 </section>
@@ -123,7 +113,7 @@
   <div class="backdrop" data-close></div>
   <div class="panel">
     <button class="close" data-close aria-label="Close">&times;</button>
-    <img id="techm-img" src="" alt="">
+    <div id="techm-media" class="modal-media-slot" aria-label="Practice technology media not supplied"><span>Practice media not supplied</span><small>Text explanation retained; no placeholder image is requested.</small></div>
     <div class="content"><span class="kicker" id="techm-cat"></span><h2 id="techm-title"></h2><div id="techm-body"></div><p id="techm-soon" class="soon-note" style="display:none">This technology is coming soon to The House of Dental. Call <a href="{{PHONE_HREF}}">{{PHONE_DISPLAY}}</a> to ask about availability.</p></div>
   </div>
 </div>

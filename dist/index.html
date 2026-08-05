@@ -70,13 +70,13 @@
 <link rel="stylesheet" href="styles.css">
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
 </head>
-<body data-route="home" data-page-type="home">
+<body class="no-js" data-route="home" data-page-type="home">
 
 <a class="skip-link" href="#main-content">Skip to main content</a>
 
 <header class="site">
   <div class="wrap nav">
-    <a class="brand" href="index.html" aria-label="The House of Dental — home"><img class="logo-img" src="assets/logo.svg" alt="The House of Dental — home"></a>
+    <a class="brand" href="index.html" aria-label="The House of Dental — home"><img class="logo-img" src="assets/logo.svg" alt="The House of Dental — home" width="270" height="63"></a>
     <button class="burger" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open menu"><span></span><span></span><span></span></button>
     <ul id="primary-navigation" class="menu" aria-label="Primary navigation">
       <li class="menu-mobile-actions" aria-label="Quick actions">
@@ -112,7 +112,7 @@
       <li><a href="about.html">About</a><ul class="drop">
   <li><a href="about.html#dr-patel">Meet Dr. Patel</a></li>
   <li><a href="about.html#team">Meet the Team</a></li>
-  <li><a href="about.html#technologies">Our Technologies</a></li>
+  <li><a href="technology/index.html">Our Technologies</a></li>
 </ul></li>
       <li><a href="reviews.html">Reviews</a></li>
       <li><a href="contact.html">Contact</a></li>
@@ -127,7 +127,12 @@
 <!-- Page content source. The build wraps this fragment in the shared document shell. -->
 <!-- HERO -->
 <section class="hero" aria-labelledby="home-heading">
-  <div class="hero-bg" aria-hidden="true" style="background-image:url('assets/office-exterior.jpg')"></div>
+  <div class="hero-bg" aria-hidden="true">
+    <picture>
+      <source media="(max-width: 720px)" srcset="assets/office-exterior-mobile-800x900.jpg 800w">
+      <img src="assets/office-exterior-wide-1200x881.jpg" srcset="assets/office-exterior-wide-1200x881.jpg 1200w, assets/office-exterior.jpg 1464w" sizes="100vw" width="1464" height="1075" alt="" fetchpriority="high">
+    </picture>
+  </div>
   <div class="wrap hero-inner">
     <p class="eyebrow rv in">Dentist in Winter Park, Florida</p>
     <h1 id="home-heading" class="rv in">Advanced Dentistry, <em>Designed Around You</em></h1>
@@ -146,7 +151,7 @@
   <a class="trust-item" href="about.html#dr-patel"><span class="trust-label">Provider</span><strong>Dr. Mainak Patel, DMD</strong></a>
   <a class="trust-item" href="services/same-day-crowns/index.html"><span class="trust-label">Technology</span><strong>Same-Day CEREC&reg; Crowns</strong></a>
   <a class="trust-item" href="new-patients.html#what-to-expect"><span class="trust-label">New patients</span><strong>Appointments · Call to confirm</strong></a>
-  <a class="trust-item" href="reviews.html"><span class="trust-label">Patient perspective</span><strong>Read Verified Patient Reviews <span aria-hidden="true">→</span></strong></a>
+  <a class="trust-item" href="reviews.html"><span class="trust-label">Patient perspective</span><strong>Review source status <span aria-hidden="true">→</span></strong></a>
 </div></div>
 </section>
 
@@ -214,8 +219,11 @@
 <!-- DOCTOR CREDIBILITY -->
 <section class="sec sec-ivory" id="doctor-credibility" aria-labelledby="doctor-heading">
   <div class="wrap split">
-    <div class="media rv-img">
-      <img src="https://winterparkdental.com/wp-content/uploads/2021/03/meet_dr_mainak_patel_winter_park_fl.jpg" alt="Dr. Mainak Patel, DMD — The House of Dental, Winter Park, Florida" loading="lazy">
+    <div class="media-slot media-slot-light media-slot-portrait rv-img" role="img" aria-label="Authentic Dr. Mainak Patel portrait not supplied">
+      <span class="media-slot-label">Doctor portrait</span>
+      <strong>Authentic portrait to be supplied</strong>
+      <p>A local portrait will be added after rights, consent, crop, and alt-text approval.</p>
+      <small>Media status: not supplied · owner: practice</small>
     </div>
     <div>
       <p class="eyebrow rv">Doctor credibility</p>
@@ -233,28 +241,12 @@
     <p class="eyebrow rv" style="justify-content:center">Patient perspective</p>
     <h2 id="reviews-heading" class="rv" style="text-align:center">Read experiences in their own words</h2>
     <p class="rv rv-d1" style="text-align:center;color:var(--mist)">Review totals are intentionally not hard-coded here. Use the maintained review source when you are ready to compare experiences.</p>
-    <span class="quote-mark" aria-hidden="true">&ldquo;</span>
-    <div class="quote-display" aria-live="polite" aria-atomic="true">
-      <div id="testimonial-1" data-quote role="tabpanel" aria-labelledby="testimonial-tab-1">
-        <p class="quote-body">Dr. Patel and his staff are simply the best. They do such a thorough and amazing job—so nice and so professional. If you are currently looking for a new dentist, absolutely go to Dr. Patel.</p>
-        <p class="quote-name">Eric A.</p>
-      </div>
-      <div id="testimonial-2" data-quote role="tabpanel" aria-labelledby="testimonial-tab-2" hidden>
-        <p class="quote-body">Each time we did procedures he explained exactly what he was doing and how everything fit into the master plan. He has won my continued support. His staff are simply amazing.</p>
-        <p class="quote-name">Linda G.</p>
-      </div>
-      <div id="testimonial-3" data-quote role="tabpanel" aria-labelledby="testimonial-tab-3" hidden>
-        <p class="quote-body">Up to date with all of the latest procedures and practices. Explains issues, causes, and options in layman&rsquo;s terms. Best dental practice I have ever been to.</p>
-        <p class="quote-name">John O.</p>
-      </div>
+    <div class="review-home-state rv" role="status">
+      <span class="support-card-label">Source-controlled proof</span>
+      <h3>Patient excerpts are held until their source is confirmed</h3>
+      <p>The review platform URL, snapshot date, consent record, and update owner are still pending practice approval. No quote or rating is rewritten into this page while those fields are unresolved.</p>
     </div>
-    <p class="quote-status" data-quote-status aria-live="polite">Testimonial 1 of 3</p>
-    <div class="quote-nav" role="tablist" aria-label="Choose a patient testimonial">
-      <button id="testimonial-tab-1" class="quote-dot on" role="tab" aria-selected="true" aria-current="true" aria-controls="testimonial-1" aria-label="Testimonial 1"></button>
-      <button id="testimonial-tab-2" class="quote-dot" role="tab" aria-selected="false" aria-current="false" aria-controls="testimonial-2" aria-label="Testimonial 2"></button>
-      <button id="testimonial-tab-3" class="quote-dot" role="tab" aria-selected="false" aria-current="false" aria-controls="testimonial-3" aria-label="Testimonial 3"></button>
-    </div>
-    <div style="margin-top:2.8rem" class="rv"><a class="btn" href="reviews.html">Read Verified Patient Reviews</a></div>
+    <div style="margin-top:2.8rem" class="rv"><a class="btn" href="reviews.html">Review source status</a></div>
   </div>
 </section>
 
@@ -268,9 +260,7 @@
     </div>
     <div class="tech-grid">
       <button class="tech-card rv" id="cerec" data-tech="cerec" type="button"><span class="cat">Same-day crown workflow</span><h3>CEREC&reg; Crowns</h3><span class="more">See how it supports your visit</span></button>
-      <button class="tech-card rv rv-d1" id="ct-scan" data-tech="ct-scan" type="button"><span class="cat">3D planning</span><h3>CT Scan (Cone Beam)</h3><span class="more">See how it supports planning</span></button>
-      <button class="tech-card rv rv-d2" id="digital-scans" data-tech="digital-scans" type="button"><span class="cat">Clearer explanations</span><h3>Digital Scans &amp; X-Rays</h3><span class="more">See what the team can see</span></button>
-      <button class="tech-card rv rv-d3" id="guided-surgery" data-tech="guided-surgery" type="button"><span class="cat">Implant planning</span><h3>Computer-Guided Surgery</h3><span class="more">Learn about the planning step</span></button>
+      <a class="tech-card tech-card-link rv rv-d1" href="technology/index.html"><span class="cat">Dedicated page</span><h3>Technology &amp; approval gates</h3><span class="more">See what is confirmed</span></a>
     </div>
   </div>
 </section>
@@ -279,51 +269,23 @@
   <div class="backdrop" data-close></div>
   <div class="panel">
     <button class="close" data-close aria-label="Close">&times;</button>
-    <img id="techm-img" src="" alt="">
+    <div id="techm-media" class="modal-media-slot" aria-label="Practice technology media not supplied"><span>Practice media not supplied</span><small>Text explanation retained; no placeholder image is requested.</small></div>
     <div class="content"><span class="kicker" id="techm-cat"></span><h2 id="techm-title"></h2><div id="techm-body"></div><p id="techm-soon" class="soon-note" style="display:none">This technology is coming soon to The House of Dental. Call <a href="tel:+14076781400">(407) 678-1400</a> to ask about availability.</p></div>
   </div>
 </div>
 
 <script type="application/json" data-tech-data>{
   "cerec": {
-    "cat": "Chairside Milling",
-    "title": "CEREC® Same-Day Crowns",
-    "img": "https://images.unsplash.com/photo-1626878880028-0438b1403b3f?q=80&w=1600&auto=format&fit=crop",
+    "cat": "Confirmed dental workflow",
+    "title": "CEREC® for selected same-day crown visits",
+    "img": null,
     "paras": [
-      "CEREC lets us design, mill, and place a permanent ceramic crown in a single appointment. A digital scan of your tooth becomes a 3D model on screen, and our in-office milling unit carves the restoration from a solid block of ceramic while you wait.",
-      "The result: no impression putty, no temporary crown to fall off, and no second appointment weeks later. You walk in with a damaged tooth and walk out with a finished, color-matched restoration."
+      "For some crown visits, a CEREC workflow can support digital design and in-office milling. Whether it fits depends on an evaluation of the tooth and the treatment plan.",
+      "The potential patient benefit is a simpler visit sequence when the case is appropriate. The team will explain what is planned, what alternatives exist, and whether another visit is needed."
     ],
-    "soon": false
-  },
-  "ct-scan": {
-    "cat": "3D Imaging",
-    "title": "CT Scan (Cone Beam)",
-    "img": "https://images.unsplash.com/photo-1576671414121-aa0c81c869e1?q=80&w=1600&auto=format&fit=crop",
-    "paras": [
-      "Our cone beam CT scanner captures a complete three-dimensional view of your teeth, jaw, nerves, and sinuses in a single rotation — detail a traditional two-dimensional X-ray simply cannot show.",
-      "This is what makes guided implant surgery possible. Dr. Patel can measure bone density and volume, map the exact position of nerves, and plan the precise angle and depth of an implant before ever beginning the procedure. It means fewer surprises, less invasive surgery, and more predictable outcomes."
-    ],
-    "soon": false
-  },
-  "digital-scans": {
-    "cat": "Fully Digital",
-    "title": "Digital Scans & X-Rays",
-    "img": "https://images.unsplash.com/photo-1598531136726-4157529f8cbb?q=80&w=1600&auto=format&fit=crop",
-    "paras": [
-      "We replaced messy impression trays with a handheld intraoral scanner that builds a precise digital model of your mouth in minutes — more comfortable, more accurate, and instantly viewable on screen.",
-      "Our digital radiographs use significantly less radiation than traditional film X-rays and appear immediately, so Dr. Patel can show you exactly what he's seeing and explain it in real time."
-    ],
-    "soon": false
-  },
-  "guided-surgery": {
-    "cat": "Implantology",
-    "title": "Computer-Guided Surgery",
-    "img": "https://images.unsplash.com/photo-1656428964836-78d54bf76231?q=80&w=1600&auto=format&fit=crop",
-    "paras": [
-      "Using CT data, implant placement is planned digitally down to the millimeter, then executed with a custom surgical guide that directs the placement exactly as planned.",
-      "Because the position is determined before surgery begins, the procedure is more precise and far less invasive — often meaning smaller incisions, less discomfort, and a faster recovery than freehand placement."
-    ],
-    "soon": false
+    "soon": false,
+    "serviceRouteId": "same-day-crowns",
+    "approvalStatus": "confirmed_context_pending_named_practice_approval"
   }
 }</script>
 
@@ -382,7 +344,7 @@
   <div class="wrap">
     <div class="foot-mast">
       <span class="rule" aria-hidden="true"></span>
-      <a href="index.html" aria-label="The House of Dental — home"><img class="logo-img" src="assets/logo.svg" alt="The House of Dental — home"></a>
+      <a href="index.html" aria-label="The House of Dental — home"><img class="logo-img" src="assets/logo.svg" alt="The House of Dental — home" width="270" height="63"></a>
       <span class="rule" aria-hidden="true"></span>
     </div>
     <p class="foot-tag">Personalized dental care for Winter Park, Florida — advanced dentistry designed around you.</p>

@@ -8,28 +8,31 @@
     <p class="foot-tag">Personalized dental care for Winter Park, Florida — advanced dentistry designed around you.</p>
     <div class="foot-grid">
       <div>
-        <h3>Information</h3>
+        <h3>Explore</h3>
         <ul>
-          <li><a href="{{HOME_HREF}}">Home</a></li>
-          <li><a href="{{HOME_HREF}}#patient-goals">How Can We Help?</a></li>
-          <li><a href="{{HOME_HREF}}#featured-care">Featured Care</a></li>
-          <li><a href="{{HOME_HREF}}#technology">Technology</a></li>
-          <li><a href="{{HOME_HREF}}#location">Location &amp; Hours</a></li>
+          {{FOOTER_PRIMARY_LINKS}}
+          <li><a href="{{HREF_SITEMAP}}">Sitemap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Patients</h3>
+        <ul>
+          {{FOOTER_PATIENT_LINKS}}
         </ul>
       </div>
       <div>
         <h3>Services</h3>
         <ul>
-          <li><a href="{{HOME_HREF}}#featured-care">Featured Care</a></li>
           <li><a href="{{HOME_HREF}}#patient-goals">Choose by Patient Goal</a></li>
           <li><a href="{{HREF_ALL_SERVICES}}">All Services</a></li>
 {{FOOTER_OPTIONAL_SERVICES}}
         </ul>
       </div>
       <div>
-        <h3>Contact</h3>
+        <h3>Visit</h3>
         <ul>
-          <li><a href="{{MAP_URL}}" target="_blank" rel="noopener" data-hod-event="directions_click" data-hod-cta-location="footer_directions" data-hod-conversion-type="directions">{{ADDRESS_STREET}},<br>{{ADDRESS_LOCALITY}}, {{ADDRESS_REGION}} {{ADDRESS_POSTAL}}</a></li>
+          <li>{{ADDRESS_STREET}},<br>{{ADDRESS_LOCALITY}}, {{ADDRESS_REGION}} {{ADDRESS_POSTAL}}</li>
+          <li><a class="foot-directions" href="{{MAP_URL}}" target="_blank" rel="noopener" data-hod-event="directions_click" data-hod-cta-location="footer_directions" data-hod-conversion-type="directions">Get Directions</a></li>
           <li><a href="{{PHONE_HREF}}" data-hod-event="click_to_call" data-hod-cta-location="footer_phone" data-hod-conversion-type="call">{{PHONE_DISPLAY}}</a></li>
           <li><a href="mailto:{{EMAIL_VALUE}}">{{EMAIL_VALUE}}</a></li>
           <li><span class="footer-hours-label">Hours</span><span>{{HOURS_DISPLAY}}</span></li>
@@ -39,7 +42,7 @@
     </div>
     <div class="foot-legal">
       <span>&copy; {{BRAND_NAME}}. All rights reserved.</span>
-      <span>{{LEGAL_LINKS}}</span>
+      <span>{{LEGAL_LINKS}} · <a href="{{HREF_SITEMAP}}">Sitemap</a></span>
     </div>
   </div>
 </footer>

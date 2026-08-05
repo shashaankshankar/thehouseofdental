@@ -144,3 +144,21 @@ Nothing in this register enables a production vendor or approves a public campai
 | Indexability | Campaign variants are excluded from sitemap and public/indexable links; durable targets are explicit where approved | SEO owner approves durable canonical, indexability, paid-only treatment, and removal/expiry plan |
 
 See `docs/MEASUREMENT-EVENT-VALIDATION.md`, `docs/MARKETING-OPERATIONS.md`, and `docs/evidence/phase-9/phase-9-release-gate.md`. Do not deploy while these gates remain open.
+
+## Phase 10 final approval register — 2026-08-05
+
+Phase 10 did not convert any pending fact into an approval. The implementation was re-scanned so gated content stays absent from active public navigation, indexable campaigns, success states, and third-party runtime behavior.
+
+| Approval package | Current local status | Named approval/evidence required |
+|---|---|---|
+| Public identity and local facts | Provisional current-domain/NAP/hours/email/map/social baseline | Practice/legal/SEO confirmation against authoritative live sources |
+| Core services/provider/FAQs/care | Rendered for local QA with explicit approval history | Practice and clinical line review, clinical owner, review date, provider verification |
+| Facial Aesthetics, Sleep, Laser, QuietNite | Held/noindex/disabled | Offering, protocol/device/provider, candidacy, benefits/limits, care, compliance, media, CTA approval |
+| Legal/accessibility/form notice | Placeholder/noindex or pending | Legal/privacy-approved final text, support contact/process, retention and consent decisions |
+| Offers/referrals/financing | Neutral or blocked; no public reward/price/expiry claim | Exact terms, eligibility, disclosures, dates, funding, anti-abuse controls, owner |
+| Form/CRM/notifications | Unconfigured and fail-closed | Approved destination, security controls, data map, notification/SLA owner, live authorized tests |
+| Analytics/call tracking/consent | No vendor or IDs; no external requests | Vendor/property/container, consent categories, access/retention, payload QA, publish owner |
+| Media/reviews/testimonials | Office exterior only; other proof uses text/held states | Original assets/source, rights/consent, crops/alt, maintained review owner, clinical/content approval |
+| URL migration | Candidate local redirect graph only | Complete production crawl, analytics/Search Console evidence, parity signoff, test-environment HTTP report |
+
+The release owner must attach dated evidence to `docs/LAUNCH-READINESS.md` and rerun the Phase 10 suite before changing NO-GO to GO.

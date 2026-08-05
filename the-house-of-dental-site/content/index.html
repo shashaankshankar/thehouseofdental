@@ -3,8 +3,12 @@
 <section class="hero" aria-labelledby="home-heading">
   <div class="hero-bg" aria-hidden="true">
     <picture>
+      <source type="image/avif" media="(max-width: 720px)" srcset="assets/office-exterior-mobile-800x900.avif 800w">
+      <source type="image/webp" media="(max-width: 720px)" srcset="assets/office-exterior-mobile-800x900.webp 800w">
       <source media="(max-width: 720px)" srcset="assets/office-exterior-mobile-800x900.jpg 800w">
-      <img src="assets/office-exterior-wide-1200x881.jpg" srcset="assets/office-exterior-wide-1200x881.jpg 1200w, assets/office-exterior.jpg 1464w" sizes="100vw" width="1464" height="1075" alt="" fetchpriority="high">
+      <source type="image/avif" srcset="assets/office-exterior-wide-1200x881.avif 1200w, assets/office-exterior.avif 1464w" sizes="100vw">
+      <source type="image/webp" srcset="assets/office-exterior-wide-1200x881.webp 1200w, assets/office-exterior.webp 1464w" sizes="100vw">
+      <img src="assets/office-exterior-wide-1200x881.jpg" srcset="assets/office-exterior-wide-1200x881.jpg 1200w, assets/office-exterior.jpg 1464w" sizes="100vw" width="1464" height="1075" alt="" fetchpriority="high" decoding="async">
     </picture>
   </div>
   <div class="wrap hero-inner">
@@ -114,7 +118,7 @@
   <div class="panel">
     <button class="close" data-close aria-label="Close">&times;</button>
     <div id="techm-media" class="modal-media-slot" aria-label="Practice technology media not supplied"><span>Practice media not supplied</span><small>Text explanation retained; no placeholder image is requested.</small></div>
-    <div class="content"><span class="kicker" id="techm-cat"></span><h2 id="techm-title"></h2><div id="techm-body"></div><p id="techm-soon" class="soon-note" style="display:none">This technology is coming soon to The House of Dental. Call <a href="{{PHONE_HREF}}">{{PHONE_DISPLAY}}</a> to ask about availability.</p></div>
+    <div class="content"><span class="kicker" id="techm-cat"></span><h2 id="techm-title"></h2><div id="techm-body"></div><p id="techm-soon" class="soon-note" style="display:none">This technology is not published as available until the practice confirms the device, workflow, provider, and patient-safe description. Call <a href="{{PHONE_HREF}}">{{PHONE_DISPLAY}}</a> for current information.</p></div>
   </div>
 </div>
 

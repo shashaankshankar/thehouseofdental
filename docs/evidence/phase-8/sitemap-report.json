@@ -25,7 +25,8 @@
     "https://winterparkdental.com/services/sedation-dentistry/",
     "https://winterparkdental.com/services/tmj-treatment/",
     "https://winterparkdental.com/new-patients/insurance-financing/",
-    "https://winterparkdental.com/new-patients/special-offers/"
+    "https://winterparkdental.com/new-patients/special-offers/",
+    "https://winterparkdental.com/sitemap/"
   ],
   "expectedUrls": [
     "https://winterparkdental.com/",
@@ -52,7 +53,8 @@
     "https://winterparkdental.com/services/sedation-dentistry/",
     "https://winterparkdental.com/services/tmj-treatment/",
     "https://winterparkdental.com/new-patients/insurance-financing/",
-    "https://winterparkdental.com/new-patients/special-offers/"
+    "https://winterparkdental.com/new-patients/special-offers/",
+    "https://winterparkdental.com/sitemap/"
   ],
   "containsNoindexOrRedirectRoutes": true
 }

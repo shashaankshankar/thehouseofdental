@@ -298,3 +298,26 @@ The local debug buffer is not a live marketing integration. It is available only
 - Production crawl/Search Console/GBP access and final SEO/cutover evidence.
 
 No deployment, vendor registration, external data submission, DNS change, Search Console action, or ad campaign activation was performed.
+
+## Phase 10 verification and hardening status — 2026-08-05
+
+Phase 10 is implemented and fully rebuilt locally. The candidate remains **NO-GO** and undeployed because the named external approval, form, analytics, domain/NAP, legal, clinical, media, and migration gates remain open.
+
+### Implemented
+
+- Replaced the flat Services navigation with the recommended patient-goal hierarchy and shared it across desktop mega navigation, mobile accordions, and the human sitemap.
+- Expanded New Patients, Patient Resources, About, and the footer to the approved/gated hierarchy without exposing blocked Facial Aesthetics, Sleep, Laser, QuietNite, referral, blog, or campaign claims.
+- Added `/sitemap/`, responsive local AVIF/WebP hero sources, build-time CSS minification, deferred JavaScript, zero external font requests, explicit performance budgets, and query-gated local lab diagnostics.
+- Fixed hidden form retry rendering, mobile open-menu/sticky-action overlap, control target sizing, hero contrast, and removed unverified technology “coming soon” language.
+- Added `scripts/validate-phase-10.mjs`, nine Phase 10 regression assertions, and the six required Phase 10 reports.
+
+### Final local verification
+
+- Clean build: 54 routes, 26 indexable routes, no manual `dist/` edits required.
+- Tests/validators: 9/9 tests passed; normal, strict, Phase 8, and Phase 9 validators passed; Phase 10 reports only the explicit blocked migration inventory and eight external launch gates.
+- Responsive browser QA: 108 checks across nine representative routes and all 12 required sizes, 0 failures; 54 route captures at 390×844 had no failed image or document overflow.
+- Interaction QA: mobile menu/submenu/Escape/focus return, technology dialog lifecycle, care search/filter/accordion, form validation, and unconfigured form failure passed.
+- Local HTTP: home 200, sitemap 200, unknown route 404.
+- Performance: all eight mobile/desktop local lab runs had CLS 0, no third-party requests, and budgets passed; see `docs/PERFORMANCE-REPORT.md`.
+
+The authoritative Phase 10 verdict and owner table are in `docs/LAUNCH-READINESS.md`. No deployment, redirect activation, vendor installation, external form submission, DNS change, or Search Console action was performed.

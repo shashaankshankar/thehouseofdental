@@ -88,3 +88,13 @@ This includes free-form form messages, health-interest descriptions, diagnosis o
 | Offer/referral | Terms and secure backend absent | Approved terms, consent, anti-abuse controls, expiry owner, backend confirmation, and named success event |
 
 No production integration is live in this Phase 9 artifact.
+
+## Phase 10 revalidation — 2026-08-05
+
+- Sixteen local performance/event-surface lab runs produced zero third-party requests.
+- Empty and unconfigured appointment submissions emitted no success event, `dataLayer`, or external request; the UI reported the correct validation/failure state.
+- The lab performance observer is enabled only by `?hod_perf=1`, writes a local document record, and never transmits data.
+- No GA4, GTM, pixel, recorder, call tracker, CRM, or consent vendor was added.
+- Production form success, event uniqueness/attribution, consent, call tracking, and vendor delivery remain launch blockers until live integration evidence exists.
+
+See `docs/FORM-AND-ANALYTICS-VALIDATION.md` and `docs/evidence/phase-10/phase-10-performance-browser.json`.

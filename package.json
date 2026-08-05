@@ -10,6 +10,7 @@
     "validate:strict": "node scripts/validate-static-site.mjs --strict-assets",
     "validate:phase8": "node scripts/validate-phase-8.mjs",
     "validate:phase9": "node scripts/validate-phase-9.mjs",
+    "validate:phase10": "node scripts/validate-phase-10.mjs",
     "test": "npm run build && node --test tests/site.test.mjs"
   }
 }

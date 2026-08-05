@@ -915,5 +915,19 @@
     "pageType": "legal",
     "approvalStatus": "phase_5_real_link_pending_legal_and_accessibility_review",
     "enabled": true
+  },
+  {
+    "id": "sitemap-page",
+    "source": "content/sitemap.html",
+    "output": "sitemap/index.html",
+    "canonicalPath": "/sitemap/",
+    "title": "Sitemap | The House of Dental",
+    "description": "Browse active patient, service, practice, and contact pages for The House of Dental, with held topics clearly identified pending approval.",
+    "h1": "Sitemap",
+    "indexable": true,
+    "breadcrumb": [{"label": "Home", "path": "/"}, {"label": "Sitemap", "path": "/sitemap/"}],
+    "pageType": "resource",
+    "approvalStatus": "phase_10_information_architecture_verified_active_links_only_with_held_topics_disclosed",
+    "enabled": true
   }
 ]

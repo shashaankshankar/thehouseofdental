@@ -1,7 +1,7 @@
 {
   "canonicalBase": "https://winterparkdental.com",
-  "routeCount": 53,
-  "indexableCount": 25,
+  "routeCount": 54,
+  "indexableCount": 26,
   "routes": [
     {
       "id": "home",
@@ -531,6 +531,16 @@
       "description": "Planned accessibility statement; reviewed public content is required before publication.",
       "canonical": "https://winterparkdental.com/accessibility/",
       "robots": "noindex, nofollow",
+      "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
+    },
+    {
+      "id": "sitemap-page",
+      "output": "sitemap/index.html",
+      "indexable": true,
+      "title": "Sitemap | The House of Dental",
+      "description": "Browse active patient, service, practice, and contact pages for The House of Dental, with held topics clearly identified pending approval.",
+      "canonical": "https://winterparkdental.com/sitemap/",
+      "robots": "index, follow, max-image-preview:large",
       "socialImage": "https://winterparkdental.com/assets/office-exterior-wide-1200x881.jpg"
     }
   ]

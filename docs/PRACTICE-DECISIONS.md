@@ -162,3 +162,16 @@ Phase 9 adds a privacy-aware, vendor-neutral measurement contract and a reusable
 | Operations | Record agency access, brief, approval, release, rollback, reporting, and incident ownership in `docs/MARKETING-OPERATIONS.md` | Practice owner assigns named owners and least-privilege access before agency work or spend |
 
 The release gate is in `docs/evidence/phase-9/phase-9-release-gate.md`. No deployment was performed.
+
+## Phase 10 release decision record — 2026-08-05
+
+| Decision area | Phase 10 local choice | Required decision before launch |
+|---|---|---|
+| Recommended sitemap | Implement the patient-goal Services hierarchy, expanded patient/resource/about groups, comprehensive footer, and human sitemap | Practice/content approves final labels/order and explicitly decides whether gated sections become public |
+| Facial Aesthetics | Preserve drafts and IA intent, but keep the top-level/public treatment paths disabled until Phase 4 facts are approved | Confirm offerings, provider qualifications, device/workflow, claims, limitations, media, CTA, and compliance approval |
+| Sleep/Laser/QuietNite | Keep the entire group disabled and name it only in the held sitemap section | Resolve the protocol/device/provider contradiction and approve every clinical/public claim |
+| Forms and analytics | Keep the form visibly unconfigured and all vendors disabled; do not simulate delivery or conversion success | Approve backend, privacy/security, notifications, consent, event destinations, IDs, and live tests |
+| Domain/NAP/migration | Retain the current-domain/NAP observations as a provisional local baseline | Confirm canonical domain, brand relationship, NAP/hours/email/map/socials, production crawl, and every meaningful URL disposition |
+| Release | Record **NO-GO** with zero hidden blockers and preserve the verified local candidate | Named practice, clinical, legal/privacy, SEO/migration, technical, marketing, and release owners must clear and retest every blocker |
+
+No Phase 10 implementation choice is production approval. No deployment or external configuration change was performed.

@@ -1,5 +1,5 @@
 {
-  "generatedRouteCount": 53,
+  "generatedRouteCount": 54,
   "generatedRoutes": [
     {
       "id": "home",
@@ -265,6 +265,11 @@
       "id": "accessibility",
       "output": "accessibility/index.html",
       "indexable": false
+    },
+    {
+      "id": "sitemap-page",
+      "output": "sitemap/index.html",
+      "indexable": true
     }
   ],
   "representativeRows": [

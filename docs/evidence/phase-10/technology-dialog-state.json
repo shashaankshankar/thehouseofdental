@@ -1,0 +1,16 @@
+{
+  "open": {
+    "active": "Close",
+    "ariaHidden": "false",
+    "backgroundInert": 4,
+    "bodyLocked": true,
+    "open": true,
+    "title": "CEREC® for selected same-day crown visits"
+  },
+  "closed": {
+    "activeId": "cerec",
+    "ariaHidden": "true",
+    "bodyLocked": false,
+    "open": false
+  }
+}

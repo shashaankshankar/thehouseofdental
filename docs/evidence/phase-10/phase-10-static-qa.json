@@ -1,0 +1,550 @@
+{
+  "generatedAt": "2026-08-05T06:44:44.565Z",
+  "verdict": "NO-GO",
+  "routeCount": 54,
+  "indexableRouteCount": 26,
+  "budgets": {
+    "htmlGzipBytes": 25000,
+    "cssGzipBytes": 20000,
+    "jsGzipBytes": 15000,
+    "homeCriticalBytes": 175000,
+    "homeRequests": 8,
+    "thirdPartyRequests": 0
+  },
+  "weights": {
+    "css": {
+      "bytes": 97753,
+      "gzipBytes": 18024
+    },
+    "js": {
+      "bytes": 44112,
+      "gzipBytes": 11007
+    },
+    "homeHtml": {
+      "bytes": 34903,
+      "gzipBytes": 8162
+    },
+    "homeHeroDesktopAvif": 90648,
+    "homeHeroMobileAvif": 34072,
+    "logo": {
+      "bytes": 21251,
+      "gzipBytes": 7010
+    },
+    "homeDesktopCriticalEstimate": 134851,
+    "homeMobileCriticalEstimate": 78275
+  },
+  "findings": [
+    {
+      "severity": "blocker",
+      "code": "migration-inventory-blocked",
+      "message": "37 URL inventory rows contain 39 blocked or held markers pending crawl, parity, analytics, or approval evidence.",
+      "routeId": null,
+      "evidence": "docs/URL-INVENTORY.csv"
+    }
+  ],
+  "counts": {
+    "blocker": 1,
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "explicitBlockers": [
+    "Final public/legal brand relationship and canonical-domain decision are pending.",
+    "NAP, hours, public email, map pin, and social ownership still require practice confirmation.",
+    "Appointment form delivery, security controls, notification ownership, and failure monitoring are unverified.",
+    "Privacy, Terms, Accessibility, offer, referral, and public-form legal review are incomplete.",
+    "Facial Aesthetics, Sleep, Laser Dentistry, and QuietNite facts and public release approvals are incomplete.",
+    "The production URL crawl, analytics/Search Console evidence, and one-to-one migration parity are incomplete.",
+    "No analytics, consent, CRM, call-tracking, or campaign vendor activation has been approved or live-tested.",
+    "Provider/team/media rights, credential, review-source, testimonial, and clinical-care approvals remain incomplete."
+  ],
+  "implementationFindingCount": 0,
+  "routeResults": [
+    {
+      "id": "home",
+      "output": "index.html",
+      "indexable": true,
+      "bytes": 34903,
+      "gzipBytes": 8162,
+      "h1": "Advanced Dentistry, Designed Around You",
+      "findings": []
+    },
+    {
+      "id": "services",
+      "output": "services.html",
+      "indexable": true,
+      "bytes": 23080,
+      "gzipBytes": 5768,
+      "h1": "Dental Services in Winter Park, Florida",
+      "findings": []
+    },
+    {
+      "id": "facial-aesthetics",
+      "output": "facial-aesthetics.html",
+      "indexable": false,
+      "bytes": 19557,
+      "gzipBytes": 5461,
+      "h1": "Facial Aesthetics — Internal Draft",
+      "findings": []
+    },
+    {
+      "id": "phase-4-drafts",
+      "output": "drafts/index.html",
+      "indexable": false,
+      "bytes": 17854,
+      "gzipBytes": 4846,
+      "h1": "Phase 4 Content Drafts",
+      "findings": []
+    },
+    {
+      "id": "facial-deka-draft",
+      "output": "drafts/facial-aesthetics/deka-co2/index.html",
+      "indexable": false,
+      "bytes": 17045,
+      "gzipBytes": 4763,
+      "h1": "DEKA CO2 Resurfacing — Internal Draft",
+      "findings": []
+    },
+    {
+      "id": "facial-microneedling-draft",
+      "output": "drafts/facial-aesthetics/microneedling/index.html",
+      "indexable": false,
+      "bytes": 16938,
+      "gzipBytes": 4718,
+      "h1": "Microneedling — Internal Draft",
+      "findings": []
+    },
+    {
+      "id": "facial-emage-draft",
+      "output": "drafts/facial-aesthetics/emage-3d-skin-analysis/index.html",
+      "indexable": false,
+      "bytes": 17029,
+      "gzipBytes": 4766,
+      "h1": "Emage 3D Skin Analysis — Internal Draft",
+      "findings": []
+    },
+    {
+      "id": "facial-hydroderm-draft",
+      "output": "drafts/facial-aesthetics/custom-hydroderm-facials/index.html",
+      "indexable": false,
+      "bytes": 17122,
+      "gzipBytes": 4729,
+      "h1": "Custom HydroDerm Facials — Internal Draft",
+      "findings": []
+    },
+    {
+      "id": "laser-dentistry-draft",
+      "output": "drafts/laser-dentistry/index.html",
+      "indexable": false,
+      "bytes": 16422,
+      "gzipBytes": 4533,
+      "h1": "Laser Dentistry — Internal Draft",
+      "findings": []
+    },
+    {
+      "id": "sleep-snoring-draft",
+      "output": "drafts/sleep-snoring/index.html",
+      "indexable": false,
+      "bytes": 16630,
+      "gzipBytes": 4590,
+      "h1": "Sleep Snoring Care — Internal Draft",
+      "findings": []
+    },
+    {
+      "id": "quietnite-draft",
+      "output": "drafts/quietnite/index.html",
+      "indexable": false,
+      "bytes": 16921,
+      "gzipBytes": 4809,
+      "h1": "QuietNite — Internal Draft",
+      "findings": []
+    },
+    {
+      "id": "new-patients",
+      "output": "new-patients.html",
+      "indexable": true,
+      "bytes": 21097,
+      "gzipBytes": 5596,
+      "h1": "New Patients",
+      "findings": []
+    },
+    {
+      "id": "patient-resources",
+      "output": "patient-resources/index.html",
+      "indexable": true,
+      "bytes": 17291,
+      "gzipBytes": 4545,
+      "h1": "Patient Resources",
+      "findings": []
+    },
+    {
+      "id": "new-patient-forms",
+      "output": "new-patients/forms/index.html",
+      "indexable": false,
+      "bytes": 15790,
+      "gzipBytes": 4254,
+      "h1": "New Patient Forms",
+      "findings": []
+    },
+    {
+      "id": "about",
+      "output": "about.html",
+      "indexable": true,
+      "bytes": 25536,
+      "gzipBytes": 6850,
+      "h1": "About The House of Dental",
+      "findings": []
+    },
+    {
+      "id": "technology",
+      "output": "technology/index.html",
+      "indexable": true,
+      "bytes": 17352,
+      "gzipBytes": 4770,
+      "h1": "Clearer decisions, one confirmed workflow",
+      "findings": []
+    },
+    {
+      "id": "dr-mainak-patel-draft",
+      "output": "drafts/about/dr-mainak-patel/index.html",
+      "indexable": false,
+      "bytes": 17818,
+      "gzipBytes": 4900,
+      "h1": "Dr. Mainak Patel, DMD",
+      "findings": []
+    },
+    {
+      "id": "reviews",
+      "output": "reviews.html",
+      "indexable": true,
+      "bytes": 15834,
+      "gzipBytes": 4463,
+      "h1": "A transparent place to start",
+      "findings": []
+    },
+    {
+      "id": "contact",
+      "output": "contact.html",
+      "indexable": true,
+      "bytes": 23544,
+      "gzipBytes": 5877,
+      "h1": "Visit The House of Dental",
+      "findings": []
+    },
+    {
+      "id": "pre-post-op",
+      "output": "pre-post-op.html",
+      "indexable": true,
+      "bytes": 41616,
+      "gzipBytes": 10358,
+      "h1": "Pre Post Treatment Care",
+      "findings": []
+    },
+    {
+      "id": "emergency-dentistry",
+      "output": "patient-resources/emergency-dentistry/index.html",
+      "indexable": false,
+      "bytes": 16294,
+      "gzipBytes": 4357,
+      "h1": "Urgent Dental Needs",
+      "findings": []
+    },
+    {
+      "id": "thank-you-appointment",
+      "output": "thank-you/appointment/index.html",
+      "indexable": false,
+      "bytes": 14186,
+      "gzipBytes": 3824,
+      "h1": "Appointment Request Status",
+      "findings": []
+    },
+    {
+      "id": "thank-you-offer",
+      "output": "thank-you/offer/index.html",
+      "indexable": false,
+      "bytes": 14075,
+      "gzipBytes": 3814,
+      "h1": "Offer Request Status",
+      "findings": []
+    },
+    {
+      "id": "404",
+      "output": "404.html",
+      "indexable": false,
+      "bytes": 13641,
+      "gzipBytes": 3748,
+      "h1": "Page Not Found",
+      "findings": []
+    },
+    {
+      "id": "all-services",
+      "output": "services/all-services/index.html",
+      "indexable": true,
+      "bytes": 20486,
+      "gzipBytes": 4810,
+      "h1": "All Dental Services in Winter Park, Florida",
+      "findings": []
+    },
+    {
+      "id": "restorative-dentistry",
+      "output": "services/restorative-dentistry/index.html",
+      "indexable": true,
+      "bytes": 28061,
+      "gzipBytes": 6813,
+      "h1": "Restorative Dentistry in Winter Park, Florida",
+      "findings": []
+    },
+    {
+      "id": "dental-implants",
+      "output": "services/dental-implants/index.html",
+      "indexable": true,
+      "bytes": 28168,
+      "gzipBytes": 6776,
+      "h1": "Dental Implants in Winter Park, Florida",
+      "findings": []
+    },
+    {
+      "id": "same-day-crowns",
+      "output": "services/same-day-crowns/index.html",
+      "indexable": true,
+      "bytes": 27880,
+      "gzipBytes": 6755,
+      "h1": "Same-Day Crowns in Winter Park, Florida",
+      "findings": []
+    },
+    {
+      "id": "dentures",
+      "output": "services/dentures/index.html",
+      "indexable": true,
+      "bytes": 27688,
+      "gzipBytes": 6696,
+      "h1": "Dentures in Winter Park, Florida",
+      "findings": []
+    },
+    {
+      "id": "root-canal-therapy",
+      "output": "services/root-canal-therapy/index.html",
+      "indexable": true,
+      "bytes": 27945,
+      "gzipBytes": 6741,
+      "h1": "Root Canal Therapy in Winter Park, Florida",
+      "findings": []
+    },
+    {
+      "id": "cosmetic-dentistry",
+      "output": "services/cosmetic-dentistry/index.html",
+      "indexable": true,
+      "bytes": 27877,
+      "gzipBytes": 6746,
+      "h1": "Cosmetic Dentistry in Winter Park, Florida",
+      "findings": []
+    },
+    {
+      "id": "porcelain-veneers",
+      "output": "services/porcelain-veneers/index.html",
+      "indexable": true,
+      "bytes": 27509,
+      "gzipBytes": 6618,
+      "h1": "Porcelain Veneers in Winter Park, Florida",
+      "findings": []
+    },
+    {
+      "id": "preventive-care",
+      "output": "services/preventive-care/index.html",
+      "indexable": true,
+      "bytes": 27523,
+      "gzipBytes": 6701,
+      "h1": "Preventive Care in Winter Park, Florida",
+      "findings": []
+    },
+    {
+      "id": "periodontal-therapy",
+      "output": "services/periodontal-therapy/index.html",
+      "indexable": true,
+      "bytes": 27573,
+      "gzipBytes": 6592,
+      "h1": "Periodontal Therapy in Winter Park, Florida",
+      "findings": []
+    },
+    {
+      "id": "invisalign",
+      "output": "services/invisalign/index.html",
+      "indexable": true,
+      "bytes": 27202,
+      "gzipBytes": 6561,
+      "h1": "Invisalign in Winter Park, Florida",
+      "findings": []
+    },
+    {
+      "id": "oral-surgery",
+      "output": "services/oral-surgery/index.html",
+      "indexable": true,
+      "bytes": 27515,
+      "gzipBytes": 6600,
+      "h1": "Oral Surgery in Winter Park, Florida",
+      "findings": []
+    },
+    {
+      "id": "sedation-dentistry",
+      "output": "services/sedation-dentistry/index.html",
+      "indexable": true,
+      "bytes": 27815,
+      "gzipBytes": 6665,
+      "h1": "Sedation Dentistry in Winter Park, Florida",
+      "findings": []
+    },
+    {
+      "id": "tmj-treatment",
+      "output": "services/tmj-treatment/index.html",
+      "indexable": true,
+      "bytes": 27649,
+      "gzipBytes": 6652,
+      "h1": "TMJ Evaluation Treatment in Winter Park, Florida",
+      "findings": []
+    },
+    {
+      "id": "insurance-financing",
+      "output": "new-patients/insurance-financing/index.html",
+      "indexable": true,
+      "bytes": 16855,
+      "gzipBytes": 4422,
+      "h1": "Insurance Financing Questions",
+      "findings": []
+    },
+    {
+      "id": "special-offers",
+      "output": "new-patients/special-offers/index.html",
+      "indexable": true,
+      "bytes": 16494,
+      "gzipBytes": 4397,
+      "h1": "Special Offers",
+      "findings": []
+    },
+    {
+      "id": "referral-program",
+      "output": "patient-resources/referral-program/index.html",
+      "indexable": false,
+      "bytes": 16210,
+      "gzipBytes": 4433,
+      "h1": "Referral Program — Pending Terms Approval",
+      "findings": []
+    },
+    {
+      "id": "campaign-dental-implants",
+      "output": "campaigns/dental-implants/index.html",
+      "indexable": false,
+      "bytes": 21374,
+      "gzipBytes": 5478,
+      "h1": "A thoughtful plan for replacing missing teeth",
+      "findings": []
+    },
+    {
+      "id": "campaign-same-day-crowns",
+      "output": "campaigns/same-day-crowns/index.html",
+      "indexable": false,
+      "bytes": 21245,
+      "gzipBytes": 5413,
+      "h1": "A focused path for a damaged tooth",
+      "findings": []
+    },
+    {
+      "id": "campaign-facial-aesthetics",
+      "output": "campaigns/facial-aesthetics/index.html",
+      "indexable": false,
+      "bytes": 20838,
+      "gzipBytes": 5348,
+      "h1": "Explore facial aesthetics with clear expectations",
+      "findings": []
+    },
+    {
+      "id": "campaign-invisalign",
+      "output": "campaigns/invisalign/index.html",
+      "indexable": false,
+      "bytes": 20976,
+      "gzipBytes": 5385,
+      "h1": "Explore clear aligners around your goals",
+      "findings": []
+    },
+    {
+      "id": "campaign-quietnite",
+      "output": "campaigns/quietnite/index.html",
+      "indexable": false,
+      "bytes": 20368,
+      "gzipBytes": 5361,
+      "h1": "QuietNite requires a confirmed protocol first",
+      "findings": []
+    },
+    {
+      "id": "campaign-laser-dentistry",
+      "output": "campaigns/laser-dentistry/index.html",
+      "indexable": false,
+      "bytes": 20428,
+      "gzipBytes": 5290,
+      "h1": "Laser Dentistry needs confirmed practice facts",
+      "findings": []
+    },
+    {
+      "id": "campaign-emergency-dentistry",
+      "output": "campaigns/emergency-dentistry/index.html",
+      "indexable": false,
+      "bytes": 20923,
+      "gzipBytes": 5217,
+      "h1": "When a dental concern feels urgent, call first",
+      "findings": []
+    },
+    {
+      "id": "campaign-new-patient-offer",
+      "output": "campaigns/new-patient-offer/index.html",
+      "indexable": false,
+      "bytes": 20349,
+      "gzipBytes": 5279,
+      "h1": "New-patient offers belong behind verified terms",
+      "findings": []
+    },
+    {
+      "id": "campaign-referral-program",
+      "output": "campaigns/referral-program/index.html",
+      "indexable": false,
+      "bytes": 20626,
+      "gzipBytes": 5327,
+      "h1": "A referral program needs approved terms first",
+      "findings": []
+    },
+    {
+      "id": "privacy",
+      "output": "privacy/index.html",
+      "indexable": false,
+      "bytes": 14548,
+      "gzipBytes": 4073,
+      "h1": "Privacy Policy — Pending Legal Review",
+      "findings": []
+    },
+    {
+      "id": "terms",
+      "output": "terms/index.html",
+      "indexable": false,
+      "bytes": 14453,
+      "gzipBytes": 3975,
+      "h1": "Terms Conditions — Pending Legal Review",
+      "findings": []
+    },
+    {
+      "id": "accessibility",
+      "output": "accessibility/index.html",
+      "indexable": false,
+      "bytes": 14561,
+      "gzipBytes": 3998,
+      "h1": "Accessibility Statement — Pending Review",
+      "findings": []
+    },
+    {
+      "id": "sitemap-page",
+      "output": "sitemap/index.html",
+      "indexable": true,
+      "bytes": 18883,
+      "gzipBytes": 4564,
+      "h1": "Sitemap",
+      "findings": []
+    }
+  ]
+}

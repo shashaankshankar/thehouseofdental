@@ -215,3 +215,21 @@ Normal viewport checks found no horizontal overflow and all H1/main/template reg
 | Keyboard/focus | Skip link, menu, CTA focus, form labels/errors, blocked CTA semantics, and return-focus behavior remain usable on representative campaign/contact routes | Pass locally | `phase-9-browser-qa.json` |
 | Operations | Ownership, least-privilege access, brief, approvals, release/rollback, cadence, incidents, and dashboard metric definitions are documented | Pass as handoff documentation | `docs/MARKETING-OPERATIONS.md` |
 | Release boundary | No deployment, vendor registration, ad activation, or external analytics request | Pass by instruction | `docs/evidence/phase-9/phase-9-release-gate.md` |
+
+## Phase 10 production-hardening QA matrix — 2026-08-05
+
+| Scope | Coverage | Result | Evidence |
+|---|---|---|---|
+| Clean source/build | 54 routes generated from source; tests and all validators | Pass; 9/9 tests, normal/strict/Phase 8/Phase 9 validators pass | `npm test`, `npm run validate`, `npm run validate:strict`, `npm run validate:phase8`, `npm run validate:phase9` |
+| Phase 10 static audit | Landmarks, labels, IDs, metadata, IA, forms, assets, claims, sitemap, budgets, integrations | Pass implementation; launch blocked by migration and eight external gates | `phase-10-static-qa.json` |
+| Required responsive matrix | 9 representative routes × 12 requested viewports | Pass; 108 checks, 0 failures | `phase-10-browser-qa.json`, `matrix/` |
+| Every generated route | 54 routes at 390×844 | Pass; no failed image or document overflow | `routes/`, `phase-10-route-screenshots.json` |
+| Mobile navigation | Quick actions first, grouped Services accordion, open-menu scrolling, sticky obstruction, Escape, focus return | Pass after sticky-action overlap fix | `final-mobile-menu-services-open-390x844.png`, `mobile-menu-state.json` |
+| Desktop navigation/footer | Grouped mega menu, 1440px fit, comprehensive footer, human sitemap | Pass | `desktop-services-mega-menu-1440x900.png`, `routes/sitemap-page-390x844.png` |
+| Form | Empty validation, errors/status/focus, safe unconfigured result, no false success/transmission | Pass locally; production delivery blocked | `contact-form-validation.json`, `contact-form-unconfigured.json` |
+| Dialog/care controls | Focus lifecycle, inert background, search/filter/accordion state | Pass | `technology-dialog-state.json`, `care-control-state.json` |
+| Accessibility | Static/automated checks, keyboard and screen-reader-oriented patterns, reflow proxies, target sizing | Pass locally; production integration retest required | `docs/ACCESSIBILITY-REPORT.md` |
+| Performance | 8 routes × mobile/desktop, weights, requests, transfers, FCP/LCP/CLS/TTFB/TBT proxy | Budgets pass; lab only, no field data | `phase-10-performance-browser.json`, `docs/PERFORMANCE-REPORT.md` |
+| HTTP/SEO | Home/sitemap 200, unknown 404, metadata/schema/sitemap/robots/redirect graph | Local pass | `npm run validate:phase8`, local HTTP smoke |
+| Migration | 37 inventory rows contain 39 blocked/held markers | **NO-GO** | `docs/MIGRATION-VALIDATION.md`, `docs/URL-INVENTORY.csv` |
+| Release boundary | No deployment or external state change | Pass by instruction | `docs/LAUNCH-READINESS.md` |

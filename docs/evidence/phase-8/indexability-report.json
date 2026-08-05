@@ -370,7 +370,14 @@
       "indexable": false,
       "robots": "noindex, nofollow",
       "inSitemap": false
+    },
+    {
+      "id": "sitemap-page",
+      "output": "sitemap/index.html",
+      "indexable": true,
+      "robots": "index, follow, max-image-preview:large",
+      "inSitemap": true
     }
   ],
-  "sitemapCount": 25
+  "sitemapCount": 26
 }

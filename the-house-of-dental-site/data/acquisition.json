@@ -121,6 +121,61 @@
       "requiresApproval": "Phase 4 Sleep & Snoring and QuietNite factual gate"
     }
   ],
+  "serviceGroups": [
+    {
+      "label": "Replace Missing Teeth",
+      "enabled": true,
+      "items": [
+        {"label": "Dental Implants", "routeId": "dental-implants", "enabled": true},
+        {"label": "Dentures / Implant-Supported Dentures", "routeId": "dentures", "enabled": true}
+      ]
+    },
+    {
+      "label": "Repair & Relieve Pain",
+      "enabled": true,
+      "items": [
+        {"label": "Same-Day Crowns", "routeId": "same-day-crowns", "enabled": true},
+        {"label": "Root Canal Therapy", "routeId": "root-canal-therapy", "enabled": true},
+        {"label": "Restorative Dentistry", "routeId": "restorative-dentistry", "enabled": true},
+        {"label": "Oral Surgery", "routeId": "oral-surgery", "enabled": true}
+      ]
+    },
+    {
+      "label": "Improve My Smile",
+      "enabled": true,
+      "items": [
+        {"label": "Cosmetic Dentistry", "routeId": "cosmetic-dentistry", "enabled": true},
+        {"label": "Porcelain Veneers", "routeId": "porcelain-veneers", "enabled": true},
+        {"label": "Invisalign", "routeId": "invisalign", "enabled": true}
+      ]
+    },
+    {
+      "label": "Prevent & Maintain",
+      "enabled": true,
+      "items": [
+        {"label": "Preventive Care", "routeId": "preventive-care", "enabled": true},
+        {"label": "Periodontal Therapy / Scaling & Root Planing", "routeId": "periodontal-therapy", "enabled": true}
+      ]
+    },
+    {
+      "label": "Comfort & Function",
+      "enabled": true,
+      "items": [
+        {"label": "Sedation Dentistry", "routeId": "sedation-dentistry", "enabled": true},
+        {"label": "TMJ Evaluation", "routeId": "tmj-treatment", "enabled": true}
+      ]
+    },
+    {
+      "label": "Sleep, Snoring & Laser",
+      "enabled": false,
+      "requiresApproval": "Phase 4 Sleep, Laser, and QuietNite factual and clinical approval",
+      "items": [
+        {"label": "Sleep & Snoring", "routeId": "sleep-snoring", "enabled": false},
+        {"label": "Laser Dentistry", "routeId": "laser-dentistry", "enabled": false},
+        {"label": "QuietNite", "routeId": "quietnite", "enabled": false}
+      ]
+    }
+  ],
   "navigation": {
     "topLevel": [
       {"label": "Services", "routeId": "services", "menu": "services", "enabled": true},
@@ -132,20 +187,23 @@
       {"label": "Contact", "routeId": "contact", "enabled": true}
     ],
     "newPatients": [
-      {"label": "New Patient Forms", "routeId": "new-patient-forms"},
-      {"label": "Insurance & Payment Questions", "routeId": "insurance-financing"},
-      {"label": "What to Expect", "routeId": "new-patients", "suffix": "#what-to-expect"}
+      {"label": "What to Expect", "routeId": "new-patients", "suffix": "#what-to-expect", "enabled": true},
+      {"label": "Forms", "routeId": "new-patient-forms", "enabled": true},
+      {"label": "Insurance & Financing", "routeId": "insurance-financing", "enabled": true},
+      {"label": "Savings Plan", "routeId": "new-patients", "suffix": "#savings-plan", "enabled": true},
+      {"label": "Special Offers", "routeId": "special-offers", "enabled": true}
     ],
     "resources": [
-      {"label": "Resource Hub", "routeId": "patient-resources"},
-      {"label": "Pre- & Post-Op Care", "routeId": "pre-post-op"},
-      {"label": "Urgent Dental Needs", "routeId": "emergency-dentistry"},
-      {"label": "Request an Appointment", "routeId": "contact", "suffix": "#book"}
+      {"label": "Pre/Post-Op Care", "routeId": "pre-post-op", "enabled": true},
+      {"label": "Referral Program", "routeId": "referral-program", "enabled": false, "requiresApproval": "Referral terms, legal review, and backend approval"},
+      {"label": "Emergency Guidance", "routeId": "emergency-dentistry", "enabled": true},
+      {"label": "Blog / Education", "routeId": "blog", "enabled": false, "requiresApproval": "Source crawl, authorship, clinical review, and migration parity"}
     ],
     "about": [
-      {"label": "Meet Dr. Patel", "routeId": "about", "suffix": "#dr-patel"},
-      {"label": "Meet the Team", "routeId": "about", "suffix": "#team"},
-      {"label": "Our Technologies", "routeId": "technology"}
+      {"label": "Dr. Mainak Patel", "routeId": "about", "suffix": "#dr-patel", "enabled": true},
+      {"label": "Team", "routeId": "about", "suffix": "#team", "enabled": true},
+      {"label": "Technology", "routeId": "technology", "enabled": true},
+      {"label": "Office / Community", "routeId": "about", "suffix": "#office-community", "enabled": true}
     ]
   }
 }

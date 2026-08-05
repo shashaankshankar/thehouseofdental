@@ -127,8 +127,32 @@ test("Phase 6 acquisition surfaces stay data-driven and approval-gated", () => {
   assert.match(homeHtml, /About/);
   assert.match(homeHtml, /Reviews/);
   assert.match(homeHtml, /Contact/);
-  assert.doesNotMatch(homeHtml, /Special Offers|Referral Program/);
+  assert.match(homeHtml, /Special Offers/);
+  assert.doesNotMatch(homeHtml, /Referral Program/);
   assert.doesNotMatch(servicesHtml, /href="#goal-/);
+});
+
+test("Phase 10 information architecture and performance hardening are explicit", () => {
+  const homeHtml = fs.readFileSync(path.join(outputRoot, "index.html"), "utf8");
+  const sitemapHtml = fs.readFileSync(path.join(outputRoot, "sitemap", "index.html"), "utf8");
+  const css = fs.readFileSync(path.join(outputRoot, "styles.css"), "utf8");
+  const groupedLabels = [
+    "Replace Missing Teeth", "Repair &amp; Relieve Pain", "Improve My Smile",
+    "Prevent &amp; Maintain", "Comfort &amp; Function"
+  ];
+
+  for (const label of groupedLabels) assert.match(homeHtml, new RegExp(label));
+  assert.match(homeHtml, /What to Expect[\s\S]*Forms[\s\S]*Insurance &amp; Financing[\s\S]*Savings Plan[\s\S]*Special Offers/);
+  assert.match(homeHtml, /Pre\/Post-Op Care[\s\S]*Emergency Guidance/);
+  assert.match(homeHtml, /Dr\. Mainak Patel[\s\S]*Team[\s\S]*Technology[\s\S]*Office \/ Community/);
+  assert.match(homeHtml, /rel="preload" as="image"[^>]+office-exterior-(?:mobile-800x900|wide-1200x881)\.avif/);
+  assert.match(homeHtml, /type="image\/avif"/);
+  assert.match(homeHtml, /type="image\/webp"/);
+  assert.doesNotMatch(homeHtml, /fonts\.(?:googleapis|gstatic)\.com/);
+  assert.match(homeHtml, /<script src="main\.js" defer><\/script>/);
+  assert.match(sitemapHtml, /Held until confirmed/);
+  assert.match(sitemapHtml, /Facial Aesthetics[\s\S]*Sleep &amp; Snoring[\s\S]*Laser Dentistry[\s\S]*QuietNite/);
+  assert.ok(css.length < 100000, `minified CSS exceeds Phase 10 budget: ${css.length} bytes`);
 });
 
 test("Phase 7 trust, technology, care, and media gates are explicit", () => {

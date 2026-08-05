@@ -1,0 +1,20 @@
+{
+  "activeId": "f-name",
+  "handler": "",
+  "invalid": [
+    "f-name",
+    "f-phone",
+    "f-email",
+    "f-patient-type",
+    "f-reason",
+    "f-preference",
+    "f-acknowledgment"
+  ],
+  "retry": {
+    "display": "none",
+    "hidden": true
+  },
+  "status": "Please review the highlighted fields before sending.",
+  "statusHidden": false,
+  "tone": "validation"
+}

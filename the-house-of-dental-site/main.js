@@ -4,6 +4,85 @@
   document.body.classList.add("js");
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* ----- Query-gated lab performance diagnostics (never sent off-site) ----- */
+  const performanceDebugEnabled = ["1", "true"].includes(new URLSearchParams(window.location.search).get("hod_perf"));
+  if (performanceDebugEnabled && "performance" in window) {
+    const lab = {lcp: null, cls: 0, tbt: 0, longTasks: 0};
+    const resultNode = document.createElement("script");
+    resultNode.type = "application/json";
+    resultNode.setAttribute("data-hod-performance-results", "");
+    document.head.appendChild(resultNode);
+    const summarize = () => {
+      const navigation = performance.getEntriesByType("navigation")[0];
+      const resources = performance.getEntriesByType("resource");
+      const paints = performance.getEntriesByType("paint");
+      const ownHost = window.location.hostname;
+      const groups = {};
+      let totalTransfer = navigation?.transferSize || 0;
+      resources.forEach((entry) => {
+        const type = entry.initiatorType || "other";
+        const size = entry.transferSize || entry.encodedBodySize || 0;
+        totalTransfer += size;
+        groups[type] = groups[type] || {requests: 0, transferSize: 0, duration: 0};
+        groups[type].requests += 1;
+        groups[type].transferSize += size;
+        groups[type].duration += entry.duration || 0;
+      });
+      const thirdParty = resources.filter((entry) => {
+        try { return new URL(entry.name).hostname !== ownHost; } catch (error) { return false; }
+      }).map((entry) => ({url: entry.name, type: entry.initiatorType, transferSize: entry.transferSize || 0, duration: entry.duration || 0}));
+      resultNode.textContent = JSON.stringify({
+        measuredAt: new Date().toISOString(),
+        route: document.body.dataset.route,
+        viewport: {width: window.innerWidth, height: window.innerHeight},
+        navigation: navigation ? {
+          ttfb: Math.max(0, navigation.responseStart - navigation.requestStart),
+          domContentLoaded: navigation.domContentLoadedEventEnd,
+          load: navigation.loadEventEnd,
+          transferSize: navigation.transferSize || navigation.encodedBodySize || 0
+        } : null,
+        fcp: paints.find((entry) => entry.name === "first-contentful-paint")?.startTime || null,
+        lcp: lab.lcp,
+        cls: lab.cls,
+        tbtProxy: lab.tbt,
+        longTasks: lab.longTasks,
+        totalTransfer,
+        requests: resources.length + (navigation ? 1 : 0),
+        groups,
+        thirdParty
+      });
+    };
+    if ("PerformanceObserver" in window) {
+      try {
+        new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          if (entries.length) lab.lcp = entries[entries.length - 1].startTime;
+          summarize();
+        }).observe({type: "largest-contentful-paint", buffered: true});
+      } catch (error) { /* Unsupported performance entry type. */ }
+      try {
+        new PerformanceObserver((list) => {
+          list.getEntries().forEach((entry) => {
+            if (!entry.hadRecentInput) lab.cls += entry.value;
+          });
+          summarize();
+        }).observe({type: "layout-shift", buffered: true});
+      } catch (error) { /* Unsupported performance entry type. */ }
+      try {
+        new PerformanceObserver((list) => {
+          list.getEntries().forEach((entry) => {
+            lab.longTasks += 1;
+            lab.tbt += Math.max(0, entry.duration - 50);
+          });
+          summarize();
+        }).observe({type: "longtask", buffered: true});
+      } catch (error) { /* Unsupported performance entry type. */ }
+    }
+    window.addEventListener("load", () => window.setTimeout(summarize, 0), {once: true});
+    document.addEventListener("visibilitychange", summarize);
+    summarize();
+  }
+
   const focusableSelector = [
     'a[href]',
     'area[href]',

@@ -55,6 +55,13 @@ const xmlEscape = (value) => String(value)
   .replaceAll('"', "&quot;")
   .replaceAll("'", "&apos;");
 
+const minifyCss = (value) => value
+  .replace(/\/\*[\s\S]*?\*\//g, "")
+  .replace(/\s+/g, " ")
+  .replace(/\s*([{}:;,>])\s*/g, "$1")
+  .replace(/;}/g, "}")
+  .trim();
+
 const canonicalBase = String(config.canonical?.baseUrl || "").replace(/\/+$/, "");
 assert(canonicalBase, "config/site.json must provide canonical.baseUrl");
 assert(config.canonical?.status, "config/site.json must document canonical.baseUrl status");
@@ -82,6 +89,7 @@ assert(Array.isArray(measurementData.allowedFields) && measurementData.allowedFi
 assert(campaignPageData.status && campaignPageData.campaigns, "data/campaign-pages.json must declare campaign records and status");
 assert(Array.isArray(careGuidesData.guides) && careGuidesData.guides.length > 0, "data/care-guides.json must provide public care guides");
 assert(careGuidesData.status, "data/care-guides.json must declare a content-system status");
+assert(Array.isArray(acquisitionData.serviceGroups) && acquisitionData.serviceGroups.length > 0, "data/acquisition.json must declare the recommended service groups");
 
 const careGuideById = new Map();
 for (const guide of careGuidesData.guides) {
@@ -228,20 +236,18 @@ const renderTrustStrip = (route) => `<div class="trust-strip" aria-label="Practi
 </div>`;
 
 const renderServicesMenu = (route) => {
-  const featured = publicItems(acquisitionData.featuredServices).map((item) => `<li><a href="${htmlEscape(acquisitionHref(route, item))}">${htmlEscape(item.title)}</a></li>`).join("\n");
-  const goals = publicItems(acquisitionData.goalPaths).map((item) => `<li><a href="${htmlEscape(acquisitionHref(route, item))}">${htmlEscape(item.label)}</a></li>`).join("\n");
-  return `<ul class="drop">
-  <li class="drop-label">Featured care</li>
-  ${featured}
-  <li class="drop-label">Choose by patient goal</li>
-  ${goals}
-  <li class="drop-label">Directory</li>
-  <li><a href="${htmlEscape(routeHref(route, "all-services"))}">All Services</a></li>
+  const groups = publicItems(acquisitionData.serviceGroups).map((group) => {
+    const items = publicItems(group.items).map((item) => `<li><a href="${htmlEscape(acquisitionHref(route, item))}">${htmlEscape(item.label)}</a></li>`).join("\n");
+    return `<li class="drop-group"><span class="drop-label">${htmlEscape(group.label)}</span><ul>${items}</ul></li>`;
+  }).join("\n");
+  return `<ul class="drop drop-mega">
+  ${groups}
+  <li class="drop-group drop-directory"><span class="drop-label">Directory</span><ul><li><a href="${htmlEscape(routeHref(route, "all-services"))}">All Services</a></li></ul></li>
 </ul>`;
 };
 
 const renderSubmenu = (route, items) => `<ul class="drop">
-  ${items.map((item) => `<li><a href="${htmlEscape(acquisitionHref(route, item))}">${htmlEscape(item.label)}</a></li>`).join("\n  ")}
+  ${publicItems(items).map((item) => `<li><a href="${htmlEscape(acquisitionHref(route, item))}">${htmlEscape(item.label)}</a></li>`).join("\n  ")}
 </ul>`;
 
 const renderTopLevelNavigation = (route) => publicItems(acquisitionData.navigation.topLevel)
@@ -264,6 +270,25 @@ const renderOptionalFooterServices = (route) => publicItems(acquisitionData.navi
   .filter((item) => item.routeId === "facial-aesthetics")
   .map((item) => `<li><a href="${htmlEscape(acquisitionHref(route, item))}">${htmlEscape(item.label)}</a></li>`)
   .join("\n          ");
+
+const renderFooterLinks = (route, items) => publicItems(items)
+  .map((item) => `<li><a href="${htmlEscape(acquisitionHref(route, item))}">${htmlEscape(item.label)}</a></li>`)
+  .join("\n          ");
+
+const renderFooterPrimaryLinks = (route) => renderFooterLinks(route, [
+  {label: "Home", routeId: "home"},
+  ...acquisitionData.navigation.topLevel
+]);
+
+const renderFooterPatientLinks = (route) => renderFooterLinks(route, [
+  {label: "What to Expect", routeId: "new-patients", suffix: "#what-to-expect"},
+  {label: "Forms", routeId: "new-patient-forms"},
+  {label: "Insurance & Financing", routeId: "insurance-financing"},
+  {label: "Savings Plan", routeId: "new-patients", suffix: "#savings-plan"},
+  {label: "Special Offers", routeId: "special-offers"},
+  {label: "Pre/Post-Op Care", routeId: "pre-post-op"},
+  {label: "Emergency Guidance", routeId: "emergency-dentistry"}
+]);
 
 const renderOptionalHomepageSections = (route) => publicItems(acquisitionData.featuredServices)
   .filter((item) => ["facial-aesthetics", "laser-dentistry", "quietnite"].includes(item.routeId))
@@ -833,8 +858,11 @@ const renderPage = (route) => {
     "{{HOURS_DISPLAY}}": hoursDisplay,
     "{{SOCIAL_LINKS}}": renderSocialLinks(),
     "{{LEGAL_LINKS}}": renderLegalLinks(route),
+    "{{FOOTER_PRIMARY_LINKS}}": renderFooterPrimaryLinks(route),
+    "{{FOOTER_PATIENT_LINKS}}": renderFooterPatientLinks(route),
     "{{FOOTER_OPTIONAL_SERVICES}}": renderOptionalFooterServices(route),
     "{{HREF_ALL_SERVICES}}": htmlEscape(routeHref(route, "all-services")),
+    "{{HREF_SITEMAP}}": htmlEscape(routeHref(route, "sitemap-page")),
     "{{ASSET_HREF:logo.svg}}": htmlEscape(assetHref(route, "assets/logo.svg")),
     "{{HOME_HREF}}": htmlEscape(routeHref(route, "home"))
   }, `${route.id} footer`);
@@ -851,7 +879,8 @@ const renderPage = (route) => {
     "{{METADATA}}": metadataFor(route),
     "{{SCHEMA}}": renderSchema(route),
     "{{MEASUREMENT_CONFIG}}": inlineJson(measurementRuntimeConfig(route)),
-    "{{FONT_LINKS}}": '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital@1&display=swap" rel="stylesheet">',
+    "{{FONT_LINKS}}": "",
+    "{{PERFORMANCE_HINTS}}": route.id === "home" ? '<link rel="preload" as="image" href="assets/office-exterior-mobile-800x900.avif" type="image/avif" media="(max-width: 720px)" fetchpriority="high">\n<link rel="preload" as="image" href="assets/office-exterior.avif" imagesrcset="assets/office-exterior-wide-1200x881.avif 1200w, assets/office-exterior.avif 1464w" imagesizes="100vw" type="image/avif" media="(min-width: 721px)" fetchpriority="high">' : "",
     "{{STYLES_HREF}}": htmlEscape(assetHref(route, "styles.css")),
     "{{SCRIPT_HREF}}": htmlEscape(assetHref(route, "main.js")),
     "{{FAVICON_HREF}}": htmlEscape(assetHref(route, "assets/logo.svg")),
@@ -880,7 +909,7 @@ const renderRedirects = () => {
 fs.rmSync(outputDir, { recursive: true, force: true });
 fs.mkdirSync(outputDir, { recursive: true });
 fs.cpSync(path.join(siteRoot, "assets"), path.join(outputDir, "assets"), { recursive: true });
-fs.copyFileSync(path.join(siteRoot, "styles.css"), path.join(outputDir, "styles.css"));
+fs.writeFileSync(path.join(outputDir, "styles.css"), `${minifyCss(readText(path.join(siteRoot, "styles.css")))}\n`, "utf8");
 fs.copyFileSync(path.join(siteRoot, "main.js"), path.join(outputDir, "main.js"));
 
 for (const route of enabledRoutes) {

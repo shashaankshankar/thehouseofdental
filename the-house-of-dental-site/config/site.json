@@ -1,0 +1,99 @@
+{
+  "brand": {
+    "name": "The House of Dental",
+    "alternateName": "Winter Park Dental",
+    "status": "Visual rebrand retained from Phase 1; practice/legal relationship is pending confirmation."
+  },
+  "canonical": {
+    "baseUrl": "https://thehouseofdental.com",
+    "status": "provisional",
+    "note": "Retained from the Phase 1 source. The canonical domain remains pending practice/legal approval and is not a launch decision."
+  },
+  "contact": {
+    "phone": {
+      "display": "(407) 678-1400",
+      "tel": "+14076781400",
+      "status": "Retained from Phase 1 source; practice confirmation is pending."
+    },
+    "address": {
+      "street": "6504 University Blvd",
+      "locality": "Winter Park",
+      "region": "FL",
+      "postalCode": "32792",
+      "country": "US",
+      "status": "Retained from Phase 1 source; practice confirmation is pending."
+    },
+    "mapUrl": {
+      "value": "https://goo.gl/maps/CT32JzwGHYR7qNJX6",
+      "status": "Retained from Phase 1 source; practice confirmation is pending."
+    },
+    "hours": {
+      "display": "Monday — Thursday\n8:00am — 3:00pm",
+      "rows": [
+        {"day": "Monday", "display": "8:00am — 3:00pm"},
+        {"day": "Tuesday", "display": "8:00am — 3:00pm"},
+        {"day": "Wednesday", "display": "8:00am — 3:00pm"},
+        {"day": "Thursday", "display": "8:00am — 3:00pm"}
+      ],
+      "status": "Retained from Phase 1 source; complete hours and Friday-by-appointment status are pending practice confirmation."
+    },
+    "email": {
+      "value": null,
+      "status": "unresolved",
+      "note": "Do not publish an office email until the practice confirms it."
+    }
+  },
+  "socialUrls": [
+    {
+      "label": "Instagram",
+      "url": "https://www.instagram.com/winterparkdental/",
+      "status": "Retained from Phase 1 source; practice confirmation is pending."
+    },
+    {
+      "label": "Facebook",
+      "url": "https://www.facebook.com/Winter-Park-Dental-Dr-Mainak-Patel-442390222484934",
+      "status": "Retained from Phase 1 source; practice confirmation is pending."
+    }
+  ],
+  "appointmentUrl": {
+    "path": "/contact.html#book",
+    "status": "This is the local appointment-request path. The production scheduling/form destination remains unresolved."
+  },
+  "integrations": {
+    "appointmentForm": {
+      "handlerUrl": null,
+      "provider": null,
+      "status": "blocked_no_approved_handler",
+      "notificationDestination": null,
+      "notificationStatus": "blocked_no_approved_email_crm_or_practice_management_destination",
+      "securityStatus": "client_validation_and_honeypot_present;_platform_rate_limiting_csrf_and_server_side_validation_pending",
+      "testingStatus": "live_network_server_and_success_paths_unavailable_until_an_approved_handler_exists"
+    },
+    "newPatientForms": {
+      "secureUrl": null,
+      "status": "blocked_destination_verification_required"
+    },
+    "analytics": {
+      "status": "no_analytics_or_call_tracking_configured",
+      "allowedFields": ["page_type", "cta_location", "conversion_type", "campaign_source", "state"],
+      "prohibitedFields": ["name", "phone", "email", "message", "symptoms", "diagnosis", "treatment_details", "referral_friend_data"]
+    }
+  },
+  "reviewSource": {
+    "url": null,
+    "label": "Review source pending approval",
+    "status": "unresolved",
+    "note": "Visible Phase 1 review content is retained, but no review count or source is emitted in structured data until an owner confirms it."
+  },
+  "analytics": {
+    "ga4MeasurementId": null,
+    "tagManagerId": null,
+    "callTrackingNumber": null,
+    "status": "placeholders only; no analytics or call-tracking claim is published"
+  },
+  "legalLinks": [
+    {"label": "Terms & Conditions", "routeId": "terms", "enabled": true},
+    {"label": "Privacy Policy", "routeId": "privacy", "enabled": true},
+    {"label": "Accessibility", "routeId": "accessibility", "enabled": true}
+  ]
+}

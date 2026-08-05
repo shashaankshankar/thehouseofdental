@@ -1,0 +1,2428 @@
+{
+  "generatedAt": "2026-08-05T02:57:59.366Z",
+  "base": "http://127.0.0.1:4173",
+  "routeCount": 14,
+  "viewportCount": 3,
+  "captureCount": 42,
+  "failedCaptureCount": 3,
+  "failedCaptures": [
+    {
+      "route": "about",
+      "viewport": "mobile",
+      "httpStatus": 200,
+      "horizontalOverflow": false,
+      "brokenLocalImages": [
+        {
+          "src": "assets/team/ashley.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/christy.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/jennifer.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/emily.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/renee.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/patsi.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/eishan.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        }
+      ],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "emptyMediaSlots": 0
+    },
+    {
+      "route": "about",
+      "viewport": "tablet",
+      "httpStatus": 200,
+      "horizontalOverflow": false,
+      "brokenLocalImages": [
+        {
+          "src": "assets/team/ashley.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/christy.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/jennifer.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/emily.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/renee.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/patsi.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/eishan.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        }
+      ],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "emptyMediaSlots": 0
+    },
+    {
+      "route": "about",
+      "viewport": "desktop",
+      "httpStatus": 200,
+      "horizontalOverflow": false,
+      "brokenLocalImages": [
+        {
+          "src": "assets/team/ashley.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/christy.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/jennifer.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/emily.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/renee.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/patsi.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/eishan.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        }
+      ],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "emptyMediaSlots": 0
+    }
+  ],
+  "keyboard": {
+    "firstTab": {
+      "id": "",
+      "className": "skip-link",
+      "text": "Skip to main content"
+    },
+    "menuOpen": {
+      "expanded": "true",
+      "hidden": "false",
+      "focusedInside": true
+    },
+    "submenuOpen": "true",
+    "menuAfterEscape": {
+      "expanded": "false",
+      "hidden": "true",
+      "focusReturned": true
+    }
+  },
+  "results": [
+    {
+      "route": "home",
+      "path": "/",
+      "viewport": "mobile",
+      "httpStatus": 200,
+      "url": "/",
+      "title": "Dentist in Winter Park, FL | The House of Dental — Dental Implants & Same-Day Crowns",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 393,
+      "viewportWidth": 390,
+      "images": [
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "https://images.unsplash.com/photo-1489278353717-f64c6ee8a4d2?q=80&w=1400&auto=format&fit=crop",
+          "complete": true,
+          "naturalWidth": 1400,
+          "local": false
+        },
+        {
+          "src": "",
+          "complete": true,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/meet_dr_mainak_patel_winter_park_fl.jpg",
+          "complete": true,
+          "naturalWidth": 400,
+          "local": false
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/norma-before1-scaled-1.jpg",
+          "complete": true,
+          "naturalWidth": 600,
+          "local": false
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/norma-before2-scaled-1.jpg",
+          "complete": true,
+          "naturalWidth": 600,
+          "local": false
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/ray-before-scaled-1.jpg",
+          "complete": true,
+          "naturalWidth": 600,
+          "local": false
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/Ray-after-scaled-1.jpg",
+          "complete": true,
+          "naturalWidth": 600,
+          "local": false
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/tart-before-p2-scaled-1.jpg",
+          "complete": true,
+          "naturalWidth": 600,
+          "local": false
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/tart-after-p1-scaled-1.jpg",
+          "complete": true,
+          "naturalWidth": 600,
+          "local": false
+        },
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 1,
+      "robots": "index, follow, max-image-preview:large",
+      "hasServiceSchema": false,
+      "textLength": 4890,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "home-mobile.png"
+    },
+    {
+      "route": "home",
+      "path": "/",
+      "viewport": "tablet",
+      "httpStatus": 200,
+      "url": "/",
+      "title": "Dentist in Winter Park, FL | The House of Dental — Dental Implants & Same-Day Crowns",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 768,
+      "viewportWidth": 768,
+      "images": [
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "https://images.unsplash.com/photo-1489278353717-f64c6ee8a4d2?q=80&w=1400&auto=format&fit=crop",
+          "complete": true,
+          "naturalWidth": 1400,
+          "local": false
+        },
+        {
+          "src": "",
+          "complete": true,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/meet_dr_mainak_patel_winter_park_fl.jpg",
+          "complete": true,
+          "naturalWidth": 400,
+          "local": false
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/norma-before1-scaled-1.jpg",
+          "complete": true,
+          "naturalWidth": 600,
+          "local": false
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/norma-before2-scaled-1.jpg",
+          "complete": true,
+          "naturalWidth": 600,
+          "local": false
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/ray-before-scaled-1.jpg",
+          "complete": true,
+          "naturalWidth": 600,
+          "local": false
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/Ray-after-scaled-1.jpg",
+          "complete": true,
+          "naturalWidth": 600,
+          "local": false
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/tart-before-p2-scaled-1.jpg",
+          "complete": true,
+          "naturalWidth": 600,
+          "local": false
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/tart-after-p1-scaled-1.jpg",
+          "complete": true,
+          "naturalWidth": 600,
+          "local": false
+        },
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 1,
+      "robots": "index, follow, max-image-preview:large",
+      "hasServiceSchema": false,
+      "textLength": 4890,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "home-tablet.png"
+    },
+    {
+      "route": "home",
+      "path": "/",
+      "viewport": "desktop",
+      "httpStatus": 200,
+      "url": "/",
+      "title": "Dentist in Winter Park, FL | The House of Dental — Dental Implants & Same-Day Crowns",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 1440,
+      "viewportWidth": 1440,
+      "images": [
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "https://images.unsplash.com/photo-1489278353717-f64c6ee8a4d2?q=80&w=1400&auto=format&fit=crop",
+          "complete": true,
+          "naturalWidth": 1400,
+          "local": false
+        },
+        {
+          "src": "",
+          "complete": true,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/meet_dr_mainak_patel_winter_park_fl.jpg",
+          "complete": true,
+          "naturalWidth": 400,
+          "local": false
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/norma-before1-scaled-1.jpg",
+          "complete": true,
+          "naturalWidth": 600,
+          "local": false
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/norma-before2-scaled-1.jpg",
+          "complete": true,
+          "naturalWidth": 600,
+          "local": false
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/ray-before-scaled-1.jpg",
+          "complete": true,
+          "naturalWidth": 600,
+          "local": false
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/Ray-after-scaled-1.jpg",
+          "complete": true,
+          "naturalWidth": 600,
+          "local": false
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/tart-before-p2-scaled-1.jpg",
+          "complete": true,
+          "naturalWidth": 600,
+          "local": false
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/tart-after-p1-scaled-1.jpg",
+          "complete": true,
+          "naturalWidth": 600,
+          "local": false
+        },
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 1,
+      "robots": "index, follow, max-image-preview:large",
+      "hasServiceSchema": false,
+      "textLength": 4889,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "home-desktop.png"
+    },
+    {
+      "route": "services",
+      "path": "/services.html",
+      "viewport": "mobile",
+      "httpStatus": 200,
+      "url": "/services.html",
+      "title": "Dental Services in Winter Park, FL | Implants, Crowns, Veneers & Invisalign",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 390,
+      "viewportWidth": 390,
+      "images": [
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "index, follow, max-image-preview:large",
+      "hasServiceSchema": false,
+      "textLength": 4086,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "services-mobile.png"
+    },
+    {
+      "route": "services",
+      "path": "/services.html",
+      "viewport": "tablet",
+      "httpStatus": 200,
+      "url": "/services.html",
+      "title": "Dental Services in Winter Park, FL | Implants, Crowns, Veneers & Invisalign",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 768,
+      "viewportWidth": 768,
+      "images": [
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "index, follow, max-image-preview:large",
+      "hasServiceSchema": false,
+      "textLength": 4086,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "services-tablet.png"
+    },
+    {
+      "route": "services",
+      "path": "/services.html",
+      "viewport": "desktop",
+      "httpStatus": 200,
+      "url": "/services.html",
+      "title": "Dental Services in Winter Park, FL | Implants, Crowns, Veneers & Invisalign",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 1440,
+      "viewportWidth": 1440,
+      "images": [
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "index, follow, max-image-preview:large",
+      "hasServiceSchema": false,
+      "textLength": 4085,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "services-desktop.png"
+    },
+    {
+      "route": "all-services",
+      "path": "/services/all-services/",
+      "viewport": "mobile",
+      "httpStatus": 200,
+      "url": "/services/all-services/",
+      "title": "All Dental Services in Winter Park, FL | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 390,
+      "viewportWidth": 390,
+      "images": [
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "index, follow, max-image-preview:large",
+      "hasServiceSchema": false,
+      "textLength": 2695,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "all-services-mobile.png"
+    },
+    {
+      "route": "all-services",
+      "path": "/services/all-services/",
+      "viewport": "tablet",
+      "httpStatus": 200,
+      "url": "/services/all-services/",
+      "title": "All Dental Services in Winter Park, FL | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 768,
+      "viewportWidth": 768,
+      "images": [
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "index, follow, max-image-preview:large",
+      "hasServiceSchema": false,
+      "textLength": 2695,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "all-services-tablet.png"
+    },
+    {
+      "route": "all-services",
+      "path": "/services/all-services/",
+      "viewport": "desktop",
+      "httpStatus": 200,
+      "url": "/services/all-services/",
+      "title": "All Dental Services in Winter Park, FL | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 1440,
+      "viewportWidth": 1440,
+      "images": [
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "index, follow, max-image-preview:large",
+      "hasServiceSchema": false,
+      "textLength": 2694,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "all-services-desktop.png"
+    },
+    {
+      "route": "pre-post-op",
+      "path": "/pre-post-op.html",
+      "viewport": "mobile",
+      "httpStatus": 200,
+      "url": "/pre-post-op.html",
+      "title": "Pre- & Post-Operative Care Instructions | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 390,
+      "viewportWidth": 390,
+      "images": [
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "index, follow, max-image-preview:large",
+      "hasServiceSchema": false,
+      "textLength": 13129,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "pre-post-op-mobile.png"
+    },
+    {
+      "route": "pre-post-op",
+      "path": "/pre-post-op.html",
+      "viewport": "tablet",
+      "httpStatus": 200,
+      "url": "/pre-post-op.html",
+      "title": "Pre- & Post-Operative Care Instructions | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 768,
+      "viewportWidth": 768,
+      "images": [
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "index, follow, max-image-preview:large",
+      "hasServiceSchema": false,
+      "textLength": 13129,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "pre-post-op-tablet.png"
+    },
+    {
+      "route": "pre-post-op",
+      "path": "/pre-post-op.html",
+      "viewport": "desktop",
+      "httpStatus": 200,
+      "url": "/pre-post-op.html",
+      "title": "Pre- & Post-Operative Care Instructions | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 1440,
+      "viewportWidth": 1440,
+      "images": [
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "index, follow, max-image-preview:large",
+      "hasServiceSchema": false,
+      "textLength": 13128,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "pre-post-op-desktop.png"
+    },
+    {
+      "route": "about",
+      "path": "/about.html",
+      "viewport": "mobile",
+      "httpStatus": 200,
+      "url": "/about.html",
+      "title": "About The House of Dental | Dr. Mainak Patel | Winter Park, FL",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 393,
+      "viewportWidth": 390,
+      "images": [
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/meet_dr_mainak_patel_winter_park_fl.jpg",
+          "complete": true,
+          "naturalWidth": 400,
+          "local": false
+        },
+        {
+          "src": "https://images.unsplash.com/photo-1580821810660-5486b8e980a6?q=80&w=1400&auto=format&fit=crop",
+          "complete": true,
+          "naturalWidth": 1400,
+          "local": false
+        },
+        {
+          "src": "assets/team/ashley.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/christy.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/jennifer.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/emily.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/renee.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/patsi.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/eishan.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "",
+          "complete": true,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [
+        {
+          "src": "assets/team/ashley.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/christy.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/jennifer.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/emily.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/renee.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/patsi.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/eishan.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        }
+      ],
+      "emptySrcImages": 1,
+      "robots": "index, follow, max-image-preview:large",
+      "hasServiceSchema": false,
+      "textLength": 4425,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [
+        {
+          "src": "assets/team/ashley.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/christy.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/jennifer.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/emily.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/renee.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/patsi.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/eishan.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        }
+      ],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "about-mobile.png"
+    },
+    {
+      "route": "about",
+      "path": "/about.html",
+      "viewport": "tablet",
+      "httpStatus": 200,
+      "url": "/about.html",
+      "title": "About The House of Dental | Dr. Mainak Patel | Winter Park, FL",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 768,
+      "viewportWidth": 768,
+      "images": [
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/meet_dr_mainak_patel_winter_park_fl.jpg",
+          "complete": true,
+          "naturalWidth": 400,
+          "local": false
+        },
+        {
+          "src": "https://images.unsplash.com/photo-1580821810660-5486b8e980a6?q=80&w=1400&auto=format&fit=crop",
+          "complete": true,
+          "naturalWidth": 1400,
+          "local": false
+        },
+        {
+          "src": "assets/team/ashley.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/christy.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/jennifer.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/emily.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/renee.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/patsi.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/eishan.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "",
+          "complete": true,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [
+        {
+          "src": "assets/team/ashley.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/christy.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/jennifer.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/emily.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/renee.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/patsi.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/eishan.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        }
+      ],
+      "emptySrcImages": 1,
+      "robots": "index, follow, max-image-preview:large",
+      "hasServiceSchema": false,
+      "textLength": 4425,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [
+        {
+          "src": "assets/team/ashley.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/christy.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/jennifer.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/emily.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/renee.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/patsi.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/eishan.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        }
+      ],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "about-tablet.png"
+    },
+    {
+      "route": "about",
+      "path": "/about.html",
+      "viewport": "desktop",
+      "httpStatus": 200,
+      "url": "/about.html",
+      "title": "About The House of Dental | Dr. Mainak Patel | Winter Park, FL",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 1440,
+      "viewportWidth": 1440,
+      "images": [
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "https://winterparkdental.com/wp-content/uploads/2021/03/meet_dr_mainak_patel_winter_park_fl.jpg",
+          "complete": true,
+          "naturalWidth": 400,
+          "local": false
+        },
+        {
+          "src": "https://images.unsplash.com/photo-1580821810660-5486b8e980a6?q=80&w=1400&auto=format&fit=crop",
+          "complete": true,
+          "naturalWidth": 1400,
+          "local": false
+        },
+        {
+          "src": "assets/team/ashley.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/christy.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/jennifer.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/emily.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/renee.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/patsi.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/eishan.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "",
+          "complete": true,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [
+        {
+          "src": "assets/team/ashley.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/christy.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/jennifer.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/emily.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/renee.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/patsi.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/eishan.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        }
+      ],
+      "emptySrcImages": 1,
+      "robots": "index, follow, max-image-preview:large",
+      "hasServiceSchema": false,
+      "textLength": 4424,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [
+        {
+          "src": "assets/team/ashley.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/christy.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/jennifer.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/emily.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/renee.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/patsi.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        },
+        {
+          "src": "assets/team/eishan.jpg",
+          "complete": false,
+          "naturalWidth": 0,
+          "local": true
+        }
+      ],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "about-desktop.png"
+    },
+    {
+      "route": "facial-aesthetics",
+      "path": "/facial-aesthetics.html",
+      "viewport": "mobile",
+      "httpStatus": 200,
+      "url": "/facial-aesthetics.html",
+      "title": "Facial Aesthetics — Internal Draft | Approval Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 390,
+      "viewportWidth": 390,
+      "images": [
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 4449,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "facial-aesthetics-mobile.png"
+    },
+    {
+      "route": "facial-aesthetics",
+      "path": "/facial-aesthetics.html",
+      "viewport": "tablet",
+      "httpStatus": 200,
+      "url": "/facial-aesthetics.html",
+      "title": "Facial Aesthetics — Internal Draft | Approval Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 768,
+      "viewportWidth": 768,
+      "images": [
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 4449,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "facial-aesthetics-tablet.png"
+    },
+    {
+      "route": "facial-aesthetics",
+      "path": "/facial-aesthetics.html",
+      "viewport": "desktop",
+      "httpStatus": 200,
+      "url": "/facial-aesthetics.html",
+      "title": "Facial Aesthetics — Internal Draft | Approval Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 1440,
+      "viewportWidth": 1440,
+      "images": [
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 4448,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "facial-aesthetics-desktop.png"
+    },
+    {
+      "route": "phase-4-drafts",
+      "path": "/drafts/",
+      "viewport": "mobile",
+      "httpStatus": 200,
+      "url": "/drafts/",
+      "title": "Phase 4 Content Drafts | Internal Review Only | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 390,
+      "viewportWidth": 390,
+      "images": [
+        {
+          "src": "../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 3013,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "phase-4-drafts-mobile.png"
+    },
+    {
+      "route": "phase-4-drafts",
+      "path": "/drafts/",
+      "viewport": "tablet",
+      "httpStatus": 200,
+      "url": "/drafts/",
+      "title": "Phase 4 Content Drafts | Internal Review Only | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 768,
+      "viewportWidth": 768,
+      "images": [
+        {
+          "src": "../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 3013,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "phase-4-drafts-tablet.png"
+    },
+    {
+      "route": "phase-4-drafts",
+      "path": "/drafts/",
+      "viewport": "desktop",
+      "httpStatus": 200,
+      "url": "/drafts/",
+      "title": "Phase 4 Content Drafts | Internal Review Only | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 1440,
+      "viewportWidth": 1440,
+      "images": [
+        {
+          "src": "../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 3012,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "phase-4-drafts-desktop.png"
+    },
+    {
+      "route": "draft-deka-co2",
+      "path": "/drafts/facial-aesthetics/deka-co2/",
+      "viewport": "mobile",
+      "httpStatus": 200,
+      "url": "/drafts/facial-aesthetics/deka-co2/",
+      "title": "DEKA CO2 Resurfacing — Internal Draft | Approval Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 390,
+      "viewportWidth": 390,
+      "images": [
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 2849,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-deka-co2-mobile.png"
+    },
+    {
+      "route": "draft-deka-co2",
+      "path": "/drafts/facial-aesthetics/deka-co2/",
+      "viewport": "tablet",
+      "httpStatus": 200,
+      "url": "/drafts/facial-aesthetics/deka-co2/",
+      "title": "DEKA CO2 Resurfacing — Internal Draft | Approval Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 768,
+      "viewportWidth": 768,
+      "images": [
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 2849,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-deka-co2-tablet.png"
+    },
+    {
+      "route": "draft-deka-co2",
+      "path": "/drafts/facial-aesthetics/deka-co2/",
+      "viewport": "desktop",
+      "httpStatus": 200,
+      "url": "/drafts/facial-aesthetics/deka-co2/",
+      "title": "DEKA CO2 Resurfacing — Internal Draft | Approval Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 1440,
+      "viewportWidth": 1440,
+      "images": [
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 2848,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-deka-co2-desktop.png"
+    },
+    {
+      "route": "draft-microneedling",
+      "path": "/drafts/facial-aesthetics/microneedling/",
+      "viewport": "mobile",
+      "httpStatus": 200,
+      "url": "/drafts/facial-aesthetics/microneedling/",
+      "title": "Microneedling — Internal Draft | Approval Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 390,
+      "viewportWidth": 390,
+      "images": [
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 2762,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-microneedling-mobile.png"
+    },
+    {
+      "route": "draft-microneedling",
+      "path": "/drafts/facial-aesthetics/microneedling/",
+      "viewport": "tablet",
+      "httpStatus": 200,
+      "url": "/drafts/facial-aesthetics/microneedling/",
+      "title": "Microneedling — Internal Draft | Approval Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 768,
+      "viewportWidth": 768,
+      "images": [
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 2762,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-microneedling-tablet.png"
+    },
+    {
+      "route": "draft-microneedling",
+      "path": "/drafts/facial-aesthetics/microneedling/",
+      "viewport": "desktop",
+      "httpStatus": 200,
+      "url": "/drafts/facial-aesthetics/microneedling/",
+      "title": "Microneedling — Internal Draft | Approval Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 1440,
+      "viewportWidth": 1440,
+      "images": [
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 2761,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-microneedling-desktop.png"
+    },
+    {
+      "route": "draft-emage",
+      "path": "/drafts/facial-aesthetics/emage-3d-skin-analysis/",
+      "viewport": "mobile",
+      "httpStatus": 200,
+      "url": "/drafts/facial-aesthetics/emage-3d-skin-analysis/",
+      "title": "Emage 3D Skin Analysis — Internal Draft | Approval Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 390,
+      "viewportWidth": 390,
+      "images": [
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 2759,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-emage-mobile.png"
+    },
+    {
+      "route": "draft-emage",
+      "path": "/drafts/facial-aesthetics/emage-3d-skin-analysis/",
+      "viewport": "tablet",
+      "httpStatus": 200,
+      "url": "/drafts/facial-aesthetics/emage-3d-skin-analysis/",
+      "title": "Emage 3D Skin Analysis — Internal Draft | Approval Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 768,
+      "viewportWidth": 768,
+      "images": [
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 2759,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-emage-tablet.png"
+    },
+    {
+      "route": "draft-emage",
+      "path": "/drafts/facial-aesthetics/emage-3d-skin-analysis/",
+      "viewport": "desktop",
+      "httpStatus": 200,
+      "url": "/drafts/facial-aesthetics/emage-3d-skin-analysis/",
+      "title": "Emage 3D Skin Analysis — Internal Draft | Approval Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 1440,
+      "viewportWidth": 1440,
+      "images": [
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 2758,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-emage-desktop.png"
+    },
+    {
+      "route": "draft-hydroderm",
+      "path": "/drafts/facial-aesthetics/custom-hydroderm-facials/",
+      "viewport": "mobile",
+      "httpStatus": 200,
+      "url": "/drafts/facial-aesthetics/custom-hydroderm-facials/",
+      "title": "Custom HydroDerm Facials — Internal Draft | Approval Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 390,
+      "viewportWidth": 390,
+      "images": [
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 2804,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-hydroderm-mobile.png"
+    },
+    {
+      "route": "draft-hydroderm",
+      "path": "/drafts/facial-aesthetics/custom-hydroderm-facials/",
+      "viewport": "tablet",
+      "httpStatus": 200,
+      "url": "/drafts/facial-aesthetics/custom-hydroderm-facials/",
+      "title": "Custom HydroDerm Facials — Internal Draft | Approval Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 768,
+      "viewportWidth": 768,
+      "images": [
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 2804,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-hydroderm-tablet.png"
+    },
+    {
+      "route": "draft-hydroderm",
+      "path": "/drafts/facial-aesthetics/custom-hydroderm-facials/",
+      "viewport": "desktop",
+      "httpStatus": 200,
+      "url": "/drafts/facial-aesthetics/custom-hydroderm-facials/",
+      "title": "Custom HydroDerm Facials — Internal Draft | Approval Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 1440,
+      "viewportWidth": 1440,
+      "images": [
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 2803,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-hydroderm-desktop.png"
+    },
+    {
+      "route": "draft-laser-dentistry",
+      "path": "/drafts/laser-dentistry/",
+      "viewport": "mobile",
+      "httpStatus": 200,
+      "url": "/drafts/laser-dentistry/",
+      "title": "Laser Dentistry — Internal Draft | Practice Input Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 390,
+      "viewportWidth": 390,
+      "images": [
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 2587,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-laser-dentistry-mobile.png"
+    },
+    {
+      "route": "draft-laser-dentistry",
+      "path": "/drafts/laser-dentistry/",
+      "viewport": "tablet",
+      "httpStatus": 200,
+      "url": "/drafts/laser-dentistry/",
+      "title": "Laser Dentistry — Internal Draft | Practice Input Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 768,
+      "viewportWidth": 768,
+      "images": [
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 2587,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-laser-dentistry-tablet.png"
+    },
+    {
+      "route": "draft-laser-dentistry",
+      "path": "/drafts/laser-dentistry/",
+      "viewport": "desktop",
+      "httpStatus": 200,
+      "url": "/drafts/laser-dentistry/",
+      "title": "Laser Dentistry — Internal Draft | Practice Input Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 1440,
+      "viewportWidth": 1440,
+      "images": [
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 2586,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-laser-dentistry-desktop.png"
+    },
+    {
+      "route": "draft-sleep-snoring",
+      "path": "/drafts/sleep-snoring/",
+      "viewport": "mobile",
+      "httpStatus": 200,
+      "url": "/drafts/sleep-snoring/",
+      "title": "Sleep & Snoring Care — Internal Draft | Protocol Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 390,
+      "viewportWidth": 390,
+      "images": [
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 2707,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-sleep-snoring-mobile.png"
+    },
+    {
+      "route": "draft-sleep-snoring",
+      "path": "/drafts/sleep-snoring/",
+      "viewport": "tablet",
+      "httpStatus": 200,
+      "url": "/drafts/sleep-snoring/",
+      "title": "Sleep & Snoring Care — Internal Draft | Protocol Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 768,
+      "viewportWidth": 768,
+      "images": [
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 2707,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-sleep-snoring-tablet.png"
+    },
+    {
+      "route": "draft-sleep-snoring",
+      "path": "/drafts/sleep-snoring/",
+      "viewport": "desktop",
+      "httpStatus": 200,
+      "url": "/drafts/sleep-snoring/",
+      "title": "Sleep & Snoring Care — Internal Draft | Protocol Required | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 1440,
+      "viewportWidth": 1440,
+      "images": [
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 2706,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-sleep-snoring-desktop.png"
+    },
+    {
+      "route": "draft-quietnite",
+      "path": "/drafts/quietnite/",
+      "viewport": "mobile",
+      "httpStatus": 200,
+      "url": "/drafts/quietnite/",
+      "title": "QuietNite — Internal Draft | Protocol Conflict Blocked | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 390,
+      "viewportWidth": 390,
+      "images": [
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 3133,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-quietnite-mobile.png"
+    },
+    {
+      "route": "draft-quietnite",
+      "path": "/drafts/quietnite/",
+      "viewport": "tablet",
+      "httpStatus": 200,
+      "url": "/drafts/quietnite/",
+      "title": "QuietNite — Internal Draft | Protocol Conflict Blocked | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 768,
+      "viewportWidth": 768,
+      "images": [
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 3133,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-quietnite-tablet.png"
+    },
+    {
+      "route": "draft-quietnite",
+      "path": "/drafts/quietnite/",
+      "viewport": "desktop",
+      "httpStatus": 200,
+      "url": "/drafts/quietnite/",
+      "title": "QuietNite — Internal Draft | Protocol Conflict Blocked | The House of Dental",
+      "h1Count": 1,
+      "visibleH1": true,
+      "mainVisible": true,
+      "horizontalOverflow": false,
+      "bodyWidth": 1440,
+      "viewportWidth": 1440,
+      "images": [
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        },
+        {
+          "src": "../../assets/logo.svg",
+          "complete": true,
+          "naturalWidth": 300,
+          "local": true
+        }
+      ],
+      "brokenLocalImages": [],
+      "emptySrcImages": 0,
+      "robots": "noindex, nofollow",
+      "hasServiceSchema": false,
+      "textLength": 3132,
+      "emptyMediaSlots": 0,
+      "knownPendingLocalImages": [],
+      "resourceErrors": [],
+      "pageErrors": [],
+      "screenshot": "draft-quietnite-desktop.png"
+    }
+  ],
+  "knownPendingAssetCaptures": [
+    {
+      "route": "about",
+      "viewport": "mobile",
+      "assets": [
+        "assets/team/ashley.jpg",
+        "assets/team/christy.jpg",
+        "assets/team/jennifer.jpg",
+        "assets/team/emily.jpg",
+        "assets/team/renee.jpg",
+        "assets/team/patsi.jpg",
+        "assets/team/eishan.jpg"
+      ]
+    },
+    {
+      "route": "about",
+      "viewport": "tablet",
+      "assets": [
+        "assets/team/ashley.jpg",
+        "assets/team/christy.jpg",
+        "assets/team/jennifer.jpg",
+        "assets/team/emily.jpg",
+        "assets/team/renee.jpg",
+        "assets/team/patsi.jpg",
+        "assets/team/eishan.jpg"
+      ]
+    },
+    {
+      "route": "about",
+      "viewport": "desktop",
+      "assets": [
+        "assets/team/ashley.jpg",
+        "assets/team/christy.jpg",
+        "assets/team/jennifer.jpg",
+        "assets/team/emily.jpg",
+        "assets/team/renee.jpg",
+        "assets/team/patsi.jpg",
+        "assets/team/eishan.jpg"
+      ]
+    }
+  ],
+  "unexpectedCaptureCount": 0,
+  "captureAssessment": "Pass except for documented pre-existing team-photo asset warnings on About"
+}

@@ -1,0 +1,29 @@
+{
+  "build": {
+    "enabledRoutes": 31,
+    "indexableRoutes": 21,
+    "sitemapBlockedTopicMatch": false
+  },
+  "indexableOutputScan": {
+    "blockedTopicMatches": [],
+    "blockedInternalLinks": [],
+    "publicQuarantinedPdfs": []
+  },
+  "draftRoutes": {
+    "count": 9,
+    "noindexCount": 9,
+    "serviceSchemaCount": 0,
+    "blockedCtaState": "Draft CTAs are visibly blocked; no active consultation offer is emitted."
+  },
+  "checkedTopics": [
+    "QuietNite",
+    "Sleep & Snoring",
+    "Dental Laser",
+    "Facial Aesthetics",
+    "DEKA",
+    "Microneedling",
+    "Emage",
+    "HydroDerm"
+  ],
+  "result": "Pass: unresolved clinical topics are absent from public navigation, service cards, offers, metadata, schema, sitemap, and public internal links."
+}

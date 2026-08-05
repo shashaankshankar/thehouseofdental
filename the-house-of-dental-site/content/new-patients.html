@@ -1,0 +1,107 @@
+<!-- Page content source. The build wraps this fragment in the shared document shell. -->
+<section class="page-hero sec-noir page-hero-center">
+  <div class="wrap">
+    <p class="eyebrow rv in" style="justify-content:center">Welcome</p>
+    <h1 class="rv in">New Patients</h1>
+    <p class="page-hero-lede rv in rv-d1">Start with the information you need before you call, request a visit, or ask about payment.</p>
+    {{BREADCRUMB}}
+  </div>
+</section>
+
+<section class="sec sec-ivory" id="what-to-expect">
+  <div class="wrap">
+    <div class="center-head">
+      <p class="eyebrow rv" style="justify-content:center">What to Expect</p>
+      <h2 class="rv rv-d1">A Clear First Step</h2>
+      <p class="rv rv-d2">Your first conversation is a chance to explain what you are looking for, ask questions, and understand what the practice recommends next. Treatment decisions belong in a visit with the dental team, not in a website form.</p>
+    </div>
+    <div class="support-grid support-grid-four">
+      <a class="support-card rv" href="{{NEW_PATIENT_FORMS_HREF}}"><span class="support-card-label">01 · Onboarding</span><h3>Forms</h3><p>The secure current form destination is being verified. Call the office for access.</p><span class="support-card-link">Review status <span aria-hidden="true">→</span></span></a>
+      <a class="support-card rv rv-d1" href="{{INSURANCE_FINANCING_HREF}}"><span class="support-card-label">02 · Planning</span><h3>Insurance &amp; Financing</h3><p>Review the questions to ask about plan participation, lenders, estimates, and payment options.</p><span class="support-card-link">Review questions <span aria-hidden="true">→</span></span></a>
+      <a class="support-card rv rv-d2" href="{{SPECIAL_OFFERS_HREF}}"><span class="support-card-label">03 · Current terms</span><h3>Special Offers</h3><p>Only offers with approved eligibility and terms will appear in the public hub.</p><span class="support-card-link">See current status <span aria-hidden="true">→</span></span></a>
+      <a class="support-card rv rv-d3" href="{{PATIENT_RESOURCES_HREF}}"><span class="support-card-label">04 · Support</span><h3>Patient Resources</h3><p>Find care instructions, directions, and phone-first routing for urgent dental needs.</p><span class="support-card-link">Open resource hub <span aria-hidden="true">→</span></span></a>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-noir payment-block" id="insurance">
+  <div class="wrap">
+    <div class="center-head">
+      <p class="eyebrow rv" style="justify-content:center">Insurance &amp; Financing</p>
+      <h2 class="rv rv-d1">Ask the Questions That Matter</h2>
+      <p class="rv rv-d2" style="color:var(--mist)">Current accepted plans, financing partners, and savings-plan terms are not confirmed in the local practice record. The office can verify what applies to you; this page does not promise coverage, approval, interest rate, or a final treatment cost.</p>
+    </div>
+
+    <div class="finance-pair">
+      <div class="cherry-box rv">
+        <p class="eyebrow" style="justify-content:center">Illustration Only</p>
+        <h3>See Simple Payment Examples</h3>
+        <p class="cherry-sub">Use the slider to see arithmetic examples for a hypothetical treatment amount. These are not lender quotes, approvals, or binding estimates.</p>
+        <div class="cherry-amount"><span id="chr-amt">$3,000</span></div>
+        <input type="range" id="chr-range" min="500" max="15000" step="100" value="3000" aria-label="Hypothetical treatment amount for an illustration">
+        <div class="cherry-plans">
+          <div class="cherry-plan"><span class="val" id="chr-bi">$750 <i>&times;4</i></span><span class="lbl">Four equal parts*</span></div>
+          <div class="cherry-plan"><span class="val" id="chr-24">$125<i>/mo</i></span><span class="lbl">24 equal months*</span></div>
+          <div class="cherry-plan"><span class="val" id="chr-60">$50<i>/mo</i></span><span class="lbl">60 equal months*</span></div>
+        </div>
+        <p class="cherry-note">*These examples divide the amount evenly and do not include interest, fees, approval criteria, insurance benefits, or lender terms. Ask the office which options, if any, are currently available.</p>
+        <a class="btn btn-solid" href="{{INSURANCE_FINANCING_HREF}}" data-conversion-source="financing-questions">Review Payment Questions</a>
+      </div>
+      <aside class="neutral-card rv rv-d1">
+        <span class="support-card-label">Call to verify</span>
+        <h3>Bring your questions</h3>
+        <p>Ask about your plan name, benefits, estimates, financing availability, savings-plan eligibility, exclusions, and who can confirm the answer before treatment.</p>
+        <a class="btn" href="{{PHONE_HREF}}" data-conversion-source="insurance-call">Call {{PHONE_DISPLAY}}</a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-ivory offer-section" id="offers">
+  <div class="wrap">
+    <div class="center-head">
+      <p class="eyebrow rv" style="justify-content:center">Special Offers</p>
+      <h2 class="rv rv-d1">Current Terms Come First</h2>
+      <p class="rv rv-d2">No offer is displayed here until the practice confirms eligibility, inclusions, exclusions, expiration, stacking, payment or insurance restrictions, approval owner, and expiry workflow.</p>
+    </div>
+    <div class="neutral-card neutral-card-wide rv">
+      <div>
+        <span class="support-card-label">No active public offer listed</span>
+        <h3>Ask the team about current availability.</h3>
+        <p>The Special Offers hub is the place for approved terms. A phone conversation is the current truthful path while the offer record is being reviewed.</p>
+      </div>
+      <div class="support-card-actions">
+        <a class="btn btn-solid" href="{{SPECIAL_OFFERS_HREF}}" data-conversion-source="special-offers-hub">Open Offers Hub</a>
+        <a class="btn" href="{{PHONE_HREF}}" data-conversion-source="special-offers-call">Call the Office</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-ivory plan-section" id="savings-plan">
+  <div class="wrap">
+    <div class="center-head">
+      <p class="eyebrow rv" style="justify-content:center">Savings Plan</p>
+      <h2 class="rv rv-d1">Terms Pending Confirmation</h2>
+      <p class="rv rv-d2">The existing savings-plan terms are not treated as current until the practice confirms pricing, covered care, discounts, exclusions, renewal, and coordination with insurance or other offers.</p>
+    </div>
+    <div class="neutral-card neutral-card-wide rv">
+      <div>
+        <span class="support-card-label">Practice confirmation required</span>
+        <h3>Call for the current plan details.</h3>
+        <p>We will not publish a price, discount, coverage list, or renewal promise from an unverified record.</p>
+      </div>
+      <a class="btn" href="{{PHONE_HREF}}" data-conversion-source="savings-plan-call">Call {{PHONE_DISPLAY}}</a>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div>
+      <h3>Need to talk through your next step?</h3>
+      <p>Call the Winter Park office. If your dental concern feels urgent, use the phone-first path.</p>
+    </div>
+    <div class="band-actions"><a class="btn" href="{{PHONE_HREF}}">{{PHONE_DISPLAY}}</a><a class="btn" href="{{EMERGENCY_HREF}}">Urgent dental needs</a></div>
+  </div>
+</section>

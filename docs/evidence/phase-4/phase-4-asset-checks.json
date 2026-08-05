@@ -1,0 +1,33 @@
+{
+  "browserCaptureCount": 42,
+  "httpErrorsOnCheckedPages": 0,
+  "pageErrorsOnCheckedPages": 0,
+  "horizontalOverflowCaptures": 0,
+  "emptyVisibleMediaSlots": 0,
+  "newDraftLocalImageFailures": 0,
+  "publicQuarantinedPdfFailures": 0,
+  "publicCarePdfs": [
+    "crowns-care.pdf",
+    "dentures-care.pdf",
+    "extractions-care.pdf",
+    "implants-care.pdf",
+    "root-canals-care.pdf",
+    "sedation-care.pdf",
+    "srp-care.pdf",
+    "veneers-care.pdf"
+  ],
+  "knownPreExistingAssetWarnings": {
+    "route": "about.html",
+    "files": [
+      "assets/team/ashley.jpg",
+      "assets/team/christy.jpg",
+      "assets/team/jennifer.jpg",
+      "assets/team/emily.jpg",
+      "assets/team/renee.jpg",
+      "assets/team/patsi.jpg",
+      "assets/team/eishan.jpg"
+    ],
+    "impact": "These seven missing team photos are pre-existing; onerror hides the broken images. They are the only strict-validator blockers after Phase 4."
+  },
+  "result": "Pass for Phase 4 pages and new draft media slots; strict release remains blocked by the documented pre-existing About team-photo assets."
+}

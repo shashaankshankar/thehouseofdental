@@ -1,0 +1,17 @@
+# Local and generated machine state
+.DS_Store
+.playwright-cli/
+.wrangler/
+node_modules/
+
+# Local credentials and environment configuration
+.env
+.env.*
+*.pem
+*.key
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

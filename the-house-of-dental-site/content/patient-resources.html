@@ -1,0 +1,36 @@
+<!-- Page content source. The build wraps this fragment in the shared document shell. -->
+<section class="page-hero sec-noir page-hero-center">
+  <div class="wrap">
+    <p class="eyebrow rv in" style="justify-content:center">Support</p>
+    <h1 class="rv in">Patient Resources</h1>
+    <p class="page-hero-lede rv in rv-d1">Practical routes for new-patient questions, care instructions, payment planning, directions, and urgent phone-first help.</p>
+    {{BREADCRUMB}}
+  </div>
+</section>
+
+<section class="sec sec-ivory">
+  <div class="wrap">
+    <div class="center-head">
+      <p class="eyebrow rv" style="justify-content:center">Choose a path</p>
+      <h2 class="rv rv-d1">Help for the Next Step</h2>
+      <p class="rv rv-d2">Some resources are live, while others remain clearly marked until the practice verifies the external destination or current terms.</p>
+    </div>
+    <div class="support-grid">
+      <a class="support-card rv" href="{{NEW_PATIENT_FORMS_HREF}}"><span class="support-card-label">New patients</span><h3>Forms</h3><p>The secure current form link is not published until its destination is verified. Call the office for access.</p><span class="support-card-link">Review form status <span aria-hidden="true">→</span></span></a>
+      <a class="support-card rv rv-d1" href="{{INSURANCE_FINANCING_HREF}}"><span class="support-card-label">Planning</span><h3>Insurance &amp; Financing</h3><p>Use a call-to-verify path for plan participation, financing availability, estimates, and savings-plan questions.</p><span class="support-card-link">Review payment questions <span aria-hidden="true">→</span></span></a>
+      <a class="support-card rv rv-d2" href="{{SPECIAL_OFFERS_HREF}}"><span class="support-card-label">Terms first</span><h3>Special Offers</h3><p>Only approved, current terms belong in the public offers hub. No unverified reward or price is shown.</p><span class="support-card-link">Open offers hub <span aria-hidden="true">→</span></span></a>
+      <a class="support-card rv rv-d3" href="{{PRE_POST_OP_HREF}}"><span class="support-card-label">Existing patients</span><h3>Pre- &amp; Post-Op Care</h3><p>Review the available dental care guides as a supplement to instructions from the practice.</p><span class="support-card-link">Open care guides <span aria-hidden="true">→</span></span></a>
+      <a class="support-card support-card-urgent rv" href="{{EMERGENCY_HREF}}"><span class="support-card-label">Urgent path</span><h3>Urgent Dental Needs</h3><p>Call first. This route does not diagnose, promise a response time, or replace emergency medical care.</p><span class="support-card-link">Review urgent routing <span aria-hidden="true">→</span></span></a>
+      <a class="support-card rv rv-d1" href="{{PHONE_HREF}}" data-conversion-source="resources-call"><span class="support-card-label">Questions</span><h3>Call the Office</h3><p>Use click-to-call for scheduling, directions, current hours, payment questions, or urgent concerns.</p><span class="support-card-link">{{PHONE_DISPLAY}} <span aria-hidden="true">→</span></span></a>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-noir">
+  <div class="wrap-narrow center-head">
+    <p class="eyebrow" style="justify-content:center">Need an answer?</p>
+    <h2>Call the Winter Park office.</h2>
+    <p style="color:var(--mist)">The office can confirm current forms, hours, payment options, and any practice-specific routing that this local build is not authorized to promise.</p>
+    <a class="btn btn-solid" href="{{PHONE_HREF}}" data-conversion-source="resources-call">Call {{PHONE_DISPLAY}}</a>
+  </div>
+</section>

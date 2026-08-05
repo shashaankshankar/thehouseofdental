@@ -1,0 +1,13 @@
+{
+  "name": "house-of-dental-static-site",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build/site.mjs",
+    "serve": "node scripts/serve-static.mjs",
+    "validate": "node scripts/validate-static-site.mjs",
+    "validate:strict": "node scripts/validate-static-site.mjs --strict-assets",
+    "test": "npm run build && node --test tests/site.test.mjs"
+  }
+}

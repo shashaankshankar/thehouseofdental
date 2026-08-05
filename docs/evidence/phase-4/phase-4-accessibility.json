@@ -1,0 +1,29 @@
+{
+  "responsiveMatrix": {
+    "routes": 14,
+    "viewports": [
+      "390x844",
+      "768x1024",
+      "1440x900"
+    ],
+    "captures": 42,
+    "http200Captures": 42,
+    "horizontalOverflowCaptures": 0,
+    "h1AndMainChecksPassed": 42
+  },
+  "keyboard": {
+    "firstTab": "Skip to main content",
+    "mobileMenuOpen": "aria-expanded=true; aria-hidden=false; focus moved inside menu",
+    "submenuToggle": "Opened by Enter",
+    "escapeClose": "aria-expanded=false; aria-hidden=true; focus returned to burger",
+    "representativeCta": "Appointment link received keyboard focus",
+    "faqPattern": "Draft FAQ answers are static visible content; no unoperable disclosure control is present"
+  },
+  "visualInspection": {
+    "publicPages": "Homepage, Services, All Services, About, Pre & Post Treatment Care, and Facial Aesthetics draft inspected",
+    "draftPages": "Draft hub, four aesthetic treatment drafts, Dental Laser, Sleep & Snoring, and QuietNite inspected",
+    "mediaSlots": "Readable at mobile and desktop after ivory-section contrast correction",
+    "ctaState": "Draft CTAs are visibly blocked and not interactive"
+  },
+  "result": "Pass except for the documented pre-existing About team-photo asset warnings; no Phase 4 responsive or keyboard regression found."
+}

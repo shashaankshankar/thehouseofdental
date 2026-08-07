@@ -1,24 +1,45 @@
 # The House of Dental
 
-Dependency-free static website for The House of Dental. The visual design and draft content are intentionally preserved while shared site structure is generated from maintainable source files.
+Dependency-free static website for The House of Dental. The visual design and working-draft content are maintained in `src/` and assembled into a deployable static export by Node.js built-in modules.
 
-## Structure
+## Source layout
 
-- `src/pages/` contains page-specific main content for the 12 public HTML pages.
-- `src/templates/` contains the shared full and minimal page shells.
-- `src/data/` contains site metadata and structured service/technology content.
-- `src/styles/` and `src/scripts/` contain ordered, focused source modules.
-- `src/assets/` contains local images and care PDFs.
-- `dist/` is generated output and must not be edited directly.
+- `src/pages/` contains the 12 page inputs: eight full site pages, three minimal information pages, and the 404 page (`404.html`, `about.html`, `accessibility.html`, `contact.html`, `facial-aesthetics.html`, `index.html`, `new-patients.html`, `pre-post-op.html`, `privacy.html`, `reviews.html`, `services.html`, and `terms.html`).
+- `src/templates/` contains the shared full, minimal, and footer shells.
+- `src/data/` contains site metadata, service and technology modal records, review cards, and financing calculator values. Service and technology data are embedded in the generated `dist/main.js`.
+- `src/styles/` and `src/scripts/` contain ordered, focused source modules that are concatenated into `dist/styles.css` and `dist/main.js`.
+- `src/assets/` contains local logos, office media, treatment-care PDFs, and notes for pending authentic team and aesthetics photography.
+- `src/static/` contains hosting support files such as headers, redirects, and `robots.txt`.
+- `tests/` contains structural and safety assertions for the generated site.
+- `dist/` is generated output. The build removes and recreates it, so it must not be edited directly.
+
+## Generated export
+
+`npm run build` creates the 12 HTML pages plus `main.js`, `styles.css`, local assets, `_headers`, `_redirects`, `robots.txt`, and `sitemap.xml`. The generated export is the artifact to preview or hand to a static host.
 
 ## Commands
 
-- `npm run build` regenerates `dist/`.
-- `npm run validate` checks the generated pages, links, anchors, assets, metadata, and security files.
+- `npm run build` regenerates `dist/` from `src/`.
+- `npm run validate` checks the generated pages, links, anchors, metadata, assets, and security files.
 - `npm test` runs structural and safety assertions.
-- `npm run check` performs the complete local verification sequence.
+- `npm run check` rebuilds the site, validates it, runs the tests, and syntax-checks `dist/main.js`.
 - `npm run clean` removes generated output.
 
-## Boundaries
+Run `npm run build` before `npm run validate` or `npm test` when `dist/` may be stale. There are no `dev`, `serve`, or `preview` npm scripts because this is a dependency-free static site.
 
-The appointment form intentionally does not transmit or store information. Building or validating the site does not deploy it. Production form delivery, analytics, content approvals, and hosting remain separate work.
+## Local preview
+
+Build the generated site, then serve the `dist/` directory locally:
+
+```bash
+npm run build
+python3 -m http.server 8000 --directory dist
+```
+
+Open <http://localhost:8000> in a browser. A basic local static server can display the appointment form but cannot deliver submissions.
+
+## Production boundaries
+
+The appointment form is a native Netlify-compatible `POST` form. Production delivery still requires the approved hosting, notification, and security configuration. Do not include sensitive medical details in the form.
+
+Building, validating, or previewing the site does not deploy it or approve production content. Legal pages, clinical and business claims, authentic media and reviews, analytics, redirects, integrations, and hosting configuration require their own review before publication.

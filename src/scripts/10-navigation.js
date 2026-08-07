@@ -27,6 +27,12 @@
   }
   const current = location.pathname.split("/").pop() || "index.html";
   document.querySelectorAll("[data-primary-link]").forEach((link) => {
-    if (link.getAttribute("href")?.split("#")[0] === current) link.classList.add("active");
+    const paths = [link.getAttribute("href"), ...(link.dataset.activePaths?.split(/\s+/) || [])]
+      .filter(Boolean)
+      .map((path) => path.split("#")[0]);
+    const active = paths.includes(current);
+    link.classList.toggle("active", active);
+    if (active) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
   });
 })();

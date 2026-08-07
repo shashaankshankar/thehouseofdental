@@ -273,6 +273,10 @@ footer.site .logo-img { height: 80px; }
   transform: translate(-50%, 0.5rem);
   transition: opacity 0.25s var(--ease), transform 0.25s var(--ease), visibility 0.25s;
 }
+#nav-services {
+  width: min(380px, calc(100vw - 2rem));
+  padding: 0.75rem;
+}
 .has-submenu:hover > .drop,
 .has-submenu:focus-within > .drop {
   opacity: 1;
@@ -289,6 +293,8 @@ footer.site .logo-img { height: 80px; }
 }
 .drop a {
   display: block;
+  white-space: normal;
+  overflow-wrap: break-word;
   padding: 0.8rem 0.9rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   transition: background 0.25s var(--ease);
@@ -312,6 +318,33 @@ footer.site .logo-img { height: 80px; }
   font-size: 0.76rem;
   letter-spacing: 0.02em;
   line-height: 1.45;
+}
+
+/* Services uses the same quiet row treatment as the other dropdowns. */
+.service-drop {
+  display: block;
+}
+.service-drop .drop-feature a {
+  padding: 0.8rem 0.9rem;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+}
+.service-drop .drop-feature a:hover,
+.service-drop .drop-feature a:focus-visible { background: rgba(198, 161, 91, 0.08); }
+.service-drop .drop-feature strong {
+  font-size: 0.75rem;
+  letter-spacing: 0.13em;
+}
+.service-drop .drop-feature span { font-size: 0.76rem; }
+.service-drop .drop-tail {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+.service-drop .drop-feature:last-child a { border-bottom: 0; }
+@media (max-width: 1100px) and (min-width: 1025px) {
+  #nav-services { width: min(370px, calc(100vw - 2rem)); }
 }
 
 /* Buttons */
@@ -357,6 +390,9 @@ footer.site .logo-img { height: 80px; }
 .sec-ivory .btn { border-color: var(--gold-deep); color: var(--gold-deep); }
 .sec-ivory .btn::before { background: var(--gold-deep); }
 .sec-ivory .btn:hover { color: var(--ivory); }
+.sec-ivory .btn-solid,
+.sec-ivory .btn-solid:hover,
+.sec-ivory .btn-solid:focus-visible { color: var(--noir); }
 .sec-ivory .btn-text { border-color: transparent; color: var(--gold-deep); }
 .sec-ivory .btn-text:hover { color: var(--gold-deep); }
 
@@ -1160,8 +1196,13 @@ footer.site {
   display: grid;
   grid-template-columns: 1fr 1.15fr;
   animation: panelin 0.55s var(--ease);
+  transition: opacity 0.24s var(--ease), transform 0.24s var(--ease);
 }
 @keyframes panelin { from { opacity: 0; transform: translateY(28px); } }
+.svcmodal .panel.is-switching {
+  opacity: 0;
+  transform: translateX(var(--modal-shift, 1.2rem));
+}
 .svcmodal .panel img {
   width: 100%;
   height: 100%;
@@ -1201,11 +1242,50 @@ footer.site {
   transition: border-color 0.3s, color 0.3s;
 }
 .svcmodal .close:hover { border-color: var(--gold-deep); color: var(--gold-deep); }
+.svcmodal .modal-nav {
+  position: fixed;
+  top: 50%;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: rgba(244, 241, 235, 0.84);
+  font-family: var(--serif);
+  font-size: 2.7rem;
+  line-height: 1;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: background 0.3s, color 0.3s;
+}
+.svcmodal .modal-nav span {
+  display: block;
+  position: relative;
+  top: -0.07em;
+  line-height: 1;
+}
+.svcmodal .modal-nav:hover,
+.svcmodal .modal-nav:focus-visible {
+  background: rgba(198, 161, 91, 0.14);
+  color: var(--gold);
+}
+.svcmodal .modal-nav-prev { left: clamp(0.5rem, 3vw, 3rem); }
+.svcmodal .modal-nav-next { right: clamp(0.5rem, 3vw, 3rem); }
 @media (max-width: 760px) {
   .svcmodal .panel { grid-template-columns: 1fr; }
   .svcmodal .panel img { max-height: 220px; min-height: 0; }
+  .svcmodal .modal-nav { top: 8rem; width: 42px; height: 42px; font-size: 2.2rem; }
 }
 body.modal-open { overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  .svcmodal .panel { transition: none; }
+  .svcmodal .panel.is-switching { opacity: 1; transform: none; }
+}
 
 
 /* ---------- Meet the Team ---------- */
@@ -1583,6 +1663,129 @@ body.modal-open { overflow: hidden; }
   grid-template-columns: repeat(3, 1fr);
 }
 
+.service-groups {
+  display: grid;
+  gap: clamp(3.5rem, 7vw, 5.5rem);
+}
+.service-group + .service-group {
+  padding-top: clamp(3rem, 6vw, 5rem);
+  border-top: 1px solid var(--line-light);
+}
+.service-group { scroll-margin-top: 110px; }
+.service-group-head {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.75fr) minmax(0, 1fr);
+  align-items: end;
+  gap: 2rem;
+  margin-bottom: 1.8rem;
+}
+.service-group-head h3 {
+  font-size: clamp(1.5rem, 2.6vw, 2.15rem);
+  line-height: 1.2;
+}
+.service-group-head p {
+  max-width: 44ch;
+  margin: 0;
+  color: rgba(28, 27, 24, 0.68);
+}
+
+/* Services page: separate the facial collection from the dental collection. */
+.services-page-groups {
+  gap: clamp(2rem, 4vw, 3.25rem);
+}
+.services-page-groups .service-group + .service-group {
+  padding-top: clamp(1.75rem, 3vw, 2.75rem);
+}
+.services-page-groups .services-collection-head {
+  margin-bottom: 2.8rem;
+}
+.services-page-groups .services-collection-head > p:not(.eyebrow) {
+  max-width: 54ch;
+  margin-inline: auto;
+}
+.services-page-groups #dental-services .services-dental-description {
+  max-width: none;
+  white-space: nowrap;
+}
+.services-page-groups .service-group-action {
+  margin-top: 1.4rem;
+  text-align: center;
+}
+.services-page-groups .service-group-action .btn {
+  min-width: 260px;
+  background: rgba(198, 161, 91, 0.06);
+  margin-bottom: 0;
+}
+.services-page-groups .service-aesthetic-cards .svc-card {
+  border-color: rgba(198, 161, 91, 0.48);
+}
+.services-page-groups .service-aesthetic-cards .svc-card:hover {
+  background: rgba(198, 161, 91, 0.06);
+}
+.services-page-groups .service-card-wrap {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+.services-page-groups .service-card-wrap.has-care-link {
+  border: 1px solid var(--line-light);
+  background: #fff;
+  transition: transform 0.55s var(--ease), border-color 0.5s, background 0.5s;
+}
+.services-page-groups .service-card-wrap.has-care-link:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold-deep);
+  background: var(--ivory-deep);
+}
+.services-page-groups .service-card-wrap.has-care-link:hover .svc-card::before {
+  transform: scaleX(1);
+}
+.services-page-groups .service-card-wrap .svc-card {
+  flex: 1;
+  width: 100%;
+}
+.services-page-groups .service-card-wrap.has-care-link .svc-card,
+.services-page-groups .service-card-wrap.has-care-link .svc-card:hover {
+  flex: none;
+  border: 0;
+  background: transparent;
+  transform: none;
+}
+.services-page-groups .service-card-wrap.has-care-link .svc-card h3 {
+  min-height: 2.875rem;
+}
+.services-page-groups .service-card-wrap.has-care-link .svc-card .body {
+  padding-bottom: 0.45rem;
+}
+.services-page-groups .treatment-care-link {
+  display: inline-block;
+  align-self: flex-start;
+  margin: 1.2rem 2rem 2.4rem;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--gold-deep);
+  color: var(--gold-deep);
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  transition: color 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+.services-page-groups .treatment-care-link:hover,
+.services-page-groups .treatment-care-link:focus-visible {
+  border-color: var(--gold-deep);
+  color: var(--ink);
+}
+
+@media (max-width: 760px) {
+  .services-page-groups #dental-services .services-dental-description {
+    white-space: normal;
+  }
+  .service-group-head {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+}
+
 .practice-points {
   margin-top: 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.16);
@@ -1864,8 +2067,45 @@ body.modal-open { overflow: hidden; }
 
 
 /* ---------- Homepage combined tech + aesthetics ---------- */
+.home-proof-band {
+  padding: 0;
+  overflow: hidden;
+}
+
+.center-head .home-care-title {
+  white-space: nowrap;
+  font-size: clamp(1.35rem, 3.2vw, 2.75rem);
+}
+
+@media (max-width: 560px) {
+  .center-head .home-care-title { font-size: clamp(1.2rem, 6.8vw, 2.2rem); }
+}
+.home-proof-inner { padding: clamp(1.8rem, 3.5vw, 2.8rem) 0 clamp(1.2rem, 2.5vw, 1.8rem); }
+.home-proof-band .stats { border: 0; }
+.home-proof-band .stat { padding-block: clamp(1.5rem, 2.8vw, 2.1rem); }
+.home-proof-band .marquee {
+  border: 0;
+  padding-block: 1rem;
+  background: rgba(255, 255, 255, 0.018);
+}
+
+/* Reviews KPI strip: keep the visual rhythm quiet and vertical. */
+.sec-noir.review-kpi-section {
+  padding-top: 0;
+}
+.review-kpi-section .stats {
+  border-top: 0;
+  border-bottom: 0;
+}
+
+@media (max-width: 560px) {
+  .home-proof-inner { padding-block: 1.25rem 0.85rem; }
+  .home-proof-band .stat { padding-block: 1.35rem; }
+  .home-proof-band .marquee { padding-block: 0.85rem; }
+}
+
 .tech-group-label {
-  font-size: 0.64rem;
+  font-size: 0.74rem;
   letter-spacing: 0.36em;
   text-transform: uppercase;
   color: var(--gold);
@@ -1885,6 +2125,35 @@ body.modal-open { overflow: hidden; }
 .tech-grid-3 { grid-template-columns: repeat(3, 1fr) !important; }
 @media (max-width: 1000px) { .tech-grid-3 { grid-template-columns: repeat(2, 1fr) !important; } }
 @media (max-width: 560px) { .tech-grid-3 { grid-template-columns: 1fr !important; } }
+
+.home-section-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  background: var(--noir);
+}
+.home-section-divider::before,
+.home-section-divider::after {
+  content: "";
+  width: min(18vw, 220px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line-dark));
+}
+.home-section-divider::after {
+  background: linear-gradient(90deg, var(--line-dark), transparent);
+}
+.home-section-divider span {
+  width: 0.55rem;
+  height: 0.55rem;
+  flex: 0 0 auto;
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+@media (max-width: 560px) {
+  .home-section-divider { padding: 0.7rem 0; }
+}
 
 
 /* ---------- Centered page heroes (matches Facial Aesthetics) ---------- */
@@ -2013,6 +2282,28 @@ body.modal-open { overflow: hidden; }
 }
 .care-nav a:hover { color: var(--gold); }
 
+.care-back-to-top {
+  position: fixed;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  z-index: 50;
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--noir);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+  font-family: var(--sans);
+  font-size: 1.45rem;
+  line-height: 1;
+  transition: transform 0.35s var(--ease), background 0.35s;
+}
+.care-back-to-top span { transform: translateY(-0.08em); }
+.care-back-to-top:hover { background: var(--gold-pale); transform: translateY(-3px); }
+.care-back-to-top:focus-visible { outline: 2px solid var(--ivory); outline-offset: 4px; }
+
 .care-block {
   border-bottom: 1px solid var(--line-light);
   scroll-margin-top: 150px;
@@ -2072,6 +2363,14 @@ body.modal-open { overflow: hidden; }
 @media (max-width: 800px) {
   .care-grid { grid-template-columns: 1fr; }
   .care-nav { position: static; }
+}
+@media (max-width: 760px) {
+  .care-back-to-top {
+    right: 1rem;
+    bottom: calc(58px + env(safe-area-inset-bottom) + 1rem);
+    width: 2.85rem;
+    height: 2.85rem;
+  }
 }
 
 /* ---------- New Patients: finance + offer side by side ---------- */
@@ -2146,8 +2445,10 @@ a.quick-card:hover { background: rgba(198,161,91,0.08); }
 
 /* ---------- Download bar on care page ---------- */
 .download-bar {
-  border-bottom: 1px solid var(--line-dark);
-  background: linear-gradient(120deg, rgba(198,161,91,0.12), transparent 60%), var(--noir);
+  border-block: 1px solid rgba(198,161,91,0.38);
+  background:
+    linear-gradient(120deg, rgba(198,161,91,0.18), rgba(18,18,20,0.98) 62%),
+    var(--noir-soft);
 }
 .download-bar .wrap {
   display: flex;
@@ -2156,6 +2457,10 @@ a.quick-card:hover { background: rgba(198,161,91,0.08); }
   gap: 2rem;
   padding: 2rem 0;
   flex-wrap: wrap;
+}
+.download-bar .dl-text {
+  padding: 0.35rem 0 0.35rem 1.25rem;
+  border-left: 2px solid var(--gold);
 }
 .dl-kicker {
   font-family: var(--serif);

@@ -1,3 +1,5 @@
+const __SITE_DETAIL_DATA = {"services":{"implants":{"cat":"Restorative","title":"Dental Implants","img":"https://images.unsplash.com/photo-1593022356769-11f762e25ed9?q=80&w=1600&auto=format&fit=crop","paras":["Transformative dental implants that look, feel, and function like natural teeth. From single implants to full arch implant-supported dentures, The House of Dental offers tooth replacement solutions that are long-lasting, luminous, and made especially for you.","Dr. Patel is a leader in computer-assisted dentistry and minimally invasive guided surgeries, and a fellow of the International Congress of Oral Implantologists. Implant Special for patients without insurance: from $2,998 — implant, abutment, and crown included."],"items":["Single tooth implants","Implant-supported bridges","Full arch implant-supported dentures","Guided, minimally invasive placement"]},"restorative":{"cat":"Restorative","title":"Full Mouth Restoration","img":"https://images.unsplash.com/photo-1643660526741-094639fbe53a?q=80&w=1600&auto=format&fit=crop","paras":["Comprehensive one-day restorations that rebuild the health, function, and natural beauty of your smile. We use top-quality materials and technologies to ensure the best, healthiest outcomes — with customized care tailored to your needs at every step."],"items":["Precision-crafted restorations","Specialty porcelain work","Comprehensive treatment planning"]},"crowns":{"cat":"CEREC® Technology","title":"Same-Day Dental Crowns","img":"https://images.unsplash.com/photo-1609918438269-9a4c5f8fe3a4?q=80&w=1600&auto=format&fit=crop","paras":["The CEREC system allows us to craft the highest quality crowns right here in our dental office, in a single visit. No temporary restorations. No follow-up appointments. Just a precision-crafted, permanent crown — the same day you walk in."],"items":[]},"dentures":{"cat":"Restorative","title":"Dentures","img":"https://images.unsplash.com/photo-1468493858157-0da44aaf1d13?q=80&w=1600&auto=format&fit=crop","paras":["From removable dentures to full arch implant-supported dentures, we design comfortable, natural-looking tooth replacement that restores your ability to eat, speak, and smile with total confidence."],"items":[]},"root-canals":{"cat":"Restorative","title":"Root Canals","img":"https://images.unsplash.com/photo-1606811971618-4486d14f3f99?q=80&w=1600&auto=format&fit=crop","paras":["Gentle, modern root canal therapy that relieves pain and saves your natural tooth. With fully digital imaging and a calm, patient-first approach, the experience is far more comfortable than its reputation."],"items":[]},"cosmetic":{"cat":"Cosmetic","title":"Cosmetic Dentistry","img":"https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=1600&auto=format&fit=crop","paras":["Want a more confident smile? Learn how porcelain veneers, dental crowns, or a complete smile makeover could give you a glowing smile designed around your features."],"items":[]},"veneers":{"cat":"Cosmetic","title":"Porcelain Veneers","img":"https://images.unsplash.com/photo-1664529842504-5743d286ec1b?q=80&w=1600&auto=format&fit=crop","paras":["Specialty porcelain restorations, individually crafted to reshape, brighten, and perfect your smile — with results that photograph beautifully and last for years."],"items":[]},"preventive":{"cat":"Preventive","title":"Preventive Care & Cleanings","img":"https://images.unsplash.com/photo-1588776814546-daab30f310ce?q=80&w=1600&auto=format&fit=crop","paras":["Customized preventive care and oral health education. Our hygienists never rush — every cleaning is thorough, comfortable, and tailored to keeping your teeth and gums healthy for life."],"items":[]},"invisalign":{"cat":"Orthodontic","title":"Invisalign®","img":"https://images.unsplash.com/photo-1562330743-860aa0be572f?q=80&w=1600&auto=format&fit=crop","paras":["Invisalign clear braces for teens and adults. Straighten your teeth discreetly with removable, nearly invisible aligners — no brackets, no wires, no interruptions to your life."],"items":[]},"oral-surgery":{"cat":"Surgical","title":"Oral Surgery","img":"https://images.unsplash.com/photo-1662837625421-5fd8ed6131a0?q=80&w=1600&auto=format&fit=crop","paras":["From extractions to surgical implant placement, oral surgery at The House of Dental is performed with precision, advanced imaging, and genuine care for your comfort."],"items":[]},"sedation":{"cat":"Comfort","title":"Sedation Dentistry","img":"https://images.unsplash.com/photo-1700760933941-3a06a28fbf47?q=80&w=1600&auto=format&fit=crop","paras":["Dental anxiety should never stand between you and a healthy smile. Our sedation options keep you calm and comfortable through any procedure — many patients barely remember their visit."],"items":[]},"tmj":{"cat":"Therapeutic","title":"TMJ Treatment","img":"https://images.unsplash.com/photo-1667133295352-ef4c83620e8e?q=80&w=1600&auto=format&fit=crop","paras":["Jaw pain, clicking, and tension headaches often trace back to the temporomandibular joint. We diagnose and treat TMJ disorders to relieve pain and restore comfortable function."],"items":[]},"srp":{"cat":"Periodontal","title":"Scaling &amp; Root Planing","img":"https://images.unsplash.com/photo-1684607632799-63297cf21955?q=80&w=1600&auto=format&fit=crop","paras":["Also called a deep cleaning, scaling and root planing treats gum disease below the gumline — removing hardened plaque and tartar from the tooth roots, then smoothing those root surfaces so the gum tissue can reattach and heal.","Left untreated, periodontal disease is the leading cause of adult tooth loss. Caught and managed early, it's highly controllable. Treatment is typically done by quadrant with local anesthetic for comfort, followed by periodontal maintenance visits to keep it stable."],"items":["Deep cleaning below the gumline","Root surface smoothing for tissue reattachment","Reduced pocket depths","Ongoing periodontal maintenance"]},"quietnite":{"cat":"Oral Appliance","title":"QuietNite Sleep","img":"https://images.unsplash.com/photo-1677276048965-817179b48fc7?q=80&w=1600&auto=format&fit=crop","paras":["The QuietNite is a custom mandibular advancement device for snoring and mild to moderate obstructive sleep apnea in adults. Two thermally formed trays fit over the upper and lower arches, joined by lateral connectors that gently hold the lower jaw forward during sleep.","Advancing the jaw increases the three-dimensional space in the airway, reducing air velocity and the soft-tissue vibration that causes snoring. The connectors are patient-adjustable at home, so comfort and effectiveness can be dialed in over time.","For many patients an oral appliance is far easier to live with than CPAP — no mask, no hose, no power source. If you've been diagnosed with severe sleep apnea, we coordinate with your physician rather than replacing prescribed therapy."],"items":["Custom fabricated from digital scans","Patient-adjustable jaw advancement","Treats snoring and mild to moderate OSA","A comfortable alternative to CPAP for many patients"]}},"technology":{"cerec":{"cat":"Chairside Milling","title":"CEREC® Same-Day Crowns","img":"https://images.unsplash.com/photo-1626878880028-0438b1403b3f?q=80&w=1600&auto=format&fit=crop","paras":["CEREC lets us design, mill, and place a permanent ceramic crown in a single appointment. A digital scan of your tooth becomes a 3D model on screen, and our in-office milling unit carves the restoration from a solid block of ceramic while you wait.","The result: no impression putty, no temporary crown to fall off, and no second appointment weeks later. You walk in with a damaged tooth and walk out with a finished, color-matched restoration."],"soon":false},"ct-scan":{"cat":"3D Imaging","title":"CT Scan (Cone Beam)","img":"https://images.unsplash.com/photo-1576671414121-aa0c81c869e1?q=80&w=1600&auto=format&fit=crop","paras":["Our cone beam CT scanner captures a complete three-dimensional view of your teeth, jaw, nerves, and sinuses in a single rotation — detail a traditional two-dimensional X-ray simply cannot show.","This is what makes guided implant surgery possible. Dr. Patel can measure bone density and volume, map the exact position of nerves, and plan the precise angle and depth of an implant before ever beginning the procedure. It means fewer surprises, less invasive surgery, and more predictable outcomes."],"soon":false},"digital-scans":{"cat":"Fully Digital","title":"Digital Scans & X-Rays","img":"https://images.unsplash.com/photo-1598531136726-4157529f8cbb?q=80&w=1600&auto=format&fit=crop","paras":["We replaced messy impression trays with a handheld intraoral scanner that builds a precise digital model of your mouth in minutes — more comfortable, more accurate, and instantly viewable on screen.","Our digital radiographs use significantly less radiation than traditional film X-rays and appear immediately, so Dr. Patel can show you exactly what he's seeing and explain it in real time."],"soon":false},"guided-surgery":{"cat":"Implantology","title":"Computer-Guided Surgery","img":"https://images.unsplash.com/photo-1656428964836-78d54bf76231?q=80&w=1600&auto=format&fit=crop","paras":["Using CT data, implant placement is planned digitally down to the millimeter, then executed with a custom surgical guide that directs the placement exactly as planned.","Because the position is determined before surgery begins, the procedure is more precise and far less invasive — often meaning smaller incisions, less discomfort, and a faster recovery than freehand placement."],"soon":false},"deka":{"cat":"Laser Aesthetics","title":"DEKA CO2 Facial Resurfacing Laser","img":"https://images.unsplash.com/photo-1598300195998-364bf445842c?q=80&w=1600&auto=format&fit=crop","paras":["DEKA is a leading name in medical laser technology, used for skin resurfacing and rejuvenation treatments that address fine lines, uneven texture, sun damage, pigmentation, and scarring.","The laser works by delivering precisely controlled energy to the skin, stimulating the body's natural collagen production and encouraging fresh, healthy tissue to replace damaged surface layers — with treatment intensity tailored to each patient's skin and goals."],"soon":false},"emage":{"cat":"Diagnostic Imaging","title":"Emage 3D Skin Scanner","img":"https://images.unsplash.com/photo-1761718209852-54ca4210183e?q=80&w=1600&auto=format&fit=crop","paras":["The Emage scanner captures a detailed three-dimensional analysis of your skin — revealing sun damage, pigmentation, pore condition, wrinkles, and texture beneath the surface that the naked eye cannot detect.","It turns aesthetic treatment into something measurable. We can establish an objective baseline before treatment begins, build a plan around what your skin actually needs, and show you side-by-side progress over time rather than asking you to guess at the results."],"soon":false},"hydroderm":{"cat":"Signature Treatment","title":"Custom HydroDerm Facials","img":"https://images.unsplash.com/photo-1713085085470-fba013d67e65?q=80&w=1600&auto=format&fit=crop","paras":["A multi-step hydrating facial treatment that cleanses, gently exfoliates, extracts impurities, and infuses the skin with hydrating serums — all in one session, with no downtime.","Each facial is customized rather than one-size-fits-all: the serums and intensity are selected based on your skin's needs, which is where the Emage scanner comes in. Results are immediate — smoother texture, refined pores, and a visible glow."],"soon":false},"microneedling":{"cat":"Collagen Induction","title":"Microneedling","img":"https://images.unsplash.com/photo-1754941622136-6664a3f50b2e?q=80&w=1600&auto=format&fit=crop","paras":["Microneedling &mdash; collagen induction therapy &mdash; uses a precision device to create thousands of microscopic channels in the skin, triggering the body's natural wound-healing cascade.","As the skin repairs those channels it produces fresh collagen and elastin, softening acne scars, refining texture, tightening pores, and firming skin from within. Because it works without heat, it's safe across all skin types."],"soon":false}}};
+
 (() => {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const header = document.querySelector("header.site");
@@ -72,7 +74,13 @@
   }
   const current = location.pathname.split("/").pop() || "index.html";
   document.querySelectorAll("[data-primary-link]").forEach((link) => {
-    if (link.getAttribute("href")?.split("#")[0] === current) link.classList.add("active");
+    const paths = [link.getAttribute("href"), ...(link.dataset.activePaths?.split(/\s+/) || [])]
+      .filter(Boolean)
+      .map((path) => path.split("#")[0]);
+    const active = paths.includes(current);
+    link.classList.toggle("active", active);
+    if (active) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
   });
 })();
 
@@ -161,33 +169,109 @@
     const category = document.getElementById(`${definition.prefix}-cat`);
     const title = document.getElementById(`${definition.prefix}-title`);
     const body = document.getElementById(`${definition.prefix}-body`);
+    const panel = dialog.querySelector(".panel");
+    const previous = definition.kind === "service" ? dialog.querySelector("[data-modal-prev]") : null;
+    const next = definition.kind === "service" ? dialog.querySelector("[data-modal-next]") : null;
     let returnFocus;
+    let activeTrigger;
+    let transitionTimer;
 
-    const getDetail = (id) => document.querySelector(`[data-detail-kind="${definition.kind}"][data-detail-key="${CSS.escape(id)}"]`);
+    const detailData = definition.kind === "service"
+      ? { ...(__SITE_DETAIL_DATA?.services || {}), ...(__SITE_DETAIL_DATA?.technology || {}) }
+      : __SITE_DETAIL_DATA?.technology || {};
+    const decode = (value = "") => {
+      return new DOMParser().parseFromString(value, "text/html").body.textContent || "";
+    };
+    const getDetail = (id) => detailData[id];
     const getTrigger = (id) => document.querySelector(`${definition.trigger}[data-${definition.key}="${CSS.escape(id)}"]`);
+    const getTriggers = () => [...document.querySelectorAll(definition.trigger)].filter((trigger) => getDetail(trigger.dataset[definition.key]));
     const close = () => {
+      if (transitionTimer) {
+        clearTimeout(transitionTimer);
+        transitionTimer = null;
+      }
+      panel?.classList.remove("is-switching");
+      panel?.style.removeProperty("--modal-shift");
       dialog.classList.remove("open");
       document.body.classList.remove("modal-open");
       returnFocus?.focus();
     };
-    const open = (id, trigger) => {
-      const detail = getDetail(id);
-      if (!detail) return;
-      returnFocus = trigger || document.activeElement;
-      const detailImage = detail.querySelector("img");
-      const detailCategory = detail.querySelector(".kicker");
-      const detailTitle = detail.querySelector("h2");
-      const detailBody = detail.querySelector(".detail-body");
-      if (detailImage) {
-        image.src = detailImage.currentSrc || detailImage.src;
-        image.alt = detailImage.alt;
+    const render = (detail, resolvedTrigger, focusClose) => {
+      returnFocus = resolvedTrigger || document.activeElement;
+      activeTrigger = resolvedTrigger;
+      image.src = detail.img;
+      const cardTitle = resolvedTrigger?.querySelector("h3")?.textContent;
+      const displayTitle = cardTitle || detail.title;
+      image.alt = decode(displayTitle);
+      category.textContent = decode(detail.cat);
+      title.textContent = decode(displayTitle);
+      const fragment = document.createDocumentFragment();
+      (detail.paras || []).forEach((paragraph) => {
+        const element = document.createElement("p");
+        element.textContent = decode(paragraph);
+        fragment.append(element);
+      });
+      if (detail.items?.length) {
+        const list = document.createElement("ul");
+        detail.items.forEach((item) => {
+          const element = document.createElement("li");
+          element.textContent = decode(item);
+          list.append(element);
+        });
+        fragment.append(list);
       }
-      category.textContent = detailCategory?.textContent || "";
-      title.textContent = detailTitle?.textContent || "";
-      body.replaceChildren(...[...(detailBody?.children || [])].map((element) => element.cloneNode(true)));
+      if (detail.soon) {
+        const note = document.createElement("p");
+        note.className = "soon-note";
+        note.append(document.createTextNode("This service is coming soon to The House of Dental. Call "));
+        const phone = document.createElement("a");
+        phone.href = "tel:+14076781400";
+        phone.textContent = "(407) 678-1400";
+        note.append(phone, document.createTextNode(" to be notified when it launches."));
+        fragment.append(note);
+      }
+      body.replaceChildren(fragment);
       dialog.classList.add("open");
       document.body.classList.add("modal-open");
-      dialog.querySelector("[data-close]")?.focus();
+      if (focusClose) dialog.querySelector("[data-close]")?.focus();
+    };
+    const open = (id, trigger, { focusClose = true, transition = false, direction = 1 } = {}) => {
+      const detail = getDetail(id);
+      if (!detail) return;
+      if (transitionTimer) {
+        clearTimeout(transitionTimer);
+        transitionTimer = null;
+      }
+      const resolvedTrigger = trigger || getTrigger(id);
+      const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+      const canTransition = transition && panel && dialog.classList.contains("open") && !prefersReducedMotion;
+      if (!canTransition) {
+        panel?.classList.remove("is-switching");
+        panel?.style.removeProperty("--modal-shift");
+        render(detail, resolvedTrigger, focusClose);
+        return;
+      }
+      panel.style.setProperty("--modal-shift", direction > 0 ? "1.2rem" : "-1.2rem");
+      panel.classList.add("is-switching");
+      transitionTimer = window.setTimeout(() => {
+        transitionTimer = null;
+        render(detail, resolvedTrigger, focusClose);
+        window.requestAnimationFrame(() => {
+          panel.classList.remove("is-switching");
+          panel.style.removeProperty("--modal-shift");
+        });
+      }, 180);
+    };
+    const navigate = (direction, control) => {
+      const triggers = getTriggers();
+      if (!triggers.length) return;
+      const currentIndex = Math.max(0, activeTrigger ? triggers.indexOf(activeTrigger) : 0);
+      const nextIndex = (currentIndex + direction + triggers.length) % triggers.length;
+      const target = triggers[nextIndex];
+      const id = target.dataset[definition.key];
+      history.replaceState(null, "", `#${id}`);
+      open(id, target, { focusClose: false, transition: true, direction });
+      control?.focus();
     };
 
     document.querySelectorAll(definition.trigger).forEach((trigger) => {
@@ -200,11 +284,25 @@
       });
     });
     dialog.querySelectorAll("[data-close]").forEach((element) => element.addEventListener("click", close));
-    document.addEventListener("keydown", (event) => event.key === "Escape" && dialog.classList.contains("open") && close());
+    previous?.addEventListener("click", () => navigate(-1, previous));
+    next?.addEventListener("click", () => navigate(1, next));
+    document.addEventListener("keydown", (event) => {
+      if (!dialog.classList.contains("open")) return;
+      if (event.key === "Escape") close();
+      if (definition.kind !== "service") return;
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        navigate(-1);
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        navigate(1);
+      }
+    });
 
     const openHash = () => {
       const id = location.hash.slice(1).split("/").pop();
-      if (getDetail(id)) open(id, getTrigger(id) || getDetail(id));
+      if (getDetail(id)) open(id, getTrigger(id));
     };
     addEventListener("hashchange", openHash);
     addEventListener("popstate", openHash);
@@ -239,21 +337,11 @@
 })();
 
 (() => {
-  const form = document.getElementById("appointment-form");
+  const form = document.querySelector("form[data-netlify='true']");
   if (!form) return;
   form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const status = document.getElementById("form-status");
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      status.textContent = "Please complete the required fields. Nothing was sent.";
-      return;
-    }
-    status.replaceChildren(document.createTextNode("Nothing was sent. Please call "));
-    const phone = document.createElement("a");
-    phone.href = "tel:+14076781400";
-    phone.textContent = "(407) 678-1400";
-    status.append(phone, document.createTextNode(" to schedule while online requests are being connected."));
+    const button = form.querySelector("button[type='submit']");
+    button?.setAttribute("aria-busy", "true");
   });
 })();
 

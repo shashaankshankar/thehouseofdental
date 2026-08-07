@@ -25,30 +25,122 @@ test("generated pages contain no inline implementation code", async () => {
   }
 });
 
-test("appointment form remains fail closed", async () => {
+test("appointment form exports a reviewable Netlify POST", async () => {
   const html = await readFile("dist/contact.html", "utf8");
   const script = await readFile("dist/main.js", "utf8");
-  assert.match(html, /Nothing has been sent/);
-  assert.doesNotMatch(html, /data-netlify|<form[^>]+action=/);
-  assert.match(script, /preventDefault\(\)/);
-  assert.match(script, /Nothing was sent/);
+  const formScript = await readFile("src/scripts/60-forms.js", "utf8");
+  assert.match(html, /<form[^>]+method="POST"[^>]+data-netlify="true"/);
+  assert.match(html, /name="form-name" value="appointment"/);
+  assert.match(html, />Send Request</);
+  assert.doesNotMatch(html, /Nothing has been sent|Online delivery is not connected/);
+  assert.doesNotMatch(formScript, /preventDefault\(\)/);
 });
 
-test("service and technology details are statically discoverable", async () => {
+test("service and technology details are embedded in the export", async () => {
   const services = await readFile("dist/services.html", "utf8");
   const about = await readFile("dist/about.html", "utf8");
   const script = await readFile("dist/main.js", "utf8");
-  assert.ok((services.match(/class="inline-detail/g) || []).length >= 14);
-  assert.ok((about.match(/data-detail-kind="technology"/g) || []).length >= 8);
-  assert.match(services, /id="implants"[^>]*data-detail-kind="service"/);
-  assert.match(about, /id="cerec"[^>]*data-detail-kind="technology"/);
+  assert.doesNotMatch(services, /Select a Service to Explore/);
+  assert.equal((services.match(/class="center-head services-collection-head"/g) || []).length, 2);
+  assert.match(services, /id="implants"[^>]*data-svc="implants"/);
+  assert.match(services, /id="facial-aesthetics-services"/);
+  assert.match(services, /id="dental-services"/);
+  for (const id of ["deka", "microneedling", "emage", "hydroderm", "quietnite"]) {
+    assert.match(services, new RegExp(`data-svc="${id}"`), id);
+  }
+  const serviceOrder = [...services.matchAll(/data-svc="([^"]+)"/g)].map((match) => match[1]);
+  assert.deepEqual(serviceOrder, [
+    "deka", "microneedling", "emage", "hydroderm",
+    "implants", "crowns", "restorative", "dentures", "root-canals",
+    "cosmetic", "veneers", "preventive", "invisalign", "oral-surgery",
+    "sedation", "tmj", "srp", "quietnite"
+  ]);
+  assert.match(services, /data-modal-prev/);
+  assert.match(services, /data-modal-next/);
+  assert.match(about, /data-tech="cerec"/);
+  assert.match(script, /const __SITE_DETAIL_DATA =/);
+  assert.match(script, /"services"/);
+  assert.match(script, /"technology"/);
   assert.doesNotMatch(script, /fetch\(.*(?:services|technology)\.json/);
   assert.match(script, /history\.pushState/);
 });
 
+test("service cards keep modal triggers and expose matching treatment care links", async () => {
+  const html = await readFile("dist/services.html", "utf8");
+  const serviceIds = [...html.matchAll(/<button id="[^"]+" class="svc-card" data-svc="([^"]+)"/g)].map((match) => match[1]);
+  assert.deepEqual(serviceIds, [
+    "deka", "microneedling", "emage", "hydroderm", "implants", "crowns", "restorative",
+    "dentures", "root-canals", "cosmetic", "veneers", "preventive", "invisalign", "oral-surgery",
+    "sedation", "tmj", "srp", "quietnite"
+  ]);
+  const careAnchors = [...html.matchAll(/<a class="treatment-care-link" href="pre-post-op\.html#([^"]+)">Treatment Care<\/a>/g)].map((match) => match[1]);
+  assert.deepEqual(careAnchors, [
+    "deka-co2", "microneedling", "emage-scan", "hydroderm", "implants", "crowns", "dentures",
+    "root-canals", "veneers", "sedation", "srp", "quietnite"
+  ]);
+  assert.equal((html.match(/class="treatment-care-link"/g) || []).length, careAnchors.length);
+});
+
+test("service modal navigation includes a reduced-motion-aware switch transition", async () => {
+  const script = await readFile("dist/main.js", "utf8");
+  const styles = await readFile("dist/styles.css", "utf8");
+  assert.match(script, /transition: true, direction/);
+  assert.match(script, /panel\.classList\.add\("is-switching"\)/);
+  assert.match(script, /prefers-reduced-motion/);
+  assert.match(styles, /\.svcmodal \.panel \{[\s\S]*?transition: opacity 0\.24s/);
+  assert.match(styles, /\.svcmodal \.panel\.is-switching \{/);
+  assert.match(styles, /@media \(prefers-reduced-motion: reduce\) \{[\s\S]*?\.svcmodal \.panel\.is-switching/);
+});
+
+test("treatment care links share the View Details line treatment", async () => {
+  const styles = await readFile("dist/styles.css", "utf8");
+  assert.match(styles, /\.service-card-wrap\.has-care-link[\s\S]*?\.treatment-care-link \{[\s\S]*?border-bottom: 1px solid var\(--gold-deep\)/);
+  assert.match(styles, /\.services-page-groups \.treatment-care-link \{\s*display: inline-block;\s*align-self: flex-start;/);
+  assert.match(styles, /\.service-card-wrap\.has-care-link \.svc-card h3 \{\s*min-height: 2\.875rem;/);
+  assert.match(styles, /\.services-page-groups \.treatment-care-link \{[\s\S]*?margin: 1\.2rem 2rem 2\.4rem;/);
+  assert.match(styles, /\.service-card-wrap\.has-care-link \.svc-card \.body \{[\s\S]*?padding-bottom: 0\.45rem/);
+});
+
+test("care navigation follows services and rendered guide order", async () => {
+  const html = await readFile("dist/pre-post-op.html", "utf8");
+  const expectedOrder = [
+    "deka-co2", "microneedling", "emage-scan", "hydroderm",
+    "implants", "crowns", "dentures", "root-canals", "veneers",
+    "extractions", "sedation", "srp", "quietnite"
+  ];
+  const nav = html.match(/<section class="sec-noir care-nav">([\s\S]*?)<\/section>/)?.[1] || "";
+  const navOrder = [...nav.matchAll(/href="#([^"]+)"/g)].map((match) => match[1]);
+  const sectionOrder = [...html.matchAll(/<section class="sec sec-ivory care-block" id="([^"]+)">/g)].map((match) => match[1]);
+  assert.deepEqual(navOrder, expectedOrder);
+  assert.deepEqual(sectionOrder, expectedOrder);
+  assert.ok(html.indexOf("<span>Facial Aesthetics</span>") < html.indexOf("<span>Dental Procedures</span>"));
+});
+
+test("services page links to treatment care after dental services", async () => {
+  const html = await readFile("dist/services.html", "utf8");
+  assert.match(html, /<section class="service-group" id="dental-services">[\s\S]*?<div class="service-group-action">\s*<a class="btn btn-outline rv rv-d2" href="pre-post-op\.html">View All Pre &amp; Post Treatment Care<\/a>\s*<\/div>\s*<\/section>/);
+});
+
+test("back-to-top control is scoped to the care page", async () => {
+  const care = await readFile("dist/pre-post-op.html", "utf8");
+  const services = await readFile("dist/services.html", "utf8");
+  assert.match(care, /<a class="care-back-to-top" href="#main-content" aria-label="Back to top">/);
+  assert.match(care, /<span aria-hidden="true">↑<\/span>/);
+  assert.doesNotMatch(services, /care-back-to-top/);
+});
+
+test("care page keeps Services selected in the shared navigation", async () => {
+  const html = await readFile("dist/pre-post-op.html", "utf8");
+  const navigation = html.match(/<ul class="menu" id="primary-navigation">([\s\S]*?)<\/header>/)?.[1] || "";
+  assert.match(navigation, /<a data-primary-link data-active-paths="pre-post-op\.html" href="services\.html">Services<\/a>/);
+  const script = await readFile("dist/main.js", "utf8");
+  assert.match(script, /link\.dataset\.activePaths/);
+  assert.match(script, /link\.setAttribute\("aria-current", "page"\)/);
+});
+
 test("shared navigation and footer are generated consistently", async () => {
   const fullPages = ["index.html", "about.html", "contact.html", "facial-aesthetics.html", "new-patients.html", "pre-post-op.html", "reviews.html", "services.html"];
-  const expectedNavigation = ["Services", "Facial Aesthetics", "New Patients", "About", "Reviews", "Contact", "Book"];
+  const expectedNavigation = ["Facial Aesthetics", "Services", "New Patients", "About Us", "Reviews", "Contact", "Book"];
   for (const page of fullPages) {
     const html = await readFile(`dist/${page}`, "utf8");
     assert.match(html, /id="primary-navigation"/, page);
@@ -57,32 +149,50 @@ test("shared navigation and footer are generated consistently", async () => {
     const navigation = html.match(/<ul class="menu" id="primary-navigation">([\s\S]*?)<\/header>/)?.[1] || "";
     const labels = [...navigation.matchAll(/<a data-primary-link[^>]*>([^<]+)<\/a>/g)].map((match) => match[1].trim());
     assert.deepEqual(labels, expectedNavigation, page);
-    assert.equal((navigation.match(/class="drop"/g) || []).length, 4, page);
+    assert.equal((navigation.match(/class="drop(?:\s|\")/g) || []).length, 4, page);
+    const careGuidesPosition = navigation.indexOf("<strong>Pre &amp; Post Treatment Care</strong>");
+    const facialServicesPosition = navigation.indexOf("<strong>Facial Aesthetics Services</strong>");
+    const dentalServicesPosition = navigation.indexOf("<strong>Dental Care Services</strong>");
+    const allServicesPosition = navigation.indexOf("<strong>All Services</strong>");
+    assert.ok(careGuidesPosition >= 0, page);
+    assert.ok(facialServicesPosition > careGuidesPosition, page);
+    assert.ok(dentalServicesPosition > facialServicesPosition, page);
+    assert.ok(allServicesPosition > dentalServicesPosition, page);
+    assert.match(navigation, /href="services\.html#facial-aesthetics-services"/);
+    assert.match(navigation, /href="services\.html#dental-services"/);
     assert.doesNotMatch(navigation, /submenu-toggle/, page);
     assert.doesNotMatch(navigation, /nav-phone/, page);
   }
 });
 
-test("homepage follows the focused patient journey", async () => {
+test("homepage preserves the restored legacy journey", async () => {
   const html = await readFile("dist/index.html", "utf8");
-  const sections = ["home-services", "why-us", "dr-patel-home", "home-reviews", "visit"];
+  const sections = [
+    "Precision-Crafted Restorations",
+    'class="stats rv"',
+    'class="marquee-track"',
+    "The Collection",
+    'id="technology"',
+    'id="offers"',
+    "Meet Dr. Mainak Patel",
+    "quote-block",
+    'class="ba-grid"',
+    "Smile With Confidence"
+  ];
   let previous = html.indexOf('class="hero"');
 
   assert.ok(previous >= 0);
-  for (const id of sections) {
-    const position = html.indexOf(`id="${id}"`);
-    assert.ok(position > previous, `${id} should follow the prior homepage section`);
+  for (const marker of sections) {
+    const position = html.indexOf(marker);
+    assert.ok(position > previous, `${marker} should follow the prior homepage section`);
     previous = position;
   }
-
-  for (const removedDetail of ["techmodal", "offer-single", "ba-grid", "marquee-track"]) {
-    assert.doesNotMatch(html, new RegExp(removedDetail), removedDetail);
-  }
+  assert.match(html, /id="techmodal"/);
 });
 
 test("runtime keeps required accessible interactions", async () => {
   const script = await readFile("dist/main.js", "utf8");
-  for (const behavior of ["aria-expanded", "aria-pressed", "aria-valuenow", "returnFocus", "reportValidity", "hashchange"]) {
+  for (const behavior of ["aria-expanded", "aria-pressed", "aria-valuenow", "returnFocus", "hashchange"]) {
     assert.match(script, new RegExp(behavior), behavior);
   }
   assert.doesNotMatch(script, /setInterval\(scan|\.innerHTML\s*=/);

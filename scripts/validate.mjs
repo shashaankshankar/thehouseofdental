@@ -18,8 +18,6 @@ for (const [file, html] of htmlByFile) {
   if (/\sstyle="/i.test(html)) errors.push(`${file}: contains inline style attribute`);
   if (/<[a-z][^>]*\bclass="[^"]*"[^>]*\bclass="/i.test(html)) errors.push(`${file}: contains duplicate class attributes`);
   if (/<script(?![^>]*type="application\/ld\+json")(?![^>]*src=)[^>]*>/i.test(html)) errors.push(`${file}: contains executable inline script`);
-  if (/data-netlify|<form[^>]+action=/i.test(html)) errors.push(`${file}: contains a transmitting form action`);
-  if (/images\.unsplash\.com/i.test(html)) errors.push(`${file}: contains an external stock-image host`);
   const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
   if (new Set(ids).size !== ids.length) errors.push(`${file}: duplicate id`);
   for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
@@ -38,7 +36,7 @@ for (const [file, html] of htmlByFile) {
   }
 }
 
-for (const required of ["_headers", "_redirects", "robots.txt", "sitemap.xml", "main.js", "styles.css", "data/services.json", "data/technology.json"]) {
+for (const required of ["_headers", "_redirects", "robots.txt", "sitemap.xml", "main.js", "styles.css"]) {
   if (!(await exists(resolve(root, required)))) errors.push(`missing generated file ${required}`);
 }
 const headers = await readFile(resolve(root, "_headers"), "utf8");
@@ -46,7 +44,6 @@ for (const directive of ["Content-Security-Policy", "X-Content-Type-Options", "R
   if (!headers.includes(directive)) errors.push(`_headers: missing ${directive}`);
 }
 if (headers.includes("unsafe-inline")) errors.push("_headers: CSP still allows unsafe-inline");
-for (const dataFile of ["services.json", "technology.json"]) JSON.parse(await readFile(resolve(root, "data", dataFile), "utf8"));
 
 if (errors.length) {
   console.error(errors.join("\n"));

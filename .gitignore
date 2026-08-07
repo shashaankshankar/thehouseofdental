@@ -1,3 +1,6 @@
 .DS_Store
 .playwright-cli/
 node_modules/
+.env*
+.dev.vars*
+wrangler.jsonc

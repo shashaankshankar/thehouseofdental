@@ -53,16 +53,19 @@ test("Google reputation integration has a safe fallback and no client API key", 
   const reviews = await readFile("dist/reviews.html", "utf8");
   const endpoint = await readFile("functions/api/google-reputation.js", "utf8");
   assert.deepEqual(site.reputation, {
-    place_id: "ChIJa03H_p1v54gRuRh3_er3eLM",
+    place_id: "ChIJM7fB_p1v54gR35t3HRaGH_Q",
     endpoint: "/api/google-reputation",
     fallback: { rating: 5, review_count: 332 }
   });
-  assert.ok(script.includes('const __SITE_REPUTATION = {"place_id":"ChIJa03H_p1v54gRuRh3_er3eLM","endpoint":"/api/google-reputation","fallback":{"rating":5,"review_count":332}};'));
-  assert.match(script, /if \(!placeId \|\| !endpoint\) return;/);
-  assert.match(index, /data-reputation-rating>5\.0<\/b>/);
-  assert.match(index, /data-reputation-review-count>332<\/b>/);
-  assert.match(reviews, /data-reputation-rating>5\.0<\/span>/);
-  assert.match(reviews, /data-reputation-review-count>332<\/span>/);
+  assert.ok(script.includes('const __SITE_REPUTATION = {"place_id":"ChIJM7fB_p1v54gR35t3HRaGH_Q","endpoint":"/api/google-reputation","fallback":{"rating":5,"review_count":332}};'));
+  assert.match(script, /if \(!placeId \|\| !endpoint\) \{\s*reveal\(fallback\);/);
+  assert.match(index, /data-reputation-rating>—<\/b>/);
+  assert.match(index, /data-reputation-review-count>—<\/b>/);
+  assert.match(reviews, /data-reputation-rating>—<\/span>/);
+  assert.match(reviews, /data-reputation-review-count>—<\/span>/);
+  assert.match(script, /reputation-value-pending/);
+  assert.match(script, /prefers-reduced-motion/);
+  assert.match(script, /requestAnimationFrame\(tick\)/);
   assert.match(endpoint, /GOOGLE_PLACES_API_KEY/);
   assert.match(endpoint, /X-Goog-FieldMask/);
   assert.match(endpoint, /rating,userRatingCount,googleMapsUri/);

@@ -5,6 +5,8 @@
   const endpoint = String(config.endpoint || "").trim();
   const ratingTargets = [...document.querySelectorAll("[data-reputation-rating]")];
   const reviewCountTargets = [...document.querySelectorAll("[data-reputation-review-count]")];
+  const reputationTargets = [...new Set([...ratingTargets, ...reviewCountTargets])];
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const normalize = (value) => {
     const rating = Number(value?.rating);
@@ -28,27 +30,46 @@
     }
   };
 
-  const apply = (value) => {
-    const normalized = normalize(value);
-    if (!normalized) return;
-    const ratingText = normalized.rating.toFixed(1);
-    const reviewCountText = normalized.reviewCount.toLocaleString("en-US");
-    for (const element of ratingTargets) element.textContent = ratingText;
-    for (const element of reviewCountTargets) element.textContent = reviewCountText;
-    updateSchema(normalized);
+  const animate = (targets, target, format) => {
+    if (reduced) {
+      for (const element of targets) element.textContent = format(target);
+      return;
+    }
+    const start = performance.now();
+    const tick = (time) => {
+      const progress = Math.min((time - start) / 1600, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      for (const element of targets) element.textContent = format(target * eased);
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
   };
 
-  apply(fallback);
-  if (!placeId || !endpoint) return;
+  const apply = (value) => {
+    const normalized = normalize(value);
+    if (!normalized) return false;
+    animate(ratingTargets, normalized.rating, (value) => value.toFixed(1));
+    animate(reviewCountTargets, normalized.reviewCount, (value) => Math.round(value).toLocaleString("en-US"));
+    updateSchema(normalized);
+    return true;
+  };
+
+  const reveal = (value) => {
+    if (!apply(value)) apply(fallback);
+    for (const element of reputationTargets) element.classList.remove("reputation-value-pending");
+  };
+
+  if (!placeId || !endpoint) {
+    reveal(fallback);
+    return;
+  }
 
   const url = new URL(endpoint, window.location.origin);
   url.searchParams.set("place_id", placeId);
   fetch(url, { headers: { Accept: "application/json" } })
     .then((response) => response.ok ? response.json() : null)
-    .then((value) => {
-      if (value) apply(value);
-    })
+    .then((value) => reveal(value))
     .catch(() => {
-      // The configured fallback remains visible if the API is unavailable.
+      reveal(fallback);
     });
 })();

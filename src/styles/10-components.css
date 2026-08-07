@@ -347,6 +347,7 @@ footer.site .logo-img { height: 80px; }
   flex-wrap: wrap;
 }
 .hero-strip b { color: var(--gold); font-weight: 400; }
+.reputation-value { display: inline-block; min-width: 3ch; text-align: center; }
 
 /* Page hero (interior pages) */
 .page-hero {

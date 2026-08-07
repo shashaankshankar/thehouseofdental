@@ -4,6 +4,17 @@
   "phone": "+14076781400",
   "phoneDisplay": "(407) 678-1400",
   "address": "6504 University Blvd, Winter Park, FL 32792",
+  "analytics": {
+    "provider": "gtag",
+    "enabled": false,
+    "measurementId": "",
+    "consent": {
+      "mode": "advanced",
+      "version": 2,
+      "storageKey": "thod-analytics-consent",
+      "waitForUpdate": 500
+    }
+  },
   "pages": {
     "404.html": {
       "title": "Page Not Found | The House of Dental",

@@ -25,6 +25,12 @@ Dependency-free static website for The House of Dental. The visual design and wo
 - `npm run check` rebuilds the site, validates it, runs the tests, and syntax-checks `dist/main.js`.
 - `npm run clean` removes generated output.
 
+## GA4 setup
+
+The export includes a Google tag (gtag.js) integration with Consent Mode v2 advanced defaults. It remains inactive until `src/data/site.json` contains an approved GA4 Measurement ID and `"enabled": true` in the `analytics` object. When enabled, the default consent state denies analytics and advertising storage; the first-party banner can grant analytics storage only, and the integration sends the standard page view without reading or sending appointment form values.
+
+This site uses direct gtag.js, so the Google Tag Manager template APIs are not used. After the Measurement ID, privacy language, consent copy, consent-storage choice, and production approval are confirmed, run `npm run check` to regenerate and validate the export.
+
 Run `npm run build` before `npm run validate` or `npm test` when `dist/` may be stale. There are no `dev`, `serve`, or `preview` npm scripts because this is a dependency-free static site.
 
 ## Local preview

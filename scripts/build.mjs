@@ -10,6 +10,7 @@ const reviews = JSON.parse(await read(join(source, "data/reviews.json")));
 const financing = JSON.parse(await read(join(source, "data/financing.json")));
 const services = JSON.parse(await read(join(source, "data/services.json")));
 const technology = JSON.parse(await read(join(source, "data/technology.json")));
+const analytics = site.analytics ?? { provider: "gtag", enabled: false, measurementId: "" };
 const templates = {
   full: {
     header: await read(join(source, "templates/header-full.html")),
@@ -32,7 +33,7 @@ const styleSources = await Promise.all(styles.map(async (file) => (await read(jo
 await writeFile(join(output, "styles.css"), `${styleSources.join("\n\n")}\n`);
 const scripts = (await readdir(join(source, "scripts"))).filter((file) => file.endsWith(".js")).sort();
 const scriptSources = await Promise.all(scripts.map(async (file) => (await read(join(source, "scripts", file))).trimEnd()));
-await writeFile(join(output, "main.js"), `const __SITE_DETAIL_DATA = ${JSON.stringify({ services, technology })};\n\n${scriptSources.join("\n\n")}\n`);
+await writeFile(join(output, "main.js"), `const __SITE_DETAIL_DATA = ${JSON.stringify({ services, technology })};\nconst __SITE_ANALYTICS = ${JSON.stringify(analytics)};\n\n${scriptSources.join("\n\n")}\n`);
 
 const mobileActions = '<nav class="mobile-actions" aria-label="Quick contact"><a href="tel:+14076781400">Call</a><a href="contact.html#book">Book Appointment</a></nav>';
 const escapeText = (value = "") => value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");

@@ -16,6 +16,36 @@ test("source is split into focused modules", () => {
   assert.ok(sourceStyles.length >= 6);
 });
 
+test("GA4 integration is configurable and inactive by default", async () => {
+  const site = JSON.parse(await readFile("src/data/site.json", "utf8"));
+  const script = await readFile("dist/main.js", "utf8");
+  const analyticsScript = await readFile("src/scripts/80-analytics.js", "utf8");
+  const styles = await readFile("dist/styles.css", "utf8");
+  const headers = await readFile("dist/_headers", "utf8");
+  assert.deepEqual(site.analytics, {
+    provider: "gtag",
+    enabled: false,
+    measurementId: "",
+    consent: {
+      mode: "advanced",
+      version: 2,
+      storageKey: "thod-analytics-consent",
+      waitForUpdate: 500
+    }
+  });
+  assert.match(script, /const __SITE_ANALYTICS = \{"provider":"gtag","enabled":false,"measurementId":"","consent":\{"mode":"advanced","version":2,"storageKey":"thod-analytics-consent","waitForUpdate":500\}\};/);
+  assert.ok(script.includes("https://www.googletagmanager.com/gtag/js?id="));
+  assert.ok(headers.includes("script-src 'self' https://www.googletagmanager.com"));
+  assert.ok(headers.includes("connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com"));
+  for (const consentType of ["ad_storage", "ad_user_data", "ad_personalization", "analytics_storage"]) {
+    assert.match(analyticsScript, new RegExp(consentType));
+  }
+  assert.match(analyticsScript, /gtag\("consent", "default"/);
+  assert.match(analyticsScript, /gtag\("consent", "update"/);
+  assert.match(analyticsScript, /localStorage/);
+  assert.match(styles, /\.consent-banner/);
+});
+
 test("generated pages contain no inline implementation code", async () => {
   for (const page of pages) {
     const html = await readFile(`dist/${page}`, "utf8");

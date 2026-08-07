@@ -15,6 +15,14 @@
       "waitForUpdate": 500
     }
   },
+  "reputation": {
+    "place_id": "ChIJa03H_p1v54gRuRh3_er3eLM",
+    "endpoint": "/api/google-reputation",
+    "fallback": {
+      "rating": 5.0,
+      "review_count": 332
+    }
+  },
   "pages": {
     "404.html": {
       "title": "Page Not Found | The House of Dental",

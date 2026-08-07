@@ -31,6 +31,14 @@ The export includes a Google tag (gtag.js) integration with Consent Mode v2 adva
 
 This site uses direct gtag.js, so the Google Tag Manager template APIs are not used. After the Measurement ID, privacy language, consent copy, consent-storage choice, and production approval are confirmed, run `npm run check` to regenerate and validate the export.
 
+## Google reputation placeholder
+
+`src/data/site.json` contains a `reputation` block with an empty `place_id` and the current fallback values. With `place_id` blank, the site displays the fallback rating and review count. When a place ID is supplied, `src/scripts/90-reputation.js` requests `/api/google-reputation` and replaces the visible values when the response is valid; API failures continue to use the fallback.
+
+`functions/api/google-reputation.js` is a server-side Pages/Worker-style adapter for the Places API. Configure the host environment with `GOOGLE_PLACE_ID` and `GOOGLE_PLACES_API_KEY`, using the same place ID as `src/data/site.json`. Never put the API key in `src/` or browser code. The function requests only `rating`, `userRatingCount`, and `googleMapsUri` and does not cache the response.
+
+The current static export does not execute serverless functions by itself; the host must be configured to deploy the `functions/` directory alongside the static output before a non-empty `place_id` can return live data.
+
 Run `npm run build` before `npm run validate` or `npm test` when `dist/` may be stale. There are no `dev`, `serve`, or `preview` npm scripts because this is a dependency-free static site.
 
 ## Local preview

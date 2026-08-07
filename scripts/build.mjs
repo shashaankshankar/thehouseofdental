@@ -11,6 +11,16 @@ const financing = JSON.parse(await read(join(source, "data/financing.json")));
 const services = JSON.parse(await read(join(source, "data/services.json")));
 const technology = JSON.parse(await read(join(source, "data/technology.json")));
 const analytics = site.analytics ?? { provider: "gtag", enabled: false, measurementId: "" };
+const reputation = site.reputation ?? {
+  place_id: "",
+  endpoint: "/api/google-reputation",
+  fallback: { rating: 5.0, review_count: 332 }
+};
+const structuredData = JSON.parse(JSON.stringify(site.structuredData));
+if (structuredData.aggregateRating && reputation.fallback) {
+  structuredData.aggregateRating.ratingValue = Number(reputation.fallback.rating).toFixed(1);
+  structuredData.aggregateRating.reviewCount = String(reputation.fallback.review_count);
+}
 const templates = {
   full: {
     header: await read(join(source, "templates/header-full.html")),
@@ -33,7 +43,7 @@ const styleSources = await Promise.all(styles.map(async (file) => (await read(jo
 await writeFile(join(output, "styles.css"), `${styleSources.join("\n\n")}\n`);
 const scripts = (await readdir(join(source, "scripts"))).filter((file) => file.endsWith(".js")).sort();
 const scriptSources = await Promise.all(scripts.map(async (file) => (await read(join(source, "scripts", file))).trimEnd()));
-await writeFile(join(output, "main.js"), `const __SITE_DETAIL_DATA = ${JSON.stringify({ services, technology })};\nconst __SITE_ANALYTICS = ${JSON.stringify(analytics)};\n\n${scriptSources.join("\n\n")}\n`);
+await writeFile(join(output, "main.js"), `const __SITE_DETAIL_DATA = ${JSON.stringify({ services, technology })};\nconst __SITE_ANALYTICS = ${JSON.stringify(analytics)};\nconst __SITE_REPUTATION = ${JSON.stringify(reputation)};\n\n${scriptSources.join("\n\n")}\n`);
 
 const mobileActions = '<nav class="mobile-actions" aria-label="Quick contact"><a href="tel:+14076781400">Call</a><a href="contact.html#book">Book Appointment</a></nav>';
 const escapeText = (value = "") => value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
@@ -94,7 +104,7 @@ for (const [file, page] of Object.entries(site.pages)) {
   const socialDescription = page.socialDescription || page.description;
   const social = page.canonical ? `<meta property="og:title" content="${escapeAttribute(socialTitle)}"><meta property="og:description" content="${escapeAttribute(socialDescription)}"><meta property="og:type" content="website"><meta property="og:site_name" content="${escapeAttribute(site.name)}"><meta property="og:locale" content="en_US"><meta property="og:url" content="${escapeAttribute(page.canonical)}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escapeAttribute(socialTitle)}"><meta name="twitter:description" content="${escapeAttribute(socialDescription)}">` : "";
   const author = page.author ? `<meta name="author" content="${escapeAttribute(page.author)}">` : "";
-  const schema = page.schema === false ? "" : page.shell === "full" ? `<script type="application/ld+json">${JSON.stringify(site.structuredData)}</script>` : "";
+  const schema = page.schema === false ? "" : page.shell === "full" ? `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>` : "";
   const fonts = page.shell === "full" ? '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital@1&display=swap" rel="stylesheet">' : "";
   const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0a0a0b"><title>${escapeText(page.title)}</title>${keywords}${social}${geo}${description}<meta name="robots" content="${escapeAttribute(page.robots)}">${canonical}${author}${schema}${fonts}<link rel="stylesheet" href="styles.css"></head><body><a class="skip-link" href="#main-content">Skip to main content</a>${shell.header}${content}${shell.footer}${mobileActions}<script src="main.js" defer></script></body></html>`;

@@ -106,8 +106,9 @@ for (const [file, page] of Object.entries(site.pages)) {
   const author = page.author ? `<meta name="author" content="${escapeAttribute(page.author)}">` : "";
   const schema = page.schema === false ? "" : page.shell === "full" ? `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>` : "";
   const fonts = page.shell === "full" ? '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital@1&display=swap" rel="stylesheet">' : "";
+  const vercelAnalytics = '<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script><script defer src="/_vercel/insights/script.js"></script>';
   const html = `<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0a0a0b"><title>${escapeText(page.title)}</title>${keywords}${social}${geo}${description}<meta name="robots" content="${escapeAttribute(page.robots)}">${canonical}${author}${schema}${fonts}<link rel="stylesheet" href="styles.css"></head><body><a class="skip-link" href="#main-content">Skip to main content</a>${shell.header}${content}${shell.footer}${mobileActions}<script src="main.js" defer></script></body></html>`;
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0a0a0b"><title>${escapeText(page.title)}</title>${keywords}${social}${geo}${description}<meta name="robots" content="${escapeAttribute(page.robots)}">${canonical}${author}${schema}${fonts}<link rel="stylesheet" href="styles.css">${vercelAnalytics}</head><body><a class="skip-link" href="#main-content">Skip to main content</a>${shell.header}${content}${shell.footer}${mobileActions}<script src="main.js" defer></script></body></html>`;
   await writeFile(join(output, file), `${html}\n`);
 }
 

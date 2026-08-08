@@ -8,5 +8,8 @@
     "validate": "node scripts/validate.mjs dist",
     "test": "node --test tests/site.test.mjs",
     "check": "npm run build && npm run validate && npm test && node --check dist/main.js"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
   }
 }

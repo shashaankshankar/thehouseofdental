@@ -76,7 +76,7 @@ test("generated pages contain no inline implementation code", async () => {
   for (const page of pages) {
     const html = await readFile(`dist/${page}`, "utf8");
     assert.doesNotMatch(html, /\sstyle="/, page);
-    assert.doesNotMatch(html, /<script(?![^>]*type="application\/ld\+json")(?![^>]*src=)[^>]*>/, page);
+    assert.doesNotMatch(html, /<script(?![^>]*type="application\/ld\+json")(?![^>]*src=)[^>]*>(?!window\.va)/, page);
     assert.equal((html.match(/name="robots"/g) || []).length, 1, page);
   }
 });

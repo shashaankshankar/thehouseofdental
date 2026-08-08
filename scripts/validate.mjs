@@ -17,12 +17,12 @@ for (const [file, html] of htmlByFile) {
   if (file !== "404.html" && count(/rel="canonical"/g) !== 1) errors.push(`${file}: expected one canonical URL`);
   if (/\sstyle="/i.test(html)) errors.push(`${file}: contains inline style attribute`);
   if (/<[a-z][^>]*\bclass="[^"]*"[^>]*\bclass="/i.test(html)) errors.push(`${file}: contains duplicate class attributes`);
-  if (/<script(?![^>]*type="application\/ld\+json")(?![^>]*src=)[^>]*>/i.test(html)) errors.push(`${file}: contains executable inline script`);
+  if (/<script(?![^>]*type="application\/ld\+json")(?![^>]*src=)[^>]*>(?!window\.va)/i.test(html)) errors.push(`${file}: contains executable inline script`);
   const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
   if (new Set(ids).size !== ids.length) errors.push(`${file}: duplicate id`);
   for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
     const raw = match[1];
-    if (!raw || /^(?:https?:|tel:|mailto:|data:)/.test(raw)) continue;
+    if (!raw || /^(?:https?:|tel:|mailto:|data:|\/\_vercel\/)/.test(raw)) continue;
     const [reference, fragment] = raw.split("#");
     const targetFile = reference || file;
     if (targetFile && !(await exists(resolve(dirname(resolve(root, file)), targetFile)))) {

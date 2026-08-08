@@ -55,6 +55,7 @@
 .technology-details .inline-detail { grid-template-columns: minmax(220px, 0.62fr) minmax(0, 1.38fr); }
 .technology-details .inline-detail-alt { background: rgba(255, 255, 255, 0.05); }
 @media (max-width: 760px) {
+  .u-inline-006 > .wrap { display: flex; flex-direction: column; }
   .inline-detail,
   .technology-details .inline-detail { grid-template-columns: 1fr; gap: 1.8rem; }
 }
@@ -682,6 +683,9 @@
   transition: color 0.35s;
 }
 .care-nav a:hover { color: var(--gold); }
+.care-nav details summary { min-height: 44px; display: grid; place-items: center; cursor: pointer; color: var(--gold); text-transform: uppercase; letter-spacing: .2em; font-size: .72rem; }
+.care-return { margin: 2rem auto 0; max-width: 1000px; }
+.care-return a { display: inline-flex; min-height: 44px; align-items: center; color: var(--gold-deep); text-decoration: underline; text-underline-offset: .2em; }
 
 .care-back-to-top {
   position: fixed;
@@ -701,6 +705,8 @@
   line-height: 1;
   transition: transform 0.35s var(--ease), background 0.35s;
 }
+.care-back-to-top[aria-hidden="true"] { display: none; }
+.care-back-to-top.is-visible { display: grid; }
 .care-back-to-top span { transform: translateY(-0.08em); }
 .care-back-to-top:hover { background: var(--gold-pale); transform: translateY(-3px); }
 .care-back-to-top:focus-visible { outline: 2px solid var(--ivory); outline-offset: 4px; }
@@ -830,6 +836,14 @@ a.quick-card:hover { background: rgba(198,161,91,0.08); }
   line-height: 1.55;
 }
 .contact-form { max-width: 760px; margin: 0 auto; }
+@media (max-width: 760px) {
+  #book, #book ~ .contact-quick-cards, #book ~ .contact-form { scroll-margin-top: calc(var(--head-h, 86px) + 1rem); }
+  #book + .contact-quick-cards { order: 2; }
+  #book + .contact-quick-cards + .contact-form { order: 1; }
+  #book { order: 0; }
+  #book, #book + .contact-quick-cards, #book + .contact-quick-cards + .contact-form { width: 100%; }
+  #book { margin-bottom: 1.8rem; }
+}
 @media (max-width: 760px) { .contact-quick { grid-template-columns: 1fr; } }
 
 /* ---------- About: accolade contrast fix ---------- */

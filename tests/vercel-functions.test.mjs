@@ -105,9 +105,35 @@ test("reputation Function returns a safe configuration error without secrets", a
     };
     try {
       const result = response();
-      await reputation({ method: "GET", query: { place_id: "test" } }, result);
+      await reputation({ method: "GET" }, result);
       assert.equal(result.statusCode, 503);
       assert.equal(fetchCalled, false);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+});
+
+test("reputation Function uses the server Place ID without a request parameter", async () => {
+  await withCleanEnv(async () => {
+    process.env.GOOGLE_PLACE_ID = "env-place-id";
+    process.env.GOOGLE_PLACES_API_KEY = "test-google-key";
+    const originalFetch = globalThis.fetch;
+    let capturedUrl;
+    globalThis.fetch = async (url) => {
+      capturedUrl = String(url);
+      return {
+        ok: true,
+        async json() {
+          return { rating: 5, userRatingCount: 332, googleMapsUri: "https://maps.google.test" };
+        }
+      };
+    };
+    try {
+      const result = response();
+      await reputation({ method: "GET" }, result);
+      assert.equal(result.statusCode, 200);
+      assert.equal(capturedUrl, "https://places.googleapis.com/v1/places/env-place-id");
     } finally {
       globalThis.fetch = originalFetch;
     }

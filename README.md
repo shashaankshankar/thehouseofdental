@@ -29,7 +29,7 @@ Node-built static website for The House of Dental. The visual design and working
 
 ## Vercel deployment
 
-The repository is configured for Vercel with `npm ci`, `npm run check`, and `dist/` as the output directory. The Vercel Functions live in `api/`, and the `Vercel QA gate` workflow runs `npm run check` on pushes to `qa` and pull requests targeting `qa` or `main`.
+The repository is configured for Vercel with `npm ci`, `npm run check`, and `dist/` as the output directory. The Vercel Functions live in `api/`, and the `Vercel QA gate` workflow runs `npm run check` on pushes to `qa` and pull requests targeting `qa` or `main`. The CSP also includes Vercel Toolbar sources so preview feedback can load without permitting arbitrary scripts.
 
 Link the repository to the intended Vercel project before pulling or adding variables:
 
@@ -54,7 +54,7 @@ This site uses direct gtag.js, so the Google Tag Manager template APIs are not u
 
 `src/data/site.json` contains the public Google Place ID and fallback values. `src/scripts/90-reputation.js` requests `/api/google-reputation` and replaces the visible values when the response is valid; API failures continue to use the fallback.
 
-`api/google-reputation.js` is a Vercel Node Function. Configure `GOOGLE_PLACE_ID` and `GOOGLE_PLACES_API_KEY` in Vercel, using the same place ID as `src/data/site.json`. Never put the API key in `src/` or browser code. The function requests only `rating`, `userRatingCount`, and `googleMapsUri`, and caches successful results briefly to limit upstream quota exposure.
+`api/google-reputation.js` is a Vercel Node Function. Configure `GOOGLE_PLACE_ID` and `GOOGLE_PLACES_API_KEY` in Vercel; the Function is the sole runtime source for the Place ID and the browser calls it without sending one. Never put the API key in `src/` or browser code. The function requests only `rating`, `userRatingCount`, and `googleMapsUri`, and caches successful results briefly to limit upstream quota exposure.
 
 The static export does not execute serverless functions by itself; Vercel deploys the `api/` entrypoints alongside the `dist/` output.
 

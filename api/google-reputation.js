@@ -5,11 +5,6 @@ const json = (response, status, body, cacheControl = "no-store") => {
   return response.status(status).json(body);
 };
 
-const queryValue = (request, key) => {
-  const value = request.query?.[key];
-  return Array.isArray(value) ? String(value[0] || "").trim() : String(value || "").trim();
-};
-
 module.exports = async function handler(request, response) {
   if (request.method !== "GET") {
     response.setHeader("Allow", "GET");
@@ -17,10 +12,9 @@ module.exports = async function handler(request, response) {
   }
 
   const configuredPlaceId = String(process.env.GOOGLE_PLACE_ID || "").trim();
-  const requestedPlaceId = queryValue(request, "place_id");
   const apiKey = String(process.env.GOOGLE_PLACES_API_KEY || "").trim();
 
-  if (!configuredPlaceId || !requestedPlaceId || requestedPlaceId !== configuredPlaceId) {
+  if (!configuredPlaceId) {
     return json(response, 503, { error: "Google place configuration is incomplete." });
   }
   if (!apiKey) return json(response, 503, { error: "Google Places API key is not configured." });

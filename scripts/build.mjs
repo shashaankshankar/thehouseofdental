@@ -12,7 +12,6 @@ const services = JSON.parse(await read(join(source, "data/services.json")));
 const technology = JSON.parse(await read(join(source, "data/technology.json")));
 const analytics = site.analytics ?? { provider: "gtag", enabled: false, measurementId: "" };
 const reputation = site.reputation ?? {
-  place_id: "",
   endpoint: "/api/google-reputation",
   fallback: { rating: 5.0, review_count: 332 }
 };

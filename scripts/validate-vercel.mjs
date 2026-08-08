@@ -60,6 +60,11 @@ if (config) {
   const csp = headerMap.get("Content-Security-Policy") || "";
   if (!csp.includes("form-action 'self'")) errors.push("vercel.json CSP: missing same-origin form-action");
   if (!csp.includes("sha256-qA1xVLVZZkhsh2h8PEraeZsQhOHWWH9fm/J8tFPbbXg=")) errors.push("vercel.json CSP: missing Vercel Analytics bootstrap hash");
+  for (const source of ["https://vercel.live", "https://vercel.com", "https://assets.vercel.com", "wss://ws-us3.pusher.com"]) {
+    if (!csp.includes(source)) errors.push(`vercel.json CSP: missing Vercel Toolbar source ${source}`);
+  }
+  if (!/style-src[^;]*https:\/\/vercel\.live[^;]*'unsafe-inline'/.test(csp)) errors.push("vercel.json CSP: missing Vercel Toolbar inline-style allowance");
+  if (/script-src[^;]*'unsafe-inline'/.test(csp)) errors.push("vercel.json CSP: script-src must not allow unsafe-inline");
 
   const functionConfig = config.functions?.["api/*.js"];
   if (!functionConfig) errors.push("vercel.json functions: missing api/*.js configuration");

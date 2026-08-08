@@ -43,7 +43,8 @@ const headers = await readFile(resolve(root, "_headers"), "utf8");
 for (const directive of ["Content-Security-Policy", "X-Content-Type-Options", "Referrer-Policy", "Permissions-Policy"]) {
   if (!headers.includes(directive)) errors.push(`_headers: missing ${directive}`);
 }
-if (headers.includes("unsafe-inline")) errors.push("_headers: CSP still allows unsafe-inline");
+// Vercel Toolbar requires inline styles in previews; executable scripts remain hash/domain constrained.
+if (/script-src[^;]*'unsafe-inline'/.test(headers)) errors.push("_headers: script-src still allows unsafe-inline");
 
 if (errors.length) {
   console.error(errors.join("\n"));

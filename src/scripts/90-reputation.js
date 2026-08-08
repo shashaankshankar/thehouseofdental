@@ -1,7 +1,6 @@
 (() => {
   const config = __SITE_REPUTATION || {};
   const fallback = config.fallback || {};
-  const placeId = String(config.place_id || "").trim();
   const endpoint = String(config.endpoint || "").trim();
   const ratingTargets = [...document.querySelectorAll("[data-reputation-rating]")];
   const reviewCountTargets = [...document.querySelectorAll("[data-reputation-review-count]")];
@@ -59,13 +58,12 @@
     for (const element of reputationTargets) element.classList.remove("reputation-value-pending");
   };
 
-  if (!placeId || !endpoint) {
+  if (!endpoint) {
     reveal(fallback);
     return;
   }
 
   const url = new URL(endpoint, window.location.origin);
-  url.searchParams.set("place_id", placeId);
   fetch(url, { headers: { Accept: "application/json" } })
     .then((response) => response.ok ? response.json() : null)
     .then((value) => reveal(value))

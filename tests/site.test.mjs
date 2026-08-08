@@ -38,6 +38,11 @@ test("GA4 integration is configurable and inactive by default", async () => {
   assert.ok(headers.includes("script-src 'self' https://www.googletagmanager.com"));
   assert.ok(headers.includes("sha256-qA1xVLVZZkhsh2h8PEraeZsQhOHWWH9fm/J8tFPbbXg="));
   assert.ok(headers.includes("connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com"));
+  for (const toolbarSource of ["https://vercel.live", "https://vercel.com", "https://assets.vercel.com", "wss://ws-us3.pusher.com"]) {
+    assert.ok(headers.includes(toolbarSource), toolbarSource);
+  }
+  assert.match(headers, /style-src[^;]*https:\/\/vercel\.live[^;]*'unsafe-inline'/);
+  assert.doesNotMatch(headers, /script-src[^;]*'unsafe-inline'/);
   for (const consentType of ["ad_storage", "ad_user_data", "ad_personalization", "analytics_storage"]) {
     assert.match(analyticsScript, new RegExp(consentType));
   }
@@ -54,12 +59,12 @@ test("Google reputation integration has a safe fallback and no client API key", 
   const reviews = await readFile("dist/reviews.html", "utf8");
   const endpoint = await readFile("api/google-reputation.js", "utf8");
   assert.deepEqual(site.reputation, {
-    place_id: "ChIJM7fB_p1v54gR35t3HRaGH_Q",
     endpoint: "/api/google-reputation",
     fallback: { rating: 5, review_count: 332 }
   });
-  assert.ok(script.includes('const __SITE_REPUTATION = {"place_id":"ChIJM7fB_p1v54gR35t3HRaGH_Q","endpoint":"/api/google-reputation","fallback":{"rating":5,"review_count":332}};'));
-  assert.match(script, /if \(!placeId \|\| !endpoint\) \{\s*reveal\(fallback\);/);
+  assert.ok(script.includes('const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rating":5,"review_count":332}};'));
+  assert.match(script, /if \(!endpoint\) \{\s*reveal\(fallback\);/);
+  assert.doesNotMatch(script, /place_id/);
   assert.match(index, /data-reputation-rating>—<\/b>/);
   assert.match(index, /data-reputation-review-count>—<\/b>/);
   assert.match(reviews, /data-reputation-rating>—<\/span>/);
@@ -72,7 +77,7 @@ test("Google reputation integration has a safe fallback and no client API key", 
   assert.match(endpoint, /rating,userRatingCount,googleMapsUri/);
   assert.match(endpoint, /module\.exports/);
   assert.match(endpoint, /s-maxage=300/);
-  assert.doesNotMatch(endpoint, /onRequestGet/);
+  assert.doesNotMatch(endpoint, /onRequestGet|queryValue|requestedPlaceId/);
   assert.doesNotMatch(script, /GOOGLE_PLACES_API_KEY/);
 });
 
@@ -115,6 +120,8 @@ test("Vercel config pins the build output, routing, headers, and Function budget
   const csp = globalHeaders.headers.find((header) => header.key === "Content-Security-Policy").value;
   assert.match(csp, /form-action 'self'/);
   assert.match(csp, /sha256-qA1xVLVZZkhsh2h8PEraeZsQhOHWWH9fm\/J8tFPbbXg=/);
+  assert.match(csp, /script-src[^;]*https:\/\/vercel\.live/);
+  assert.match(csp, /frame-src 'self' https:\/\/vercel\.live/);
   const envExample = await readFile(".env.example", "utf8");
   for (const key of ["GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "APPOINTMENT_BACKEND_URL", "APPOINTMENT_BACKEND_TOKEN", "APPOINTMENT_ALLOWED_ORIGINS"]) {
     assert.match(envExample, new RegExp(`^${key}=\\s*$`, "m"));

@@ -31,6 +31,16 @@
     const getDetail = (id) => detailData[id];
     const getTrigger = (id) => document.querySelector(`${definition.trigger}[data-${definition.key}="${CSS.escape(id)}"]`);
     const getTriggers = () => [...document.querySelectorAll(definition.trigger)].filter((trigger) => getDetail(trigger.dataset[definition.key]));
+    const inertBackground = () => {
+      if (inerted.length) return;
+      const modalMain = dialog.closest("main");
+      const background = [
+        ...document.querySelectorAll("body > header, body > footer, body > .mobile-actions"),
+        ...(modalMain ? [...modalMain.children].filter((element) => element !== dialog) : [])
+      ];
+      inerted = background.map((element) => ({ element, inert: element.inert }));
+      background.forEach((element) => { element.inert = true; });
+    };
     const close = () => {
       if (transitionTimer) {
         clearTimeout(transitionTimer);
@@ -81,13 +91,7 @@
       body.replaceChildren(fragment);
       dialog.classList.add("open");
       document.body.classList.add("modal-open");
-      const modalMain = dialog.closest("main");
-      const background = [
-        ...document.querySelectorAll("body > header, body > footer, body > .mobile-actions"),
-        ...(modalMain ? [...modalMain.children].filter((element) => element !== dialog) : [])
-      ];
-      inerted = background.map((element) => ({ element, inert: element.inert }));
-      background.forEach((element) => { element.inert = true; });
+      inertBackground();
       if (focusClose) dialog.querySelector("[data-close]")?.focus();
     };
     const open = (id, trigger, { focusClose = true, transition = false, direction = 1 } = {}) => {

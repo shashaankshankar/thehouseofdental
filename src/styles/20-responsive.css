@@ -220,6 +220,9 @@
   width: min(920px, 100%);
   max-height: 88vh;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
   display: grid;
   grid-template-columns: 1fr 1.15fr;
   animation: panelin 0.55s var(--ease);
@@ -562,7 +565,7 @@ body.modal-open { overflow: hidden; }
   .foot-mast .rule { display: none; }
   .band .wrap { flex-direction: column; text-align: center; }
   .svcmodal { padding: 0.8rem; }
-  .svcmodal .panel { max-height: 92vh; max-height: 92svh; }
+  .svcmodal .panel { max-height: 92vh; max-height: 92svh; scroll-behavior: smooth; }
   .svcmodal .panel img { max-height: 190px; min-height: 0; }
   .drop { min-width: 0; width: 100%; }
 }

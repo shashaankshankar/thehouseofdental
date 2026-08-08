@@ -404,17 +404,21 @@ footer.site .logo-img { height: 80px; }
   border: none;
   color: var(--ivory);
   cursor: pointer;
-  width: 40px; height: 40px;
+  width: 44px; height: 44px;
   position: relative;
   z-index: 70;
 }
 .burger span {
   display: block;
-  width: 26px; height: 1px;
+  width: 28px; height: 2px;
   background: var(--gold);
-  margin: 7px auto;
-  transition: transform 0.4s var(--ease), opacity 0.3s;
+  position: absolute;
+  left: 8px;
+  transition: transform 0.3s var(--ease), opacity 0.2s ease, background-color 0.2s ease;
 }
+.burger span:nth-child(1) { top: 12px; }
+.burger span:nth-child(2) { top: 20px; }
+.burger span:nth-child(3) { top: 28px; }
 .burger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
 .burger.open span:nth-child(2) { opacity: 0; }
 .burger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
@@ -464,6 +468,7 @@ footer.site .logo-img { height: 80px; }
   margin-bottom: 2.6rem;
 }
 .hero-cta { display: flex; gap: 1.4rem; flex-wrap: wrap; }
+.hero-cta.rv { opacity: 1; transform: none; transition: none; }
 
 .hero-strip {
   position: absolute;
@@ -758,7 +763,7 @@ footer.site .logo-img { height: 80px; }
   cursor: ew-resize;
 }
 .ba .handle::after {
-  content: "↔";
+  content: "\2194\fe0e";
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
@@ -770,6 +775,8 @@ footer.site .logo-img { height: 80px; }
   display: grid;
   place-items: center;
   font-size: 0.9rem;
+  font-family: Arial, "Helvetica Neue", sans-serif;
+  font-variant-emoji: text;
 }
 .ba .lab {
   position: absolute;
@@ -1204,6 +1211,9 @@ footer.site {
   width: min(920px, 100%);
   max-height: 88vh;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
   display: grid;
   grid-template-columns: 1fr 1.15fr;
   animation: panelin 0.55s var(--ease);
@@ -1546,7 +1556,7 @@ body.modal-open { overflow: hidden; }
   .foot-mast .rule { display: none; }
   .band .wrap { flex-direction: column; text-align: center; }
   .svcmodal { padding: 0.8rem; }
-  .svcmodal .panel { max-height: 92vh; max-height: 92svh; }
+  .svcmodal .panel { max-height: 92vh; max-height: 92svh; scroll-behavior: smooth; }
   .svcmodal .panel img { max-height: 190px; min-height: 0; }
   .drop { min-width: 0; width: 100%; }
 }
@@ -2097,7 +2107,9 @@ body.modal-open { overflow: hidden; }
 }
 
 .center-head .home-care-title {
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: normal;
+  text-wrap: balance;
   font-size: clamp(1.35rem, 3.2vw, 2.75rem);
 }
 

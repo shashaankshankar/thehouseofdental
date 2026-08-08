@@ -19,6 +19,8 @@
     let returnFocus;
     let activeTrigger;
     let transitionTimer;
+    let touchStart = null;
+    let inerted = [];
 
     const detailData = definition.kind === "service"
       ? { ...(__SITE_DETAIL_DATA?.services || {}), ...(__SITE_DETAIL_DATA?.technology || {}) }
@@ -38,7 +40,8 @@
       panel?.style.removeProperty("--modal-shift");
       dialog.classList.remove("open");
       document.body.classList.remove("modal-open");
-      [...document.body.children].forEach((element) => { if (element !== dialog) element.inert = false; });
+      inerted.forEach(({ element, inert }) => { element.inert = inert; });
+      inerted = [];
       returnFocus?.focus();
     };
     const render = (detail, resolvedTrigger, focusClose) => {
@@ -78,7 +81,13 @@
       body.replaceChildren(fragment);
       dialog.classList.add("open");
       document.body.classList.add("modal-open");
-      [...document.body.children].forEach((element) => { if (element !== dialog) element.inert = true; });
+      const modalMain = dialog.closest("main");
+      const background = [
+        ...document.querySelectorAll("body > header, body > footer, body > .mobile-actions"),
+        ...(modalMain ? [...modalMain.children].filter((element) => element !== dialog) : [])
+      ];
+      inerted = background.map((element) => ({ element, inert: element.inert }));
+      background.forEach((element) => { element.inert = true; });
       if (focusClose) dialog.querySelector("[data-close]")?.focus();
     };
     const open = (id, trigger, { focusClose = true, transition = false, direction = 1 } = {}) => {
@@ -130,11 +139,32 @@
       });
     });
     dialog.querySelectorAll("[data-close]").forEach((element) => element.addEventListener("click", close));
+    dialog.addEventListener("touchstart", (event) => {
+      const touch = event.changedTouches[0];
+      touchStart = { x: touch.clientX, y: touch.clientY };
+    }, { passive: true });
+    dialog.addEventListener("touchend", (event) => {
+      if (!touchStart) return;
+      const touch = event.changedTouches[0];
+      const dx = touch.clientX - touchStart.x;
+      const dy = touch.clientY - touchStart.y;
+      touchStart = null;
+      if (Math.abs(dx) < 56 || Math.abs(dx) < Math.abs(dy) * 1.25) return;
+      navigate(dx < 0 ? 1 : -1);
+    }, { passive: true });
     previous?.addEventListener("click", () => navigate(-1, previous));
     next?.addEventListener("click", () => navigate(1, next));
     document.addEventListener("keydown", (event) => {
       if (!dialog.classList.contains("open")) return;
       if (event.key === "Escape") close();
+      if (event.key === "Tab") {
+        const items = [...dialog.querySelectorAll('button, a, [tabindex]:not([tabindex="-1"])')].filter((element) => !element.disabled);
+        if (items.length) {
+          const first = items[0]; const last = items[items.length - 1];
+          if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+          else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+        }
+      }
       if (definition.kind !== "service") return;
       if (event.key === "ArrowLeft") {
         event.preventDefault();

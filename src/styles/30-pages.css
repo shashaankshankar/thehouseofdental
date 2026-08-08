@@ -475,7 +475,9 @@
 }
 
 .center-head .home-care-title {
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: normal;
+  text-wrap: balance;
   font-size: clamp(1.35rem, 3.2vw, 2.75rem);
 }
 

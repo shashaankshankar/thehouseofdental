@@ -36,6 +36,7 @@ test("GA4 integration is configurable and inactive by default", async () => {
   assert.match(script, /const __SITE_ANALYTICS = \{"provider":"gtag","enabled":false,"measurementId":"","consent":\{"mode":"advanced","version":2,"storageKey":"thod-analytics-consent","waitForUpdate":500\}\};/);
   assert.ok(script.includes("https://www.googletagmanager.com/gtag/js?id="));
   assert.ok(headers.includes("script-src 'self' https://www.googletagmanager.com"));
+  assert.ok(headers.includes("sha256-qA1xVLVZZkhsh2h8PEraeZsQhOHWWH9fm/J8tFPbbXg="));
   assert.ok(headers.includes("connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com"));
   for (const consentType of ["ad_storage", "ad_user_data", "ad_personalization", "analytics_storage"]) {
     assert.match(analyticsScript, new RegExp(consentType));
@@ -51,7 +52,7 @@ test("Google reputation integration has a safe fallback and no client API key", 
   const script = await readFile("dist/main.js", "utf8");
   const index = await readFile("dist/index.html", "utf8");
   const reviews = await readFile("dist/reviews.html", "utf8");
-  const endpoint = await readFile("functions/api/google-reputation.js", "utf8");
+  const endpoint = await readFile("api/google-reputation.js", "utf8");
   assert.deepEqual(site.reputation, {
     place_id: "ChIJM7fB_p1v54gR35t3HRaGH_Q",
     endpoint: "/api/google-reputation",
@@ -69,6 +70,9 @@ test("Google reputation integration has a safe fallback and no client API key", 
   assert.match(endpoint, /GOOGLE_PLACES_API_KEY/);
   assert.match(endpoint, /X-Goog-FieldMask/);
   assert.match(endpoint, /rating,userRatingCount,googleMapsUri/);
+  assert.match(endpoint, /module\.exports/);
+  assert.match(endpoint, /s-maxage=300/);
+  assert.doesNotMatch(endpoint, /onRequestGet/);
   assert.doesNotMatch(script, /GOOGLE_PLACES_API_KEY/);
 });
 
@@ -81,15 +85,40 @@ test("generated pages contain no inline implementation code", async () => {
   }
 });
 
-test("appointment form exports a reviewable Netlify POST", async () => {
+test("appointment form targets the fail-closed Vercel backend", async () => {
   const html = await readFile("dist/contact.html", "utf8");
   const script = await readFile("dist/main.js", "utf8");
   const formScript = await readFile("src/scripts/60-forms.js", "utf8");
-  assert.match(html, /<form[^>]+method="POST"[^>]+data-netlify="true"/);
-  assert.match(html, /name="form-name" value="appointment"/);
+  const endpoint = await readFile("api/appointment.js", "utf8");
+  assert.match(html, /<form[^>]+action="\/api\/appointment"[^>]+method="POST"[^>]+data-appointment-form/);
+  assert.match(html, /name="company"/);
+  assert.match(html, /id="appointment-status"/);
   assert.match(html, />Send Request</);
-  assert.doesNotMatch(html, /Nothing has been sent|Online delivery is not connected/);
-  assert.doesNotMatch(formScript, /preventDefault\(\)/);
+  assert.doesNotMatch(html, /data-netlify|name="form-name"/);
+  assert.match(formScript, /preventDefault\(\)/);
+  assert.match(formScript, /URLSearchParams\(new FormData\(form\)\)/);
+  assert.match(endpoint, /APPOINTMENT_BACKEND_URL/);
+  assert.match(endpoint, /APPOINTMENT_BACKEND_TOKEN/);
+  assert.match(endpoint, /APPOINTMENT_ALLOWED_ORIGINS/);
+  assert.match(endpoint, /Authorization: `Bearer \$\{backendToken\}`/);
+  assert.doesNotMatch(endpoint, /console\.(log|error|warn)/);
+});
+
+test("Vercel config pins the build output, routing, headers, and Function budget", async () => {
+  const config = JSON.parse(await readFile("vercel.json", "utf8"));
+  assert.equal(config.installCommand, "npm ci");
+  assert.equal(config.buildCommand, "npm run check");
+  assert.equal(config.outputDirectory, "dist");
+  assert.equal(config.functions["api/*.js"].maxDuration, 10);
+  assert.equal(config.redirects.length, 6);
+  const globalHeaders = config.headers.find((rule) => rule.source === "/(.*)");
+  const csp = globalHeaders.headers.find((header) => header.key === "Content-Security-Policy").value;
+  assert.match(csp, /form-action 'self'/);
+  assert.match(csp, /sha256-qA1xVLVZZkhsh2h8PEraeZsQhOHWWH9fm\/J8tFPbbXg=/);
+  const envExample = await readFile(".env.example", "utf8");
+  for (const key of ["GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "APPOINTMENT_BACKEND_URL", "APPOINTMENT_BACKEND_TOKEN", "APPOINTMENT_ALLOWED_ORIGINS"]) {
+    assert.match(envExample, new RegExp(`^${key}=\\s*$`, "m"));
+  }
 });
 
 test("service and technology details are embedded in the export", async () => {

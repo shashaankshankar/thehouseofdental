@@ -1,0 +1,27 @@
+name: Vercel QA gate
+
+on:
+  push:
+    branches: [qa]
+  pull_request:
+    branches: [qa, main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Build and validate deployment artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Run deployment gate
+        run: npm run check

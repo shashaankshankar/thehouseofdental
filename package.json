@@ -6,8 +6,9 @@
     "build": "node scripts/build.mjs",
     "clean": "node scripts/clean.mjs",
     "validate": "node scripts/validate.mjs dist",
-    "test": "node --test tests/site.test.mjs",
-    "check": "npm run build && npm run validate && npm test && node --check dist/main.js"
+    "validate:vercel": "node scripts/validate-vercel.mjs",
+    "test": "node --test tests/site.test.mjs tests/vercel-functions.test.mjs",
+    "check": "npm run build && npm run validate && npm test && npm run validate:vercel && node --check api/google-reputation.js && node --check api/appointment.js && node --check dist/main.js"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1"

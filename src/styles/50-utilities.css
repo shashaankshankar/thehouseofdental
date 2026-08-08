@@ -217,5 +217,7 @@
     letter-spacing: .16em;
     text-transform: uppercase;
   }
-  .mobile-actions a + a { background: var(--gold-deep); color: var(--noir); }
+.mobile-actions a + a { background: var(--gold-deep); color: var(--noir); }
+body.modal-open .mobile-actions { display: none; }
+body.booking-focus .mobile-actions { display: none; }
 }

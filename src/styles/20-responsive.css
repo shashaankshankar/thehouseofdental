@@ -10,20 +10,28 @@
 }
 
 @media (max-width: 1024px) {
+  header.site:has(.menu.open) { backdrop-filter: none; background: transparent; border-bottom-color: transparent; }
   .burger { display: block; }
   .menu {
     position: fixed;
     inset: 0;
+    width: 100vw;
+    min-height: 100svh;
+    height: 100dvh;
     background: var(--noir);
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    align-items: center;
     gap: 1.6rem;
+    overflow-y: auto;
+    padding: calc(5rem + env(safe-area-inset-top)) 1.5rem calc(2rem + env(safe-area-inset-bottom));
     transform: translateX(100%);
     transition: transform 0.55s var(--ease);
     z-index: 60;
   }
   .menu.open { transform: none; }
   .menu > li > a { font-size: 1rem; }
+  .menu > li > a, .menu .btn, .burger { min-height: 44px; display: inline-flex; align-items: center; }
   .menu .btn { display: inline-block; margin-top: 0.6rem; }
   .menu > li + li::before { display: none; }
   .drop,
@@ -85,21 +93,23 @@
 .cherry-box input[type="range"] {
   width: 100%;
   appearance: none;
-  height: 2px;
+  height: 44px;
   background: var(--line-dark);
   outline: none;
   margin: 0.4rem 0 2.2rem;
+  cursor: pointer;
+  background: linear-gradient(var(--line-dark), var(--line-dark)) center / 100% 2px no-repeat;
 }
 .cherry-box input[type="range"]::-webkit-slider-thumb {
   appearance: none;
-  width: 22px; height: 22px;
+  width: 30px; height: 30px;
   border-radius: 50%;
   background: var(--noir);
   border: 1px solid var(--gold);
   cursor: pointer;
 }
 .cherry-box input[type="range"]::-moz-range-thumb {
-  width: 22px; height: 22px;
+  width: 30px; height: 30px;
   border-radius: 50%;
   background: var(--noir);
   border: 1px solid var(--gold);
@@ -249,7 +259,7 @@
 .svcmodal .close {
   position: absolute;
   top: 0.9rem; right: 0.9rem;
-  width: 40px; height: 40px;
+  width: 44px; height: 44px;
   border: 1px solid var(--line-light);
   background: var(--ivory);
   color: var(--ink);
@@ -607,8 +617,20 @@ body.modal-open { overflow: hidden; }
 @media (max-height: 500px) and (orientation: landscape) {
   .hero { min-height: 0; }
   .hero-inner { padding: 4rem 0 3rem; }
-  .menu { gap: 0.9rem; overflow-y: auto; padding: 3rem 0; }
+  .menu { gap: 0.9rem; overflow-y: auto; padding: calc(1.5rem + env(safe-area-inset-top)) 0 calc(1.5rem + env(safe-area-inset-bottom)); }
+  header.site .logo-img { height: 42px; }
+  .hero-inner { padding-top: 2.5rem; padding-bottom: 2rem; }
+  .hero-cta .btn { padding-block: .7rem; }
+  .mobile-actions { display: grid; }
   .svcmodal .panel { max-height: 96vh; }
+}
+
+@media (max-width: 760px) {
+  .contact-quick-cards { order: 2; }
+  .contact-form { order: 1; }
+  .contact-quick-cards + .contact-form { display: flex; flex-direction: column; }
+  .contact-form .btn { min-height: 44px; }
+  .svcmodal .close { min-width: 44px; min-height: 44px; }
 }
 
 

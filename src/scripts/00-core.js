@@ -41,4 +41,20 @@
     }
   }, { threshold: 0.6 }) : null;
   document.querySelectorAll("[data-count]").forEach((counter) => counterObserver ? counterObserver.observe(counter) : animateCounter(counter));
+
+  const careBack = document.querySelector('.care-back-to-top');
+  if (careBack) { careBack.href = '#treatment-selector'; careBack.setAttribute('aria-label', 'Back to treatments'); careBack.setAttribute('aria-hidden', 'true'); careBack.tabIndex = -1; addEventListener('scroll', () => {
+    const visible = scrollY > innerHeight;
+    careBack.classList.toggle('is-visible', visible);
+    careBack.setAttribute('aria-hidden', String(!visible));
+    careBack.tabIndex = visible ? 0 : -1;
+  }, { passive: true }); }
+
+  const booking = document.querySelector('#book');
+  if (booking) {
+    document.querySelectorAll('[data-appointment-form] input, [data-appointment-form] select, [data-appointment-form] textarea').forEach((field) => {
+      field.addEventListener('focus', () => document.body.classList.add('booking-focus'));
+      field.addEventListener('blur', () => document.body.classList.remove('booking-focus'));
+    });
+  }
 })();

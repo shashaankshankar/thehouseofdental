@@ -61,7 +61,8 @@ const reorderCareSections = (content) => {
   const facial = ["deka-co2", "microneedling", "emage-scan", "hydroderm"];
   const dental = ["implants", "crowns", "dentures", "root-canals", "veneers", "extractions", "sedation", "srp", "quietnite"];
   const divider = (label) => `<section class="care-divider"><div class="wrap"><span>${label}</span></div></section>`;
-  const ordered = [divider("Facial Aesthetics"), ...facial.map((id) => sections.get(id)), divider("Dental Procedures"), ...dental.map((id) => sections.get(id))].filter(Boolean).join("\n\n");
+  const addReturnLink = (section) => section?.replace(/<\/section>$/, '<p class="care-return"><a href="#treatment-selector">Back to treatments</a></p></section>');
+  const ordered = [divider("Facial Aesthetics"), ...facial.map((id) => addReturnLink(sections.get(id))), divider("Dental Procedures"), ...dental.map((id) => addReturnLink(sections.get(id)))].filter(Boolean).join("\n\n");
   return `${content.slice(0, firstDivider)}${ordered}\n${content.slice(finalSection)}`;
 };
 const alignCareCopy = (content) => {
@@ -94,6 +95,7 @@ const financingCalculator = `<div class="cherry-box rv"><p class="eyebrow u-inli
 for (const [file, page] of Object.entries(site.pages)) {
   let content = (await read(join(source, "pages", file))).replace("{{REVIEWS}}", reviewCards).replace("{{FINANCING_CALCULATOR}}", financingCalculator);
   if (file === "pre-post-op.html") content = alignCareCopy(reorderCareSections(content));
+  content = content.replace('<section class="sec-noir care-nav" id="treatment-selector"><div class="wrap">', '<section class="sec-noir care-nav"><div class="wrap" id="treatment-selector">');
   const shell = templates[page.shell];
   const canonical = page.canonical ? `<link rel="canonical" href="${escapeAttribute(page.canonical)}">` : "";
   const description = page.description ? `<meta name="description" content="${escapeAttribute(page.description)}">` : "";

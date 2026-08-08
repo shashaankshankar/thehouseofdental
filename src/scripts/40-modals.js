@@ -38,6 +38,7 @@
       panel?.style.removeProperty("--modal-shift");
       dialog.classList.remove("open");
       document.body.classList.remove("modal-open");
+      [...document.body.children].forEach((element) => { if (element !== dialog) element.inert = false; });
       returnFocus?.focus();
     };
     const render = (detail, resolvedTrigger, focusClose) => {
@@ -77,6 +78,7 @@
       body.replaceChildren(fragment);
       dialog.classList.add("open");
       document.body.classList.add("modal-open");
+      [...document.body.children].forEach((element) => { if (element !== dialog) element.inert = true; });
       if (focusClose) dialog.querySelector("[data-close]")?.focus();
     };
     const open = (id, trigger, { focusClose = true, transition = false, direction = 1 } = {}) => {

@@ -45,18 +45,40 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     }
   }, { threshold: 0.6 }) : null;
   document.querySelectorAll("[data-count]").forEach((counter) => counterObserver ? counterObserver.observe(counter) : animateCounter(counter));
+
+  const careBack = document.querySelector('.care-back-to-top');
+  if (careBack) { careBack.href = '#treatment-selector'; careBack.setAttribute('aria-label', 'Back to treatments'); careBack.setAttribute('aria-hidden', 'true'); careBack.tabIndex = -1; addEventListener('scroll', () => {
+    const visible = scrollY > innerHeight;
+    careBack.classList.toggle('is-visible', visible);
+    careBack.setAttribute('aria-hidden', String(!visible));
+    careBack.tabIndex = visible ? 0 : -1;
+  }, { passive: true }); }
+
+  const booking = document.querySelector('#book');
+  if (booking) {
+    document.querySelectorAll('[data-appointment-form] input, [data-appointment-form] select, [data-appointment-form] textarea').forEach((field) => {
+      field.addEventListener('focus', () => document.body.classList.add('booking-focus'));
+      field.addEventListener('blur', () => document.body.classList.remove('booking-focus'));
+    });
+  }
 })();
 
 (() => {
   const button = document.querySelector(".burger");
   const menu = document.querySelector(".menu");
   if (button && menu) {
+    const focusable = () => [...menu.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])')];
+    const setBackgroundInert = (inert) => document.querySelectorAll('body > :not(.menu):not(.site)').forEach((element) => { element.inert = inert; });
+    let returnFocus;
     const close = () => {
       button.classList.remove("open");
       menu.classList.remove("open");
       button.setAttribute("aria-expanded", "false");
       button.setAttribute("aria-label", "Open menu");
       document.body.style.overflow = "";
+      menu.setAttribute("aria-hidden", "true");
+      setBackgroundInert(false);
+      returnFocus?.focus();
     };
     button.addEventListener("click", () => {
       const open = !menu.classList.contains("open");
@@ -65,12 +87,22 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       button.setAttribute("aria-expanded", String(open));
       button.setAttribute("aria-label", open ? "Close menu" : "Open menu");
       document.body.style.overflow = open ? "hidden" : "";
+      menu.setAttribute("aria-hidden", String(!open));
+      setBackgroundInert(open);
+      if (open) { returnFocus = document.activeElement; focusable()[0]?.focus(); }
     });
     menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", close));
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && menu.classList.contains("open")) {
         close();
         button.focus();
+      }
+      if (event.key === "Tab" && menu.classList.contains("open")) {
+        const items = focusable();
+        if (!items.length) return;
+        const first = items[0]; const last = items[items.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
       }
     });
   }
@@ -196,6 +228,7 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       panel?.style.removeProperty("--modal-shift");
       dialog.classList.remove("open");
       document.body.classList.remove("modal-open");
+      [...document.body.children].forEach((element) => { if (element !== dialog) element.inert = false; });
       returnFocus?.focus();
     };
     const render = (detail, resolvedTrigger, focusClose) => {
@@ -235,6 +268,7 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       body.replaceChildren(fragment);
       dialog.classList.add("open");
       document.body.classList.add("modal-open");
+      [...document.body.children].forEach((element) => { if (element !== dialog) element.inert = true; });
       if (focusClose) dialog.querySelector("[data-close]")?.focus();
     };
     const open = (id, trigger, { focusClose = true, transition = false, direction = 1 } = {}) => {

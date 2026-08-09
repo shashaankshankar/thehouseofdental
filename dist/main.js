@@ -82,11 +82,10 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   const button = document.querySelector(".burger");
   const menu = document.querySelector(".menu");
   if (button && menu) {
-    const tabletMode = window.matchMedia("(max-width: 1194px)");
     const focusable = () => [...menu.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])')];
     const setBackgroundInert = (inert) => document.querySelectorAll('body > :not(.menu):not(.site)').forEach((element) => { element.inert = inert; });
     let returnFocus;
-    const close = ({ restoreFocus = true } = {}) => {
+    const close = () => {
       button.classList.remove("open");
       menu.classList.remove("open");
       button.setAttribute("aria-expanded", "false");
@@ -94,21 +93,7 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       document.body.style.overflow = "";
       menu.setAttribute("aria-hidden", "true");
       setBackgroundInert(false);
-      if (restoreFocus && returnFocus?.isConnected) returnFocus.focus();
-      returnFocus = null;
-    };
-    const syncNavigationMode = () => {
-      if (!tabletMode.matches) {
-        close({ restoreFocus: false });
-        menu.setAttribute("aria-hidden", "false");
-        menu.querySelectorAll(".has-submenu.is-open").forEach((item) => item.classList.remove("is-open"));
-        menu.querySelectorAll(".submenu-toggle").forEach((toggle) => {
-          toggle.setAttribute("aria-expanded", "false");
-          toggle.setAttribute("aria-label", `Expand ${toggle.parentElement.querySelector(":scope > a")?.textContent.trim() || "submenu"}`);
-        });
-      } else {
-        menu.setAttribute("aria-hidden", String(!menu.classList.contains("open")));
-      }
+      returnFocus?.focus();
     };
     button.addEventListener("click", () => {
       const open = !menu.classList.contains("open");
@@ -122,36 +107,10 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       if (open) { returnFocus = document.activeElement; focusable()[0]?.focus(); }
     });
     menu.querySelectorAll("a").forEach((link) => link.addEventListener("click", close));
-    menu.querySelectorAll(".submenu-toggle").forEach((toggle) => toggle.addEventListener("click", (event) => {
-      event.stopPropagation();
-      const item = toggle.closest(".has-submenu");
-      const open = !item.classList.contains("is-open");
-      menu.querySelectorAll(".has-submenu.is-open").forEach((other) => {
-        if (other !== item) {
-          other.classList.remove("is-open");
-          other.querySelector(".submenu-toggle")?.setAttribute("aria-expanded", "false");
-          other.querySelector(":scope > a")?.setAttribute("aria-expanded", "false");
-        }
-      });
-      item.classList.toggle("is-open", open);
-      toggle.setAttribute("aria-expanded", String(open));
-      toggle.setAttribute("aria-label", `${open ? "Collapse" : "Expand"} ${item.querySelector(":scope > a")?.textContent.trim() || "submenu"}`);
-      item.querySelector(":scope > a")?.setAttribute("aria-expanded", String(open));
-    }));
-    document.addEventListener("click", (event) => {
-      if (!event.target.closest(".has-submenu")) menu.querySelectorAll(".has-submenu.is-open").forEach((item) => {
-        item.classList.remove("is-open");
-        item.querySelector(".submenu-toggle")?.setAttribute("aria-expanded", "false");
-        item.querySelector(":scope > a")?.setAttribute("aria-expanded", "false");
-      });
-    });
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && menu.classList.contains("open")) {
         close();
         button.focus();
-      }
-      if (event.key === "Escape" && !menu.classList.contains("open")) {
-        menu.querySelectorAll(".has-submenu.is-open").forEach((item) => item.classList.remove("is-open"));
       }
       if (event.key === "Tab" && menu.classList.contains("open")) {
         const items = focusable();
@@ -161,8 +120,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
         else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
       }
     });
-    tabletMode.addEventListener?.("change", syncNavigationMode);
-    syncNavigationMode();
   }
   const current = location.pathname.split("/").pop() || "index.html";
   document.querySelectorAll("[data-primary-link]").forEach((link) => {

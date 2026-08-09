@@ -108,27 +108,6 @@ footer.site .logo-img { height: 80px; }
   align-items: center;
   position: relative;
 }
-.submenu-toggle {
-  display: inline-grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  margin-left: 0.15rem;
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--gold);
-  cursor: pointer;
-  font-size: 1.1rem;
-}
-.submenu-toggle:hover, .submenu-toggle:focus-visible { border-color: var(--gold); }
-.submenu-toggle span { transition: transform 0.25s var(--ease); }
-.has-submenu.is-open > .submenu-toggle span { transform: rotate(45deg); }
-.has-submenu.is-open > .drop {
-  opacity: 1;
-  visibility: visible;
-  transform: translate(-50%, 0);
-}
 .menu > li > a::after {
   content: "";
   position: absolute;
@@ -143,7 +122,6 @@ footer.site .logo-img { height: 80px; }
 .menu > li > a.active::after { transform: scaleX(1); }
 .menu > li:last-child .btn {
   min-width: 0;
-  min-height: 44px;
   padding: 0.75rem 1.2rem;
   letter-spacing: 0.22em;
   line-height: 1;

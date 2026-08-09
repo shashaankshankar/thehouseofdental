@@ -208,6 +208,15 @@ test("care navigation follows services and rendered guide order", async () => {
   assert.ok(html.indexOf("<span>Facial Aesthetics</span>") < html.indexOf("<span>Dental Procedures</span>"));
 });
 
+test("mobile treatment-care links restore the selected guide section", async () => {
+  const script = await readFile("dist/main.js", "utf8");
+  const styles = await readFile("dist/styles.css", "utf8");
+  assert.match(script, /document\.querySelectorAll\("\.care-block\[id\]"\)/);
+  assert.match(script, /window\.matchMedia\("\(max-width: 800px\)"\)/);
+  assert.match(script, /target\.scrollIntoView\(\{ block: "start" \}\)/);
+  assert.match(styles, /@media \(max-width: 800px\) \{[\s\S]*?\.care-block \{ scroll-margin-top: calc\(var\(--head-h, 86px\) \+ 1rem\); \}/);
+});
+
 test("services page links to treatment care after dental services", async () => {
   const html = await readFile("dist/services.html", "utf8");
   assert.match(html, /<section class="service-group" id="dental-services">[\s\S]*?<div class="service-group-action">\s*<a class="btn btn-outline rv rv-d2" href="pre-post-op\.html">View All Pre &amp; Post Treatment Care<\/a>\s*<\/div>\s*<\/section>/);

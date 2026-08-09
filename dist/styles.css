@@ -2411,6 +2411,7 @@ body.modal-open { overflow: hidden; }
 @media (max-width: 800px) {
   .care-grid { grid-template-columns: 1fr; }
   .care-nav { position: static; }
+  .care-block { scroll-margin-top: calc(var(--head-h, 86px) + 1rem); }
 }
 @media (max-width: 760px) {
   .care-back-to-top {

@@ -51,4 +51,21 @@
     if (active) link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");
   });
+
+  // Mobile browsers can restore the previous scroll position after following a
+  // cross-page hash link. Reapply the selected care section once the guide has
+  // finished laying out so Treatment Care links always reveal their section.
+  const careSections = [...document.querySelectorAll(".care-block[id]")];
+  const mobileCareGuide = window.matchMedia("(max-width: 800px)");
+  const scrollToCareSection = () => {
+    if (!mobileCareGuide.matches || !location.hash || !careSections.length) return;
+    const target = careSections.find((section) => `#${section.id}` === location.hash);
+    if (!target) return;
+    requestAnimationFrame(() => requestAnimationFrame(() => target.scrollIntoView({ block: "start" })));
+  };
+  if (careSections.length) {
+    scrollToCareSection();
+    window.addEventListener("hashchange", scrollToCareSection);
+    window.addEventListener("pageshow", scrollToCareSection);
+  }
 })();

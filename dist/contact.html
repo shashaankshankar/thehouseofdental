@@ -48,7 +48,7 @@
       </li>
       <li><a data-primary-link href="reviews.html">Reviews</a></li>
       <li><a data-primary-link href="contact.html">Contact</a></li>
-      <li><a data-primary-link class="btn btn-solid u-inline-034" href="contact.html#book">Book</a></li>
+      <li><a data-primary-link class="btn btn-solid u-inline-034" data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="contact.html#book">Book</a></li>
     </ul>
   </div>
 </header>
@@ -68,15 +68,15 @@
     <div class="center-head u-inline-007" id="book">
       <p class="eyebrow rv u-inline-001">Book Appointment</p>
       <h2 class="rv rv-d1">Schedule Your Visit</h2>
-      <p class="rv rv-d2 u-inline-004">Send us a note and our front desk will call to confirm — or reach us directly at <a href="tel:+14076781400" class="u-inline-008">(407) 678-1400</a>.</p>
+      <p class="rv rv-d2 u-inline-004">Send us a note and our front desk will call to confirm — or reach us directly at <a data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:+14076781400" class="u-inline-008">(407) 678-1400</a>.</p>
     </div>
 
     <div class="contact-quick rv contact-quick-cards">
-      <a href="tel:+14076781400" class="quick-card">
+      <a data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:+14076781400" class="quick-card">
         <span class="qc-label">Call</span>
         <span class="qc-value">(407) 678-1400</span>
       </a>
-      <a href="https://goo.gl/maps/CT32JzwGHYR7qNJX6" target="_blank" rel="noopener" class="quick-card">
+      <a data-analytics-event="cta_click" data-analytics-location="directions_link" data-analytics-cta-type="directions" href="https://goo.gl/maps/CT32JzwGHYR7qNJX6" target="_blank" rel="noopener" class="quick-card">
         <span class="qc-label">Visit</span>
         <span class="qc-value">6504 University Blvd<br>Winter Park, FL 32792</span>
       </a>
@@ -86,7 +86,7 @@
       </div>
     </div>
 
-    <form class="contact-form rv rv-d1" name="appointment" action="/api/appointment" method="POST" data-appointment-form>
+    <form class="contact-form rv rv-d1" name="appointment" action="/api/appointment" method="POST" data-appointment-form data-analytics-form="appointment_request">
       <div class="field form-honeypot" aria-hidden="true">
         <label for="f-company">Company</label>
         <input id="f-company" name="company" type="text" tabindex="-1" autocomplete="off">
@@ -165,8 +165,8 @@
       <div>
         <h4>Contact</h4>
         <ul>
-          <li><a href="https://goo.gl/maps/CT32JzwGHYR7qNJX6" target="_blank" rel="noopener">6504 University Blvd,<br>Winter Park, FL 32792</a></li>
-          <li><a href="tel:+14076781400">(407) 678-1400</a></li>
+          <li><a data-analytics-event="cta_click" data-analytics-location="directions_link" data-analytics-cta-type="directions" href="https://goo.gl/maps/CT32JzwGHYR7qNJX6" target="_blank" rel="noopener">6504 University Blvd,<br>Winter Park, FL 32792</a></li>
+          <li><a data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:+14076781400">(407) 678-1400</a></li>
           <li><a href="https://www.instagram.com/winterparkdental/" target="_blank" rel="noopener">Instagram</a></li>
           <li><a href="https://www.facebook.com/Winter-Park-Dental-Dr-Mainak-Patel-442390222484934" target="_blank" rel="noopener">Facebook</a></li>
         </ul>
@@ -178,4 +178,4 @@
     </div>
   </div>
 </footer>
-<nav class="mobile-actions" aria-label="Quick contact"><a href="tel:+14076781400">Call</a><a href="contact.html#book">Book Appointment</a></nav><script src="main.js" defer></script></body></html>
+<nav class="mobile-actions" aria-label="Quick contact"><a data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:+14076781400">Call</a><a data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="contact.html#book">Book Appointment</a></nav><script src="main.js" defer></script></body></html>

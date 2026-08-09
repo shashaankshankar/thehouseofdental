@@ -1,0 +1,12 @@
+{
+  "version": "local_service_v1",
+  "status": "pending_client_approval",
+  "collectionOwner": "website_analytics_adapter",
+  "consentRequirement": "analytics_storage_granted",
+  "industryRestrictions": [
+    "Do not collect or infer protected health information.",
+    "Do not send form fields, user identifiers, appointment identifiers, treatment details, URLs with query values, or page metadata containing prohibited data.",
+    "Unknown or unapproved routes must not load GA4."
+  ],
+  "leadDefinition": "A generate_lead event requires an approved downstream system to confirm that a valid lead was received. The current appointment endpoint does not provide that confirmation."
+}

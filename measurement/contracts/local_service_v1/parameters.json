@@ -1,0 +1,41 @@
+{
+  "allowed": {
+    "event": [
+      "form_start",
+      "form_submit",
+      "generate_lead",
+      "phone_click",
+      "email_click",
+      "appointment_request",
+      "cta_click"
+    ],
+    "page_path": "pathname only; never query string, fragment, title, or referrer",
+    "cta_location": [
+      "phone_link",
+      "email_link",
+      "appointment_link",
+      "appointment_form",
+      "directions_link"
+    ],
+    "cta_type": [
+      "appointment",
+      "directions"
+    ],
+    "service_category": [
+      "dental",
+      "facial_aesthetics"
+    ]
+  },
+  "prohibited": [
+    "name",
+    "email",
+    "personal phone number",
+    "form contents",
+    "patient identifier",
+    "appointment identifier",
+    "treatment or condition details",
+    "URL query parameters",
+    "page titles",
+    "site-search terms"
+  ]
+}

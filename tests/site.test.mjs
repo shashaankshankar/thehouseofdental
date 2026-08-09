@@ -18,23 +18,20 @@ test("source is split into focused modules", () => {
 });
 
 test("GA4 integration is configurable and inactive by default", async () => {
-  const site = JSON.parse(await readFile("src/data/site.json", "utf8"));
+  const pilot = JSON.parse(await readFile("measurement/pilot-site.json", "utf8"));
+  const routes = JSON.parse(await readFile("measurement/eligibility/routes.json", "utf8"));
+  const contract = JSON.parse(await readFile("measurement/contracts/local_service_v1/events.json", "utf8"));
   const script = await readFile("dist/main.js", "utf8");
   const analyticsScript = await readFile("src/scripts/80-analytics.js", "utf8");
   const styles = await readFile("dist/styles.css", "utf8");
   const headers = await readFile("dist/_headers", "utf8");
-  assert.deepEqual(site.analytics, {
-    provider: "gtag",
-    enabled: false,
-    measurementId: "",
-    consent: {
-      mode: "advanced",
-      version: 2,
-      storageKey: "thod-analytics-consent",
-      waitForUpdate: 500
-    }
-  });
-  assert.match(script, /const __SITE_ANALYTICS = \{"provider":"gtag","enabled":false,"measurementId":"","consent":\{"mode":"advanced","version":2,"storageKey":"thod-analytics-consent","waitForUpdate":500\}\};/);
+  assert.equal(pilot.ga4.enabled, false);
+  assert.equal(pilot.ga4.measurementId, "");
+  assert.equal(routes.default, "prohibited");
+  assert.equal(routes.routes["/contact.html"], "requires_review");
+  assert.deepEqual(contract.events.map((event) => event.name), ["form_start", "form_submit", "generate_lead", "phone_click", "email_click", "appointment_request", "cta_click"]);
+  assert.match(script, /const __SITE_ANALYTICS = \{"provider":"gtag","enabled":false,"measurementId":"","consent":\{"mode":"advanced","version":2,"storageKey":"thod-analytics-consent","waitForUpdate":500\},"contractVersion":"local_service_v1"/);
+  assert.doesNotMatch(script, /"propertyId"|"webStreamId"|"connection"/);
   assert.ok(script.includes("https://www.googletagmanager.com/gtag/js?id="));
   assert.ok(headers.includes("script-src 'self' https://www.googletagmanager.com"));
   assert.ok(headers.includes("sha256-qA1xVLVZZkhsh2h8PEraeZsQhOHWWH9fm/J8tFPbbXg="));
@@ -57,20 +54,31 @@ test("GA4 conversion events are consent-gated and privacy-safe", async () => {
   const analyticsScript = await readFile("src/scripts/80-analytics.js", "utf8");
   const formScript = await readFile("src/scripts/60-forms.js", "utf8");
   const handoff = await readFile("docs/ANALYTICS-HANDOFF.md", "utf8");
-  for (const eventName of ["phone_click", "appointment_cta_click", "form_start", "appointment_request_success", "directions_click"]) {
-    assert.match(analyticsScript, new RegExp(`"${eventName}"`), eventName);
+  for (const eventName of ["form_start", "form_submit", "generate_lead", "phone_click", "email_click", "appointment_request", "cta_click"]) {
     assert.match(handoff, new RegExp(`\\x60${eventName}\\x60`), eventName);
   }
   assert.match(analyticsScript, /if \(!analyticsStorageGranted \|\| !allowedEvents\.has\(eventName\)\) return;/);
+  assert.match(analyticsScript, /eligibilityFor\(pagePath\(\)\) !== "approved"/);
   assert.match(analyticsScript, /const payload = \{ page_path: pagePath\(\) \};/);
   assert.match(analyticsScript, /allowedLocations\.has\(metadata\.ctaLocation\)/);
+  assert.match(analyticsScript, /allowedCtaTypes\.has\(metadata\.ctaType\)/);
   assert.match(analyticsScript, /allowedServiceCategories\.has\(metadata\.serviceCategory\)/);
   assert.match(analyticsScript, /analyticsStorageGranted = choice === "granted"/);
   assert.match(formScript, /result\.ok !== true/);
-  assert.match(formScript, /window\.thodAnalytics\?\.track\("appointment_request_success"/);
-  assert.equal((formScript.match(/appointment_request_success/g) || []).length, 1);
+  assert.match(formScript, /window\.thodAnalytics\?\.track\("form_submit"/);
+  assert.match(formScript, /window\.thodAnalytics\?\.track\("appointment_request"/);
+  assert.equal((formScript.match(/appointment_request/g) || []).length, 1);
   assert.doesNotMatch(analyticsScript, /FormData|name:|email:|phone:|message:|health/i);
-  assert.match(handoff, /Names, emails, phone numbers, messages, health details/);
+  assert.match(handoff, /Form values, patient information, query strings, titles/);
+});
+
+test("generated CTAs carry contract analytics attributes", async () => {
+  const contact = await readFile("dist/contact.html", "utf8");
+  const home = await readFile("dist/index.html", "utf8");
+  assert.match(contact, /data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:/);
+  assert.match(contact, /data-analytics-event="cta_click" data-analytics-location="directions_link" data-analytics-cta-type="directions" href="https:\/\/goo\.gl\/maps/);
+  assert.match(home, /data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="contact\.html#book"/);
+  assert.match(contact, /data-analytics-form="appointment_request"/);
 });
 
 test("disabled analytics does not touch Google or the page", async () => {
@@ -103,12 +111,13 @@ test("conversion events wait for consent and decline keeps analytics storage den
   });
   const phone = makeElement();
   phone.label = "phone";
+  phone.dataset = { analyticsEvent: "phone_click", analyticsLocation: "phone_link" };
   const document = {
     head: makeElement(),
     body: makeElement(),
     createElement: makeElement,
     querySelectorAll(selector) {
-      return selector === 'a[href^="tel:"]' ? [phone] : [];
+      return selector === "[data-analytics-event]" ? [phone] : [];
     }
   };
   const window = { location: { pathname: "/contact.html" } };
@@ -117,7 +126,14 @@ test("conversion events wait for consent and decline keeps analytics storage den
       provider: "gtag",
       enabled: true,
       measurementId: "G-TEST123",
-      consent: { mode: "advanced", version: 2, storageKey: "test-consent", waitForUpdate: 500 }
+      consent: { mode: "advanced", version: 2, storageKey: "test-consent", waitForUpdate: 500 },
+      routeEligibility: { default: "prohibited", routes: { "/contact.html": "approved" } },
+      eventPolicy: {
+        allowedEvents: ["phone_click"],
+        allowedLocations: ["phone_link"],
+        allowedCtaTypes: [],
+        allowedServiceCategories: []
+      }
     },
     window,
     document,
@@ -140,6 +156,38 @@ test("conversion events wait for consent and decline keeps analytics storage den
     ad_personalization: "denied",
     analytics_storage: "denied"
   });
+});
+
+test("unapproved and unknown routes do not initialize analytics", async () => {
+  const analyticsScript = await readFile("src/scripts/80-analytics.js", "utf8");
+  const window = { location: { pathname: "/unknown" } };
+  const document = new Proxy({}, {
+    get() {
+      throw new Error("unapproved routes must not access the document");
+    }
+  });
+  vm.runInNewContext(analyticsScript, {
+    __SITE_ANALYTICS: {
+      provider: "gtag",
+      enabled: true,
+      measurementId: "G-TEST123",
+      consent: { mode: "advanced", version: 2 },
+      routeEligibility: { default: "prohibited", routes: { "/contact.html": "requires_review" } },
+      eventPolicy: { allowedEvents: [], allowedLocations: [], allowedCtaTypes: [], allowedServiceCategories: [] }
+    },
+    window,
+    document
+  });
+  assert.equal(window.dataLayer, undefined);
+});
+
+test("measurement evidence records local validation without claiming approval", async () => {
+  const evidence = JSON.parse(await readFile("measurement/evidence/validation.json", "utf8"));
+  assert.equal(evidence.status, "validated_locally");
+  assert.equal(evidence.approvalStatus, "pending_backlog");
+  assert.equal(evidence.measurementIdStatus, "not_provided");
+  assert.ok(evidence.checks.length >= 10);
+  assert.ok(evidence.manualChecksRemaining.includes("DebugView event receipt"));
 });
 
 test("Google reputation integration has a safe fallback and no client API key", async () => {

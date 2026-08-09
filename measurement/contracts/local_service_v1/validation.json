@@ -1,0 +1,12 @@
+{
+  "requiredChecks": [
+    "GA4 property and web stream are client-owned and confirmed.",
+    "Service-account Viewer access is granted to the agency-managed connector identity.",
+    "Property timezone matches the reporting assignment.",
+    "Healthcare analytics eligibility and consent language are approved.",
+    "Only approved routes use analytics_status approved.",
+    "GA4 DebugView shows each implemented event exactly once after consent.",
+    "No prohibited parameter, query string, form value, or patient-related data reaches GA4.",
+    "The appointment endpoint and privacy policy describe the same production behavior."
+  ]
+}

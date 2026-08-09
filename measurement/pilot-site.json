@@ -1,0 +1,32 @@
+{
+  "version": "local_service_v1",
+  "client": {
+    "name": "The House of Dental",
+    "domain": "https://thehouseofdental.com"
+  },
+  "industry": {
+    "classification": "healthcare",
+    "analyticsEligibility": "requires_review"
+  },
+  "ga4": {
+    "provider": "gtag",
+    "enabled": false,
+    "measurementId": "G-SPK63FDRBQ",
+    "propertyId": "",
+    "webStreamId": "15408312790",
+    "timezone": "",
+    "connection": {
+      "method": "service_account",
+      "principal": "",
+      "access": "viewer",
+      "scope": "https://www.googleapis.com/auth/analytics.readonly",
+      "status": "awaiting_client_grant"
+    }
+  },
+  "consent": {
+    "mode": "advanced",
+    "version": 2,
+    "storageKey": "thod-analytics-consent",
+    "waitForUpdate": 500
+  }
+}

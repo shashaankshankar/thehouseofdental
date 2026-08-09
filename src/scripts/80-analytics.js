@@ -9,6 +9,14 @@
     || !/^G-[A-Z0-9]+$/i.test(config.measurementId)
   ) return;
 
+  const pagePath = () => {
+    const path = window.location?.pathname || "/";
+    return path.startsWith("/") ? path : "/";
+  };
+  const routeEligibility = config.routeEligibility;
+  const eligibilityFor = (path) => routeEligibility?.routes?.[path] || routeEligibility?.default || routeEligibility?.default_behavior || "prohibited";
+  if (eligibilityFor(pagePath()) !== "approved") return;
+
   const storageKey = consentConfig.storageKey || "thod-analytics-consent";
   const validChoices = new Set(["granted", "denied"]);
   const readChoice = () => {
@@ -38,23 +46,10 @@
   });
   const storedChoice = readChoice();
   let analyticsStorageGranted = storedChoice === "granted";
-  const allowedEvents = new Set([
-    "phone_click",
-    "appointment_cta_click",
-    "form_start",
-    "appointment_request_success",
-    "directions_click"
-  ]);
-  const allowedLocations = new Set([
-    "phone_link",
-    "appointment_link",
-    "appointment_form",
-    "directions_link"
-  ]);
-  const allowedServiceCategories = new Set([
-    "dental",
-    "facial_aesthetics"
-  ]);
+  const allowedEvents = new Set(config.eventPolicy?.allowedEvents || []);
+  const allowedLocations = new Set(config.eventPolicy?.allowedLocations || []);
+  const allowedCtaTypes = new Set(config.eventPolicy?.allowedCtaTypes || []);
+  const allowedServiceCategories = new Set(config.eventPolicy?.allowedServiceCategories || []);
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = function gtag() {
@@ -69,29 +64,23 @@
   window.gtag("js", new Date());
   window.gtag("config", config.measurementId);
 
-  const pagePath = () => {
-    const path = window.location?.pathname || "/";
-    return path.startsWith("/") ? path : "/";
-  };
   const track = (eventName, metadata = {}) => {
     if (!analyticsStorageGranted || !allowedEvents.has(eventName)) return;
     const payload = { page_path: pagePath() };
     if (allowedLocations.has(metadata.ctaLocation)) payload.cta_location = metadata.ctaLocation;
+    if (allowedCtaTypes.has(metadata.ctaType)) payload.cta_type = metadata.ctaType;
     if (allowedServiceCategories.has(metadata.serviceCategory)) payload.service_category = metadata.serviceCategory;
     window.gtag("event", eventName, payload);
   };
   window.thodAnalytics = { track };
 
-  document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
-    link.addEventListener("click", () => track("phone_click", { ctaLocation: "phone_link" }));
+  document.querySelectorAll("[data-analytics-event]").forEach((element) => {
+    element.addEventListener("click", () => track(element.dataset.analyticsEvent, {
+      ctaLocation: element.dataset.analyticsLocation,
+      ctaType: element.dataset.analyticsCtaType
+    }));
   });
-  document.querySelectorAll('a[href*="contact.html#book"]').forEach((link) => {
-    link.addEventListener("click", () => track("appointment_cta_click", { ctaLocation: "appointment_link" }));
-  });
-  document.querySelectorAll('a[href*="goo.gl/maps"]').forEach((link) => {
-    link.addEventListener("click", () => track("directions_click", { ctaLocation: "directions_link" }));
-  });
-  document.querySelectorAll("form[data-appointment-form]").forEach((form) => {
+  document.querySelectorAll("form[data-analytics-form]").forEach((form) => {
     let started = false;
     form.addEventListener("focusin", () => {
       if (started) return;

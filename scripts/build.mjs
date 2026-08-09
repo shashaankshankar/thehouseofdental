@@ -10,7 +10,25 @@ const reviews = JSON.parse(await read(join(source, "data/reviews.json")));
 const financing = JSON.parse(await read(join(source, "data/financing.json")));
 const services = JSON.parse(await read(join(source, "data/services.json")));
 const technology = JSON.parse(await read(join(source, "data/technology.json")));
-const analytics = site.analytics ?? { provider: "gtag", enabled: false, measurementId: "" };
+const pilot = JSON.parse(await read("measurement/pilot-site.json"));
+const routeEligibility = JSON.parse(await read("measurement/eligibility/routes.json"));
+const contract = JSON.parse(await read("measurement/contracts/local_service_v1/contract.json"));
+const contractEvents = JSON.parse(await read("measurement/contracts/local_service_v1/events.json"));
+const contractParameters = JSON.parse(await read("measurement/contracts/local_service_v1/parameters.json"));
+const analytics = {
+  provider: pilot.ga4.provider,
+  enabled: pilot.ga4.enabled,
+  measurementId: pilot.ga4.measurementId,
+  consent: pilot.consent,
+  contractVersion: contract.version,
+  routeEligibility,
+  eventPolicy: {
+    allowedEvents: contractEvents.events.map((event) => event.name),
+    allowedLocations: contractParameters.allowed.cta_location,
+    allowedCtaTypes: contractParameters.allowed.cta_type,
+    allowedServiceCategories: contractParameters.allowed.service_category
+  }
+};
 const reputation = site.reputation ?? {
   endpoint: "/api/google-reputation",
   fallback: { rating: 5.0, review_count: 332 }
@@ -31,6 +49,11 @@ const templates = {
   },
   none: { header: "", footer: "" }
 };
+const decorateAnalyticsAttributes = (markup) => markup
+  .replaceAll('href="tel:', 'data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:')
+  .replaceAll('href="mailto:', 'data-analytics-event="email_click" data-analytics-location="email_link" href="mailto:')
+  .replaceAll('href="contact.html#book"', 'data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="contact.html#book"')
+  .replaceAll('href="https://goo.gl/maps', 'data-analytics-event="cta_click" data-analytics-location="directions_link" data-analytics-cta-type="directions" href="https://goo.gl/maps');
 
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
@@ -44,7 +67,7 @@ const scripts = (await readdir(join(source, "scripts"))).filter((file) => file.e
 const scriptSources = await Promise.all(scripts.map(async (file) => (await read(join(source, "scripts", file))).trimEnd()));
 await writeFile(join(output, "main.js"), `const __SITE_DETAIL_DATA = ${JSON.stringify({ services, technology })};\nconst __SITE_ANALYTICS = ${JSON.stringify(analytics)};\nconst __SITE_REPUTATION = ${JSON.stringify(reputation)};\n\n${scriptSources.join("\n\n")}\n`);
 
-const mobileActions = '<nav class="mobile-actions" aria-label="Quick contact"><a href="tel:+14076781400">Call</a><a href="contact.html#book">Book Appointment</a></nav>';
+const mobileActions = decorateAnalyticsAttributes('<nav class="mobile-actions" aria-label="Quick contact"><a href="tel:+14076781400">Call</a><a href="contact.html#book">Book Appointment</a></nav>');
 const escapeText = (value = "") => value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 const decodeEntities = (value = "") => value
   .replaceAll("&amp;", "&")
@@ -95,7 +118,11 @@ for (const [file, page] of Object.entries(site.pages)) {
   let content = (await read(join(source, "pages", file))).replace("{{REVIEWS}}", reviewCards).replace("{{FINANCING_CALCULATOR}}", financingCalculator);
   if (file === "pre-post-op.html") content = alignCareCopy(reorderCareSections(content));
   content = content.replace('<section class="sec-noir care-nav" id="treatment-selector"><div class="wrap">', '<section class="sec-noir care-nav"><div class="wrap" id="treatment-selector">');
-  const shell = templates[page.shell];
+  content = decorateAnalyticsAttributes(content);
+  const shell = {
+    header: decorateAnalyticsAttributes(templates[page.shell].header),
+    footer: decorateAnalyticsAttributes(templates[page.shell].footer)
+  };
   const canonical = page.canonical ? `<link rel="canonical" href="${escapeAttribute(page.canonical)}">` : "";
   const description = page.description ? `<meta name="description" content="${escapeAttribute(page.description)}">` : "";
   const keywords = page.keywords ? `<meta name="keywords" content="${escapeAttribute(page.keywords)}">` : "";

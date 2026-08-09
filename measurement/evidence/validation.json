@@ -1,0 +1,67 @@
+{
+  "evidenceVersion": 1,
+  "capturedAt": "2026-08-09T20:47:21.644Z",
+  "status": "validated_locally",
+  "approvalStatus": "pending_backlog",
+  "measurementIdStatus": "provided",
+  "ga4RuntimeStatus": "disabled",
+  "checks": [
+    {
+      "name": "allowed_event_matrix",
+      "passed": true,
+      "detail": "all seven contract events are allowlisted"
+    },
+    {
+      "name": "unknown_event_rejected",
+      "passed": true,
+      "detail": "unknown events are absent from the allowlist"
+    },
+    {
+      "name": "consent_default_denied",
+      "passed": true,
+      "detail": "advanced Consent Mode v2 is configured"
+    },
+    {
+      "name": "unknown_route_fail_closed",
+      "passed": true,
+      "detail": "unknown routes resolve to prohibited"
+    },
+    {
+      "name": "prohibited_route_fail_closed",
+      "passed": true,
+      "detail": "pre/post-op route is prohibited"
+    },
+    {
+      "name": "review_route_fail_closed",
+      "passed": true,
+      "detail": "contact route remains blocked pending approval"
+    },
+    {
+      "name": "query_string_not_allowed",
+      "passed": true,
+      "detail": "query parameters are prohibited payload sources"
+    },
+    {
+      "name": "fragment_not_allowed",
+      "passed": true,
+      "detail": "fragment/query URL data is not an analytics payload"
+    },
+    {
+      "name": "direct_identifiers_not_allowed",
+      "passed": true,
+      "detail": "direct identifiers and form contents are prohibited"
+    },
+    {
+      "name": "lead_boundary",
+      "passed": true,
+      "detail": "generate_lead remains blocked without downstream confirmation"
+    }
+  ],
+  "manualChecksRemaining": [
+    "browser consent interaction",
+    "DebugView event receipt",
+    "production route verification",
+    "appointment backend receipt"
+  ],
+  "notes": "This record proves local policy and build validation only; it is not client/privacy approval or proof of live GA4 collection."
+}

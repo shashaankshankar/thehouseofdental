@@ -44,11 +44,11 @@ vercel env add APPOINTMENT_ALLOWED_ORIGINS production
 
 Use `.env.example` as the variable checklist. Keep actual values in Vercel environment variables or a local ignored file; never commit them. Preview variables should be scoped separately and should not receive production notification credentials by default.
 
-## GA4 setup
+## GA4 pilot setup
 
-The export includes a Google tag (gtag.js) integration with Consent Mode v2 advanced defaults. It remains inactive until `src/data/site.json` contains an approved GA4 Measurement ID and `"enabled": true` in the `analytics` object. When enabled, the default consent state denies analytics and advertising storage; the first-party banner can grant analytics storage only, and the integration sends the standard page view without reading or sending appointment form values.
+The export includes a Google tag (gtag.js) integration with Consent Mode v2 advanced defaults. The non-secret pilot configuration lives in `measurement/pilot-site.json`; GA4 remains inactive until it contains an approved Measurement ID and `ga4.enabled` is `true`. Route eligibility lives in `measurement/eligibility/routes.json` and defaults to prohibited, so the tag cannot load on unapproved or unknown routes. When enabled on an approved route, the default consent state denies analytics and advertising storage; the first-party banner can grant analytics storage only, and the integration sends the standard page view without reading or sending appointment form values.
 
-This site uses direct gtag.js, so the Google Tag Manager template APIs are not used. After the Measurement ID, privacy language, consent copy, consent-storage choice, and production approval are confirmed, run `npm run check` to regenerate and validate the export.
+This site uses direct gtag.js, so the Google Tag Manager template APIs are not used. After the Measurement ID, property and stream IDs, route/privacy approval, consent copy, and production approval are confirmed, run `npm run check` to regenerate and validate the export. See `measurement/pilot-site.md` and `docs/ANALYTICS-HANDOFF.md` for the client onboarding sequence.
 
 ## Google reputation placeholder
 

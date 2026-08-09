@@ -1,0 +1,46 @@
+{
+  "events": [
+    {
+      "name": "form_start",
+      "status": "implemented",
+      "firesWhen": "A visitor first focuses an eligible appointment form during a page view.",
+      "businessInterpretation": "Interest in beginning an appointment request."
+    },
+    {
+      "name": "form_submit",
+      "status": "implemented",
+      "firesWhen": "The approved appointment endpoint confirms technical delivery.",
+      "businessInterpretation": "Technical form submission succeeded; this is not automatically a lead."
+    },
+    {
+      "name": "generate_lead",
+      "status": "blocked_pending_downstream_confirmation",
+      "firesWhen": "An approved first-party system confirms receipt of a valid lead.",
+      "businessInterpretation": "Valid lead received."
+    },
+    {
+      "name": "phone_click",
+      "status": "implemented",
+      "firesWhen": "A visitor activates an annotated telephone link.",
+      "businessInterpretation": "Phone contact intent; not automatically a lead."
+    },
+    {
+      "name": "email_click",
+      "status": "implemented_when_present",
+      "firesWhen": "A visitor activates an annotated mailto link.",
+      "businessInterpretation": "Email contact intent; not automatically a lead."
+    },
+    {
+      "name": "appointment_request",
+      "status": "implemented",
+      "firesWhen": "The approved appointment endpoint confirms technical delivery.",
+      "businessInterpretation": "Appointment request successfully delivered."
+    },
+    {
+      "name": "cta_click",
+      "status": "implemented",
+      "firesWhen": "A visitor activates an annotated approved call to action.",
+      "businessInterpretation": "Top-of-funnel CTA engagement."
+    }
+  ]
+}

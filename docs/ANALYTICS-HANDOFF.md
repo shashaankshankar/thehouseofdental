@@ -1,52 +1,43 @@
-# GA4 approval and activation handoff
+# GA4 pilot approval and activation handoff
 
-## Current state
+House of Dental is configured as the first healthcare pilot for the measurement and reporting platform. The website-side adapter, measurement contract, and route safety controls are in place, but GA4 remains inactive until client and privacy approvals are complete.
 
-GA4 is prepared but inactive. The public configuration is deliberately fail-closed:
+## Single source of configuration
 
-```json
-"analytics": {
-  "provider": "gtag",
-  "enabled": false,
-  "measurementId": ""
-}
-```
+Use `measurement/pilot-site.json` for all non-secret GA4 pilot settings. It is the only file that needs the client-provided Measurement ID, GA4 property ID, web-stream ID, timezone, and future connector principal. The static website receives only the public provider, enablement flag, Measurement ID, consent configuration, event policy, and route eligibility. It never receives platform credentials or private property metadata.
 
-With this configuration, the site does not create a Google Analytics request, consent banner, or conversion event. Do not enable it until every approval below is documented.
+## Client inputs and approvals
 
-After activation, Consent Mode v2 initializes the Google tag with every storage category denied. This may send consent-mode requests without analytics storage; the five custom conversion events below remain blocked until a visitor selects “Allow analytics.” The client’s approved privacy and consent language must describe this behavior accurately.
+- Confirm that the client owns the GA4 property and its web stream.
+- Provide the numeric GA4 property ID, numeric web-stream ID, Measurement ID (`G-XXXXXXXXXX`), and property timezone.
+- Approve the healthcare analytics eligibility decision and privacy-policy/consent wording.
+- Grant the agency reporting connector's service-account principal **Viewer** access with `analytics.readonly`.
+- Approve which routes change from `requires_review` to `approved` in `measurement/eligibility/routes.json`.
+- Confirm that the appointment endpoint's delivery destination is an approved first-party system and that the privacy policy describes its actual behavior.
 
-## Client approvals required
+Do not add service-account keys, OAuth client secrets, appointment tokens, or other secrets to this repository.
 
-- GA4 property ownership: the client confirms its Google account owns the GA4 property and controls access.
-- Measurement ID: provide the approved web-stream ID in the form `G-XXXXXXXXXX`.
-- Privacy language: approve the privacy-policy wording that describes Google Analytics and its purpose.
-- Consent wording: approve the banner text and the choice labels, including the denied-by-default setting.
-- Event and conversion list: approve the five events below and identify which should be marked as GA4 key events.
-- Retention settings: approve GA4 data-retention, Google Signals, advertising features, and access settings in the client-owned property.
+## Event contract
 
-## Prepared measurement plan
-
-| Event | When it is sent | Allowed metadata |
+| Event | Current status | Meaning |
 | --- | --- | --- |
-| `phone_click` | A visitor selects a phone link | `page_path`, `cta_location: phone_link` |
-| `appointment_cta_click` | A visitor selects a Book Appointment link | `page_path`, `cta_location: appointment_link` |
-| `form_start` | The appointment form receives its first focus | `page_path`, `cta_location: appointment_form` |
-| `appointment_request_success` | The appointment endpoint confirms successful delivery | `page_path`, `cta_location: appointment_form` |
-| `directions_click` | A visitor selects a directions link | `page_path`, `cta_location: directions_link` |
+| `form_start` | Implemented | First focus in the eligible appointment form. |
+| `form_submit` | Implemented | The appointment endpoint confirms technical delivery. |
+| `appointment_request` | Implemented | An approved appointment request was delivered. |
+| `phone_click` | Implemented | A visitor activates an annotated phone link. |
+| `email_click` | Ready when a mailto link exists | A visitor activates an annotated email link. |
+| `cta_click` | Implemented | A visitor activates an annotated appointment or directions CTA. |
+| `generate_lead` | Intentionally blocked | Requires an approved downstream valid-lead confirmation. |
 
-The event whitelist never accepts form field names or values. Names, emails, phone numbers, messages, health details, appointment details, and other sensitive data must not be sent to GA4. The form conversion is sent only after the endpoint reports successful delivery; a submission attempt or error is not a conversion.
+Every event is consent-gated, route-gated, and parameter-whitelisted. Only pathname, approved CTA location/type, and approved service category may be sent. Form values, patient information, query strings, titles, and other prohibited data are excluded.
 
-## Activation after approval
+## Activation and verification
 
-Make only this configuration change in `src/data/site.json`:
+1. Update the client values in `measurement/pilot-site.json`.
+2. Obtain the required healthcare/privacy approvals, then change only approved routes in `measurement/eligibility/routes.json`.
+3. Set `ga4.enabled` to `true`.
+4. Run `npm run check`.
+5. In the deployed environment, verify no-consent, grant, deny, changed-consent, prohibited-route, unknown-route, and query-string cases; then validate events in GA4 DebugView.
+6. Add the connection, property, stream, reporting scope, effective dates, and status to the reporting platform's `website_analytics_assignments` record.
 
-```json
-"analytics": {
-  "provider": "gtag",
-  "enabled": true,
-  "measurementId": "G-XXXXXXXXXX"
-}
-```
-
-Then rebuild, run the full test suite, verify accept/decline behavior locally, and verify received events in GA4 DebugView. Do not treat a successful local check as client approval or as confirmation that GA4 has received production traffic.
+Passing local checks does not grant client approval, establish GA4 access, or prove that production traffic has reached GA4.

@@ -43,12 +43,16 @@
   document.querySelectorAll("[data-count]").forEach((counter) => counterObserver ? counterObserver.observe(counter) : animateCounter(counter));
 
   const careBack = document.querySelector('.care-back-to-top');
-  if (careBack) { careBack.href = '#treatment-selector'; careBack.setAttribute('aria-label', 'Back to treatments'); careBack.setAttribute('aria-hidden', 'true'); careBack.tabIndex = -1; addEventListener('scroll', () => {
-    const visible = scrollY > innerHeight;
-    careBack.classList.toggle('is-visible', visible);
-    careBack.setAttribute('aria-hidden', String(!visible));
-    careBack.tabIndex = visible ? 0 : -1;
-  }, { passive: true }); }
+  if (careBack) {
+    const updateCareBack = () => {
+      const visible = scrollY > innerHeight;
+      careBack.classList.toggle('is-visible', visible);
+      careBack.setAttribute('aria-hidden', String(!visible));
+      careBack.tabIndex = visible ? 0 : -1;
+    };
+    updateCareBack();
+    addEventListener('scroll', updateCareBack, { passive: true });
+  }
 
   const booking = document.querySelector('#book');
   if (booking) {
@@ -56,5 +60,16 @@
       field.addEventListener('focus', () => document.body.classList.add('booking-focus'));
       field.addEventListener('blur', () => document.body.classList.remove('booking-focus'));
     });
+  }
+
+  const alignCareHash = () => {
+    if (!document.querySelector('.care-block')) return;
+    const target = document.getElementById(location.hash.slice(1));
+    if (!target) return;
+    requestAnimationFrame(() => requestAnimationFrame(() => target.scrollIntoView({ block: 'start' })));
+  };
+  if (document.querySelector('.care-block')) {
+    alignCareHash();
+    addEventListener('hashchange', alignCareHash);
   }
 })();

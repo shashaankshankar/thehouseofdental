@@ -2327,8 +2327,6 @@ body.modal-open { overflow: hidden; }
 }
 .care-nav a:hover { color: var(--gold); }
 .care-nav details summary { min-height: 44px; display: grid; place-items: center; cursor: pointer; color: var(--gold); text-transform: uppercase; letter-spacing: .2em; font-size: .72rem; }
-.care-return { margin: 2rem auto 0; max-width: 1000px; }
-.care-return a { display: inline-flex; min-height: 44px; align-items: center; color: var(--gold-deep); text-decoration: underline; text-underline-offset: .2em; }
 
 .care-back-to-top {
   position: fixed;

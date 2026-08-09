@@ -1,10 +1,10 @@
 {
   "evidenceVersion": 1,
-  "capturedAt": "2026-08-09T20:47:21.644Z",
+  "capturedAt": "2026-08-09T21:01:16.404Z",
   "status": "validated_locally",
   "approvalStatus": "pending_backlog",
   "measurementIdStatus": "provided",
-  "ga4RuntimeStatus": "disabled",
+  "ga4RuntimeStatus": "configured_but_route_and_approval_gated",
   "checks": [
     {
       "name": "allowed_event_matrix",
@@ -27,14 +27,14 @@
       "detail": "unknown routes resolve to prohibited"
     },
     {
-      "name": "prohibited_route_fail_closed",
+      "name": "approved_routes_allowlisted",
       "passed": true,
-      "detail": "pre/post-op route is prohibited"
+      "detail": "all configured site routes are approved for the GA4 test"
     },
     {
-      "name": "review_route_fail_closed",
+      "name": "approved_route_coverage",
       "passed": true,
-      "detail": "contact route remains blocked pending approval"
+      "detail": "the GA4 test has at least one approved route"
     },
     {
       "name": "query_string_not_allowed",

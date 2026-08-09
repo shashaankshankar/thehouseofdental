@@ -10,7 +10,7 @@
   },
   "ga4": {
     "provider": "gtag",
-    "enabled": false,
+    "enabled": true,
     "measurementId": "G-SPK63FDRBQ",
     "propertyId": "",
     "webStreamId": "15408312790",

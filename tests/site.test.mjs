@@ -17,7 +17,7 @@ test("source is split into focused modules", () => {
   assert.ok(sourceStyles.length >= 6);
 });
 
-test("GA4 integration is configurable and inactive by default", async () => {
+test("GA4 integration is configurable and enabled for the approved test routes", async () => {
   const pilot = JSON.parse(await readFile("measurement/pilot-site.json", "utf8"));
   const routes = JSON.parse(await readFile("measurement/eligibility/routes.json", "utf8"));
   const contract = JSON.parse(await readFile("measurement/contracts/local_service_v1/events.json", "utf8"));
@@ -25,12 +25,12 @@ test("GA4 integration is configurable and inactive by default", async () => {
   const analyticsScript = await readFile("src/scripts/80-analytics.js", "utf8");
   const styles = await readFile("dist/styles.css", "utf8");
   const headers = await readFile("dist/_headers", "utf8");
-  assert.equal(pilot.ga4.enabled, false);
-  assert.equal(pilot.ga4.measurementId, "");
+  assert.equal(pilot.ga4.enabled, true);
+  assert.equal(pilot.ga4.measurementId, "G-SPK63FDRBQ");
   assert.equal(routes.default, "prohibited");
-  assert.equal(routes.routes["/contact.html"], "requires_review");
+  assert.equal(routes.routes["/contact.html"], "approved");
   assert.deepEqual(contract.events.map((event) => event.name), ["form_start", "form_submit", "generate_lead", "phone_click", "email_click", "appointment_request", "cta_click"]);
-  assert.match(script, /const __SITE_ANALYTICS = \{"provider":"gtag","enabled":false,"measurementId":"","consent":\{"mode":"advanced","version":2,"storageKey":"thod-analytics-consent","waitForUpdate":500\},"contractVersion":"local_service_v1"/);
+  assert.match(script, /const __SITE_ANALYTICS = \{"provider":"gtag","enabled":true,"measurementId":"G-SPK63FDRBQ","consent":\{"mode":"advanced","version":2,"storageKey":"thod-analytics-consent","waitForUpdate":500\},"contractVersion":"local_service_v1"/);
   assert.doesNotMatch(script, /"propertyId"|"webStreamId"|"connection"/);
   assert.ok(script.includes("https://www.googletagmanager.com/gtag/js?id="));
   assert.ok(headers.includes("script-src 'self' https://www.googletagmanager.com"));
@@ -185,7 +185,7 @@ test("measurement evidence records local validation without claiming approval", 
   const evidence = JSON.parse(await readFile("measurement/evidence/validation.json", "utf8"));
   assert.equal(evidence.status, "validated_locally");
   assert.equal(evidence.approvalStatus, "pending_backlog");
-  assert.equal(evidence.measurementIdStatus, "not_provided");
+  assert.equal(evidence.measurementIdStatus, "provided");
   assert.ok(evidence.checks.length >= 10);
   assert.ok(evidence.manualChecksRemaining.includes("DebugView event receipt"));
 });

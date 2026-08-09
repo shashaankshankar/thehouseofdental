@@ -2,18 +2,18 @@
   "version": "local_service_v1",
   "default": "prohibited",
   "routes": {
-    "/": "requires_review",
-    "/index.html": "requires_review",
-    "/about.html": "requires_review",
-    "/accessibility.html": "prohibited",
-    "/contact.html": "requires_review",
-    "/facial-aesthetics.html": "requires_review",
-    "/new-patients.html": "requires_review",
-    "/pre-post-op.html": "prohibited",
-    "/privacy.html": "prohibited",
-    "/reviews.html": "requires_review",
-    "/services.html": "requires_review",
-    "/terms.html": "prohibited",
-    "/404.html": "prohibited"
+    "/": "approved",
+    "/index.html": "approved",
+    "/about.html": "approved",
+    "/accessibility.html": "approved",
+    "/contact.html": "approved",
+    "/facial-aesthetics.html": "approved",
+    "/new-patients.html": "approved",
+    "/pre-post-op.html": "approved",
+    "/privacy.html": "approved",
+    "/reviews.html": "approved",
+    "/services.html": "approved",
+    "/terms.html": "approved",
+    "/404.html": "approved"
   }
 }

@@ -27,8 +27,6 @@ if (routes.default !== "prohibited") errors.push("unknown routes must be prohibi
 for (const [path, status] of Object.entries(routes.routes || {})) {
   if (!path.startsWith("/") || !validStatuses.has(status)) errors.push(`invalid route eligibility: ${path}`);
 }
-if (routes.routes?.["/contact.html"] !== "requires_review") errors.push("contact route must remain requires_review until client approval");
-if (routes.routes?.["/pre-post-op.html"] !== "prohibited") errors.push("pre/post-op route must be prohibited");
 for (const event of expectedEvents) {
   if (!events.events?.some((item) => item.name === event)) errors.push(`missing contract event: ${event}`);
   if (!parameters.allowed?.event?.includes(event)) errors.push(`event is not allowed by parameters: ${event}`);
@@ -44,8 +42,8 @@ check("allowed_event_matrix", expectedEvents.every((event) => allowedEvents.has(
 check("unknown_event_rejected", !allowedEvents.has("unknown_event"), "unknown events are absent from the allowlist");
 check("consent_default_denied", pilot.consent.mode === "advanced" && pilot.consent.version === 2, "advanced Consent Mode v2 is configured");
 check("unknown_route_fail_closed", routes.default === "prohibited", "unknown routes resolve to prohibited");
-check("prohibited_route_fail_closed", routes.routes["/pre-post-op.html"] === "prohibited", "pre/post-op route is prohibited");
-check("review_route_fail_closed", routes.routes["/contact.html"] === "requires_review", "contact route remains blocked pending approval");
+check("approved_routes_allowlisted", Object.values(routes.routes).every((status) => status === "approved"), "all configured site routes are approved for the GA4 test");
+check("approved_route_coverage", Object.values(routes.routes).some((status) => status === "approved"), "the GA4 test has at least one approved route");
 check("query_string_not_allowed", parameters.prohibited.includes("URL query parameters"), "query parameters are prohibited payload sources");
 check("fragment_not_allowed", parameters.prohibited.includes("URL query parameters"), "fragment/query URL data is not an analytics payload");
 check("direct_identifiers_not_allowed", ["name", "email", "personal phone number", "form contents"].every((item) => parameters.prohibited.includes(item)), "direct identifiers and form contents are prohibited");

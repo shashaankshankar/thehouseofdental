@@ -1352,7 +1352,26 @@ footer.site {
 .svcmodal .modal-nav-prev { left: 1rem; }
 .svcmodal .modal-nav-next { right: 1rem; }
 @media (max-width: 1024px) {
-  .svcmodal .modal-nav { display: none; }
+  .svcmodal .modal-nav {
+    display: none;
+    width: 44px;
+    height: 44px;
+    opacity: 0;
+    pointer-events: none;
+    border-color: rgba(198, 161, 91, 0.58);
+    background: rgba(10, 10, 11, 0.72);
+    color: rgba(230, 211, 171, 0.78);
+    font-size: 2.2rem;
+  }
+  .svcmodal.show-swipe-hint .modal-nav {
+    display: grid;
+    pointer-events: auto;
+    animation: swipehint 1.8s ease-out forwards;
+  }
+}
+@keyframes swipehint {
+  0%, 100% { opacity: 0; }
+  18%, 58% { opacity: 0.62; }
 }
 @media (max-width: 760px) {
   .svcmodal .panel {

@@ -253,6 +253,7 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     let returnFocus;
     let activeTrigger;
     let transitionTimer;
+    let swipeHintTimer;
     let touchStart = null;
     let inerted = [];
 
@@ -280,6 +281,11 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
         clearTimeout(transitionTimer);
         transitionTimer = null;
       }
+      if (swipeHintTimer) {
+        clearTimeout(swipeHintTimer);
+        swipeHintTimer = null;
+      }
+      dialog.classList.remove("show-swipe-hint");
       panel?.classList.remove("is-switching", "is-dragging", "is-swipe-out", "is-swipe-in", "is-swipe-settle");
       panel?.style.removeProperty("--modal-shift");
       panel?.style.removeProperty("--drag-x");
@@ -291,6 +297,19 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       inerted = [];
       returnFocus?.focus();
       returnFocus = null;
+    };
+    const hideSwipeHint = () => {
+      if (swipeHintTimer) {
+        clearTimeout(swipeHintTimer);
+        swipeHintTimer = null;
+      }
+      dialog.classList.remove("show-swipe-hint");
+    };
+    const showSwipeHint = () => {
+      if (definition.kind !== "service") return;
+      hideSwipeHint();
+      dialog.classList.add("show-swipe-hint");
+      swipeHintTimer = window.setTimeout(hideSwipeHint, 1800);
     };
     const render = (detail, resolvedTrigger, focusClose) => {
       returnFocus = resolvedTrigger || document.activeElement;
@@ -346,6 +365,7 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
         panel?.classList.remove("is-switching");
         panel?.style.removeProperty("--modal-shift");
         render(detail, resolvedTrigger, focusClose);
+        if (!dialog.classList.contains("show-swipe-hint") && !transition) showSwipeHint();
         return;
       }
       panel.style.setProperty("--modal-shift", direction > 0 ? "1.2rem" : "-1.2rem");
@@ -414,6 +434,7 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     dialog.querySelectorAll("[data-close]").forEach((element) => element.addEventListener("click", close));
     panel.addEventListener("touchstart", (event) => {
       if (definition.kind !== "service") return;
+      hideSwipeHint();
       const touch = event.changedTouches[0];
       touchStart = { x: touch.clientX, y: touch.clientY };
       panel.classList.add("is-dragging");
@@ -445,8 +466,8 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       panel.style.removeProperty("--drag-x");
       panel.classList.remove("is-dragging");
     }, { passive: true });
-    previous?.addEventListener("click", () => navigate(-1, previous));
-    next?.addEventListener("click", () => navigate(1, next));
+    previous?.addEventListener("click", () => { hideSwipeHint(); navigate(-1, previous); });
+    next?.addEventListener("click", () => { hideSwipeHint(); navigate(1, next); });
     document.addEventListener("keydown", (event) => {
       if (!dialog.classList.contains("open")) return;
       if (event.key === "Escape") close();

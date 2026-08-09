@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
+import vm from "node:vm";
 
 const pages = (await readdir("dist")).filter((name) => name.endsWith(".html")).sort();
 const sourceScripts = (await readdir("src/scripts")).filter((name) => name.endsWith(".js"));
@@ -50,6 +51,95 @@ test("GA4 integration is configurable and inactive by default", async () => {
   assert.match(analyticsScript, /gtag\("consent", "update"/);
   assert.match(analyticsScript, /localStorage/);
   assert.match(styles, /\.consent-banner/);
+});
+
+test("GA4 conversion events are consent-gated and privacy-safe", async () => {
+  const analyticsScript = await readFile("src/scripts/80-analytics.js", "utf8");
+  const formScript = await readFile("src/scripts/60-forms.js", "utf8");
+  const handoff = await readFile("docs/ANALYTICS-HANDOFF.md", "utf8");
+  for (const eventName of ["phone_click", "appointment_cta_click", "form_start", "appointment_request_success", "directions_click"]) {
+    assert.match(analyticsScript, new RegExp(`"${eventName}"`), eventName);
+    assert.match(handoff, new RegExp(`\\x60${eventName}\\x60`), eventName);
+  }
+  assert.match(analyticsScript, /if \(!analyticsStorageGranted \|\| !allowedEvents\.has\(eventName\)\) return;/);
+  assert.match(analyticsScript, /const payload = \{ page_path: pagePath\(\) \};/);
+  assert.match(analyticsScript, /allowedLocations\.has\(metadata\.ctaLocation\)/);
+  assert.match(analyticsScript, /allowedServiceCategories\.has\(metadata\.serviceCategory\)/);
+  assert.match(analyticsScript, /analyticsStorageGranted = choice === "granted"/);
+  assert.match(formScript, /result\.ok !== true/);
+  assert.match(formScript, /window\.thodAnalytics\?\.track\("appointment_request_success"/);
+  assert.equal((formScript.match(/appointment_request_success/g) || []).length, 1);
+  assert.doesNotMatch(analyticsScript, /FormData|name:|email:|phone:|message:|health/i);
+  assert.match(handoff, /Names, emails, phone numbers, messages, health details/);
+});
+
+test("disabled analytics does not touch Google or the page", async () => {
+  const analyticsScript = await readFile("src/scripts/80-analytics.js", "utf8");
+  const window = {};
+  const document = new Proxy({}, {
+    get() {
+      throw new Error("disabled analytics must not access the document");
+    }
+  });
+  vm.runInNewContext(analyticsScript, {
+    __SITE_ANALYTICS: { provider: "gtag", enabled: false, measurementId: "" },
+    window,
+    document
+  });
+  assert.equal(window.dataLayer, undefined);
+});
+
+test("conversion events wait for consent and decline keeps analytics storage denied", async () => {
+  const analyticsScript = await readFile("src/scripts/80-analytics.js", "utf8");
+  const listeners = new Map();
+  const makeElement = () => ({
+    children: [],
+    dataset: {},
+    addEventListener(type, handler) { listeners.set(`${this.label || this.textContent}:${type}`, handler); },
+    append(...children) { this.children.push(...children); },
+    appendChild(child) { this.children.push(child); },
+    setAttribute() {},
+    focus() {}
+  });
+  const phone = makeElement();
+  phone.label = "phone";
+  const document = {
+    head: makeElement(),
+    body: makeElement(),
+    createElement: makeElement,
+    querySelectorAll(selector) {
+      return selector === 'a[href^="tel:"]' ? [phone] : [];
+    }
+  };
+  const window = { location: { pathname: "/contact.html" } };
+  vm.runInNewContext(analyticsScript, {
+    __SITE_ANALYTICS: {
+      provider: "gtag",
+      enabled: true,
+      measurementId: "G-TEST123",
+      consent: { mode: "advanced", version: 2, storageKey: "test-consent", waitForUpdate: 500 }
+    },
+    window,
+    document,
+    localStorage: { getItem: () => null, setItem() {} },
+    Set,
+    Number,
+    encodeURIComponent
+  });
+  listeners.get("phone:click")();
+  assert.equal(window.dataLayer.filter((entry) => entry[0] === "event").length, 0);
+  const allElements = (elements) => elements.flatMap((element) => [element, ...allElements(element.children)]);
+  const decline = allElements(document.body.children).find((element) => element.textContent === "Continue without analytics");
+  listeners.get(`${decline.textContent}:click`)();
+  listeners.get("phone:click")();
+  assert.equal(window.dataLayer.filter((entry) => entry[0] === "event").length, 0);
+  const consentUpdates = window.dataLayer.filter((entry) => entry[0] === "consent" && entry[1] === "update");
+  assert.deepEqual(JSON.parse(JSON.stringify(consentUpdates.at(-1)[2])), {
+    ad_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+    analytics_storage: "denied"
+  });
 });
 
 test("Google reputation integration has a safe fallback and no client API key", async () => {

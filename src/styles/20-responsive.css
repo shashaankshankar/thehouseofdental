@@ -306,8 +306,17 @@
 .svcmodal .modal-nav-prev { left: clamp(0.5rem, 3vw, 3rem); }
 .svcmodal .modal-nav-next { right: clamp(0.5rem, 3vw, 3rem); }
 @media (max-width: 760px) {
-  .svcmodal .panel { grid-template-columns: 1fr; }
-  .svcmodal .panel img { max-height: 220px; min-height: 0; }
+  .svcmodal .panel {
+    display: block;
+    max-height: 92vh;
+    max-height: 92svh;
+  }
+  .svcmodal .panel img {
+    width: 100%;
+    height: clamp(120px, 32vw, 220px);
+    max-height: none;
+    min-height: 0;
+  }
   .svcmodal .modal-nav { top: 8rem; width: 42px; height: 42px; font-size: 2.2rem; }
 }
 body.modal-open { overflow: hidden; }

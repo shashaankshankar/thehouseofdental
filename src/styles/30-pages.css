@@ -162,9 +162,12 @@
 .services-page-groups .treatment-care-link {
   display: inline-block;
   align-self: flex-start;
+  position: relative;
+  min-height: 44px;
   margin: 1.2rem 2rem 2.4rem;
-  padding-bottom: 2px;
-  border-bottom: 1px solid var(--gold-deep);
+  padding-bottom: 0;
+  /* border-bottom: 1px solid var(--gold-deep) is drawn by ::after so the 44px hit area stays clean. */
+  border-bottom: 0;
   color: var(--gold-deep);
   font-size: 0.7rem;
   letter-spacing: 0.28em;
@@ -172,11 +175,22 @@
   text-transform: uppercase;
   transition: color 0.35s var(--ease), border-color 0.35s var(--ease);
 }
+.services-page-groups .treatment-care-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: var(--gold-deep);
+  transition: background 0.35s var(--ease);
+}
 .services-page-groups .treatment-care-link:hover,
 .services-page-groups .treatment-care-link:focus-visible {
-  border-color: var(--gold-deep);
   color: var(--ink);
 }
+.services-page-groups .treatment-care-link:hover::after,
+.services-page-groups .treatment-care-link:focus-visible::after { background: var(--gold-deep); }
 
 @media (max-width: 760px) {
   .services-page-groups #dental-services .services-dental-description {
@@ -339,6 +353,8 @@
   text-transform: uppercase;
   color: var(--mist);
   display: flex;
+  min-height: 44px;
+  padding: 0.45rem 0.7rem;
   align-items: center;
   gap: 0.7rem;
   transition: color 0.4s;
@@ -677,7 +693,28 @@
   padding: 1rem 0;
   flex-wrap: wrap;
 }
+.care-nav-group {
+  min-width: min(100%, 32rem);
+  border: 1px solid var(--line-dark);
+}
+.care-nav-group summary {
+  list-style: none;
+  padding-inline: 1rem;
+}
+.care-nav-group summary::-webkit-details-marker { display: none; }
+.care-nav-group summary::after { content: "+"; margin-left: 0.7rem; font-size: 1rem; }
+.care-nav-group[open] summary::after { content: "−"; }
+.care-nav-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--line-dark);
+}
 .care-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid transparent;
   font-size: 0.66rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -685,7 +722,7 @@
   transition: color 0.35s;
 }
 .care-nav a:hover { color: var(--gold); }
-.care-nav details summary { min-height: 44px; display: grid; place-items: center; cursor: pointer; color: var(--gold); text-transform: uppercase; letter-spacing: .2em; font-size: .72rem; }
+.care-nav a:focus-visible { outline: 2px solid var(--gold); outline-offset: -3px; }
 
 .care-back-to-top {
   position: fixed;
@@ -715,6 +752,7 @@
   border-bottom: 1px solid var(--line-light);
   scroll-margin-top: 150px;
 }
+#book { scroll-margin-top: calc(var(--head-h, 86px) + 1rem); }
 .care-block:nth-of-type(even) { background: var(--ivory-deep); }
 .care-block .center-head { margin-bottom: 2.6rem; }
 

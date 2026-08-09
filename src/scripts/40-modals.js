@@ -53,6 +53,7 @@
       inerted.forEach(({ element, inert }) => { element.inert = inert; });
       inerted = [];
       returnFocus?.focus();
+      returnFocus = null;
     };
     const render = (detail, resolvedTrigger, focusClose) => {
       returnFocus = resolvedTrigger || document.activeElement;
@@ -92,7 +93,7 @@
       dialog.classList.add("open");
       document.body.classList.add("modal-open");
       inertBackground();
-      if (focusClose) dialog.querySelector("[data-close]")?.focus();
+      if (focusClose) window.setTimeout(() => dialog.querySelector("button.close[data-close]")?.focus(), 0);
     };
     const open = (id, trigger, { focusClose = true, transition = false, direction = 1 } = {}) => {
       const detail = getDetail(id);

@@ -2,7 +2,7 @@
   "cerec": {
     "cat": "Chairside Milling",
     "title": "CEREC® Same-Day Crowns",
-    "img": "https://images.unsplash.com/photo-1626878880028-0438b1403b3f?q=80&w=1600&auto=format&fit=crop",
+    "img": "assets/technology-cerec.jpg",
     "paras": [
       "CEREC lets us design, mill, and place a permanent ceramic crown in a single appointment. A digital scan of your tooth becomes a 3D model on screen, and our in-office milling unit carves the restoration from a solid block of ceramic while you wait.",
       "The result: no impression putty, no temporary crown to fall off, and no second appointment weeks later. You walk in with a damaged tooth and walk out with a finished, color-matched restoration."
@@ -12,7 +12,7 @@
   "ct-scan": {
     "cat": "3D Imaging",
     "title": "CT Scan (Cone Beam)",
-    "img": "https://images.unsplash.com/photo-1576671414121-aa0c81c869e1?q=80&w=1600&auto=format&fit=crop",
+    "img": "assets/technology-ct-scan.jpg",
     "paras": [
       "Our cone beam CT scanner captures a complete three-dimensional view of your teeth, jaw, nerves, and sinuses in a single rotation — detail a traditional two-dimensional X-ray simply cannot show.",
       "This is what makes guided implant surgery possible. Dr. Patel can measure bone density and volume, map the exact position of nerves, and plan the precise angle and depth of an implant before ever beginning the procedure. It means fewer surprises, less invasive surgery, and more predictable outcomes."
@@ -22,7 +22,7 @@
   "digital-scans": {
     "cat": "Fully Digital",
     "title": "Digital Scans & X-Rays",
-    "img": "https://images.unsplash.com/photo-1598531136726-4157529f8cbb?q=80&w=1600&auto=format&fit=crop",
+    "img": "assets/technology-digital-scans.jpg",
     "paras": [
       "We replaced messy impression trays with a handheld intraoral scanner that builds a precise digital model of your mouth in minutes — more comfortable, more accurate, and instantly viewable on screen.",
       "Our digital radiographs use significantly less radiation than traditional film X-rays and appear immediately, so Dr. Patel can show you exactly what he's seeing and explain it in real time."
@@ -32,7 +32,7 @@
   "guided-surgery": {
     "cat": "Implantology",
     "title": "Computer-Guided Surgery",
-    "img": "https://images.unsplash.com/photo-1656428964836-78d54bf76231?q=80&w=1600&auto=format&fit=crop",
+    "img": "assets/technology-guided-surgery.jpg",
     "paras": [
       "Using CT data, implant placement is planned digitally down to the millimeter, then executed with a custom surgical guide that directs the placement exactly as planned.",
       "Because the position is determined before surgery begins, the procedure is more precise and far less invasive — often meaning smaller incisions, less discomfort, and a faster recovery than freehand placement."
@@ -42,7 +42,7 @@
   "deka": {
     "cat": "Laser Aesthetics",
     "title": "DEKA CO2 Facial Resurfacing Laser",
-    "img": "https://images.unsplash.com/photo-1598300195998-364bf445842c?q=80&w=1600&auto=format&fit=crop",
+    "img": "assets/co2-laser.jpg",
     "paras": [
       "DEKA is a leading name in medical laser technology, used for skin resurfacing and rejuvenation treatments that address fine lines, uneven texture, sun damage, pigmentation, and scarring.",
       "The laser works by delivering precisely controlled energy to the skin, stimulating the body's natural collagen production and encouraging fresh, healthy tissue to replace damaged surface layers — with treatment intensity tailored to each patient's skin and goals."
@@ -52,7 +52,7 @@
   "emage": {
     "cat": "Diagnostic Imaging",
     "title": "Emage 3D Skin Scanner",
-    "img": "https://images.unsplash.com/photo-1761718209852-54ca4210183e?q=80&w=1600&auto=format&fit=crop",
+    "img": "assets/skin-analysis.jpg",
     "paras": [
       "The Emage scanner captures a detailed three-dimensional analysis of your skin — revealing sun damage, pigmentation, pore condition, wrinkles, and texture beneath the surface that the naked eye cannot detect.",
       "It turns aesthetic treatment into something measurable. We can establish an objective baseline before treatment begins, build a plan around what your skin actually needs, and show you side-by-side progress over time rather than asking you to guess at the results."
@@ -62,7 +62,7 @@
   "hydroderm": {
     "cat": "Signature Treatment",
     "title": "Custom HydroDerm Facials",
-    "img": "https://images.unsplash.com/photo-1713085085470-fba013d67e65?q=80&w=1600&auto=format&fit=crop",
+    "img": "assets/hydroderm-facial.jpg",
     "paras": [
       "A multi-step hydrating facial treatment that cleanses, gently exfoliates, extracts impurities, and infuses the skin with hydrating serums — all in one session, with no downtime.",
       "Each facial is customized rather than one-size-fits-all: the serums and intensity are selected based on your skin's needs, which is where the Emage scanner comes in. Results are immediate — smoother texture, refined pores, and a visible glow."
@@ -72,7 +72,7 @@
   "microneedling": {
     "cat": "Collagen Induction",
     "title": "Microneedling",
-    "img": "https://images.unsplash.com/photo-1754941622136-6664a3f50b2e?q=80&w=1600&auto=format&fit=crop",
+    "img": "assets/microneedling.jpg",
     "paras": [
       "Microneedling &mdash; collagen induction therapy &mdash; uses a precision device to create thousands of microscopic channels in the skin, triggering the body's natural wound-healing cascade.",
       "As the skin repairs those channels it produces fresh collagen and elastin, softening acne scars, refining texture, tightening pores, and firming skin from within. Because it works without heat, it's safe across all skin types."

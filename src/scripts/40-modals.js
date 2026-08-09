@@ -46,8 +46,11 @@
         clearTimeout(transitionTimer);
         transitionTimer = null;
       }
-      panel?.classList.remove("is-switching");
+      panel?.classList.remove("is-switching", "is-dragging", "is-swipe-out", "is-swipe-in", "is-swipe-settle");
       panel?.style.removeProperty("--modal-shift");
+      panel?.style.removeProperty("--drag-x");
+      panel?.style.removeProperty("--swipe-in");
+      panel?.style.removeProperty("--swipe-out");
       dialog.classList.remove("open");
       document.body.classList.remove("modal-open");
       inerted.forEach(({ element, inert }) => { element.inert = inert; });
@@ -133,6 +136,37 @@
       open(id, target, { focusClose: false, transition: true, direction });
       control?.focus();
     };
+    const swipeNavigate = (direction) => {
+      const triggers = getTriggers();
+      if (!triggers.length || !activeTrigger) return;
+      const currentIndex = Math.max(0, triggers.indexOf(activeTrigger));
+      const target = triggers[(currentIndex + direction + triggers.length) % triggers.length];
+      const id = target.dataset[definition.key];
+      const detail = getDetail(id);
+      if (!detail) return;
+      if (transitionTimer) clearTimeout(transitionTimer);
+      history.replaceState(null, "", `#${id}`);
+      const distance = Math.max(window.innerWidth, panel.offsetWidth) + 48;
+      panel.classList.remove("is-dragging");
+      panel.style.setProperty("--swipe-out", `${direction > 0 ? -distance : distance}px`);
+      panel.classList.add("is-swipe-out");
+      transitionTimer = window.setTimeout(() => {
+        transitionTimer = null;
+        render(detail, target, false);
+        panel.style.setProperty("--swipe-in", `${direction > 0 ? distance : -distance}px`);
+        panel.classList.remove("is-swipe-out");
+        panel.classList.add("is-swipe-in");
+        window.requestAnimationFrame(() => {
+          panel.classList.remove("is-swipe-in");
+          panel.classList.add("is-swipe-settle");
+          window.setTimeout(() => {
+            panel.classList.remove("is-swipe-settle");
+            panel.style.removeProperty("--swipe-in");
+            panel.style.removeProperty("--swipe-out");
+          }, 240);
+        });
+      }, 240);
+    };
 
     document.querySelectorAll(definition.trigger).forEach((trigger) => {
       trigger.setAttribute("aria-haspopup", "dialog");
@@ -144,18 +178,38 @@
       });
     });
     dialog.querySelectorAll("[data-close]").forEach((element) => element.addEventListener("click", close));
-    dialog.addEventListener("touchstart", (event) => {
+    panel.addEventListener("touchstart", (event) => {
+      if (definition.kind !== "service") return;
       const touch = event.changedTouches[0];
       touchStart = { x: touch.clientX, y: touch.clientY };
+      panel.classList.add("is-dragging");
     }, { passive: true });
-    dialog.addEventListener("touchend", (event) => {
+    panel.addEventListener("touchmove", (event) => {
+      if (!touchStart || definition.kind !== "service") return;
+      const touch = event.changedTouches[0];
+      const dx = touch.clientX - touchStart.x;
+      const dy = touch.clientY - touchStart.y;
+      if (Math.abs(dx) < Math.abs(dy) * 1.05) return;
+      event.preventDefault();
+      panel.style.setProperty("--drag-x", `${dx * 0.88}px`);
+    }, { passive: false });
+    panel.addEventListener("touchend", (event) => {
       if (!touchStart) return;
       const touch = event.changedTouches[0];
       const dx = touch.clientX - touchStart.x;
       const dy = touch.clientY - touchStart.y;
       touchStart = null;
-      if (Math.abs(dx) < 56 || Math.abs(dx) < Math.abs(dy) * 1.25) return;
-      navigate(dx < 0 ? 1 : -1);
+      panel.style.removeProperty("--drag-x");
+      if (Math.abs(dx) < 56 || Math.abs(dx) < Math.abs(dy) * 1.05) {
+        panel.classList.remove("is-dragging");
+        return;
+      }
+      swipeNavigate(dx < 0 ? 1 : -1);
+    }, { passive: true });
+    panel.addEventListener("touchcancel", () => {
+      touchStart = null;
+      panel.style.removeProperty("--drag-x");
+      panel.classList.remove("is-dragging");
     }, { passive: true });
     previous?.addEventListener("click", () => navigate(-1, previous));
     next?.addEventListener("click", () => navigate(1, next));

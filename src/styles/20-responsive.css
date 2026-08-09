@@ -336,6 +336,9 @@
 }
 .svcmodal .modal-nav-prev { left: 1rem; }
 .svcmodal .modal-nav-next { right: 1rem; }
+@media (max-width: 1024px) {
+  .svcmodal .modal-nav { display: none; }
+}
 @media (max-width: 760px) {
   .svcmodal .panel {
     display: block;
@@ -349,6 +352,23 @@
     min-height: 0;
   }
   .svcmodal .modal-nav { top: 50%; width: 44px; height: 44px; font-size: 2.2rem; }
+}
+.svcmodal .panel.is-dragging {
+  transform: translateX(var(--drag-x, 0px));
+  transition: none;
+}
+.svcmodal .panel.is-swipe-out {
+  opacity: 0;
+  transform: translateX(var(--swipe-out));
+}
+.svcmodal .panel.is-swipe-in {
+  opacity: 0;
+  transform: translateX(var(--swipe-in));
+  transition: none;
+}
+.svcmodal .panel.is-swipe-settle {
+  opacity: 1;
+  transform: translateX(0);
 }
 body.modal-open { overflow: hidden; }
 

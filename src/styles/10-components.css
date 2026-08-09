@@ -839,7 +839,7 @@ footer.site {
   font-size: 0.68rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(247,244,238,0.4);
+  color: var(--mist);
 }
 .foot-legal a:hover { color: var(--gold); }
 

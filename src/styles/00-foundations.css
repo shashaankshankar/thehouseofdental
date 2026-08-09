@@ -10,7 +10,7 @@
   --ivory: #f7f4ee;
   --ivory-deep: #efeade;
   --gold: #c6a15b;
-  --gold-deep: #80632f;
+  --gold-deep: #70531f;
   --gold-pale: #e6d3ab;
   --ink: #1c1b18;
   --mist: rgba(247, 244, 238, 0.62);
@@ -116,7 +116,8 @@ section { position: relative; z-index: 2; }
 .rv-d3 { transition-delay: 0.36s; }
 
 .rv-img {
-  clip-path: inset(0 100% 0 0);
+  /* Images remain visible if the reveal observer is delayed or unavailable. */
+  clip-path: inset(0 0 0 0);
   transition: clip-path 1.3s var(--ease);
 }
 .rv-img.in { clip-path: inset(0 0 0 0); }

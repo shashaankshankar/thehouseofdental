@@ -252,6 +252,7 @@
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   scrollbar-gutter: stable;
+  touch-action: pan-y;
   display: grid;
   grid-template-columns: 1fr 1.15fr;
   animation: panelin 0.55s var(--ease);
@@ -333,8 +334,8 @@
   border-color: var(--gold);
   color: var(--noir);
 }
-.svcmodal .modal-nav-prev { left: max(1rem, calc(50% - min(460px, 50vw - 1.4rem) + 1rem)); }
-.svcmodal .modal-nav-next { right: max(1rem, calc(50% - min(460px, 50vw - 1.4rem) + 1rem)); }
+.svcmodal .modal-nav-prev { left: 1rem; }
+.svcmodal .modal-nav-next { right: 1rem; }
 @media (max-width: 760px) {
   .svcmodal .panel {
     display: block;
@@ -347,7 +348,7 @@
     max-height: none;
     min-height: 0;
   }
-  .svcmodal .modal-nav { top: 8rem; width: 42px; height: 42px; font-size: 2.2rem; }
+  .svcmodal .modal-nav { top: 50%; width: 44px; height: 44px; font-size: 2.2rem; }
 }
 body.modal-open { overflow: hidden; }
 

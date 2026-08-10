@@ -2,7 +2,7 @@
   "version": "local_service_v1",
   "client": {
     "name": "The House of Dental",
-    "domain": "https://thehouseofdental.com"
+    "domain": "https://thehouseofdentalwp.com"
   },
   "industry": {
     "classification": "healthcare",

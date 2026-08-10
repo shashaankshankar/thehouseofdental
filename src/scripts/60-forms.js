@@ -26,7 +26,7 @@
       const result = await response.json().catch(() => ({}));
       if (!response.ok || result.ok !== true) throw new Error(result.error || "Request failed");
       form.reset();
-      setStatus(result.message || "Your request was sent. The office will call to confirm.", "success");
+      setStatus(result.message || "Your message was sent. We'll get back to you soon.", "success");
       window.thodAnalytics?.track("form_submit", { ctaLocation: "appointment_form" });
       window.thodAnalytics?.track("appointment_request", { ctaLocation: "appointment_form" });
     } catch {

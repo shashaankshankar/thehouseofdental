@@ -117,7 +117,6 @@ const financingCalculator = `<div class="cherry-box rv"><p class="eyebrow u-inli
 for (const [file, page] of Object.entries(site.pages)) {
   let content = (await read(join(source, "pages", file))).replace("{{REVIEWS}}", reviewCards).replace("{{FINANCING_CALCULATOR}}", financingCalculator);
   if (file === "pre-post-op.html") content = alignCareCopy(reorderCareSections(content));
-  content = content.replace('<section class="sec-noir care-nav" id="treatment-selector"><div class="wrap">', '<section class="sec-noir care-nav"><div class="wrap" id="treatment-selector">');
   content = decorateAnalyticsAttributes(content);
   const shell = {
     header: decorateAnalyticsAttributes(templates[page.shell].header),

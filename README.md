@@ -5,7 +5,7 @@ Node-built static website for The House of Dental. The visual design and working
 ## Source layout
 
 - `src/pages/` contains the 12 page inputs: eight full site pages, three minimal information pages, and the 404 page (`404.html`, `about.html`, `accessibility.html`, `contact.html`, `facial-aesthetics.html`, `index.html`, `new-patients.html`, `pre-post-op.html`, `privacy.html`, `reviews.html`, `services.html`, and `terms.html`).
-- `api/` contains the Vercel Node Functions for reputation and appointment requests.
+- `api/` contains the Vercel Node Functions for reputation and contact-message delivery.
 - `src/templates/` contains the shared full, minimal, and footer shells.
 - `src/data/` contains site metadata, service and technology modal records, review cards, and financing calculator values. Service and technology data are embedded in the generated `dist/main.js`.
 - `src/styles/` and `src/scripts/` contain ordered, focused source modules that are concatenated into `dist/styles.css` and `dist/main.js`.
@@ -73,7 +73,7 @@ Open <http://localhost:8000> in a browser. A basic local static server can displ
 
 ## Appointment backend
 
-The appointment form posts to `/api/appointment`, which validates the request origin and field sizes, rejects the honeypot, sends no logs, and forwards the payload over HTTPS with a server-only bearer token. `APPOINTMENT_BACKEND_URL` must point to the approved secure notification/CRM endpoint and accept this JSON contract:
+The contact form posts to `/api/appointment`, which validates the request origin and field sizes, rejects the honeypot, sends no logs, and forwards the message over HTTPS with a server-only bearer token. `APPOINTMENT_BACKEND_URL` must point to an approved secure email-delivery or notification endpoint and accept this JSON contract:
 
 ```json
 {
@@ -89,10 +89,10 @@ The appointment form posts to `/api/appointment`, which validates the request or
 }
 ```
 
-The adapter intentionally fails closed with a 503 until `APPOINTMENT_BACKEND_URL`, `APPOINTMENT_BACKEND_TOKEN`, and `APPOINTMENT_ALLOWED_ORIGINS` are configured. This repository does not invent or activate a notification vendor. The approved backend remains responsible for provider-specific rate limiting, spam controls, retention, notification delivery, and any required compliance review.
+The adapter intentionally fails closed with a 503 until `APPOINTMENT_BACKEND_URL`, `APPOINTMENT_BACKEND_TOKEN`, and `APPOINTMENT_ALLOWED_ORIGINS` are configured. This repository does not invent or activate an email vendor. The approved email-delivery endpoint remains responsible for provider-specific rate limiting, spam controls, retention, notification delivery, and any required compliance review. A successful delivery is a message accepted for email notification; it is not a booked appointment or a confirmed lead.
 
 ## Production boundaries
 
-The appointment form is a Vercel Function boundary, not a storage system. Production delivery still requires an approved notification/CRM backend, security review, and environment-specific configuration. Do not include sensitive medical details in the form.
+The contact form is a Vercel Function boundary, not a storage system. Production delivery still requires an approved email-delivery endpoint, security review, and environment-specific configuration. Do not include sensitive medical details in the form.
 
 Building, validating, or previewing the site does not deploy it or approve production content. Legal pages, clinical and business claims, authentic media and reviews, analytics, redirects, integrations, and hosting configuration require their own review before publication.

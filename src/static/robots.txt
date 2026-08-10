@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://thehouseofdental.com/sitemap.xml
+Sitemap: https://thehouseofdentalwp.com/sitemap.xml

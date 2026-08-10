@@ -1,6 +1,6 @@
 {
   "name": "The House of Dental",
-  "baseUrl": "https://thehouseofdental.com",
+  "baseUrl": "https://thehouseofdentalwp.com",
   "phone": "+14076781400",
   "phoneDisplay": "(407) 678-1400",
   "address": "6504 University Blvd, Winter Park, FL 32792",
@@ -29,14 +29,14 @@
       "author": "The House of Dental",
       "changefreq": "monthly",
       "priority": "0.8",
-      "canonical": "https://thehouseofdental.com/about.html",
+      "canonical": "https://thehouseofdentalwp.com/about.html",
       "robots": "index, follow, max-image-preview:large",
       "shell": "full"
     },
     "accessibility.html": {
       "title": "Accessibility | The House of Dental",
       "description": "Accessibility information for The House of Dental website.",
-      "canonical": "https://thehouseofdental.com/accessibility.html",
+      "canonical": "https://thehouseofdentalwp.com/accessibility.html",
       "robots": "index, follow",
       "sitemap": false,
       "shell": "minimal"
@@ -51,7 +51,7 @@
       "author": "The House of Dental",
       "changefreq": "monthly",
       "priority": "0.8",
-      "canonical": "https://thehouseofdental.com/contact.html",
+      "canonical": "https://thehouseofdentalwp.com/contact.html",
       "robots": "index, follow, max-image-preview:large",
       "shell": "full"
     },
@@ -65,7 +65,7 @@
       "author": "The House of Dental",
       "changefreq": "monthly",
       "priority": "0.8",
-      "canonical": "https://thehouseofdental.com/facial-aesthetics.html",
+      "canonical": "https://thehouseofdentalwp.com/facial-aesthetics.html",
       "robots": "index, follow, max-image-preview:large",
       "shell": "full"
     },
@@ -79,7 +79,7 @@
       "author": "The House of Dental",
       "changefreq": "monthly",
       "priority": "1.0",
-      "canonical": "https://thehouseofdental.com/",
+      "canonical": "https://thehouseofdentalwp.com/",
       "robots": "index, follow, max-image-preview:large",
       "shell": "full"
     },
@@ -93,7 +93,7 @@
       "author": "The House of Dental",
       "changefreq": "monthly",
       "priority": "0.8",
-      "canonical": "https://thehouseofdental.com/new-patients.html",
+      "canonical": "https://thehouseofdentalwp.com/new-patients.html",
       "robots": "index, follow, max-image-preview:large",
       "shell": "full"
     },
@@ -108,14 +108,14 @@
       "schema": false,
       "changefreq": "monthly",
       "priority": "0.7",
-      "canonical": "https://thehouseofdental.com/pre-post-op.html",
+      "canonical": "https://thehouseofdentalwp.com/pre-post-op.html",
       "robots": "index, follow, max-image-preview:large",
       "shell": "full"
     },
     "privacy.html": {
       "title": "Privacy Policy | The House of Dental",
       "description": "Privacy information for The House of Dental website.",
-      "canonical": "https://thehouseofdental.com/privacy.html",
+      "canonical": "https://thehouseofdentalwp.com/privacy.html",
       "robots": "index, follow",
       "sitemap": false,
       "shell": "minimal"
@@ -130,7 +130,7 @@
       "author": "The House of Dental",
       "changefreq": "monthly",
       "priority": "0.8",
-      "canonical": "https://thehouseofdental.com/reviews.html",
+      "canonical": "https://thehouseofdentalwp.com/reviews.html",
       "robots": "index, follow, max-image-preview:large",
       "shell": "full"
     },
@@ -144,14 +144,14 @@
       "author": "The House of Dental",
       "changefreq": "monthly",
       "priority": "0.9",
-      "canonical": "https://thehouseofdental.com/services.html",
+      "canonical": "https://thehouseofdentalwp.com/services.html",
       "robots": "index, follow, max-image-preview:large",
       "shell": "full"
     },
     "terms.html": {
       "title": "Terms &amp; Conditions | The House of Dental",
       "description": "Website terms for The House of Dental.",
-      "canonical": "https://thehouseofdental.com/terms.html",
+      "canonical": "https://thehouseofdentalwp.com/terms.html",
       "robots": "index, follow",
       "sitemap": false,
       "shell": "minimal"
@@ -163,7 +163,7 @@
     "name": "The House of Dental",
     "alternateName": "Winter Park Dental",
     "description": "Comprehensive dental care and facial aesthetics in Winter Park, Florida — dental implants, same-day CEREC crowns, cosmetic dentistry, and CO2 laser skin resurfacing.",
-    "url": "https://thehouseofdental.com/",
+    "url": "https://thehouseofdentalwp.com/",
     "telephone": "+1-407-678-1400",
     "priceRange": "$$",
     "address": {

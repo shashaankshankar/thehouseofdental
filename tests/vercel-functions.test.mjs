@@ -55,7 +55,7 @@ test("appointment Function fails closed before a trusted origin is configured", 
       const result = response();
       await appointment({
         method: "POST",
-        headers: { origin: "https://thehouseofdental.com" },
+        headers: { origin: "https://thehouseofdentalwp.com" },
         body: { name: "Test Patient", phone: "4076781400", email: "test@example.com", "new-patient": "Yes", message: "" }
       }, result);
       assert.equal(result.statusCode, 403);
@@ -68,7 +68,7 @@ test("appointment Function fails closed before a trusted origin is configured", 
 
 test("appointment Function forwards only after HTTPS backend and secret configuration", async () => {
   await withCleanEnv(async () => {
-    process.env.APPOINTMENT_ALLOWED_ORIGINS = "https://thehouseofdental.com";
+    process.env.APPOINTMENT_ALLOWED_ORIGINS = "https://thehouseofdentalwp.com";
     process.env.APPOINTMENT_BACKEND_URL = "https://notify.example.test/appointments";
     process.env.APPOINTMENT_BACKEND_TOKEN = "test-token";
     const originalFetch = globalThis.fetch;
@@ -81,7 +81,7 @@ test("appointment Function forwards only after HTTPS backend and secret configur
       const result = response();
       await appointment({
         method: "POST",
-        headers: { origin: "https://thehouseofdental.com" },
+        headers: { origin: "https://thehouseofdentalwp.com" },
         body: { name: "Test Patient", phone: "(407) 678-1400", email: "test@example.com", "new-patient": "No", message: "" }
       }, result);
       assert.equal(result.statusCode, 200);

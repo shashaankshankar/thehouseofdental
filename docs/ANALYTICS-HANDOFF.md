@@ -13,7 +13,7 @@ Use `measurement/pilot-site.json` for all non-secret GA4 pilot settings. It is t
 - Approve the healthcare analytics eligibility decision and privacy-policy/consent wording.
 - Grant the agency reporting connector's service-account principal **Viewer** access with `analytics.readonly`.
 - Approve which routes change from `requires_review` to `approved` in `measurement/eligibility/routes.json`.
-- Confirm that the appointment endpoint's delivery destination is an approved first-party system and that the privacy policy describes its actual behavior.
+- Confirm that the contact-message delivery destination is an approved email/notification system and that the privacy policy describes its actual behavior.
 
 Do not add service-account keys, OAuth client secrets, appointment tokens, or other secrets to this repository.
 
@@ -22,8 +22,8 @@ Do not add service-account keys, OAuth client secrets, appointment tokens, or ot
 | Event | Current status | Meaning |
 | --- | --- | --- |
 | `form_start` | Implemented | First focus in the eligible appointment form. |
-| `form_submit` | Implemented | The appointment endpoint confirms technical delivery. |
-| `appointment_request` | Implemented | An approved appointment request was delivered. |
+| `form_submit` | Implemented | The contact-message endpoint confirms technical delivery. |
+| `appointment_request` | Implemented | The appointment/contact request was accepted for email notification; this is not a booked appointment. |
 | `phone_click` | Implemented | A visitor activates an annotated phone link. |
 | `email_click` | Ready when a mailto link exists | A visitor activates an annotated email link. |
 | `cta_click` | Implemented | A visitor activates an annotated appointment or directions CTA. |

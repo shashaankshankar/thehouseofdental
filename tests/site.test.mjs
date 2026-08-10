@@ -236,7 +236,7 @@ test("appointment form targets the fail-closed Vercel backend", async () => {
   assert.match(html, /<form[^>]+action="\/api\/appointment"[^>]+method="POST"[^>]+data-appointment-form/);
   assert.match(html, /name="company"/);
   assert.match(html, /id="appointment-status"/);
-  assert.match(html, />Send Request</);
+  assert.match(html, />Send Message</);
   assert.doesNotMatch(html, /data-netlify|name="form-name"/);
   assert.match(formScript, /preventDefault\(\)/);
   assert.match(formScript, /URLSearchParams\(new FormData\(form\)\)/);

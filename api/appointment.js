@@ -87,17 +87,17 @@ module.exports = async function handler(request, response) {
   const backendUrl = String(process.env.APPOINTMENT_BACKEND_URL || "").trim();
   const backendToken = String(process.env.APPOINTMENT_BACKEND_TOKEN || "").trim();
   if (!backendUrl || !backendToken) {
-    return json(response, 503, { error: "Online appointment requests are not configured. Please call the office." });
+    return json(response, 503, { error: "Online messages are not configured. Please call the office." });
   }
 
   let destination;
   try {
     destination = new URL(backendUrl);
   } catch {
-    return json(response, 503, { error: "Online appointment requests are not configured. Please call the office." });
+    return json(response, 503, { error: "Online messages are not configured. Please call the office." });
   }
   if (destination.protocol !== "https:") {
-    return json(response, 503, { error: "Online appointment requests are not configured. Please call the office." });
+    return json(response, 503, { error: "Online messages are not configured. Please call the office." });
   }
 
   const controller = new AbortController();
@@ -117,10 +117,10 @@ module.exports = async function handler(request, response) {
       }),
       signal: controller.signal
     });
-    if (!upstream.ok) return json(response, 502, { error: "We could not send your request. Please call the office." });
-    return json(response, 200, { ok: true, message: "Your request was sent. The office will call to confirm." });
+    if (!upstream.ok) return json(response, 502, { error: "We could not send your message. Please call the office." });
+    return json(response, 200, { ok: true, message: "Your message was sent. We'll get back to you soon." });
   } catch {
-    return json(response, 502, { error: "We could not send your request. Please call the office." });
+    return json(response, 502, { error: "We could not send your message. Please call the office." });
   } finally {
     clearTimeout(timeout);
   }

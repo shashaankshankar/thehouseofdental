@@ -1,34 +1,39 @@
 {
   "evidenceVersion": 1,
   "capturedAt": "2026-08-10T00:25:04Z",
-  "environment": "intended production domain",
-  "status": "blocked_live_validation",
+  "environment": "https://thehouseofdental.vercel.app/ preview deployment",
+  "status": "live_validation_backend_failed",
   "approvalStatus": "pending_backlog",
   "checks": [
     {
       "name": "production_route_verification",
-      "status": "failed",
-      "observed": "https://thehouseofdental.com/ resolves to an Atom domain-for-sale page; /contact.html returns HTTP 404."
+      "status": "passed",
+      "observed": "The Vercel preview served all 11 approved routes with HTTP 200. The custom domain remains unrelated to this preview and is not used for this validation."
     },
     {
       "name": "ga4_debugview_event_receipt",
       "status": "blocked",
-      "observed": "No deployed House of Dental page was available to generate a DebugView session."
+      "observed": "The preview is available, but the signed-in GA4 session opened property 442260535 rather than the pilot property 549268305. No pilot-property DebugView receipt was available."
     },
     {
       "name": "every_event_deployed_test",
-      "status": "blocked",
-      "observed": "The deployed environment could not be reached. Local source coverage is seven contract events: form_start, form_submit, generate_lead, phone_click, email_click, appointment_request, and cta_click."
+      "status": "partial",
+      "observed": "The preview exposed the seven-event bundle and the contact form. The appointment CTA navigated to /contact.html#book, form_start was exercised by focusing the Full name field, and the page had 4 phone_click and 4 cta_click triggers, no email_click trigger, and no generate_lead trigger. form_submit and appointment_request were not submitted."
     },
     {
       "name": "duplicate_event_check",
       "status": "passed_locally_only",
-      "observed": "29 automated tests pass; the generated bundle contains one programmatic tracking call each for form_start, form_submit, and appointment_request. CTA attributes are centralized through the analytics adapter. Live duplicate confirmation remains blocked."
+      "observed": "29 automated tests pass; the generated and deployed bundle contains one programmatic tracking call each for form_start, form_submit, and appointment_request. Live DebugView duplicate confirmation remains blocked because the pilot property is not available in the signed-in GA4 session."
     },
     {
       "name": "appointment_backend_success_response",
       "status": "blocked",
-      "observed": "The intended domain does not expose the deployed application. A probe to /api/appointment returned the hosting provider's generic HTTP 405 response, not the application Function response."
+      "observed": "One authorized synthetic QA request was submitted through the preview. The UI displayed 'We couldn't send your request online. Please call (407) 678-1400.' and re-enabled the submit button. A successful backend response was not received."
+    },
+    {
+      "name": "synthetic_qa_submission",
+      "status": "failed",
+      "observed": "Submitted only synthetic values: SYNTHETIC QA TEST, +1 407 555 0199, qa-phase1-20260810@example.com, and SYNTHETIC QA ONLY - DO NOT CONTACT. No success confirmation was shown."
     },
     {
       "name": "manual_evidence_record",
@@ -39,6 +44,8 @@
   "localValidation": {
     "npmTest": "29 passed",
     "measurementValidator": "passed",
+    "previewRoutes": "11 of 11 returned HTTP 200",
+    "previewBundle": "GA4 Measurement ID G-SPK63FDRBQ present",
     "eventPolicy": "all seven contract events allowlisted",
     "intentionalGates": [
       "email_click has no mailto trigger in the current site",
@@ -46,10 +53,9 @@
     ]
   },
   "remainingBeforePhase1Pass": [
-    "Restore or provide the actual deployed site URL and verify all approved routes.",
-    "Run consent-granted manual interactions in that deployment and capture DebugView evidence for each applicable event.",
+    "Run the consent-granted preview session while signed into the pilot GA4 property 549268305 and capture DebugView evidence for each applicable event.",
     "Confirm each event appears exactly once in DebugView and inspect parameters for prohibited data.",
-    "Verify the appointment backend's real success response from the deployed Function without treating a generic hosting response as success.",
+    "Fix or configure the appointment backend so the deployed Function returns its approved success response, then repeat one controlled QA request.",
     "Re-record this evidence file with live timestamps, route URLs, and DebugView screenshots or session references."
   ]
 }

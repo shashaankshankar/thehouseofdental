@@ -1,0 +1,55 @@
+{
+  "evidenceVersion": 1,
+  "capturedAt": "2026-08-10T00:25:04Z",
+  "environment": "intended production domain",
+  "status": "blocked_live_validation",
+  "approvalStatus": "pending_backlog",
+  "checks": [
+    {
+      "name": "production_route_verification",
+      "status": "failed",
+      "observed": "https://thehouseofdental.com/ resolves to an Atom domain-for-sale page; /contact.html returns HTTP 404."
+    },
+    {
+      "name": "ga4_debugview_event_receipt",
+      "status": "blocked",
+      "observed": "No deployed House of Dental page was available to generate a DebugView session."
+    },
+    {
+      "name": "every_event_deployed_test",
+      "status": "blocked",
+      "observed": "The deployed environment could not be reached. Local source coverage is seven contract events: form_start, form_submit, generate_lead, phone_click, email_click, appointment_request, and cta_click."
+    },
+    {
+      "name": "duplicate_event_check",
+      "status": "passed_locally_only",
+      "observed": "29 automated tests pass; the generated bundle contains one programmatic tracking call each for form_start, form_submit, and appointment_request. CTA attributes are centralized through the analytics adapter. Live duplicate confirmation remains blocked."
+    },
+    {
+      "name": "appointment_backend_success_response",
+      "status": "blocked",
+      "observed": "The intended domain does not expose the deployed application. A probe to /api/appointment returned the hosting provider's generic HTTP 405 response, not the application Function response."
+    },
+    {
+      "name": "manual_evidence_record",
+      "status": "recorded",
+      "observed": "This file records the live checks and preserves the distinction between local validation and production evidence."
+    }
+  ],
+  "localValidation": {
+    "npmTest": "29 passed",
+    "measurementValidator": "passed",
+    "eventPolicy": "all seven contract events allowlisted",
+    "intentionalGates": [
+      "email_click has no mailto trigger in the current site",
+      "generate_lead remains blocked until an approved downstream system confirms a valid lead"
+    ]
+  },
+  "remainingBeforePhase1Pass": [
+    "Restore or provide the actual deployed site URL and verify all approved routes.",
+    "Run consent-granted manual interactions in that deployment and capture DebugView evidence for each applicable event.",
+    "Confirm each event appears exactly once in DebugView and inspect parameters for prohibited data.",
+    "Verify the appointment backend's real success response from the deployed Function without treating a generic hosting response as success.",
+    "Re-record this evidence file with live timestamps, route URLs, and DebugView screenshots or session references."
+  ]
+}

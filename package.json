@@ -9,8 +9,8 @@
     "validate": "node scripts/validate.mjs dist",
     "validate:cloudflare": "node scripts/validate-cloudflare.mjs",
     "test": "node --test tests/site.test.mjs tests/worker-functions.test.mjs",
-    "deploy": "npx wrangler deploy",
-    "preview": "npx wrangler versions upload",
+    "deploy": "npx wrangler deploy --config ./wrangler.jsonc",
+    "preview": "npx wrangler versions upload --config ./wrangler.jsonc",
     "check": "npm run build && npm run validate:measurement && npm run validate && npm test && npm run validate:cloudflare && node --check worker/index.mjs && node --check dist/main.js && npx wrangler deploy --dry-run --config ./wrangler.jsonc"
   },
   "devDependencies": {

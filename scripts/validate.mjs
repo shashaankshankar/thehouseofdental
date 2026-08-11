@@ -5,6 +5,8 @@ const root = resolve(process.argv[2] || "dist");
 const files = (await readdir(root)).filter((name) => name.endsWith(".html")).sort();
 const errors = [];
 const htmlByFile = new Map(await Promise.all(files.map(async (file) => [file, await readFile(resolve(root, file), "utf8")])));
+const site = JSON.parse(await readFile("src/data/site.json", "utf8"));
+const pageByPath = new Map(Object.entries(site.pages).filter(([, page]) => page.path).map(([file, page]) => [page.path, file]));
 const exists = async (path) => { try { await access(path); return true; } catch { return false; } };
 
 if (files.length !== 12) errors.push(`expected 12 HTML pages, found ${files.length}`);
@@ -15,19 +17,32 @@ for (const [file, html] of htmlByFile) {
     ["main", /<main\b/g, 1], ["h1", /<h1\b/g, 1], ["stylesheet", /href="styles\.css"/g, 1]
   ]) if (count(pattern) !== expected) errors.push(`${file}: expected ${expected} ${label}, found ${count(pattern)}`);
   if (file !== "404.html" && count(/rel="canonical"/g) !== 1) errors.push(`${file}: expected one canonical URL`);
+  if (file !== "404.html" && /href="[^"\n]*\.html(?:[#"]|$)/.test(html)) errors.push(`${file}: generated public URL still contains .html`);
   if (/\sstyle="/i.test(html)) errors.push(`${file}: contains inline style attribute`);
   if (/<[a-z][^>]*\bclass="[^"]*"[^>]*\bclass="/i.test(html)) errors.push(`${file}: contains duplicate class attributes`);
-  if (/<script(?![^>]*type="application\/ld\+json")(?![^>]*src=)[^>]*>(?!window\.va)/i.test(html)) errors.push(`${file}: contains executable inline script`);
+  if (/<script(?![^>]*type="application\/ld\+json")(?![^>]*src=)[^>]*>/i.test(html)) errors.push(`${file}: contains executable inline script`);
   const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
   if (new Set(ids).size !== ids.length) errors.push(`${file}: duplicate id`);
+
   for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
     const raw = match[1];
-    if (!raw || /^(?:https?:|tel:|mailto:|data:|\/\_vercel\/)/.test(raw)) continue;
+    if (!raw || /^(?:https?:|tel:|mailto:|data:)/.test(raw)) continue;
     const [reference, fragment] = raw.split("#");
-    const targetFile = reference || file;
-    if (targetFile && !(await exists(resolve(dirname(resolve(root, file)), targetFile)))) {
-      if (!targetFile.startsWith("assets/team/")) errors.push(`${file}: missing local target ${targetFile}`);
-      continue;
+    const referencePath = (reference || "").split("?")[0];
+    let targetFile = file;
+    if (referencePath.startsWith("/")) {
+      targetFile = pageByPath.get(referencePath);
+      if (!targetFile) {
+        const assetPath = resolve(root, referencePath.slice(1));
+        if (!(await exists(assetPath)) && !referencePath.startsWith("/assets/team/")) errors.push(`${file}: missing local target ${referencePath}`);
+        continue;
+      }
+    } else if (referencePath) {
+      targetFile = referencePath;
+      if (!(await exists(resolve(dirname(resolve(root, file)), targetFile)))) {
+        if (!targetFile.startsWith("assets/team/")) errors.push(`${file}: missing local target ${targetFile}`);
+        continue;
+      }
     }
     if (fragment && targetFile.endsWith(".html")) {
       const targetHtml = htmlByFile.get(targetFile) || await readFile(resolve(root, targetFile), "utf8");
@@ -43,8 +58,8 @@ const headers = await readFile(resolve(root, "_headers"), "utf8");
 for (const directive of ["Content-Security-Policy", "X-Content-Type-Options", "Referrer-Policy", "Permissions-Policy"]) {
   if (!headers.includes(directive)) errors.push(`_headers: missing ${directive}`);
 }
-// Vercel Toolbar requires inline styles in previews; executable scripts remain hash/domain constrained.
 if (/script-src[^;]*'unsafe-inline'/.test(headers)) errors.push("_headers: script-src still allows unsafe-inline");
+if (/vercel|_vercel/i.test(headers)) errors.push("_headers: contains Vercel-specific configuration");
 
 if (errors.length) {
   console.error(errors.join("\n"));

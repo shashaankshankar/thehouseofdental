@@ -6,6 +6,7 @@ const output = "dist";
 const read = (path) => readFile(path, "utf8");
 const escapeAttribute = (value = "") => value.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;");
 const site = JSON.parse(await read(join(source, "data/site.json")));
+const canonicalFor = (page) => page.path ? new URL(page.path, `${site.baseUrl}/`).toString() : "";
 const reviews = JSON.parse(await read(join(source, "data/reviews.json")));
 const financing = JSON.parse(await read(join(source, "data/financing.json")));
 const services = JSON.parse(await read(join(source, "data/services.json")));
@@ -52,7 +53,7 @@ const templates = {
 const decorateAnalyticsAttributes = (markup) => markup
   .replaceAll('href="tel:', 'data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:')
   .replaceAll('href="mailto:', 'data-analytics-event="email_click" data-analytics-location="email_link" href="mailto:')
-  .replaceAll('href="contact.html#book"', 'data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="contact.html#book"')
+  .replaceAll('href="/contact#book"', 'data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="/contact#book"')
   .replaceAll('href="https://goo.gl/maps', 'data-analytics-event="cta_click" data-analytics-location="directions_link" data-analytics-cta-type="directions" href="https://goo.gl/maps');
 
 await rm(output, { recursive: true, force: true });
@@ -67,7 +68,7 @@ const scripts = (await readdir(join(source, "scripts"))).filter((file) => file.e
 const scriptSources = await Promise.all(scripts.map(async (file) => (await read(join(source, "scripts", file))).trimEnd()));
 await writeFile(join(output, "main.js"), `const __SITE_DETAIL_DATA = ${JSON.stringify({ services, technology })};\nconst __SITE_ANALYTICS = ${JSON.stringify(analytics)};\nconst __SITE_REPUTATION = ${JSON.stringify(reputation)};\n\n${scriptSources.join("\n\n")}\n`);
 
-const mobileActions = decorateAnalyticsAttributes('<nav class="mobile-actions" aria-label="Quick contact"><a href="tel:+14076781400">Call</a><a href="contact.html#book">Book Appointment</a></nav>');
+const mobileActions = decorateAnalyticsAttributes('<nav class="mobile-actions" aria-label="Quick contact"><a href="tel:+14076781400">Call</a><a href="/contact#book">Book Appointment</a></nav>');
 const escapeText = (value = "") => value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 const decodeEntities = (value = "") => value
   .replaceAll("&amp;", "&")
@@ -122,23 +123,28 @@ for (const [file, page] of Object.entries(site.pages)) {
     header: decorateAnalyticsAttributes(templates[page.shell].header),
     footer: decorateAnalyticsAttributes(templates[page.shell].footer)
   };
-  const canonical = page.canonical ? `<link rel="canonical" href="${escapeAttribute(page.canonical)}">` : "";
+  const canonicalUrl = canonicalFor(page);
+  const canonical = canonicalUrl ? `<link rel="canonical" href="${escapeAttribute(canonicalUrl)}">` : "";
   const description = page.description ? `<meta name="description" content="${escapeAttribute(page.description)}">` : "";
   const keywords = page.keywords ? `<meta name="keywords" content="${escapeAttribute(page.keywords)}">` : "";
   const geo = page.geoPlacename ? `<meta name="geo.region" content="US-FL"><meta name="geo.placename" content="${escapeAttribute(page.geoPlacename)}">` : "";
   const socialTitle = page.socialTitle || page.title;
   const socialDescription = page.socialDescription || page.description;
-  const social = page.canonical ? `<meta property="og:title" content="${escapeAttribute(socialTitle)}"><meta property="og:description" content="${escapeAttribute(socialDescription)}"><meta property="og:type" content="website"><meta property="og:site_name" content="${escapeAttribute(site.name)}"><meta property="og:locale" content="en_US"><meta property="og:url" content="${escapeAttribute(page.canonical)}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escapeAttribute(socialTitle)}"><meta name="twitter:description" content="${escapeAttribute(socialDescription)}">` : "";
+  const social = canonicalUrl ? `<meta property="og:title" content="${escapeAttribute(socialTitle)}"><meta property="og:description" content="${escapeAttribute(socialDescription)}"><meta property="og:type" content="website"><meta property="og:site_name" content="${escapeAttribute(site.name)}"><meta property="og:locale" content="en_US"><meta property="og:url" content="${escapeAttribute(canonicalUrl)}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escapeAttribute(socialTitle)}"><meta name="twitter:description" content="${escapeAttribute(socialDescription)}">` : "";
   const author = page.author ? `<meta name="author" content="${escapeAttribute(page.author)}">` : "";
   const schema = page.schema === false ? "" : page.shell === "full" ? `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>` : "";
   const fonts = page.shell === "full" ? '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital@1&display=swap" rel="stylesheet">' : "";
-  const vercelAnalytics = '<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments);};</script><script defer src="/_vercel/insights/script.js"></script>';
   const html = `<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0a0a0b"><title>${escapeText(page.title)}</title>${keywords}${social}${geo}${description}<meta name="robots" content="${escapeAttribute(page.robots)}">${canonical}${author}${schema}${fonts}<link rel="icon" href="favicon-16x16.png" type="image/png" sizes="16x16"><link rel="icon" href="favicon-32x32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180"><link rel="stylesheet" href="styles.css">${vercelAnalytics}</head><body><a class="skip-link" href="#main-content">Skip to main content</a>${shell.header}${content}${shell.footer}${mobileActions}<script src="main.js" defer></script></body></html>`;
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0a0a0b"><title>${escapeText(page.title)}</title>${keywords}${social}${geo}${description}<meta name="robots" content="${escapeAttribute(page.robots)}">${canonical}${author}${schema}${fonts}<link rel="icon" href="favicon-16x16.png" type="image/png" sizes="16x16"><link rel="icon" href="favicon-32x32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180"><link rel="stylesheet" href="styles.css"></head><body><a class="skip-link" href="#main-content">Skip to main content</a>${shell.header}${content}${shell.footer}${mobileActions}<script src="main.js" defer></script></body></html>`;
   await writeFile(join(output, file), `${html}\n`);
 }
 
-const sitemapPages = Object.entries(site.pages).filter(([file, page]) => file !== "404.html" && page.sitemap !== false && page.canonical && !page.robots.includes("noindex"));
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapPages.map(([, page]) => `  <url><loc>${page.canonical}</loc><changefreq>${page.changefreq || "monthly"}</changefreq><priority>${page.priority || "0.8"}</priority></url>`).join("\n")}\n</urlset>\n`;
+const sitemapPages = Object.entries(site.pages).filter(([, page]) => page.path && page.sitemap !== false && !page.robots.includes("noindex"));
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapPages.map(([, page]) => `  <url><loc>${canonicalFor(page)}</loc><changefreq>${page.changefreq || "monthly"}</changefreq><priority>${page.priority || "0.8"}</priority></url>`).join("\n")}\n</urlset>\n`;
 await writeFile(join(output, "sitemap.xml"), sitemap);
+const pageRedirects = Object.entries(site.pages)
+  .filter(([, page]) => page.path)
+  .map(([file, page]) => `/${file} ${page.path} 301`);
+const aliasRedirects = Object.entries(site.redirects || {}).map(([from, to]) => `${from} ${to} 301`);
+await writeFile(join(output, "_redirects"), `# Generated from src/data/site.json clean paths and legacy aliases.\n${[...pageRedirects, ...aliasRedirects].join("\n")}\n`);
 console.log(`Built ${Object.keys(site.pages).length} static pages in ${output}/.`);

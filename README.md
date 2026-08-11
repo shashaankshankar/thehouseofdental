@@ -1,79 +1,73 @@
 # The House of Dental
 
-Node-built static website for The House of Dental. The visual design and working-draft content are maintained in `src/` and assembled into a deployable static export by Node.js built-in modules.
+Node-built static website for The House of Dental. The visual design and working-draft content are maintained in `src/` and assembled into a Cloudflare Workers Static Assets deployment by Node.js built-in modules.
 
 ## Source layout
 
-- `src/pages/` contains the 12 page inputs: eight full site pages, three minimal information pages, and the 404 page (`404.html`, `about.html`, `accessibility.html`, `contact.html`, `facial-aesthetics.html`, `index.html`, `new-patients.html`, `pre-post-op.html`, `privacy.html`, `reviews.html`, `services.html`, and `terms.html`).
-- `api/` contains the Vercel Node Functions for reputation and contact-message delivery.
+- `src/pages/` contains the 12 page inputs: the 11 public pages plus the custom 404 page.
 - `src/templates/` contains the shared full, minimal, and footer shells.
-- `src/data/` contains site metadata, service and technology modal records, review cards, and financing calculator values. Service and technology data are embedded in the generated `dist/main.js`.
-- `src/styles/` and `src/scripts/` contain ordered, focused source modules that are concatenated into `dist/styles.css` and `dist/main.js`.
+- `src/data/` contains site metadata, clean public paths, redirect aliases, service and technology modal records, review cards, and financing values.
+- `src/styles/` and `src/scripts/` contain ordered source modules concatenated into `dist/styles.css` and `dist/main.js`.
 - `src/assets/` contains local logos, office media, treatment-care PDFs, and notes for pending authentic team and aesthetics photography.
-- `src/static/` contains hosting support files such as headers, redirects, and `robots.txt`.
-- `tests/` contains structural and safety assertions for the generated site.
-- `dist/` is generated output. The build removes and recreates it, so it must not be edited directly.
+- `src/static/` contains hosting support files such as headers and `robots.txt`.
+- `worker/index.mjs` contains the API and clean-route Worker entrypoint.
+- `wrangler.jsonc` is the tracked Worker and Static Assets configuration.
+- `tests/` contains structural, privacy, route, redirect, and Worker endpoint assertions.
+- `dist/` is generated output. Do not edit it directly.
 
 ## Generated export
 
-`npm run build` creates the 12 HTML pages plus `main.js`, `styles.css`, local assets, `_headers`, `_redirects`, `robots.txt`, and `sitemap.xml`. The generated export is published from `dist/`; `vercel.json` pins that output directory and the Vercel routing/security rules.
+`npm run build` creates the 12 HTML pages plus `main.js`, `styles.css`, local assets, `_headers`, generated `_redirects`, `robots.txt`, and `sitemap.xml`. Public page URLs are extensionless; the Worker resolves clean paths to the generated flat HTML assets, while `_redirects` permanently moves legacy `.html` and alias URLs to their final clean destinations.
 
 ## Commands
 
-- `npm run build` regenerates `dist/` from `src/`.
-- `npm run validate` checks the generated pages, links, anchors, metadata, assets, and security files.
-- `npm run validate:vercel` checks the Vercel config, server entrypoints, form wiring, and environment contract.
-- `npm test` runs structural and safety assertions.
-- `npm run check` rebuilds the site, validates it, runs the tests and Vercel gate, and syntax-checks all server and browser entrypoints.
+- `npm run build` regenerates the site and redirect inventory.
+- `npm run validate` checks generated pages, clean internal links, anchors, metadata, assets, and security files.
+- `npm run validate:measurement` checks the healthcare analytics contract and route-policy drift against `src/data/site.json`.
+- `npm run validate:cloudflare` checks Wrangler configuration, Worker wiring, redirects, headers, environment documentation, and generated runtime files.
+- `npm test` runs structural, privacy, accessibility-runtime, route, and Worker endpoint tests.
+- `npm run check` rebuilds the site, runs every local gate, syntax-checks the Worker, and runs `wrangler deploy --dry-run`.
 - `npm run clean` removes generated output.
 
-## Vercel deployment
+## Cloudflare Workers deployment
 
-The repository is configured for Vercel with `npm ci`, `npm run check`, and `dist/` as the output directory. The Vercel Functions live in `api/`, and the `Vercel QA gate` workflow runs `npm run check` on pushes to `qa` and pull requests targeting `qa` or `main`. The CSP also includes Vercel Toolbar sources so preview feedback can load without permitting arbitrary scripts.
+The target is one isolated Worker named `thehouseofdental` with Static Assets from `dist/`. The configuration keeps `workers_dev` disabled, enables preview URLs, invokes Worker code for `/api/*`, serves the custom 404 page for non-API misses, and targets the custom domain `thehouseofdentalwp.com` once its Cloudflare zone is active.
 
-Link the repository to the intended Vercel project before pulling or adding variables:
+Workers Builds settings:
 
-```bash
-vercel link --yes
-vercel env add GOOGLE_PLACE_ID production
-vercel env add GOOGLE_PLACES_API_KEY production --sensitive
-vercel env add APPOINTMENT_BACKEND_URL production
-vercel env add APPOINTMENT_BACKEND_TOKEN production --sensitive
-vercel env add APPOINTMENT_ALLOWED_ORIGINS production
-```
+- Production branch: `main`
+- Build command: `npm run check`
+- Deploy command: `npx wrangler deploy`
+- Preview command: `npx wrangler versions upload`
+- Existing `dev` → `qa` → `main` promotion flow remains in place.
+- Public preview URLs should be protected with Cloudflare Access before client review.
 
-Use `.env.example` as the variable checklist. Keep actual values in Vercel environment variables or a local ignored file; never commit them. Preview variables should be scoped separately and should not receive production notification credentials by default.
-
-## GA4 pilot setup
-
-The export includes a Google tag (gtag.js) integration with Consent Mode v2 advanced defaults. The non-secret pilot configuration lives in `measurement/pilot-site.json`; GA4 remains inactive until it contains an approved Measurement ID and `ga4.enabled` is `true`. Route eligibility lives in `measurement/eligibility/routes.json` and defaults to prohibited, so the tag cannot load on unapproved or unknown routes. When enabled on an approved route, the default consent state denies analytics and advertising storage; the first-party banner can grant analytics storage only, and the integration sends the standard page view without reading or sending appointment form values.
-
-This site uses direct gtag.js, so the Google Tag Manager template APIs are not used. After the Measurement ID, property and stream IDs, route/privacy approval, consent copy, and production approval are confirmed, run `npm run check` to regenerate and validate the export. See `measurement/pilot-site.md` and `docs/ANALYTICS-HANDOFF.md` for the client onboarding sequence.
-
-## Google reputation placeholder
-
-`src/data/site.json` contains the public Google Place ID and fallback values. `src/scripts/90-reputation.js` requests `/api/google-reputation` and replaces the visible values when the response is valid; API failures continue to use the fallback.
-
-`api/google-reputation.js` is a Vercel Node Function. Configure `GOOGLE_PLACE_ID` and `GOOGLE_PLACES_API_KEY` in Vercel; the Function is the sole runtime source for the Place ID and the browser calls it without sending one. Never put the API key in `src/` or browser code. The function requests only `rating`, `userRatingCount`, and `googleMapsUri`, and caches successful results briefly to limit upstream quota exposure.
-
-The static export does not execute serverless functions by itself; Vercel deploys the `api/` entrypoints alongside the `dist/` output.
-
-Run `npm run check` before reviewing a preview. There are no `dev`, `serve`, or `preview` npm scripts because this is a generated static site.
-
-## Local preview
-
-Build the generated site, then serve the `dist/` directory locally:
+Build and local Worker verification:
 
 ```bash
-npm run build
-python3 -m http.server 8000 --directory dist
+npm ci
+npm run check
+npx wrangler dev
 ```
 
-Open <http://localhost:8000> in a browser. A basic local static server can display the appointment form but cannot execute Vercel Functions or deliver submissions.
+Local Worker development uses the ignored `.dev.vars` file. Copy `.dev.vars.example` to `.dev.vars` only when local values are approved; never commit real values.
 
-## Appointment backend
+## Runtime environment contract
 
-The contact form posts to `/api/appointment`, which validates the request origin and field sizes, rejects the honeypot, sends no logs, and forwards the message over HTTPS with a server-only bearer token. `APPOINTMENT_BACKEND_URL` must point to an approved secure email-delivery or notification endpoint and accept this JSON contract:
+Plain variables:
+
+- `GOOGLE_PLACE_ID` — server-side runtime value for the configured Google Business location.
+- `APPOINTMENT_BACKEND_URL` — later, only after an approved notification adapter exists.
+- `APPOINTMENT_ALLOWED_ORIGINS` — later, exact production origins only; initially `https://thehouseofdentalwp.com`.
+
+Encrypted secrets:
+
+- `GOOGLE_PLACES_API_KEY`
+- `APPOINTMENT_BACKEND_TOKEN` — later, only after the appointment backend is approved.
+
+The Google reputation endpoint reads the Place ID and API key only from Worker bindings, validates the upstream rating/count, and caches successful public data for five minutes. Failures are never cached. The appointment endpoint validates the exact origin, body size, fields, honeypot, HTTPS destination, and timeout, then fails closed with `503` until the approved backend and token are configured. It never logs request bodies, personal information, or secrets.
+
+The browser form posts to `/api/appointment` using the existing JSON handoff contract:
 
 ```json
 {
@@ -89,10 +83,20 @@ The contact form posts to `/api/appointment`, which validates the request origin
 }
 ```
 
-The adapter intentionally fails closed with a 503 until `APPOINTMENT_BACKEND_URL`, `APPOINTMENT_BACKEND_TOKEN`, and `APPOINTMENT_ALLOWED_ORIGINS` are configured. This repository does not invent or activate an email vendor. The approved email-delivery endpoint remains responsible for provider-specific rate limiting, spam controls, retention, notification delivery, and any required compliance review. A successful delivery is a message accepted for email notification; it is not a booked appointment or a confirmed lead.
+A successful adapter response means the message was accepted for notification; it is not a booked appointment or confirmed lead.
 
-## Production boundaries
+## Clean routes and redirects
 
-The contact form is a Vercel Function boundary, not a storage system. Production delivery still requires an approved email-delivery endpoint, security review, and environment-specific configuration. Do not include sensitive medical details in the form.
+The `path` field in `src/data/site.json` is the single source for canonical URLs, Open Graph URLs, sitemap entries, measurement eligibility, and generated legacy redirects. The public paths are `/`, `/about`, `/accessibility`, `/contact`, `/facial-aesthetics`, `/new-patients`, `/pre-post-op`, `/privacy`, `/reviews`, `/services`, and `/terms`.
 
-Building, validating, or previewing the site does not deploy it or approve production content. Legal pages, clinical and business claims, authentic media and reviews, analytics, redirects, integrations, and hosting configuration require their own review before publication.
+The generated `_redirects` file sends every former public `.html` URL directly to its clean path and sends `/home`, `/about-us`, `/dental-services`, `/new-patient`, and `/contact-us` directly to their final destinations. The custom 404 page is served by Static Assets `404-page` handling rather than a wildcard rewrite.
+
+## GA4 pilot controls
+
+The export uses direct `gtag.js` with Consent Mode v2. The route policy defaults to prohibited, and the approved list contains only the clean paths declared in the site metadata. Analytics events are consent-gated and allowlist only page path, approved CTA location/type, and service category; appointment form values, query strings, and other direct identifiers are not sent. Cloudflare Web Analytics is not enabled. See `measurement/pilot-site.md` and `docs/ANALYTICS-HANDOFF.md` for the client approval and activation sequence.
+
+## Ownership and production gates
+
+The agency manages the Cloudflare account, Worker, secrets, and Git repository. The client retains the GoDaddy domain registration. Before nameserver changes, export the complete DNS zone and reproduce Microsoft 365 MX, SPF, DKIM, DMARC, autodiscover, verification, and other observed records in Cloudflare; verify mail delivery before and after propagation.
+
+This repository conversion does not deploy, change DNS, create secrets, enable Cloudflare Access, activate appointment delivery, approve analytics, or publish clinical/legal/content claims. Keep the historical validation evidence unchanged and record Cloudflare-specific evidence separately after preview and production approval. The handoff checklist is in `docs/CLOUDFLARE-HANDOFF.md`.

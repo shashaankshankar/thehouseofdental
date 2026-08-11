@@ -1,7 +1,17 @@
+# Generated from src/data/site.json clean paths and legacy aliases.
+/about.html /about 301
+/accessibility.html /accessibility 301
+/contact.html /contact 301
+/facial-aesthetics.html /facial-aesthetics 301
 /index.html / 301
+/new-patients.html /new-patients 301
+/pre-post-op.html /pre-post-op 301
+/privacy.html /privacy 301
+/reviews.html /reviews 301
+/services.html /services 301
+/terms.html /terms 301
 /home / 301
-/about-us /about.html 301
-/dental-services /services.html 301
-/new-patient /new-patients.html 301
-/contact-us /contact.html 301
-/* /404.html 404
+/about-us /about 301
+/dental-services /services 301
+/new-patient /new-patients 301
+/contact-us /contact 301

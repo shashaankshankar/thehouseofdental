@@ -3,17 +3,15 @@
   "default": "prohibited",
   "routes": {
     "/": "approved",
-    "/index.html": "approved",
-    "/about.html": "approved",
-    "/accessibility.html": "approved",
-    "/contact.html": "approved",
-    "/facial-aesthetics.html": "approved",
-    "/new-patients.html": "approved",
-    "/pre-post-op.html": "approved",
-    "/privacy.html": "approved",
-    "/reviews.html": "approved",
-    "/services.html": "approved",
-    "/terms.html": "approved",
-    "/404.html": "approved"
+    "/about": "approved",
+    "/accessibility": "approved",
+    "/contact": "approved",
+    "/facial-aesthetics": "approved",
+    "/new-patients": "approved",
+    "/pre-post-op": "approved",
+    "/privacy": "approved",
+    "/reviews": "approved",
+    "/services": "approved",
+    "/terms": "approved"
   }
 }

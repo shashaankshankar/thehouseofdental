@@ -28,18 +28,15 @@ test("GA4 integration is configurable and enabled for the approved test routes",
   assert.equal(pilot.ga4.enabled, true);
   assert.equal(pilot.ga4.measurementId, "G-SPK63FDRBQ");
   assert.equal(routes.default, "prohibited");
-  assert.equal(routes.routes["/contact.html"], "approved");
+  assert.equal(routes.routes["/contact"], "approved");
   assert.deepEqual(contract.events.map((event) => event.name), ["form_start", "form_submit", "generate_lead", "phone_click", "email_click", "appointment_request", "cta_click"]);
   assert.match(script, /const __SITE_ANALYTICS = \{"provider":"gtag","enabled":true,"measurementId":"G-SPK63FDRBQ","consent":\{"mode":"advanced","version":2,"storageKey":"thod-analytics-consent","waitForUpdate":500\},"contractVersion":"local_service_v1"/);
   assert.doesNotMatch(script, /"propertyId"|"webStreamId"|"connection"/);
   assert.ok(script.includes("https://www.googletagmanager.com/gtag/js?id="));
   assert.ok(headers.includes("script-src 'self' https://www.googletagmanager.com"));
-  assert.ok(headers.includes("sha256-qA1xVLVZZkhsh2h8PEraeZsQhOHWWH9fm/J8tFPbbXg="));
   assert.ok(headers.includes("connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com"));
-  for (const toolbarSource of ["https://vercel.live", "https://vercel.com", "https://assets.vercel.com", "wss://ws-us3.pusher.com"]) {
-    assert.ok(headers.includes(toolbarSource), toolbarSource);
-  }
-  assert.match(headers, /style-src[^;]*https:\/\/vercel\.live[^;]*'unsafe-inline'/);
+  assert.match(headers, /style-src[^;]*'unsafe-inline'/);
+  assert.doesNotMatch(headers, /vercel|_vercel/i);
   assert.doesNotMatch(headers, /script-src[^;]*'unsafe-inline'/);
   for (const consentType of ["ad_storage", "ad_user_data", "ad_personalization", "analytics_storage"]) {
     assert.match(analyticsScript, new RegExp(consentType));
@@ -77,7 +74,7 @@ test("generated CTAs carry contract analytics attributes", async () => {
   const home = await readFile("dist/index.html", "utf8");
   assert.match(contact, /data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:/);
   assert.match(contact, /data-analytics-event="cta_click" data-analytics-location="directions_link" data-analytics-cta-type="directions" href="https:\/\/goo\.gl\/maps/);
-  assert.match(home, /data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="contact\.html#book"/);
+  assert.match(home, /data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="\/contact#book"/);
   assert.match(contact, /data-analytics-form="appointment_request"/);
 });
 
@@ -120,14 +117,14 @@ test("conversion events wait for consent and decline keeps analytics storage den
       return selector === "[data-analytics-event]" ? [phone] : [];
     }
   };
-  const window = { location: { pathname: "/contact.html" } };
+  const window = { location: { pathname: "/contact" } };
   vm.runInNewContext(analyticsScript, {
     __SITE_ANALYTICS: {
       provider: "gtag",
       enabled: true,
       measurementId: "G-TEST123",
       consent: { mode: "advanced", version: 2, storageKey: "test-consent", waitForUpdate: 500 },
-      routeEligibility: { default: "prohibited", routes: { "/contact.html": "approved" } },
+      routeEligibility: { default: "prohibited", routes: { "/contact": "approved" } },
       eventPolicy: {
         allowedEvents: ["phone_click"],
         allowedLocations: ["phone_link"],
@@ -172,7 +169,7 @@ test("unapproved and unknown routes do not initialize analytics", async () => {
       enabled: true,
       measurementId: "G-TEST123",
       consent: { mode: "advanced", version: 2 },
-      routeEligibility: { default: "prohibited", routes: { "/contact.html": "requires_review" } },
+      routeEligibility: { default: "prohibited", routes: { "/contact": "requires_review" } },
       eventPolicy: { allowedEvents: [], allowedLocations: [], allowedCtaTypes: [], allowedServiceCategories: [] }
     },
     window,
@@ -195,7 +192,7 @@ test("Google reputation integration has a safe fallback and no client API key", 
   const script = await readFile("dist/main.js", "utf8");
   const index = await readFile("dist/index.html", "utf8");
   const reviews = await readFile("dist/reviews.html", "utf8");
-  const endpoint = await readFile("api/google-reputation.js", "utf8");
+  const endpoint = await readFile("worker/index.mjs", "utf8");
   assert.deepEqual(site.reputation, {
     endpoint: "/api/google-reputation",
     fallback: { rating: 5, review_count: 332 }
@@ -213,7 +210,7 @@ test("Google reputation integration has a safe fallback and no client API key", 
   assert.match(endpoint, /GOOGLE_PLACES_API_KEY/);
   assert.match(endpoint, /X-Goog-FieldMask/);
   assert.match(endpoint, /rating,userRatingCount,googleMapsUri/);
-  assert.match(endpoint, /module\.exports/);
+  assert.match(endpoint, /export default/);
   assert.match(endpoint, /s-maxage=300/);
   assert.doesNotMatch(endpoint, /onRequestGet|queryValue|requestedPlaceId/);
   assert.doesNotMatch(script, /GOOGLE_PLACES_API_KEY/);
@@ -223,16 +220,16 @@ test("generated pages contain no inline implementation code", async () => {
   for (const page of pages) {
     const html = await readFile(`dist/${page}`, "utf8");
     assert.doesNotMatch(html, /\sstyle="/, page);
-    assert.doesNotMatch(html, /<script(?![^>]*type="application\/ld\+json")(?![^>]*src=)[^>]*>(?!window\.va)/, page);
+    assert.doesNotMatch(html, /<script(?![^>]*type="application\/ld\+json")(?![^>]*src=)[^>]*>/, page);
     assert.equal((html.match(/name="robots"/g) || []).length, 1, page);
   }
 });
 
-test("appointment form targets the fail-closed Vercel backend", async () => {
+test("appointment form targets the fail-closed Worker backend", async () => {
   const html = await readFile("dist/contact.html", "utf8");
   const script = await readFile("dist/main.js", "utf8");
   const formScript = await readFile("src/scripts/60-forms.js", "utf8");
-  const endpoint = await readFile("api/appointment.js", "utf8");
+  const endpoint = await readFile("worker/index.mjs", "utf8");
   assert.match(html, /<form[^>]+action="\/api\/appointment"[^>]+method="POST"[^>]+data-appointment-form/);
   assert.match(html, /name="company"/);
   assert.match(html, /id="appointment-status"/);
@@ -247,20 +244,22 @@ test("appointment form targets the fail-closed Vercel backend", async () => {
   assert.doesNotMatch(endpoint, /console\.(log|error|warn)/);
 });
 
-test("Vercel config pins the build output, routing, headers, and Function budget", async () => {
-  const config = JSON.parse(await readFile("vercel.json", "utf8"));
-  assert.equal(config.installCommand, "npm ci");
-  assert.equal(config.buildCommand, "npm run check");
-  assert.equal(config.outputDirectory, "dist");
-  assert.equal(config.functions["api/*.js"].maxDuration, 10);
-  assert.equal(config.redirects.length, 6);
-  const globalHeaders = config.headers.find((rule) => rule.source === "/(.*)");
-  const csp = globalHeaders.headers.find((header) => header.key === "Content-Security-Policy").value;
+test("Cloudflare config pins the Worker, Static Assets, routes, and safe variables", async () => {
+  const config = JSON.parse(await readFile("wrangler.jsonc", "utf8"));
+  assert.equal(config.name, "thehouseofdental");
+  assert.equal(config.main, "./worker/index.mjs");
+  assert.equal(config.workers_dev, false);
+  assert.equal(config.preview_urls, true);
+  assert.equal(config.assets.directory, "./dist");
+  assert.equal(config.assets.binding, "ASSETS");
+  assert.equal(config.assets.html_handling, "drop-trailing-slash");
+  assert.equal(config.assets.not_found_handling, "404-page");
+  assert.deepEqual(config.assets.run_worker_first, ["/api/*"]);
+  assert.deepEqual(config.routes, [{ pattern: "thehouseofdentalwp.com", custom_domain: true }]);
+  const csp = await readFile("dist/_headers", "utf8");
   assert.match(csp, /form-action 'self'/);
-  assert.match(csp, /sha256-qA1xVLVZZkhsh2h8PEraeZsQhOHWWH9fm\/J8tFPbbXg=/);
-  assert.match(csp, /script-src[^;]*https:\/\/vercel\.live/);
-  assert.match(csp, /frame-src 'self' https:\/\/vercel\.live/);
-  const envExample = await readFile(".env.example", "utf8");
+  assert.doesNotMatch(csp, /vercel|_vercel/i);
+  const envExample = await readFile(".dev.vars.example", "utf8");
   for (const key of ["GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "APPOINTMENT_BACKEND_URL", "APPOINTMENT_BACKEND_TOKEN", "APPOINTMENT_ALLOWED_ORIGINS"]) {
     assert.match(envExample, new RegExp(`^${key}=\\s*$`, "m"));
   }
@@ -303,7 +302,7 @@ test("service cards keep modal triggers and expose matching treatment care links
     "dentures", "root-canals", "cosmetic", "veneers", "preventive", "invisalign", "oral-surgery",
     "sedation", "tmj", "srp", "quietnite"
   ]);
-  const careAnchors = [...html.matchAll(/<a class="treatment-care-link" href="pre-post-op\.html#([^"]+)">Treatment Care<\/a>/g)].map((match) => match[1]);
+  const careAnchors = [...html.matchAll(/<a class="treatment-care-link" href="\/pre-post-op#([^"]+)">Treatment Care<\/a>/g)].map((match) => match[1]);
   assert.deepEqual(careAnchors, [
     "deka-co2", "microneedling", "emage-scan", "hydroderm", "implants", "crowns", "dentures",
     "root-canals", "veneers", "sedation", "srp", "quietnite"
@@ -357,7 +356,7 @@ test("mobile treatment-care links restore the selected guide section", async () 
 
 test("services page links to treatment care after dental services", async () => {
   const html = await readFile("dist/services.html", "utf8");
-  assert.match(html, /<section class="service-group" id="dental-services">[\s\S]*?<div class="service-group-action">\s*<a class="btn btn-outline rv rv-d2" href="pre-post-op\.html">View All Pre &amp; Post Treatment Care<\/a>\s*<\/div>\s*<\/section>/);
+  assert.match(html, /<section class="service-group" id="dental-services">[\s\S]*?<div class="service-group-action">\s*<a class="btn btn-outline rv rv-d2" href="\/pre-post-op">View All Pre &amp; Post Treatment Care<\/a>\s*<\/div>\s*<\/section>/);
 });
 
 test("back-to-top control is scoped to the care page", async () => {
@@ -371,7 +370,7 @@ test("back-to-top control is scoped to the care page", async () => {
 test("care page keeps Services selected in the shared navigation", async () => {
   const html = await readFile("dist/pre-post-op.html", "utf8");
   const navigation = html.match(/<ul class="menu" id="primary-navigation">([\s\S]*?)<\/header>/)?.[1] || "";
-  assert.match(navigation, /<a data-primary-link data-active-paths="pre-post-op\.html" href="services\.html">Services<\/a>/);
+  assert.match(navigation, /<a data-primary-link data-active-paths="\/pre-post-op" href="\/services">Services<\/a>/);
   const script = await readFile("dist/main.js", "utf8");
   assert.match(script, /link\.dataset\.activePaths/);
   assert.match(script, /link\.setAttribute\("aria-current", "page"\)/);
@@ -397,8 +396,8 @@ test("shared navigation and footer are generated consistently", async () => {
     assert.ok(facialServicesPosition > careGuidesPosition, page);
     assert.ok(dentalServicesPosition > facialServicesPosition, page);
     assert.ok(allServicesPosition > dentalServicesPosition, page);
-    assert.match(navigation, /href="services\.html#facial-aesthetics-services"/);
-    assert.match(navigation, /href="services\.html#dental-services"/);
+    assert.match(navigation, /href="\/services#facial-aesthetics-services"/);
+    assert.match(navigation, /href="\/services#dental-services"/);
     assert.doesNotMatch(navigation, /submenu-toggle/, page);
     assert.doesNotMatch(navigation, /nav-phone/, page);
   }

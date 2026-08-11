@@ -7,6 +7,7 @@ const validStatuses = new Set(["approved", "requires_review", "prohibited"]);
 
 const pilot = await readJson("measurement/pilot-site.json");
 const routes = await readJson("measurement/eligibility/routes.json");
+const site = await readJson("src/data/site.json");
 const contract = await readJson("measurement/contracts/local_service_v1/contract.json");
 const events = await readJson("measurement/contracts/local_service_v1/events.json");
 const parameters = await readJson("measurement/contracts/local_service_v1/parameters.json");
@@ -27,6 +28,17 @@ if (routes.default !== "prohibited") errors.push("unknown routes must be prohibi
 for (const [path, status] of Object.entries(routes.routes || {})) {
   if (!path.startsWith("/") || !validStatuses.has(status)) errors.push(`invalid route eligibility: ${path}`);
 }
+const expectedSiteRoutes = Object.values(site.pages).filter((page) => page.path).map((page) => page.path);
+const configuredSiteRoutes = Object.keys(routes.routes || {});
+if (new Set(expectedSiteRoutes).size !== expectedSiteRoutes.length) errors.push("site metadata contains duplicate clean page paths");
+if (new Set(configuredSiteRoutes).size !== configuredSiteRoutes.length) errors.push("measurement route policy contains duplicate paths");
+if (expectedSiteRoutes.some((path) => path.includes(".html")) || configuredSiteRoutes.some((path) => path.includes(".html"))) {
+  errors.push("clean route metadata and measurement policy must not contain .html paths");
+}
+const routeSetsMatch = expectedSiteRoutes.length === configuredSiteRoutes.length
+  && expectedSiteRoutes.every((path) => configuredSiteRoutes.includes(path));
+check("route_metadata_sync", routeSetsMatch, "approved route policy matches the clean paths declared in src/data/site.json");
+for (const path of expectedSiteRoutes) if (routes.routes[path] !== "approved") errors.push(`site route must be approved: ${path}`);
 for (const event of expectedEvents) {
   if (!events.events?.some((item) => item.name === event)) errors.push(`missing contract event: ${event}`);
   if (!parameters.allowed?.event?.includes(event)) errors.push(`event is not allowed by parameters: ${event}`);

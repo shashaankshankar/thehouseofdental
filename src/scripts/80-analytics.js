@@ -11,7 +11,8 @@
 
   const pagePath = () => {
     const path = window.location?.pathname || "/";
-    return path.startsWith("/") ? path : "/";
+    const normalized = path.length > 1 ? path.replace(/\/+$/, "") : path;
+    return normalized.startsWith("/") ? normalized : "/";
   };
   const routeEligibility = config.routeEligibility;
   const eligibilityFor = (path) => routeEligibility?.routes?.[path] || routeEligibility?.default || routeEligibility?.default_behavior || "prohibited";

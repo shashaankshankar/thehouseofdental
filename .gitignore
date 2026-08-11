@@ -2,5 +2,7 @@
 .playwright-cli/
 node_modules/
 .env*
-.dev.vars*
-wrangler.jsonc
+.wrangler/
+.dev.vars
+.dev.vars.*
+!.dev.vars.example

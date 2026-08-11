@@ -13,6 +13,7 @@
   },
   "pages": {
     "404.html": {
+      "path": null,
       "title": "Page Not Found | The House of Dental",
       "description": "",
       "canonical": "",
@@ -20,6 +21,7 @@
       "shell": "none"
     },
     "about.html": {
+      "path": "/about",
       "title": "About Us | Dr. Mainak Patel, DMD — The House of Dental, Winter Park FL",
       "description": "Meet Dr. Mainak Patel, DMD — fellow of the International Congress of Oral Implantologists — and the team and technology behind The House of Dental in Winter Park, FL.",
       "keywords": "implant dentist Winter Park FL, Dr Mainak Patel DMD, cone beam CT dentist Orlando, CEREC dentist Winter Park, guided implant surgery Florida",
@@ -29,19 +31,19 @@
       "author": "The House of Dental",
       "changefreq": "monthly",
       "priority": "0.8",
-      "canonical": "https://thehouseofdentalwp.com/about.html",
       "robots": "index, follow, max-image-preview:large",
       "shell": "full"
     },
     "accessibility.html": {
+      "path": "/accessibility",
       "title": "Accessibility | The House of Dental",
       "description": "Accessibility information for The House of Dental website.",
-      "canonical": "https://thehouseofdentalwp.com/accessibility.html",
       "robots": "index, follow",
       "sitemap": false,
       "shell": "minimal"
     },
     "contact.html": {
+      "path": "/contact",
       "title": "Contact & Book Appointment | The House of Dental — Winter Park, FL",
       "description": "Book an appointment at The House of Dental, 6504 University Blvd, Winter Park, FL 32792. Call (407) 678-1400. Open Monday through Thursday, 8am to 3pm.",
       "keywords": "dentist near me Winter Park, book dentist appointment Orlando, dental office Winter Park FL, emergency dentist Winter Park",
@@ -51,11 +53,11 @@
       "author": "The House of Dental",
       "changefreq": "monthly",
       "priority": "0.8",
-      "canonical": "https://thehouseofdentalwp.com/contact.html",
       "robots": "index, follow, max-image-preview:large",
       "shell": "full"
     },
     "facial-aesthetics.html": {
+      "path": "/facial-aesthetics",
       "title": "Facial Aesthetics in Winter Park, FL | CO2 Laser Resurfacing & Facials",
       "description": "DEKA CO2 facial resurfacing laser, Emage 3D skin analysis, and custom HydroDerm facials in Winter Park, FL. Medical-grade skin rejuvenation at The House of Dental. Call (407) 678-1400.",
       "keywords": "CO2 laser resurfacing Winter Park, facial aesthetics Orlando, skin resurfacing Winter Park FL, hydrafacial Winter Park, skin analysis Orlando, medical spa Winter Park",
@@ -65,11 +67,11 @@
       "author": "The House of Dental",
       "changefreq": "monthly",
       "priority": "0.8",
-      "canonical": "https://thehouseofdentalwp.com/facial-aesthetics.html",
       "robots": "index, follow, max-image-preview:large",
       "shell": "full"
     },
     "index.html": {
+      "path": "/",
       "title": "Dentist in Winter Park, FL | The House of Dental — Dental Implants & Same-Day Crowns",
       "description": "Award-winning dentist in Winter Park, FL. Dental implants from $2,998, same-day CEREC crowns, veneers, Invisalign, and facial aesthetics. 5.0 stars across 332 reviews. Call (407) 678-1400.",
       "keywords": "dentist Winter Park FL, dental implants Winter Park, same-day crowns Orlando, cosmetic dentist Winter Park, Invisalign Winter Park, emergency dentist Winter Park",
@@ -79,11 +81,11 @@
       "author": "The House of Dental",
       "changefreq": "monthly",
       "priority": "1.0",
-      "canonical": "https://thehouseofdentalwp.com/",
       "robots": "index, follow, max-image-preview:large",
       "shell": "full"
     },
     "new-patients.html": {
+      "path": "/new-patients",
       "title": "New Patients | Insurance, Financing & In-Office Savings Plan — Winter Park, FL",
       "description": "New patients welcome at The House of Dental in Winter Park, FL. In-network with major dental PPO plans, plus Cherry payment plans, CareCredit, an in-office savings plan from $425 a year, and dental implants from $2,998.",
       "keywords": "dental insurance Winter Park FL, dental savings plan Winter Park, in-office dental membership plan Orlando, dental payment plans Orlando, affordable dental implants Winter Park, new patient dentist Winter Park, dental financing Orlando",
@@ -93,11 +95,11 @@
       "author": "The House of Dental",
       "changefreq": "monthly",
       "priority": "0.8",
-      "canonical": "https://thehouseofdentalwp.com/new-patients.html",
       "robots": "index, follow, max-image-preview:large",
       "shell": "full"
     },
     "pre-post-op.html": {
+      "path": "/pre-post-op",
       "title": "Pre &amp; Post Treatment Care Instructions | The House of Dental, Winter Park FL",
       "description": "Downloadable, print-ready care instructions for every dental and facial aesthetic treatment at The House of Dental in Winter Park, FL.",
       "keywords": "scaling and root planing aftercare, QuietNite instructions, microneedling aftercare Winter Park, CO2 laser recovery, dental implant recovery instructions Winter Park",
@@ -108,19 +110,19 @@
       "schema": false,
       "changefreq": "monthly",
       "priority": "0.7",
-      "canonical": "https://thehouseofdentalwp.com/pre-post-op.html",
       "robots": "index, follow, max-image-preview:large",
       "shell": "full"
     },
     "privacy.html": {
+      "path": "/privacy",
       "title": "Privacy Policy | The House of Dental",
       "description": "Privacy information for The House of Dental website.",
-      "canonical": "https://thehouseofdentalwp.com/privacy.html",
       "robots": "index, follow",
       "sitemap": false,
       "shell": "minimal"
     },
     "reviews.html": {
+      "path": "/reviews",
       "title": "Patient Reviews | The House of Dental — Winter Park, FL Dentist",
       "description": "Rated 5.0 stars across 332 Google reviews. Read what Winter Park patients say about Dr. Mainak Patel and the team at The House of Dental.",
       "keywords": "best dentist Winter Park FL reviews, top rated dentist Orlando, Dr Mainak Patel reviews, dentist near me Winter Park",
@@ -130,11 +132,11 @@
       "author": "The House of Dental",
       "changefreq": "monthly",
       "priority": "0.8",
-      "canonical": "https://thehouseofdentalwp.com/reviews.html",
       "robots": "index, follow, max-image-preview:large",
       "shell": "full"
     },
     "services.html": {
+      "path": "/services",
       "title": "Dental Services in Winter Park, FL | Implants, Crowns, Veneers & Invisalign",
       "description": "Comprehensive dental services in Winter Park, FL — dental implants, same-day CEREC crowns, porcelain veneers, Invisalign, root canals, dentures, and sedation dentistry.",
       "keywords": "dental services Winter Park FL, dental implants Orlando, porcelain veneers Winter Park, root canal Winter Park, dentures Winter Park, sedation dentistry Orlando",
@@ -144,18 +146,24 @@
       "author": "The House of Dental",
       "changefreq": "monthly",
       "priority": "0.9",
-      "canonical": "https://thehouseofdentalwp.com/services.html",
       "robots": "index, follow, max-image-preview:large",
       "shell": "full"
     },
     "terms.html": {
+      "path": "/terms",
       "title": "Terms &amp; Conditions | The House of Dental",
       "description": "Website terms for The House of Dental.",
-      "canonical": "https://thehouseofdentalwp.com/terms.html",
       "robots": "index, follow",
       "sitemap": false,
       "shell": "minimal"
     }
+  },
+  "redirects": {
+    "/home": "/",
+    "/about-us": "/about",
+    "/dental-services": "/services",
+    "/new-patient": "/new-patients",
+    "/contact-us": "/contact"
   },
   "structuredData": {
     "@context": "https://schema.org",

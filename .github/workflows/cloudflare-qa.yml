@@ -1,4 +1,4 @@
-name: Vercel QA gate
+name: Cloudflare QA gate
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   check:
-    name: Build and validate deployment artifact
+    name: Build and validate Worker artifact
     runs-on: ubuntu-latest
     steps:
       - name: Check out source
@@ -23,5 +23,5 @@ jobs:
           cache: npm
       - name: Install locked dependencies
         run: npm ci
-      - name: Run deployment gate
+      - name: Run Cloudflare validation gate
         run: npm run check

@@ -41,11 +41,15 @@
       }
     });
   }
-  const current = location.pathname.split("/").pop() || "index.html";
+  const normalizePath = (path) => {
+    const pathname = path.split("#")[0].replace(/\/+$/, "");
+    return pathname ? (pathname.startsWith("/") ? pathname : `/${pathname}`) : "/";
+  };
+  const current = normalizePath(location.pathname);
   document.querySelectorAll("[data-primary-link]").forEach((link) => {
     const paths = [link.getAttribute("href"), ...(link.dataset.activePaths?.split(/\s+/) || [])]
       .filter(Boolean)
-      .map((path) => path.split("#")[0]);
+      .map(normalizePath);
     const active = paths.includes(current);
     link.classList.toggle("active", active);
     if (active) link.setAttribute("aria-current", "page");

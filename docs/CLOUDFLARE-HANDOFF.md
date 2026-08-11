@@ -19,7 +19,7 @@ This document records the client-owned and agency-owned steps that remain outsid
 Plain variables:
 
 - `GOOGLE_PLACE_ID`
-- `CONTACT_FROM_EMAIL` = `vectorstudioteam10@gmail.com` (confirm Resend sender authorization or replace with a verified domain sender)
+- `CONTACT_FROM_EMAIL` = `website@thehouseofdentalwp.com`
 - `CONTACT_RECIPIENT_EMAIL` = `office@thehouseofdentalwp.com`
 - `CONTACT_ALLOWED_ORIGINS` = `https://thehouseofdentalwp.com`
 

@@ -28,7 +28,7 @@ const jsonResponse = (status, body, { allow = "", cacheControl = "no-store" } = 
 
 const textValue = (value) => (typeof value === "string" ? value.trim() : "");
 
-const configuredOrigins = (env) => String(env.APPOINTMENT_ALLOWED_ORIGINS || "")
+const configuredOrigins = (env) => String(env.CONTACT_ALLOWED_ORIGINS || "")
   .split(",")
   .map((value) => value.trim())
   .filter(Boolean);
@@ -92,7 +92,15 @@ const parseBody = (request, text) => {
   return Object.fromEntries(new URLSearchParams(text));
 };
 
-const handleAppointment = async (request, env) => {
+const escapeHtml = (value) => value.replace(/[&<>"']/g, (character) => ({
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': "&quot;",
+  "'": "&#39;"
+}[character]));
+
+const handleContact = async (request, env) => {
   if (request.method !== "POST") return jsonResponse(405, { error: "Method not allowed." }, { allow: "POST" });
 
   const bodyResult = await readBody(request);
@@ -106,7 +114,7 @@ const handleAppointment = async (request, env) => {
   const body = parseBody(request, bodyResult.text);
   if (textValue(body.company)) return jsonResponse(202, { ok: true });
 
-  const appointment = {
+  const contact = {
     name: textValue(body.name),
     phone: textValue(body.phone),
     email: textValue(body.email),
@@ -115,43 +123,45 @@ const handleAppointment = async (request, env) => {
   };
 
   const errors = [];
-  if (!appointment.name || appointment.name.length > MAX_LENGTHS.name) errors.push("name");
-  if (!isValidPhone(appointment.phone) || appointment.phone.length > MAX_LENGTHS.phone) errors.push("phone");
-  if (!isValidEmail(appointment.email) || appointment.email.length > MAX_LENGTHS.email) errors.push("email");
-  if (!["Yes", "No"].includes(appointment.newPatient)) errors.push("new-patient");
-  if (appointment.message.length > MAX_LENGTHS.message) errors.push("message");
+  if (!contact.name || contact.name.length > MAX_LENGTHS.name) errors.push("name");
+  if (!isValidPhone(contact.phone) || contact.phone.length > MAX_LENGTHS.phone) errors.push("phone");
+  if (!isValidEmail(contact.email) || contact.email.length > MAX_LENGTHS.email) errors.push("email");
+  if (!["Yes", "No"].includes(contact.newPatient)) errors.push("new-patient");
+  if (contact.message.length > MAX_LENGTHS.message) errors.push("message");
   if (errors.length) return jsonResponse(422, { error: "Please review the highlighted fields and try again." });
 
-  const backendUrl = String(env.APPOINTMENT_BACKEND_URL || "").trim();
-  const backendToken = String(env.APPOINTMENT_BACKEND_TOKEN || "").trim();
-  if (!backendUrl || !backendToken) {
-    return jsonResponse(503, { error: "Online messages are not configured. Please call the office." });
-  }
-
-  let destination;
-  try {
-    destination = new URL(backendUrl);
-  } catch {
-    return jsonResponse(503, { error: "Online messages are not configured. Please call the office." });
-  }
-  if (destination.protocol !== "https:") {
+  const resendApiKey = String(env.RESEND_API_KEY || "").trim();
+  const fromEmail = String(env.CONTACT_FROM_EMAIL || "").trim();
+  const recipientEmail = String(env.CONTACT_RECIPIENT_EMAIL || "").trim();
+  if (!resendApiKey || !fromEmail || !recipientEmail) {
     return jsonResponse(503, { error: "Online messages are not configured. Please call the office." });
   }
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 8000);
   try {
-    const upstream = await fetch(destination, {
+    const upstream = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
         Accept: "application/json",
-        Authorization: `Bearer ${backendToken}`,
-        "Content-Type": "application/json"
+        Authorization: `Bearer ${resendApiKey}`,
+        "Content-Type": "application/json",
+        "User-Agent": "the-house-of-dental-contact-form"
       },
       body: JSON.stringify({
-        source: "the-house-of-dental-website",
-        submitted_at: new Date().toISOString(),
-        appointment
+        from: fromEmail,
+        to: [recipientEmail],
+        reply_to: [contact.email],
+        subject: `Website contact message from ${contact.name}`,
+        text: [
+          `Name: ${contact.name}`,
+          `Phone: ${contact.phone}`,
+          `Email: ${contact.email}`,
+          `New patient: ${contact.newPatient}`,
+          "",
+          contact.message || "(No message provided.)"
+        ].join("\n"),
+        html: `<h2>Website contact message</h2><p><strong>Name:</strong> ${escapeHtml(contact.name)}</p><p><strong>Phone:</strong> ${escapeHtml(contact.phone)}</p><p><strong>Email:</strong> ${escapeHtml(contact.email)}</p><p><strong>New patient:</strong> ${escapeHtml(contact.newPatient)}</p><p><strong>Message:</strong></p><p>${escapeHtml(contact.message || "(No message provided.)").replace(/\n/g, "<br>")}</p>`
       }),
       signal: controller.signal
     });
@@ -233,7 +243,7 @@ const handleReputation = async (request, env, ctx) => {
 const handleApi = (request, env, ctx) => {
   const path = new URL(request.url).pathname;
   if (path === "/api/google-reputation") return handleReputation(request, env, ctx);
-  if (path === "/api/appointment") return handleAppointment(request, env);
+  if (path === "/api/contact") return handleContact(request, env);
   return Promise.resolve(jsonResponse(404, { error: "Not found." }));
 };
 

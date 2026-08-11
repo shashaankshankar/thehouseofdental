@@ -50,24 +50,25 @@ npm run check
 npx wrangler dev
 ```
 
-Local Worker development uses the ignored `.dev.vars` file. Copy `.dev.vars.example` to `.dev.vars` only when local values are approved; never commit real values.
+Local Worker development uses the ignored `.env`/`.env.local` files or `.dev.vars` file. Keep the Resend key in one ignored local file only; never commit real values. Deployed Workers require the encrypted `RESEND_API_KEY` secret and the approved contact variables in the deployment environment.
 
 ## Runtime environment contract
 
 Plain variables:
 
 - `GOOGLE_PLACE_ID` — server-side runtime value for the configured Google Business location.
-- `APPOINTMENT_BACKEND_URL` — later, only after an approved notification adapter exists.
-- `APPOINTMENT_ALLOWED_ORIGINS` — later, exact production origins only; initially `https://thehouseofdentalwp.com`.
+- `CONTACT_FROM_EMAIL` — a verified Resend sender address, such as `website@your-verified-domain.com`.
+- `CONTACT_RECIPIENT_EMAIL` — the dental office inbox that should receive website messages.
+- `CONTACT_ALLOWED_ORIGINS` — exact allowed form origins, initially `https://thehouseofdentalwp.com`.
 
 Encrypted secrets:
 
 - `GOOGLE_PLACES_API_KEY`
-- `APPOINTMENT_BACKEND_TOKEN` — later, only after the appointment backend is approved.
+- `RESEND_API_KEY` — store the real key as an encrypted Worker secret. Replace `re_xxxxxxxxx` with the real API key when configuring it; never commit it.
 
-The Google reputation endpoint reads the Place ID and API key only from Worker bindings, validates the upstream rating/count, and caches successful public data for five minutes. Failures are never cached. The appointment endpoint validates the exact origin, body size, fields, honeypot, HTTPS destination, and timeout, then fails closed with `503` until the approved backend and token are configured. It never logs request bodies, personal information, or secrets.
+The Google reputation endpoint reads the Place ID and API key only from Worker bindings, validates the upstream rating/count, and caches successful public data for five minutes. Failures are never cached. The contact endpoint validates the exact origin, body size, fields, and honeypot, then sends a server-generated email through Resend. It never creates or confirms an appointment and never logs request bodies, personal information, or secrets.
 
-The browser form posts to `/api/appointment` using the existing JSON handoff contract:
+The browser form posts to `/api/contact` using URL-encoded form data. The Worker maps it to the Resend API payload with the office as `to` and the visitor as `reply_to`. A successful delivery means the office received a contact email; it does not create or confirm an appointment.
 
 ```json
 {

@@ -65,12 +65,12 @@ for (const [from, to] of Object.entries(site.redirects || {})) {
 }
 if ((await read("dist/_redirects")).includes("/* /404.html 404")) errors.push("dist/_redirects: unsupported wildcard 404 redirect remains");
 
-const requiredEnvKeys = ["GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "APPOINTMENT_BACKEND_URL", "APPOINTMENT_BACKEND_TOKEN", "APPOINTMENT_ALLOWED_ORIGINS"];
+const requiredEnvKeys = ["GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "RESEND_API_KEY", "CONTACT_FROM_EMAIL", "CONTACT_RECIPIENT_EMAIL", "CONTACT_ALLOWED_ORIGINS"];
 const devVarsExample = await read(".dev.vars.example");
 for (const key of requiredEnvKeys) if (!new RegExp(`^${key}=\\s*$`, "m").test(devVarsExample)) errors.push(`.dev.vars.example: missing empty ${key} entry`);
 
 const worker = await read("worker/index.mjs");
-for (const marker of ["/api/google-reputation", "/api/appointment", "env.ASSETS.fetch", "GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "APPOINTMENT_BACKEND_URL", "APPOINTMENT_BACKEND_TOKEN", "APPOINTMENT_ALLOWED_ORIGINS"]) {
+for (const marker of ["/api/google-reputation", "/api/contact", "env.ASSETS.fetch", "GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "RESEND_API_KEY", "CONTACT_FROM_EMAIL", "CONTACT_RECIPIENT_EMAIL", "CONTACT_ALLOWED_ORIGINS"]) {
   if (!worker.includes(marker)) errors.push(`worker/index.mjs: missing ${marker}`);
 }
 if (/console\.(?:log|error|warn)/.test(worker)) errors.push("worker/index.mjs: personal information or secrets could be exposed through logs");
@@ -100,7 +100,7 @@ for (const path of sourcePaths) {
 if (await exists("src/static/_redirects")) errors.push("src/static/_redirects must be generated from site metadata, not hand-copied");
 
 const contact = await read("dist/contact.html");
-if (!/<form[^>]+action="\/api\/appointment"[^>]+data-appointment-form/.test(contact)) errors.push("dist/contact.html: missing Worker appointment action");
+if (!/<form[^>]+action="\/api\/contact"[^>]+data-contact-form/.test(contact)) errors.push("dist/contact.html: missing Worker contact action");
 if (/data-netlify|name="form-name"/.test(contact)) errors.push("dist/contact.html: contains an unrelated form provider contract");
 
 const sitemap = await read("dist/sitemap.xml");

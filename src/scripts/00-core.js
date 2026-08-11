@@ -56,7 +56,7 @@
 
   const booking = document.querySelector('#book');
   if (booking) {
-    document.querySelectorAll('[data-appointment-form] input, [data-appointment-form] select, [data-appointment-form] textarea').forEach((field) => {
+    document.querySelectorAll('[data-contact-form] input, [data-contact-form] select, [data-contact-form] textarea').forEach((field) => {
       field.addEventListener('focus', () => document.body.classList.add('booking-focus'));
       field.addEventListener('blur', () => document.body.classList.remove('booking-focus'));
     });

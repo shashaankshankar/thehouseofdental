@@ -75,7 +75,7 @@ test("generated CTAs carry contract analytics attributes", async () => {
   assert.match(contact, /data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:/);
   assert.match(contact, /data-analytics-event="cta_click" data-analytics-location="directions_link" data-analytics-cta-type="directions" href="https:\/\/goo\.gl\/maps/);
   assert.match(home, /data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="\/contact#book"/);
-  assert.match(contact, /data-analytics-form="appointment_request"/);
+  assert.match(contact, /data-analytics-form="contact_message"/);
 });
 
 test("disabled analytics does not touch Google or the page", async () => {
@@ -225,22 +225,23 @@ test("generated pages contain no inline implementation code", async () => {
   }
 });
 
-test("appointment form targets the fail-closed Worker backend", async () => {
+test("contact form targets the Resend-backed Worker contact endpoint", async () => {
   const html = await readFile("dist/contact.html", "utf8");
   const script = await readFile("dist/main.js", "utf8");
   const formScript = await readFile("src/scripts/60-forms.js", "utf8");
   const endpoint = await readFile("worker/index.mjs", "utf8");
-  assert.match(html, /<form[^>]+action="\/api\/appointment"[^>]+method="POST"[^>]+data-appointment-form/);
+  assert.match(html, /<form[^>]+action="\/api\/contact"[^>]+method="POST"[^>]+data-contact-form/);
   assert.match(html, /name="company"/);
-  assert.match(html, /id="appointment-status"/);
+  assert.match(html, /id="contact-status"/);
   assert.match(html, />Send Message</);
   assert.doesNotMatch(html, /data-netlify|name="form-name"/);
   assert.match(formScript, /preventDefault\(\)/);
   assert.match(formScript, /URLSearchParams\(new FormData\(form\)\)/);
-  assert.match(endpoint, /APPOINTMENT_BACKEND_URL/);
-  assert.match(endpoint, /APPOINTMENT_BACKEND_TOKEN/);
-  assert.match(endpoint, /APPOINTMENT_ALLOWED_ORIGINS/);
-  assert.match(endpoint, /Authorization: `Bearer \$\{backendToken\}`/);
+  assert.match(endpoint, /RESEND_API_KEY/);
+  assert.match(endpoint, /CONTACT_FROM_EMAIL/);
+  assert.match(endpoint, /CONTACT_RECIPIENT_EMAIL/);
+  assert.match(endpoint, /CONTACT_ALLOWED_ORIGINS/);
+  assert.match(endpoint, /Authorization: `Bearer \$\{resendApiKey\}`/);
   assert.doesNotMatch(endpoint, /console\.(log|error|warn)/);
 });
 
@@ -260,7 +261,7 @@ test("Cloudflare config pins the Worker, Static Assets, routes, and safe variabl
   assert.match(csp, /form-action 'self'/);
   assert.doesNotMatch(csp, /vercel|_vercel/i);
   const envExample = await readFile(".dev.vars.example", "utf8");
-  for (const key of ["GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "APPOINTMENT_BACKEND_URL", "APPOINTMENT_BACKEND_TOKEN", "APPOINTMENT_ALLOWED_ORIGINS"]) {
+  for (const key of ["GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "RESEND_API_KEY", "CONTACT_FROM_EMAIL", "CONTACT_RECIPIENT_EMAIL", "CONTACT_ALLOWED_ORIGINS"]) {
     assert.match(envExample, new RegExp(`^${key}=\\s*$`, "m"));
   }
 });

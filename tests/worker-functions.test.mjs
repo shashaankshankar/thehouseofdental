@@ -33,9 +33,9 @@ test("unknown API paths return JSON 404 and endpoint methods return 405 with All
   assert.equal(reputationMethod.status, 405);
   assert.equal(reputationMethod.headers.get("allow"), "GET");
 
-  const appointmentMethod = await worker.fetch(requestFor("/api/appointment"), env, context());
-  assert.equal(appointmentMethod.status, 405);
-  assert.equal(appointmentMethod.headers.get("allow"), "POST");
+  const contactMethod = await worker.fetch(requestFor("/api/contact"), env, context());
+  assert.equal(contactMethod.status, 405);
+  assert.equal(contactMethod.headers.get("allow"), "POST");
 });
 
 test("clean page routes resolve through the Static Assets binding", async () => {
@@ -49,7 +49,7 @@ test("clean page routes resolve through the Static Assets binding", async () => 
   assert.deepEqual(requests, ["/about.html"]);
 });
 
-test("appointment endpoint fails closed before forwarding", async () => {
+test("contact endpoint fails closed before forwarding", async () => {
   const originalFetch = globalThis.fetch;
   let fetchCalled = false;
   globalThis.fetch = async () => {
@@ -57,7 +57,7 @@ test("appointment endpoint fails closed before forwarding", async () => {
     return new Response("unexpected");
   };
   try {
-    const response = await worker.fetch(requestFor("/api/appointment", {
+    const response = await worker.fetch(requestFor("/api/contact", {
       method: "POST",
       headers: { Origin: origin, "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams(validFields)
@@ -70,30 +70,30 @@ test("appointment endpoint fails closed before forwarding", async () => {
   }
 });
 
-test("appointment endpoint validates body size, origin, fields, honeypot, and configuration", async () => {
-  const env = { ASSETS: assets(), APPOINTMENT_ALLOWED_ORIGINS: origin };
-  const oversized = await worker.fetch(requestFor("/api/appointment", {
+test("contact endpoint validates body size, origin, fields, honeypot, and configuration", async () => {
+  const env = { ASSETS: assets(), CONTACT_ALLOWED_ORIGINS: origin };
+    const oversized = await worker.fetch(requestFor("/api/contact", {
     method: "POST",
     headers: { Origin: origin, "Content-Type": "application/x-www-form-urlencoded" },
     body: "x".repeat(12001)
   }), env, context());
   assert.equal(oversized.status, 413);
 
-  const invalidOrigin = await worker.fetch(requestFor("/api/appointment", {
+    const invalidOrigin = await worker.fetch(requestFor("/api/contact", {
     method: "POST",
     headers: { Origin: "https://evil.example", "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams(validFields)
   }), env, context());
   assert.equal(invalidOrigin.status, 403);
 
-  const invalidFields = await worker.fetch(requestFor("/api/appointment", {
+    const invalidFields = await worker.fetch(requestFor("/api/contact", {
     method: "POST",
     headers: { Origin: origin, "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({ ...validFields, email: "not-an-email" })
   }), env, context());
   assert.equal(invalidFields.status, 422);
 
-  const honeypot = await worker.fetch(requestFor("/api/appointment", {
+    const honeypot = await worker.fetch(requestFor("/api/contact", {
     method: "POST",
     headers: { Origin: origin, "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({ ...validFields, company: "bot" })
@@ -101,7 +101,7 @@ test("appointment endpoint validates body size, origin, fields, honeypot, and co
   assert.equal(honeypot.status, 202);
   assert.deepEqual(await json(honeypot), { ok: true });
 
-  const unconfigured = await worker.fetch(requestFor("/api/appointment", {
+    const unconfigured = await worker.fetch(requestFor("/api/contact", {
     method: "POST",
     headers: { Origin: origin, "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams(validFields)
@@ -109,7 +109,7 @@ test("appointment endpoint validates body size, origin, fields, honeypot, and co
   assert.equal(unconfigured.status, 503);
 });
 
-test("appointment endpoint forwards only over HTTPS with the original JSON contract", async () => {
+test("contact endpoint sends the mapped Resend payload", async () => {
   const originalFetch = globalThis.fetch;
   let captured;
   globalThis.fetch = async (url, options) => {
@@ -119,44 +119,42 @@ test("appointment endpoint forwards only over HTTPS with the original JSON contr
   try {
     const env = {
       ASSETS: assets(),
-      APPOINTMENT_ALLOWED_ORIGINS: origin,
-      APPOINTMENT_BACKEND_URL: "https://notify.example.test/appointments",
-      APPOINTMENT_BACKEND_TOKEN: "test-token"
+      CONTACT_ALLOWED_ORIGINS: origin,
+      RESEND_API_KEY: "re_test-token",
+      CONTACT_FROM_EMAIL: "website@example.com",
+      CONTACT_RECIPIENT_EMAIL: "office@example.com"
     };
-    const response = await worker.fetch(requestFor("/api/appointment", {
+    const response = await worker.fetch(requestFor("/api/contact", {
       method: "POST",
       headers: { Origin: origin, "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({ ...validFields, "new-patient": "No" })
     }), env, context());
     assert.equal(response.status, 200);
     assert.deepEqual(await json(response), { ok: true, message: "Your message was sent. We'll get back to you soon." });
-    assert.equal(captured.url, "https://notify.example.test/appointments");
-    assert.equal(captured.options.headers.Authorization, "Bearer test-token");
-    assert.equal(JSON.parse(captured.options.body).appointment.email, validFields.email);
-
-    const httpEnv = { ...env, APPOINTMENT_BACKEND_URL: "http://notify.example.test/appointments" };
-    const httpResponse = await worker.fetch(requestFor("/api/appointment", {
-      method: "POST",
-      headers: { Origin: origin, "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(validFields)
-    }), httpEnv, context());
-    assert.equal(httpResponse.status, 503);
+    assert.equal(captured.url, "https://api.resend.com/emails");
+    assert.equal(captured.options.headers.Authorization, "Bearer re_test-token");
+    const payload = JSON.parse(captured.options.body);
+    assert.deepEqual(payload.to, ["office@example.com"]);
+    assert.deepEqual(payload.reply_to, [validFields.email]);
+    assert.match(payload.html, /Test Patient/);
+    assert.doesNotMatch(payload.html, /<script>/);
   } finally {
     globalThis.fetch = originalFetch;
   }
 });
 
-test("appointment upstream failure and timeout fail closed with 502", async () => {
+test("contact upstream failure and timeout fail closed with 502", async () => {
   const originalFetch = globalThis.fetch;
   const env = {
     ASSETS: assets(),
-    APPOINTMENT_ALLOWED_ORIGINS: origin,
-    APPOINTMENT_BACKEND_URL: "https://notify.example.test/appointments",
-    APPOINTMENT_BACKEND_TOKEN: "test-token"
+    CONTACT_ALLOWED_ORIGINS: origin,
+    RESEND_API_KEY: "re_test-token",
+    CONTACT_FROM_EMAIL: "website@example.com",
+    CONTACT_RECIPIENT_EMAIL: "office@example.com"
   };
   try {
     globalThis.fetch = async () => new Response("failed", { status: 500 });
-    const failed = await worker.fetch(requestFor("/api/appointment", {
+    const failed = await worker.fetch(requestFor("/api/contact", {
       method: "POST",
       headers: { Origin: origin, "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams(validFields)
@@ -164,7 +162,7 @@ test("appointment upstream failure and timeout fail closed with 502", async () =
     assert.equal(failed.status, 502);
 
     globalThis.fetch = async () => { throw new Error("upstream timeout"); };
-    const timedOut = await worker.fetch(requestFor("/api/appointment", {
+    const timedOut = await worker.fetch(requestFor("/api/contact", {
       method: "POST",
       headers: { Origin: origin, "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams(validFields)

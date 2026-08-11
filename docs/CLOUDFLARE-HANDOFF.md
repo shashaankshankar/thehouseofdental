@@ -19,20 +19,21 @@ This document records the client-owned and agency-owned steps that remain outsid
 Plain variables:
 
 - `GOOGLE_PLACE_ID`
-- `APPOINTMENT_BACKEND_URL` (pending approval)
-- `APPOINTMENT_ALLOWED_ORIGINS` (pending approval; exact production origin only)
+- `CONTACT_FROM_EMAIL` = `vectorstudioteam10@gmail.com` (confirm Resend sender authorization or replace with a verified domain sender)
+- `CONTACT_RECIPIENT_EMAIL` = `office@thehouseofdentalwp.com`
+- `CONTACT_ALLOWED_ORIGINS` = `https://thehouseofdentalwp.com`
 
 Encrypted secrets:
 
 - `GOOGLE_PLACES_API_KEY`
-- `APPOINTMENT_BACKEND_TOKEN` (pending approval)
+- `RESEND_API_KEY` (local key present; production still requires the real key as an encrypted Worker secret; never commit or document its value)
 
 Do not record secret values in this document, Git, tickets, screenshots, logs, or browser payloads.
 
 ## Third-party and privacy gates
 
 - Confirm Google Places API billing, key restriction, field mask, and ownership.
-- Approve the appointment adapter contract, sender identity, notifications, rate limiting, bot controls, duplicate-send handling, retention, and sensitive free-text policy.
+- Approve the contact-email sender identity, recipient inbox, notifications, rate limiting, bot controls, duplicate-send handling, retention, and sensitive free-text policy.
 - Approve the healthcare analytics route list, consent copy, event/conversion list, retention, and GA4 property/stream ownership.
 - Keep all integrations disabled or fail closed until the corresponding approval is recorded.
 

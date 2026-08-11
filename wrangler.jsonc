@@ -1,6 +1,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "thehouseofdental",
+  "account_id": "681a48208af7de5ac4ccf68c197024c6",
   "main": "./worker/index.mjs",
   "compatibility_date": "2026-08-11",
   "workers_dev": false,

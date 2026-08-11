@@ -111,22 +111,23 @@
   const description = create(
     "p",
     "",
-    "We use Google Analytics to understand how visitors use this website. Choose whether to allow analytics storage. Appointment form values are not read or sent."
+    "We use Google Analytics to understand how visitors use this website. Choose whether to allow analytics storage. Contact form values are not read or sent."
   );
   description.id = "analytics-consent-description";
   const actions = create("div", "consent-banner__actions");
   const accept = create("button", "btn btn-solid", "Allow analytics");
   accept.type = "button";
-  const decline = create("button", "consent-button", "Continue without analytics");
+  const decline = create("button", "consent-button", "Decline analytics");
   decline.type = "button";
   actions.append(accept, decline);
   banner.append(title, description, actions);
 
-  const settings = create("button", "consent-settings", "Privacy choices");
-  settings.type = "button";
+  const settings = document.querySelectorAll("[data-consent-settings]")[0] || create("button", "consent-settings", "Privacy choices");
+  if (!settings.parentNode) document.body.append(settings);
   settings.hidden = !storedChoice;
+  settings.type = "button";
   settings.setAttribute("aria-label", "Change privacy choices");
-  document.body.append(banner, settings);
+  document.body.append(banner);
 
   const choose = (choice) => {
     saveChoice(choice);
@@ -134,7 +135,7 @@
     window.gtag("consent", "update", consentFor(choice));
     banner.hidden = true;
     settings.hidden = false;
-    settings.focus();
+    settings.focus({ preventScroll: true });
   };
   accept.addEventListener("click", () => choose("granted"));
   decline.addEventListener("click", () => choose("denied"));

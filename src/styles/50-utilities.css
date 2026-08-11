@@ -1,13 +1,15 @@
+.care-nav { padding-block: 0.7rem; }
 .care-nav .wrap { flex-direction: column; gap: 0.7rem; align-items: center; }
 .care-nav-group {
   display: flex;
   align-items: center;
-  gap: 1.3rem;
+  column-gap: 1.3rem;
+  row-gap: 0.35rem;
   flex-wrap: wrap;
   justify-content: center;
 }
 .cng-label {
-  font-size: 0.58rem;
+  font-size: 0.68rem;
   letter-spacing: 0.32em;
   text-transform: uppercase;
   color: var(--gold);

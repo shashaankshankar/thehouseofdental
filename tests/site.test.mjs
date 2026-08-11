@@ -142,7 +142,7 @@ test("conversion events wait for consent and decline keeps analytics storage den
   listeners.get("phone:click")();
   assert.equal(window.dataLayer.filter((entry) => entry[0] === "event").length, 0);
   const allElements = (elements) => elements.flatMap((element) => [element, ...allElements(element.children)]);
-  const decline = allElements(document.body.children).find((element) => element.textContent === "Continue without analytics");
+  const decline = allElements(document.body.children).find((element) => element.textContent === "Decline analytics");
   listeners.get(`${decline.textContent}:click`)();
   listeners.get("phone:click")();
   assert.equal(window.dataLayer.filter((entry) => entry[0] === "event").length, 0);

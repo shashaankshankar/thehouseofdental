@@ -753,6 +753,7 @@ footer.site .logo-img { height: 80px; }
   aspect-ratio: 4/3;
   overflow: hidden;
   user-select: none;
+  touch-action: pan-y;
   border: 1px solid var(--line-dark);
 }
 .ba img {
@@ -797,11 +798,15 @@ footer.site .logo-img { height: 80px; }
   color: var(--gold);
   display: grid;
   place-items: center;
+  opacity: 0.72;
   font-size: 0.9rem;
   font-family: Arial, "Helvetica Neue", sans-serif;
   font-variant-emoji: text;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
 }
 .ba .handle:focus-visible::after { outline: 2px solid var(--gold-deep); outline-offset: 3px; }
+.ba.is-dragging .handle::after { opacity: 1; }
+.ba.is-dragging .handle { cursor: grabbing; }
 .ba .lab {
   position: absolute;
   bottom: 0.8rem;
@@ -1690,6 +1695,12 @@ body.modal-open { overflow: hidden; }
   .svcmodal .content { padding: 1.5rem 1.3rem 1.8rem; }
   .svcmodal h2 { font-size: 1.4rem; }
   .ba { aspect-ratio: 4/3; }
+  .ba .handle {
+    width: 64px;
+    margin-left: -32px;
+  }
+  .ba .handle::before { left: 31px; width: 1px; }
+  .ba .handle::after { width: 40px; height: 40px; font-size: 0.82rem; }
   .center-head, .section-head { margin-bottom: 2.4rem; }
 }
 
@@ -2101,6 +2112,19 @@ body.modal-open { overflow: hidden; }
   letter-spacing: 0;
 }
 .aesthetic-nav a:hover { color: var(--gold); }
+
+@media (min-width: 1100px) and (max-width: 1500px) {
+  .aesthetic-nav .wrap {
+    gap: 0.65rem;
+    flex-wrap: nowrap;
+  }
+  .aesthetic-nav a {
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    padding-inline: 0.35rem;
+    gap: 0.45rem;
+  }
+}
 
 /* detail sections */
 .aesthetic-detail {
@@ -2724,16 +2748,18 @@ PRINT STYLESHEET — clean output, nothing cut off
 
 /* ---------- Care page: grouped nav + dividers ---------- */
 
+.care-nav { padding-block: 0.7rem; }
 .care-nav .wrap { flex-direction: column; gap: 0.7rem; align-items: center; }
 .care-nav-group {
   display: flex;
   align-items: center;
-  gap: 1.3rem;
+  column-gap: 1.3rem;
+  row-gap: 0.35rem;
   flex-wrap: wrap;
   justify-content: center;
 }
 .cng-label {
-  font-size: 0.58rem;
+  font-size: 0.68rem;
   letter-spacing: 0.32em;
   text-transform: uppercase;
   color: var(--gold);
@@ -2993,10 +3019,10 @@ body.booking-focus .mobile-actions { display: none; }
   right: 1rem;
   bottom: 1rem;
   z-index: 9500;
-  width: min(32rem, calc(100vw - 2rem));
+  width: min(29rem, calc(100vw - 2rem));
   max-height: calc(100vh - 2rem);
   overflow: auto;
-  padding: 1.4rem;
+  padding: 1.05rem 1.15rem;
   background: var(--noir);
   color: var(--ivory);
   border: 1px solid var(--gold);
@@ -3009,22 +3035,22 @@ body.booking-focus .mobile-actions { display: none; }
 }
 
 .consent-banner h2 {
-  margin-bottom: 0.55rem;
+  margin-bottom: 0.4rem;
   color: var(--ivory);
-  font-size: 1.35rem;
+  font-size: 1.15rem;
 }
 
 .consent-banner p {
   color: var(--mist);
-  font-size: 0.82rem;
-  line-height: 1.6;
+  font-size: 0.76rem;
+  line-height: 1.45;
 }
 
 .consent-banner__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.7rem;
-  margin-top: 1.1rem;
+  margin-top: 0.85rem;
 }
 
 .consent-banner .btn,
@@ -3036,7 +3062,7 @@ body.booking-focus .mobile-actions { display: none; }
 }
 
 .consent-banner .btn {
-  padding: 0.75rem 1rem;
+  padding: 0.65rem 0.85rem;
 }
 
 .consent-button,
@@ -3049,7 +3075,7 @@ body.booking-focus .mobile-actions { display: none; }
 }
 
 .consent-button {
-  padding: 0.75rem 1rem;
+  padding: 0.65rem 0.85rem;
 }
 
 .consent-button:hover,
@@ -3061,15 +3087,20 @@ body.booking-focus .mobile-actions { display: none; }
 }
 
 .consent-settings {
-  position: fixed;
-  right: 1rem;
-  bottom: 1rem;
-  z-index: 9400;
-  padding: 0.65rem 0.9rem;
+  padding: 0.35rem 0.55rem;
   font-size: 0.58rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+  box-shadow: none;
+  white-space: nowrap;
+}
+
+.foot-legal__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  margin-left: auto;
 }
 
 @media (max-width: 760px) {
@@ -3081,16 +3112,18 @@ body.booking-focus .mobile-actions { display: none; }
     max-height: calc(100vh - 58px - env(safe-area-inset-bottom) - 2rem);
   }
   .consent-banner__actions {
-    flex-direction: column;
-    align-items: stretch;
+    gap: 0.5rem;
   }
   .consent-banner .btn,
   .consent-button {
-    width: 100%;
+    flex: 1 1 0;
     text-align: center;
+    padding-inline: 0.45rem;
+    letter-spacing: 0.11em;
   }
-  .consent-settings {
-    right: 1rem;
-    bottom: calc(58px + env(safe-area-inset-bottom) + 0.7rem);
+
+  .foot-legal__actions {
+    width: 100%;
+    gap: 0.75rem;
   }
 }

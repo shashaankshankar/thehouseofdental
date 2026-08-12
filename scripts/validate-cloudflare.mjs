@@ -43,7 +43,7 @@ requireEqual(config.assets?.directory, "./dist", "wrangler.jsonc assets.director
 requireEqual(config.assets?.binding, "ASSETS", "wrangler.jsonc assets.binding");
 requireEqual(config.assets?.html_handling, "drop-trailing-slash", "wrangler.jsonc assets.html_handling");
 requireEqual(config.assets?.not_found_handling, "404-page", "wrangler.jsonc assets.not_found_handling");
-if (JSON.stringify(config.assets?.run_worker_first) !== JSON.stringify(["/api/*"])) errors.push("wrangler.jsonc assets.run_worker_first must only include /api/*");
+if (JSON.stringify(config.assets?.run_worker_first) !== JSON.stringify(["/*"])) errors.push("wrangler.jsonc assets.run_worker_first must include /* so host redirects run before Static Assets");
 
 const metadataPaths = contentPages.map(([, page]) => page.path);
 if (metadataPaths.length !== expectedPaths.length || !expectedPaths.every((path) => metadataPaths.includes(path))) errors.push("site metadata clean paths do not match the approved route inventory");

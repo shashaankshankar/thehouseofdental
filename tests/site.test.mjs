@@ -255,8 +255,11 @@ test("Cloudflare config pins the Worker, Static Assets, routes, and safe variabl
   assert.equal(config.assets.binding, "ASSETS");
   assert.equal(config.assets.html_handling, "drop-trailing-slash");
   assert.equal(config.assets.not_found_handling, "404-page");
-  assert.deepEqual(config.assets.run_worker_first, ["/api/*"]);
-  assert.deepEqual(config.routes, [{ pattern: "thehouseofdentalwp.com", custom_domain: true }]);
+  assert.deepEqual(config.assets.run_worker_first, ["/*"]);
+  assert.deepEqual(config.routes, [
+    { pattern: "thehouseofdentalwp.com", custom_domain: true },
+    { pattern: "www.thehouseofdentalwp.com", custom_domain: true }
+  ]);
   const csp = await readFile("dist/_headers", "utf8");
   assert.match(csp, /form-action 'self'/);
   assert.doesNotMatch(csp, /vercel|_vercel/i);

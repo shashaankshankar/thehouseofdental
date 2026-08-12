@@ -16,6 +16,20 @@ const SECURITY_HEADERS = {
   "Content-Security-Policy": "default-src 'self'; img-src 'self' data: blob: https://winterparkdental.com https://images.unsplash.com https://www.google-analytics.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; frame-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"
 };
 
+const redirectToCanonicalHost = (request) => {
+  const url = new URL(request.url);
+  if (url.hostname !== "www.thehouseofdentalwp.com") return null;
+  url.hostname = "thehouseofdentalwp.com";
+  return new Response(null, {
+    status: 301,
+    headers: {
+      ...SECURITY_HEADERS,
+      Location: url.toString(),
+      "Cache-Control": "public, max-age=3600"
+    }
+  });
+};
+
 const jsonResponse = (status, body, { allow = "", cacheControl = "no-store" } = {}) => {
   const headers = new Headers({
     ...SECURITY_HEADERS,
@@ -248,22 +262,13 @@ const handleApi = (request, env, ctx) => {
 };
 
 const assetRequestForPath = (request, env) => {
-  const url = new URL(request.url);
-  const normalizedPath = url.pathname.length > 1 ? url.pathname.replace(/\/+$/, "") : url.pathname;
-  if (request.method !== "GET" && request.method !== "HEAD") return env.ASSETS.fetch(request);
-  if (normalizedPath === "/") {
-    url.pathname = "/index.html";
-    return env.ASSETS.fetch(new Request(url, request));
-  }
-  if (/^\/[a-z0-9-]+$/i.test(normalizedPath) && normalizedPath !== "/404") {
-    url.pathname = `${normalizedPath}.html`;
-    return env.ASSETS.fetch(new Request(url, request));
-  }
   return env.ASSETS.fetch(request);
 };
 
 export default {
   async fetch(request, env, ctx) {
+    const canonicalRedirect = redirectToCanonicalHost(request);
+    if (canonicalRedirect) return canonicalRedirect;
     const path = new URL(request.url).pathname;
     if (path === "/api" || path.startsWith("/api/")) return handleApi(request, env, ctx);
     return assetRequestForPath(request, env);

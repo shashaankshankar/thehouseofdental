@@ -11,7 +11,7 @@ const validFields = {
   message: ""
 };
 
-const requestFor = (path, init = {}) => new Request(`${origin}${path}`, init);
+const requestFor = (path, init = {}, host = origin) => new Request(`${host}${path}`, init);
 const json = (response) => response.json();
 const context = () => {
   const pending = [];
@@ -46,7 +46,13 @@ test("clean page routes resolve through the Static Assets binding", async () => 
   }) };
   const response = await worker.fetch(requestFor("/about"), env, context());
   assert.equal(response.status, 200);
-  assert.deepEqual(requests, ["/about.html"]);
+  assert.deepEqual(requests, ["/about"]);
+});
+
+test("www redirects to the canonical apex host", async () => {
+  const response = await worker.fetch(requestFor("/contact?source=test", {}, "https://www.thehouseofdentalwp.com"), { ASSETS: assets() }, context());
+  assert.equal(response.status, 301);
+  assert.equal(response.headers.get("location"), "https://thehouseofdentalwp.com/contact?source=test");
 });
 
 test("contact endpoint fails closed before forwarding", async () => {

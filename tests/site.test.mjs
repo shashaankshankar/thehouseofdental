@@ -26,11 +26,11 @@ test("GA4 integration is configurable and enabled for the approved test routes",
   const styles = await readFile("dist/styles.css", "utf8");
   const headers = await readFile("dist/_headers", "utf8");
   assert.equal(pilot.ga4.enabled, true);
-  assert.equal(pilot.ga4.measurementId, "G-SPK63FDRBQ");
+  assert.equal(pilot.ga4.measurementId, "G-TC66MQQ0T7");
   assert.equal(routes.default, "prohibited");
   assert.equal(routes.routes["/contact"], "approved");
   assert.deepEqual(contract.events.map((event) => event.name), ["form_start", "form_submit", "generate_lead", "phone_click", "email_click", "appointment_request", "cta_click"]);
-  assert.match(script, /const __SITE_ANALYTICS = \{"provider":"gtag","enabled":true,"measurementId":"G-SPK63FDRBQ","consent":\{"mode":"advanced","version":2,"storageKey":"thod-analytics-consent","waitForUpdate":500\},"contractVersion":"local_service_v1"/);
+  assert.match(script, /const __SITE_ANALYTICS = \{"provider":"gtag","enabled":true,"measurementId":"G-TC66MQQ0T7","consent":\{"mode":"advanced","version":2,"storageKey":"thod-analytics-consent","waitForUpdate":500\},"contractVersion":"local_service_v1"/);
   assert.doesNotMatch(script, /"propertyId"|"webStreamId"|"connection"/);
   assert.ok(script.includes("https://www.googletagmanager.com/gtag/js?id="));
   assert.ok(headers.includes("script-src 'self' https://www.googletagmanager.com"));

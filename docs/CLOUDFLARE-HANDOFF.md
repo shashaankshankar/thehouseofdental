@@ -1,55 +1,211 @@
-# Cloudflare Workers handoff checklist
+# The House of Dental — client setup and launch handoff
 
-This document records the client-owned and agency-owned steps that remain outside the repository conversion. No production deployment or DNS change is authorized by local build success.
+This document lists the information, accounts, approvals, and production checks needed from the client before the website can be launched on Cloudflare Workers. Local build success is not deployment approval. The agency will keep the site unpublished until the client-owned setup and final go-live approval are complete.
 
-## Repository and build
+## 1. Who owns what
 
-- Repository URL and access ownership: pending agency handoff record.
-- Production branch: `main`.
-- Promotion flow: `dev` → `qa` → `main`.
-- Build command: `npm run check`.
-- Worker deploy command: `npx wrangler deploy`.
-- Preview command: `npx wrangler versions upload`.
-- Static Assets directory: `./dist`.
-- Worker entrypoint: `./worker/index.mjs`.
-- Wrangler configuration: `wrangler.jsonc`.
+### Client provides or approves
 
-## Runtime inventory
+- Access to the GoDaddy domain account or coordination with the person who manages DNS.
+- Confirmation that `thehouseofdentalwp.com` is the approved production domain.
+- Resend sender-domain authorization and the inbox that should receive website messages.
+- Google Business Profile/Google Cloud ownership and approval for the public review integration.
+- GA4 property ownership, privacy approval, and analytics event approval, if analytics will be enabled.
+- Final approval of website content, legal pages, contact behavior, and the preview.
+- Final written approval to change DNS and publish the Worker.
 
-Plain variables:
+### Agency performs
 
-- `GOOGLE_PLACE_ID`
-- `CONTACT_FROM_EMAIL` = `website@thehouseofdentalwp.com`
-- `CONTACT_RECIPIENT_EMAIL` = `office@thehouseofdentalwp.com`
-- `CONTACT_ALLOWED_ORIGINS` = `https://thehouseofdentalwp.com`
+- Builds and validates the source-controlled site.
+- Configures the Cloudflare Worker and Static Assets deployment.
+- Adds approved Worker variables and encrypted secrets without exposing them in Git.
+- Deploys the approved Worker version.
+- Performs preview and production browser checks.
+- Records separate preview and production evidence.
 
-Encrypted secrets:
+## 2. Values to confirm
 
-- `GOOGLE_PLACES_API_KEY`
-- `RESEND_API_KEY` (local key present; production still requires the real key as an encrypted Worker secret; never commit or document its value)
+These are the intended production values. The client should confirm that the recipient inbox, sender identity, and domain are correct before deployment.
 
-Do not record secret values in this document, Git, tickets, screenshots, logs, or browser payloads.
+| Setting | Value | Client action |
+| --- | --- | --- |
+| Production domain | `thehouseofdentalwp.com` | Confirm |
+| Contact sender | `website@thehouseofdentalwp.com` | Authorize in Resend |
+| Contact recipient | `office@thehouseofdentalwp.com` | Confirm inbox and staff access |
+| Contact origin | `https://thehouseofdentalwp.com` | Confirm |
+| Google Place ID | Client-provided value | Provide and confirm location |
+| Google Places API key | Secret; never send in this document | Create/restrict and transfer securely |
+| Resend API key | Secret; never send in this document | Create and transfer securely |
 
-## Third-party and privacy gates
+The sender and recipient addresses are not interchangeable: Resend sends from the sender address, while website messages are delivered to the recipient inbox. A successful website response means the message was accepted for email delivery; it does not book or confirm an appointment.
 
-- Confirm Google Places API billing, key restriction, field mask, and ownership.
-- Approve the contact-email sender identity, recipient inbox, notifications, rate limiting, bot controls, duplicate-send handling, retention, and sensitive free-text policy.
-- Approve the healthcare analytics route list, consent copy, event/conversion list, retention, and GA4 property/stream ownership.
-- Keep all integrations disabled or fail closed until the corresponding approval is recorded.
+## 3. Cloudflare account and domain setup
 
-## DNS and domain cutover
+The target is one Worker named `thehouseofdental`, serving Static Assets from `dist/` at the approved custom domain. The agency currently manages the Worker and repository. The client retains control of the domain registration unless a different arrangement is approved.
 
-Before changing GoDaddy nameservers:
+Client checklist:
 
-1. Export the complete current DNS zone.
-2. Reproduce Microsoft 365 MX, SPF, DKIM, DMARC, autodiscover, verification, and any unobserved GoDaddy records in Cloudflare.
-3. Verify mail delivery before propagation.
-4. Activate the Cloudflare zone and confirm the custom domain target in `wrangler.jsonc`.
-5. Obtain preview approval and record HTTPS, headers, clean routes, legacy redirects, custom 404, API fail-closed behavior, and responsive browser evidence.
-6. Point the apex to the Worker, add a proxied `www` placeholder, and configure one Cloudflare Single Redirect from `www` to the apex.
-7. Verify SSL, mail delivery, and one-hop redirects after propagation.
-8. Retain the previous preview as rollback infrastructure until Cloudflare monitoring passes.
+- Confirm who owns the Cloudflare account and who can approve production changes.
+- Confirm that the Cloudflare zone for `thehouseofdentalwp.com` is available to the agency, or provide the required invitation.
+- Confirm who owns the GoDaddy account and provide a contact for the nameserver change.
+- Do not change nameservers until the agency provides the final DNS record plan and written go-live approval.
 
-## Evidence
+## 4. DNS and website domain setup
 
-Record separate Cloudflare evidence for local Worker verification, preview acceptance, and production acceptance. Do not overwrite historical host-specific evidence or describe local checks as deployment proof.
+Before any nameserver change:
+
+1. Export or record the complete current GoDaddy DNS zone.
+2. Identify the records required for the website domain and any other active services that must remain available.
+3. Recreate the required website and service records in Cloudflare before changing nameservers.
+4. Confirm the final Cloudflare preview and rollback plan.
+
+The planned web routing is:
+
+- Apex: `https://thehouseofdentalwp.com` → Cloudflare Worker.
+- `www`: proxied placeholder with a single redirect to the apex domain.
+- HTTPS: required for the production domain.
+
+The client must approve the DNS change because an incorrect nameserver migration can interrupt the domain or other connected services even when the website itself is working.
+
+## 5. Resend contact-email setup
+
+The current website contact form posts to `/api/contact`. It sends the submitted name, phone, email, new-patient selection, and message to the office inbox through Resend. It does not create or confirm an appointment.
+
+Client checklist:
+
+- Create or confirm the Resend account used for the practice.
+- Verify the sending domain `thehouseofdentalwp.com` in Resend.
+- Add the SPF/DKIM records Resend provides to the authoritative DNS zone.
+- Confirm that `website@thehouseofdentalwp.com` is an authorized sender.
+- Confirm that `office@thehouseofdentalwp.com` is monitored by the office.
+- Decide who should receive delivery notifications and how long messages should be retained.
+- Approve the contact-message wording, privacy notice, and instruction not to submit sensitive medical information.
+- Approve spam/rate-limit handling and the process for missed or failed messages.
+
+The client must provide the Resend API key through an approved secure channel. It must be stored as an encrypted Worker secret and must not be placed in Git, this document, screenshots, tickets, browser fields, or chat messages.
+
+## 6. Google review/reputation setup
+
+The website can load the practice rating and review count through the server-side endpoint `/api/google-reputation`. The browser never receives the Google Places API key.
+
+Client checklist:
+
+- Confirm the Google Business location represented by the site.
+- Provide the correct Google Place ID through a secure, non-public channel.
+- Use a Google Cloud project owned or approved by the client.
+- Enable billing and the required Places API capability for that project.
+- Create an API key restricted to the required server-side API usage.
+- Approve the displayed rating, review count, Google link, fallback behavior, and refresh/cache behavior.
+- Confirm that the displayed review claims and structured-data claims are accurate and approved.
+
+The API key must be stored as an encrypted Worker secret. If the key or billing setup is not ready, the site must remain in its neutral fail-closed state rather than exposing a key or inventing live review data.
+
+## 7. GA4 and privacy approval
+
+Analytics is a separate approval gate from deployment. The client must decide whether the production site should collect GA4 data at launch.
+
+If analytics is approved, provide or confirm:
+
+- GA4 property ownership.
+- Numeric property ID.
+- Numeric web-stream ID.
+- Measurement ID in `G-XXXXXXXXXX` format.
+- Property timezone.
+- Approved healthcare/privacy route list.
+- Approved consent wording and privacy-policy language.
+- Approved events and conversions.
+- Retention and reporting access requirements.
+- Read-only access for the agency reporting connector, if reporting is being connected.
+
+The current repository contains pilot analytics settings, but local configuration is not proof of client approval or live GA4 receipt. Before launch, the agency must either receive written approval and complete deployed DebugView verification, or disable GA4 for production.
+
+Required live evidence, if enabled:
+
+- No analytics request before consent.
+- Correct behavior after consent and after decline.
+- Each applicable event appears exactly once in the approved GA4 property.
+- No names, emails, phone numbers, messages, health information, query strings, or other direct identifiers are sent.
+- Approved routes, prohibited routes, and unknown routes behave correctly.
+
+The separate [GA4 approval handoff](./ANALYTICS-HANDOFF.md) contains the event contract and activation sequence.
+
+## 8. Content, legal, and clinical approval
+
+Before preview approval, the client should review every page and explicitly confirm:
+
+- Practice name, address, phone number, hours, and contact details.
+- Doctor, team, credentials, services, pricing, financing, and insurance statements.
+- Review counts, ratings, before/after images, testimonials, photos, and social links.
+- Medical, cosmetic, treatment, and outcome claims.
+- Privacy policy, terms, accessibility page, consent wording, and contact-form instructions.
+- Downloadable care instructions and their clinical accuracy.
+- Whether any content needs a disclaimer or legal revision.
+
+The client owns final approval of clinical, legal, privacy, and marketing claims. The agency should not publish unapproved proof, patient information, testimonials, or clinical guarantees.
+
+## 9. Preview approval checklist
+
+The agency will provide a preview URL after the approved configuration is available. The client should test the preview on a phone and desktop and report exact URLs for any issue.
+
+Approve or reject each item:
+
+- Home page and all navigation links.
+- All 12 generated pages.
+- Phone links and contact calls to action.
+- Contact form validation and success/failure messaging.
+- Receipt of one approved synthetic contact message, if Resend is enabled.
+- Google review display and Google link, if enabled.
+- Consent banner and privacy choices.
+- Mobile menu, modals, downloads, anchors, and back-to-top behavior.
+- Browser tab title, social preview basics, favicon, and 404 page.
+- No visible console errors or broken images.
+- Correct redirects, HTTPS, headers, and clean URLs.
+
+Preview approval should include the approver, date, environment URL, and any remaining accepted limitations.
+
+## 10. Production go-live checklist
+
+Production is ready only after all applicable boxes are complete:
+
+- [ ] Client confirms domain and DNS owner.
+- [ ] DNS zone is exported and required website/service records are documented.
+- [ ] Cloudflare zone and Worker access are confirmed.
+- [ ] Resend sender domain is verified.
+- [ ] Resend recipient inbox is confirmed.
+- [ ] Resend API key is securely installed as an encrypted Worker secret.
+- [ ] Google Place ID and Places key are configured, restricted, and approved, or the integration remains disabled.
+- [ ] GA4 is approved and live-tested, or disabled for production.
+- [ ] Content, clinical claims, privacy policy, terms, and accessibility content are approved.
+- [ ] Preview is approved in writing.
+- [ ] Final release is promoted to `main`.
+- [ ] Client approves DNS and production publish.
+- [ ] DNS, SSL, redirects, email delivery, APIs, routes, responsive layouts, and console behavior are checked after propagation.
+- [ ] Production evidence and rollback details are recorded.
+
+## 11. What the client should send back
+
+Use this checklist in the handoff response:
+
+```text
+Production domain confirmed: thehouseofdentalwp.com
+Cloudflare/DNS owner:
+GoDaddy/DNS contact:
+Resend sender domain verified: yes / no
+Resend sender approved: website@thehouseofdentalwp.com
+Resend recipient confirmed: office@thehouseofdentalwp.com
+Google Place ID confirmed: yes / no
+Google Places integration approved: yes / no / defer
+GA4 production decision: enable / disable / defer
+Content and legal review approved: yes / no
+Preview approved: yes / no
+DNS change approved: yes / no
+Production publish approved: yes / no
+Approver name and date:
+Remaining issues or accepted limitations:
+```
+
+Never paste API keys, access tokens, service-account keys, passwords, or other secrets into this response. Use the agreed secure transfer method instead.
+
+## Evidence and release boundary
+
+Record separate evidence for local Worker verification, preview acceptance, and production acceptance. Do not describe local tests, a Wrangler dry-run, or a generated bundle as proof of deployment, DNS propagation, email delivery, GA4 receipt, or production approval.

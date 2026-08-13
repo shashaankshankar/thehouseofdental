@@ -49,6 +49,23 @@ test("clean page routes resolve through the Static Assets binding", async () => 
   assert.deepEqual(requests, ["/about"]);
 });
 
+test("Google site verification is served directly without invoking static assets", async () => {
+  let assetRequests = 0;
+  const env = { ASSETS: assets(async () => {
+    assetRequests += 1;
+    return new Response("unexpected asset");
+  }) };
+  const filename = "google579852270caa3291.html";
+  const response = await worker.fetch(requestFor(`/${filename}`), env, context());
+
+  assert.equal(response.status, 200);
+  assert.equal(await response.text(), `google-site-verification: ${filename}`);
+  assert.match(response.headers.get("content-type"), /^text\/plain/);
+  assert.equal(response.headers.get("cache-control"), "public, max-age=3600");
+  assert.equal(response.headers.get("x-content-type-options"), "nosniff");
+  assert.equal(assetRequests, 0);
+});
+
 test("www redirects to the canonical apex host", async () => {
   const response = await worker.fetch(requestFor("/contact?source=test", {}, "https://www.thehouseofdentalwp.com"), { ASSETS: assets() }, context());
   assert.equal(response.status, 301);

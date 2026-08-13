@@ -8,6 +8,9 @@ const MAX_LENGTHS = {
 };
 
 const REPUTATION_CACHE_CONTROL = "public, max-age=300, s-maxage=300, stale-while-revalidate=600";
+const SITE_VERIFICATION_FILES = new Map([
+  ["/google579852270caa3291.html", "google-site-verification: google579852270caa3291.html"]
+]);
 const SECURITY_HEADERS = {
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
@@ -271,6 +274,15 @@ export default {
     if (canonicalRedirect) return canonicalRedirect;
     const path = new URL(request.url).pathname;
     if (path === "/api" || path.startsWith("/api/")) return handleApi(request, env, ctx);
+    if (SITE_VERIFICATION_FILES.has(path)) {
+      return new Response(SITE_VERIFICATION_FILES.get(path), {
+        headers: {
+          ...SECURITY_HEADERS,
+          "Content-Type": "text/plain; charset=utf-8",
+          "Cache-Control": "public, max-age=3600"
+        }
+      });
+    }
     return assetRequestForPath(request, env);
   }
 };

@@ -161,6 +161,114 @@ test("conversion events wait for consent and decline keeps analytics storage den
   });
 });
 
+test("successful contact response emits the three consented post-success events exactly once", async () => {
+  const analyticsScript = await readFile("src/scripts/80-analytics.js", "utf8");
+  const formScript = await readFile("src/scripts/60-forms.js", "utf8");
+  const makeElement = (tag = "div") => ({
+    tag,
+    children: [],
+    dataset: {},
+    hidden: false,
+    disabled: false,
+    listeners: new Map(),
+    addEventListener(type, handler) {
+      const handlers = this.listeners.get(type) || [];
+      handlers.push(handler);
+      this.listeners.set(type, handlers);
+    },
+    async dispatch(type, event = {}) {
+      for (const handler of this.listeners.get(type) || []) await handler(event);
+    },
+    append(...children) {
+      for (const child of children) {
+        child.parentNode = this;
+        this.children.push(child);
+      }
+    },
+    appendChild(child) {
+      child.parentNode = this;
+      this.children.push(child);
+    },
+    setAttribute(name, value) { this[name] = value; },
+    removeAttribute(name) { delete this[name]; },
+    focus() {}
+  });
+  const submitButton = makeElement("button");
+  const form = makeElement("form");
+  form.action = "/api/contact";
+  form.fields = [["name", "Measurement QA"], ["email", "measurement.qa@example.com"], ["message", "Test only"]];
+  form.querySelector = (selector) => selector === "button[type='submit']" ? submitButton : null;
+  form.resetCount = 0;
+  form.reset = () => { form.resetCount += 1; };
+  const status = makeElement("p");
+  const document = {
+    head: makeElement("head"),
+    body: makeElement("body"),
+    createElement: makeElement,
+    querySelector(selector) {
+      if (selector === "form[data-contact-form]") return form;
+      if (selector === "#contact-status") return status;
+      return null;
+    },
+    querySelectorAll(selector) {
+      if (selector === "form[data-analytics-form]") return [form];
+      return [];
+    }
+  };
+  const stored = new Map();
+  const window = { location: { pathname: "/contact", origin: "https://thehouseofdentalwp.com", search: "", hash: "" } };
+  class TestFormData {
+    constructor(target) { this.values = target.fields; }
+    *[Symbol.iterator]() { yield* this.values; }
+  }
+  const context = {
+    __SITE_ANALYTICS: {
+      provider: "gtag",
+      enabled: true,
+      measurementId: "G-TEST123",
+      consent: { mode: "advanced", version: 2, storageKey: "test-consent", waitForUpdate: 500 },
+      routeEligibility: { default: "prohibited", routes: { "/contact": "approved" } },
+      eventPolicy: {
+        allowedEvents: ["form_start", "form_submit", "generate_lead", "appointment_request"],
+        allowedLocations: ["appointment_form", "contact_form"],
+        allowedCtaTypes: [],
+        allowedServiceCategories: []
+      }
+    },
+    window,
+    document,
+    localStorage: { getItem: (key) => stored.get(key) || null, setItem: (key, value) => stored.set(key, value) },
+    fetch: async () => ({ ok: true, json: async () => ({ ok: true, message: "Your message was sent. We'll get back to you soon." }) }),
+    FormData: TestFormData,
+    URLSearchParams,
+    Set,
+    Number,
+    Date,
+    encodeURIComponent
+  };
+  vm.runInNewContext(analyticsScript, context);
+  vm.runInNewContext(formScript, context);
+
+  const allElements = (elements) => elements.flatMap((element) => [element, ...allElements(element.children)]);
+  const allow = allElements(document.body.children).find((element) => element.textContent === "Allow analytics");
+  await allow.dispatch("click");
+  await form.dispatch("focusin");
+  await form.dispatch("submit", { preventDefault() {} });
+
+  const events = JSON.parse(JSON.stringify(window.dataLayer
+    .filter((entry) => entry[0] === "event")
+    .map((entry) => ({ name: entry[1], payload: entry[2] }))));
+  assert.deepEqual(events.map((event) => event.name), ["form_start", "form_submit", "generate_lead", "appointment_request"]);
+  assert.deepEqual(events.slice(1).map((event) => event.payload), [
+    { page_path: "/contact", cta_location: "contact_form" },
+    { page_path: "/contact", cta_location: "contact_form" },
+    { page_path: "/contact", cta_location: "contact_form" }
+  ]);
+  assert.equal(form.resetCount, 1);
+  assert.equal(status.dataset.state, "success");
+  assert.equal(status.textContent, "Your message was sent. We'll get back to you soon.");
+});
+
 test("unapproved and unknown routes do not initialize analytics", async () => {
   const analyticsScript = await readFile("src/scripts/80-analytics.js", "utf8");
   const window = { location: { pathname: "/unknown" } };

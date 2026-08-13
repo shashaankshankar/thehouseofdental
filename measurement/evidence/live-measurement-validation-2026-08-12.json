@@ -32,6 +32,11 @@
       "observed": "After one annotated Book activation, the GA4 Realtime Data API returned exactly one cta_click at minutesAgo=00."
     },
     {
+      "name": "phone_click_realtime_receipt",
+      "status": "passed",
+      "observed": "After one annotated telephone activation, the GA4 Realtime Data API returned exactly one phone_click in the same validation session. The browser blocked opening the local phone handler after the event dispatch."
+    },
+    {
       "name": "payload_privacy",
       "status": "passed_by_code_and_fixture",
       "observed": "The production adapter constructs event payloads only from page_path and allowlisted CTA metadata. It never reads FormData or contact fields; unsafe URL data fails before analytics initialization."
@@ -44,7 +49,6 @@
   ],
   "notExecuted": [
     "No production contact form was submitted, so form_submit, generate_lead, appointment_request, Resend acceptance, and inbox delivery were not observed in this run.",
-    "The browser blocked tel navigation, so phone_click was not generated in this run.",
     "The current site exposes no annotated mailto CTA, so email_click is not applicable to the rendered first-site UI."
   ],
   "status": "approved_governance_with_partial_live_event_evidence"

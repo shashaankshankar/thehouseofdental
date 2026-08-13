@@ -196,6 +196,92 @@ test("contact upstream failure and timeout fail closed with 502", async () => {
   }
 });
 
+test("report relay is bearer-protected, recipient-locked, and forwards one PDF idempotently", async () => {
+  const originalFetch = globalThis.fetch;
+  let captured;
+  globalThis.fetch = async (url, options) => {
+    captured = { url: String(url), options };
+    return new Response(JSON.stringify({ id: "email-report-1" }), { status: 200 });
+  };
+  const relayToken = "r".repeat(48);
+  const env = {
+    ASSETS: assets(),
+    RESEND_API_KEY: "re_live-token",
+    CONTACT_FROM_EMAIL: "website@example.com",
+    REPORT_RELAY_TOKEN: relayToken,
+    REPORT_RELAY_RECIPIENT: "operator@example.com"
+  };
+  const payload = {
+    from: "ignored@example.com",
+    to: ["operator@example.com"],
+    subject: "Approved analytics report",
+    html: "<p>Approved report.</p>",
+    attachments: [{ filename: "analytics-report.pdf", content: "JVBERi0xLjQ=" }]
+  };
+  try {
+    const unauthorized = await worker.fetch(requestFor("/api/report-email", {
+      method: "POST",
+      headers: { Authorization: "Bearer incorrect", "Content-Type": "application/json", "Idempotency-Key": "report:test:1" },
+      body: JSON.stringify(payload)
+    }), env, context());
+    assert.equal(unauthorized.status, 401);
+    assert.equal(captured, undefined);
+
+    const wrongRecipient = await worker.fetch(requestFor("/api/report-email", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${relayToken}`, "Content-Type": "application/json", "Idempotency-Key": "report:test:1" },
+      body: JSON.stringify({ ...payload, to: ["other@example.com"] })
+    }), env, context());
+    assert.equal(wrongRecipient.status, 422);
+    assert.equal(captured, undefined);
+
+    const response = await worker.fetch(requestFor("/api/report-email", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${relayToken}`, "Content-Type": "application/json", "Idempotency-Key": "report:test:1" },
+      body: JSON.stringify(payload)
+    }), env, context());
+    assert.equal(response.status, 200);
+    assert.deepEqual(await json(response), { id: "email-report-1" });
+    assert.equal(captured.url, "https://api.resend.com/emails");
+    assert.equal(captured.options.headers.Authorization, "Bearer re_live-token");
+    assert.equal(captured.options.headers["Idempotency-Key"], "report:test:1");
+    const forwarded = JSON.parse(captured.options.body);
+    assert.equal(forwarded.from, "website@example.com");
+    assert.deepEqual(forwarded.to, ["operator@example.com"]);
+    assert.deepEqual(forwarded.attachments, payload.attachments);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("report relay rejects malformed payloads and fails closed on provider errors", async () => {
+  const originalFetch = globalThis.fetch;
+  const relayToken = "r".repeat(48);
+  const env = {
+    ASSETS: assets(),
+    RESEND_API_KEY: "re_live-token",
+    CONTACT_FROM_EMAIL: "website@example.com",
+    REPORT_RELAY_TOKEN: relayToken,
+    REPORT_RELAY_RECIPIENT: "operator@example.com"
+  };
+  const headers = { Authorization: `Bearer ${relayToken}`, "Content-Type": "application/json", "Idempotency-Key": "report:test:2" };
+  try {
+    const malformed = await worker.fetch(requestFor("/api/report-email", {
+      method: "POST", headers, body: JSON.stringify({ to: ["operator@example.com"], subject: "Report", html: "<p>x</p>", attachments: [] })
+    }), env, context());
+    assert.equal(malformed.status, 422);
+
+    globalThis.fetch = async () => new Response(JSON.stringify({ error: "rejected" }), { status: 401 });
+    const failed = await worker.fetch(requestFor("/api/report-email", {
+      method: "POST", headers, body: JSON.stringify({ to: ["operator@example.com"], subject: "Report", html: "<p>x</p>", attachments: [{ filename: "report.pdf", content: "JVBERi0xLjQ=" }] })
+    }), env, context());
+    assert.equal(failed.status, 502);
+    assert.deepEqual(await json(failed), { error: "Report delivery failed." });
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
 test("reputation endpoint validates configuration, upstream data, and caches successes only", async () => {
   const originalFetch = globalThis.fetch;
   const originalCaches = globalThis.caches;

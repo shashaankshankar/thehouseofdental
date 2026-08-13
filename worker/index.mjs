@@ -1,4 +1,6 @@
 const MAX_BODY_BYTES = 12000;
+const MAX_REPORT_BODY_BYTES = 8_000_000;
+const MAX_REPORT_ATTACHMENT_BASE64 = 7_000_000;
 const MAX_LENGTHS = {
   name: 100,
   phone: 50,
@@ -65,9 +67,9 @@ const requestOrigin = (request) => {
 const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 const isValidPhone = (value) => /^[+()\d.\-\s]{7,50}$/.test(value) && value.replace(/\D/g, "").length >= 7;
 
-const readBody = async (request) => {
+const readBody = async (request, maxBytes = MAX_BODY_BYTES) => {
   const contentLength = Number(request.headers.get("content-length"));
-  if (Number.isFinite(contentLength) && contentLength > MAX_BODY_BYTES) return { tooLarge: true, text: "" };
+  if (Number.isFinite(contentLength) && contentLength > maxBytes) return { tooLarge: true, text: "" };
   if (!request.body) return { tooLarge: false, text: "" };
 
   const reader = request.body.getReader();
@@ -78,7 +80,7 @@ const readBody = async (request) => {
       const { done, value } = await reader.read();
       if (done) break;
       total += value.byteLength;
-      if (total > MAX_BODY_BYTES) {
+      if (total > maxBytes) {
         await reader.cancel();
         return { tooLarge: true, text: "" };
       }
@@ -116,6 +118,97 @@ const escapeHtml = (value) => value.replace(/[&<>"']/g, (character) => ({
   '"': "&quot;",
   "'": "&#39;"
 }[character]));
+
+const constantTimeEqual = async (left, right) => {
+  const encoder = new TextEncoder();
+  const [leftHash, rightHash] = await Promise.all([
+    crypto.subtle.digest("SHA-256", encoder.encode(left)),
+    crypto.subtle.digest("SHA-256", encoder.encode(right))
+  ]);
+  const leftBytes = new Uint8Array(leftHash);
+  const rightBytes = new Uint8Array(rightHash);
+  let difference = leftBytes.length ^ rightBytes.length;
+  for (let index = 0; index < leftBytes.length; index += 1) difference |= leftBytes[index] ^ rightBytes[index];
+  return difference === 0;
+};
+
+const validBase64 = (value) => typeof value === "string"
+  && value.length > 0
+  && value.length <= MAX_REPORT_ATTACHMENT_BASE64
+  && value.length % 4 === 0
+  && /^[A-Za-z0-9+/]+={0,2}$/.test(value);
+
+const handleReportEmail = async (request, env) => {
+  if (request.method !== "POST") return jsonResponse(405, { error: "Method not allowed." }, { allow: "POST" });
+
+  const relayToken = String(env.REPORT_RELAY_TOKEN || "").trim();
+  const authorization = request.headers.get("authorization") || "";
+  if (relayToken.length < 32 || !await constantTimeEqual(authorization, `Bearer ${relayToken}`)) {
+    return jsonResponse(401, { error: "Unauthorized." });
+  }
+
+  const contentType = (request.headers.get("content-type") || "").toLowerCase();
+  const idempotencyKey = String(request.headers.get("idempotency-key") || "").trim();
+  if (!contentType.includes("application/json") || !/^[A-Za-z0-9:_-]{8,200}$/.test(idempotencyKey)) {
+    return jsonResponse(422, { error: "Invalid report request." });
+  }
+
+  const bodyResult = await readBody(request, MAX_REPORT_BODY_BYTES);
+  if (bodyResult.tooLarge) return jsonResponse(413, { error: "Request is too large." });
+  const body = parseBody(request, bodyResult.text);
+  const recipient = String(env.REPORT_RELAY_RECIPIENT || "").trim().toLowerCase();
+  const sender = String(env.CONTACT_FROM_EMAIL || "").trim();
+  const resendApiKey = String(env.RESEND_API_KEY || "").trim();
+  const recipients = Array.isArray(body.to) ? body.to : [];
+  const attachments = Array.isArray(body.attachments) ? body.attachments : [];
+  const attachment = attachments[0] || {};
+  const subject = textValue(body.subject);
+  const html = typeof body.html === "string" ? body.html : "";
+  const validPayload = isValidEmail(recipient)
+    && recipients.length === 1
+    && textValue(recipients[0]).toLowerCase() === recipient
+    && subject.length > 0
+    && subject.length <= 200
+    && html.length > 0
+    && html.length <= 100_000
+    && attachments.length === 1
+    && /^[A-Za-z0-9_.-]{1,100}\.pdf$/.test(textValue(attachment.filename))
+    && validBase64(attachment.content);
+  if (!resendApiKey || !isValidEmail(sender) || !validPayload) {
+    return jsonResponse(422, { error: "Invalid report request." });
+  }
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15_000);
+  try {
+    const upstream = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${resendApiKey}`,
+        "Content-Type": "application/json",
+        "Idempotency-Key": idempotencyKey,
+        "User-Agent": "the-house-of-dental-report-relay"
+      },
+      body: JSON.stringify({
+        from: sender,
+        to: [recipient],
+        subject,
+        html,
+        attachments: [{ filename: textValue(attachment.filename), content: attachment.content }]
+      }),
+      signal: controller.signal
+    });
+    if (!upstream.ok) return jsonResponse(502, { error: "Report delivery failed." });
+    const result = await upstream.json().catch(() => ({}));
+    if (typeof result.id !== "string" || !result.id) return jsonResponse(502, { error: "Report delivery failed." });
+    return jsonResponse(200, { id: result.id });
+  } catch {
+    return jsonResponse(502, { error: "Report delivery failed." });
+  } finally {
+    clearTimeout(timeout);
+  }
+};
 
 const handleContact = async (request, env) => {
   if (request.method !== "POST") return jsonResponse(405, { error: "Method not allowed." }, { allow: "POST" });
@@ -261,6 +354,7 @@ const handleApi = (request, env, ctx) => {
   const path = new URL(request.url).pathname;
   if (path === "/api/google-reputation") return handleReputation(request, env, ctx);
   if (path === "/api/contact") return handleContact(request, env);
+  if (path === "/api/report-email") return handleReportEmail(request, env);
   return Promise.resolve(jsonResponse(404, { error: "Not found." }));
 };
 

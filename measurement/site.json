@@ -4,6 +4,11 @@
     "name": "The House of Dental",
     "domain": "https://thehouseofdentalwp.com"
   },
+  "deployment": {
+    "status": "live",
+    "platform": "cloudflare_workers",
+    "verifiedAt": "2026-08-12"
+  },
   "industry": {
     "classification": "healthcare",
     "analyticsEligibility": "requires_review"
@@ -11,6 +16,7 @@
   "ga4": {
     "provider": "gtag",
     "enabled": true,
+    "collectionStatus": "live",
     "measurementId": "G-TC66MQQ0T7",
     "propertyId": "549721844",
     "webStreamId": "15408312790",

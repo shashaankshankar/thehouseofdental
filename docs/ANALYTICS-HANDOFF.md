@@ -1,10 +1,10 @@
-# GA4 pilot approval and activation handoff
+# GA4 production measurement and reporting handoff
 
-House of Dental is configured as the first healthcare pilot for the measurement and reporting platform. The website-side adapter, measurement contract, and route safety controls are in place, but GA4 remains inactive until client and privacy approvals are complete.
+House of Dental is the first live website on the measurement and reporting platform. Consent-gated GA4 collection is active on the public Cloudflare site. The server-side reporting connection remains inactive until read-only property access is granted, the property metadata is reconciled, and the open privacy/governance evidence is recorded.
 
 ## Single source of configuration
 
-Use `measurement/pilot-site.json` for all non-secret GA4 pilot settings. It is the only file that needs the client-provided Measurement ID, GA4 property ID, web-stream ID, timezone, and future connector principal. The static website receives only the public provider, enablement flag, Measurement ID, consent configuration, event policy, and route eligibility. It never receives platform credentials or private property metadata.
+Use `measurement/site.json` for all non-secret GA4 site settings. It is the only file that needs the Measurement ID, GA4 property ID, web-stream ID, timezone, and future connector principal. The static website receives only the public provider, enablement flag, Measurement ID, consent configuration, event policy, and route eligibility. It never receives platform credentials or private property metadata.
 
 ## Client inputs and approvals
 
@@ -12,7 +12,7 @@ Use `measurement/pilot-site.json` for all non-secret GA4 pilot settings. It is t
 - Provide the numeric GA4 property ID, numeric web-stream ID, Measurement ID (`G-XXXXXXXXXX`), and property timezone.
 - Approve the healthcare analytics eligibility decision and privacy-policy/consent wording.
 - Grant the agency reporting connector's service-account principal **Viewer** access with `analytics.readonly`.
-- Approve which routes change from `requires_review` to `approved` in `measurement/eligibility/routes.json`.
+- Record the named approval for the production routes currently marked `approved` in `measurement/eligibility/routes.json`.
 - Confirm that the contact-message delivery destination is an approved email/notification system and that the privacy policy describes its actual behavior.
 
 Do not add service-account keys, OAuth client secrets, appointment tokens, or other secrets to this repository.
@@ -31,13 +31,12 @@ Do not add service-account keys, OAuth client secrets, appointment tokens, or ot
 
 Every event is consent-gated, route-gated, and parameter-whitelisted. Only pathname, approved CTA location/type, and approved service category may be sent. Form values, patient information, query strings, titles, and other prohibited data are excluded.
 
-## Activation and verification
+## Production reconciliation and reporting connection
 
-1. Update the client values in `measurement/pilot-site.json`.
-2. Obtain the required healthcare/privacy approvals, then change only approved routes in `measurement/eligibility/routes.json`.
-3. Set `ga4.enabled` to `true`.
-4. Run `npm run check`.
-5. In the deployed environment, verify no-consent, grant, deny, changed-consent, prohibited-route, unknown-route, and query-string cases; then validate events in GA4 DebugView.
-6. Add the connection, property, stream, reporting scope, effective dates, and status to the reporting platform's `website_analytics_assignments` record.
+1. Reconcile the values in `measurement/site.json` with the client-owned GA4 property. The repository source of truth currently records property `549721844`, web stream `15408312790`, and Measurement ID `G-TC66MQQ0T7`.
+2. Record the required healthcare/privacy approval and the owner who approved the production route and consent configuration.
+3. Run `npm run check`.
+4. In production, verify denied, granted, changed-consent, prohibited-route, unknown-route, and query-string cases; then validate each implemented event in GA4 DebugView.
+5. Grant the reporting principal Viewer access and add the connection, property, stream, reporting scope, effective dates, and status to the reporting platform's `website_analytics_assignments` record.
 
-Passing local checks does not grant client approval, establish GA4 access, or prove that production traffic has reached GA4.
+Passing local checks does not grant client approval or establish server-side GA4 access. A public browser audit confirmed a consent-controlled request to Measurement ID `G-TC66MQQ0T7`, but only GA4 account evidence can confirm receipt in the intended property and stream.

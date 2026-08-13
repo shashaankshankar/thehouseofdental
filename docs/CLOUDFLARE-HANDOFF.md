@@ -117,11 +117,11 @@ If analytics is approved, provide or confirm:
 - Retention and reporting access requirements.
 - Read-only access for the agency reporting connector, if reporting is being connected.
 
-The current repository contains pilot analytics settings, but local configuration is not proof of client approval or live GA4 receipt. Before launch, the agency must either receive written approval and complete deployed DebugView verification, or disable GA4 for production.
+The live repository contains production analytics settings, but local configuration and a public collection request are not proof of client approval or receipt in the intended GA4 property. Record written approval and complete production DebugView verification; otherwise disable GA4 until those gates are satisfied.
 
 Required live evidence, if enabled:
 
-- No analytics request before consent.
+- Analytics storage remains denied before consent; advanced Consent Mode may send restricted cookieless pings.
 - Correct behavior after consent and after decline.
 - Each applicable event appears exactly once in the approved GA4 property.
 - No names, emails, phone numbers, messages, health information, query strings, or other direct identifiers are sent.

@@ -7,8 +7,8 @@
   "reputation": {
     "endpoint": "/api/google-reputation",
     "fallback": {
-      "rating": 5.0,
-      "review_count": 332
+      "rating": 4.9,
+      "review_count": 337
     }
   },
   "pages": {
@@ -73,10 +73,10 @@
     "index.html": {
       "path": "/",
       "title": "Dentist in Winter Park, FL | The House of Dental — Dental Implants & Same-Day Crowns",
-      "description": "Award-winning dentist in Winter Park, FL. Dental implants from $2,998, same-day CEREC crowns, veneers, Invisalign, and facial aesthetics. 5.0 stars across 332 reviews. Call (407) 678-1400.",
+      "description": "Award-winning dentist in Winter Park, FL. Dental implants from $2,998, same-day CEREC crowns, veneers, Invisalign, and facial aesthetics. 4.9 stars across 337 reviews. Call (407) 678-1400.",
       "keywords": "dentist Winter Park FL, dental implants Winter Park, same-day crowns Orlando, cosmetic dentist Winter Park, Invisalign Winter Park, emergency dentist Winter Park",
       "socialTitle": "Dentist in Winter Park, FL | Dental Implants & Same-Day Crowns | The House of Dental",
-      "socialDescription": "Top-rated Winter Park dentist offering dental implants from $2,998, same-day CEREC crowns, veneers, Invisalign, and facial aesthetics. 5.0 stars, 332 reviews. Call (407) 678-1400.",
+      "socialDescription": "Top-rated Winter Park dentist offering dental implants from $2,998, same-day CEREC crowns, veneers, Invisalign, and facial aesthetics. 4.9 stars, 337 reviews. Call (407) 678-1400.",
       "geoPlacename": "Winter Park",
       "author": "The House of Dental",
       "changefreq": "monthly",
@@ -124,10 +124,10 @@
     "reviews.html": {
       "path": "/reviews",
       "title": "Patient Reviews | The House of Dental — Winter Park, FL Dentist",
-      "description": "Rated 5.0 stars across 332 Google reviews. Read what Winter Park patients say about Dr. Mainak Patel and the team at The House of Dental.",
+      "description": "Rated 4.9 stars across 337 Google reviews. Read what Winter Park patients say about Dr. Mainak Patel and the team at The House of Dental.",
       "keywords": "best dentist Winter Park FL reviews, top rated dentist Orlando, Dr Mainak Patel reviews, dentist near me Winter Park",
-      "socialTitle": "Patient Reviews | 5-Star Dentist in Winter Park, FL | The House of Dental",
-      "socialDescription": "Read 332 five-star reviews for Dr. Mainak Patel and The House of Dental in Winter Park, FL. See why patients trust us with implants, crowns, and cosmetic dentistry.",
+      "socialTitle": "Patient Reviews | Top-Rated Dentist in Winter Park, FL | The House of Dental",
+      "socialDescription": "Read 337 Google reviews for Dr. Mainak Patel and The House of Dental in Winter Park, FL. See why patients trust us with implants, crowns, and cosmetic dentistry.",
       "geoPlacename": "Winter Park",
       "author": "The House of Dental",
       "changefreq": "monthly",
@@ -202,8 +202,8 @@
     ],
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": "5.0",
-      "reviewCount": "332"
+      "ratingValue": "4.9",
+      "reviewCount": "337"
     },
     "areaServed": [
       {

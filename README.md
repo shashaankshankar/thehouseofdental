@@ -92,12 +92,14 @@ The `path` field in `src/data/site.json` is the single source for canonical URLs
 
 The generated `_redirects` file sends every former public `.html` URL directly to its clean path and sends `/home`, `/about-us`, `/dental-services`, `/new-patient`, and `/contact-us` directly to their final destinations. The custom 404 page is served by Static Assets `404-page` handling rather than a wildcard rewrite.
 
-## GA4 pilot controls
+## GA4 production controls
 
-The export uses direct `gtag.js` with Consent Mode v2. The route policy defaults to prohibited, and the approved list contains only the clean paths declared in the site metadata. Analytics events are consent-gated and allowlist only page path, approved CTA location/type, and service category; appointment form values, query strings, and other direct identifiers are not sent. Cloudflare Web Analytics is not enabled. See `measurement/pilot-site.md` and `docs/ANALYTICS-HANDOFF.md` for the client approval and activation sequence.
+The live export uses direct `gtag.js` with Consent Mode v2 and Measurement ID `G-TC66MQQ0T7`. The route policy defaults to prohibited, and the approved list contains only the clean paths declared in the site metadata. Business events require analytics consent and allowlist only page path, approved CTA location/type, and service category; appointment form values, query strings, and other direct identifiers are not sent. See `measurement/site.md` and `docs/ANALYTICS-HANDOFF.md` for the reporting-connection and remaining governance sequence.
+
+Cloudflare Web Analytics is not part of the approved repository design. A live browser audit on August 12, 2026 found an account-injected Cloudflare beacon that is blocked by the site's Content Security Policy. Disable that account-level injection unless it receives its own privacy approval; do not weaken the policy merely to silence the console error.
 
 ## Ownership and production gates
 
 The agency manages the Cloudflare account, Worker, secrets, and Git repository. The client retains the GoDaddy domain registration. Before nameserver changes, export the complete DNS zone and reproduce Microsoft 365 MX, SPF, DKIM, DMARC, autodiscover, verification, and other observed records in Cloudflare; verify mail delivery before and after propagation.
 
-This repository conversion does not deploy, change DNS, create secrets, enable Cloudflare Access, activate appointment delivery, approve analytics, or publish clinical/legal/content claims. Keep the historical validation evidence unchanged and record Cloudflare-specific evidence separately after preview and production approval. The handoff checklist is in `docs/CLOUDFLARE-HANDOFF.md`.
+The site is live, but repository checks still do not prove Cloudflare account settings, secret presence, appointment inbox delivery, GA4 property receipt, or privacy/legal approval. Keep historical validation evidence unchanged and record production evidence separately. The handoff checklist is in `docs/CLOUDFLARE-HANDOFF.md`.

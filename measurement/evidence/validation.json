@@ -1,10 +1,11 @@
 {
   "evidenceVersion": 1,
-  "capturedAt": "2026-08-12T21:26:58.353Z",
+  "capturedAt": "2026-08-12T23:59:11.313Z",
   "status": "validated_locally",
-  "approvalStatus": "pending_backlog",
+  "approvalStatus": "governance_confirmation_required",
+  "deploymentStatus": "live",
   "measurementIdStatus": "provided",
-  "ga4RuntimeStatus": "configured_but_route_and_approval_gated",
+  "ga4RuntimeStatus": "enabled_on_live_approved_routes",
   "checks": [
     {
       "name": "route_metadata_sync",
@@ -34,12 +35,12 @@
     {
       "name": "approved_routes_allowlisted",
       "passed": true,
-      "detail": "all configured site routes are approved for the GA4 test"
+      "detail": "all configured production site routes are approved"
     },
     {
       "name": "approved_route_coverage",
       "passed": true,
-      "detail": "the GA4 test has at least one approved route"
+      "detail": "the production site has at least one approved route"
     },
     {
       "name": "query_string_not_allowed",
@@ -63,10 +64,10 @@
     }
   ],
   "manualChecksRemaining": [
-    "browser consent interaction",
-    "DebugView event receipt",
-    "production route verification",
-    "appointment backend receipt"
+    "named privacy/legal approval record",
+    "GA4 DebugView event receipt",
+    "reporting service-account access",
+    "appointment inbox delivery"
   ],
-  "notes": "This record proves local policy and build validation only; it is not client/privacy approval or proof of live GA4 collection."
+  "notes": "This record proves local policy and build validation only. Public browser verification is recorded separately; client/privacy approval, GA4 account receipt, reporting access, and inbox delivery remain independent evidence gates."
 }

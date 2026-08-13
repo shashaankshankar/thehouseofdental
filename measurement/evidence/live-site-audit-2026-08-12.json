@@ -1,0 +1,56 @@
+{
+  "evidenceVersion": 1,
+  "capturedAt": "2026-08-12T23:55:20Z",
+  "environment": "https://thehouseofdentalwp.com",
+  "status": "public_site_verified_with_open_account_gates",
+  "checks": [
+    {
+      "name": "canonical_domain",
+      "status": "passed",
+      "observed": "The apex and www host resolve to the canonical HTTPS site; the unrelated .com domain is parked."
+    },
+    {
+      "name": "production_routes",
+      "status": "passed",
+      "observed": "All 11 declared public routes returned HTTP 200 and an unknown route returned the custom HTTP 404 page."
+    },
+    {
+      "name": "security_headers",
+      "status": "passed",
+      "observed": "The public site returned CSP, nosniff, SAMEORIGIN, referrer policy, and permissions policy headers."
+    },
+    {
+      "name": "consent_ui",
+      "status": "passed",
+      "observed": "The privacy-choice dialog appeared and stored thod-analytics-consent=granted only after the Allow analytics action."
+    },
+    {
+      "name": "ga4_public_collection",
+      "status": "passed_publicly",
+      "observed": "After consent, the browser received HTTP 204 from Google Analytics for Measurement ID G-TC66MQQ0T7. GA4 account receipt and the property/stream mapping were not available in this public check."
+    },
+    {
+      "name": "cloudflare_web_analytics",
+      "status": "action_required",
+      "observed": "Cloudflare injected static.cloudflareinsights.com, but the repository CSP blocked the beacon and its inline bootstrap. Disable the account-level injection unless separately approved."
+    },
+    {
+      "name": "contact_api_boundary",
+      "status": "passed_without_submission",
+      "observed": "GET /api/contact returned HTTP 405 with Allow: POST and no-store. No production form was submitted, so Resend acceptance and inbox delivery remain unverified."
+    },
+    {
+      "name": "ga4_reporting_access",
+      "status": "blocked",
+      "observed": "The current local ADC token could not list data streams because it lacked the required Analytics Admin scope. No token or credential content was exposed."
+    }
+  ],
+  "remainingGates": [
+    "Record the named healthcare/privacy and consent approval.",
+    "Verify property 549721844, web stream 15408312790, Measurement ID G-TC66MQQ0T7, and the property timezone in an authorized GA4 account.",
+    "Grant and verify read-only reporting access.",
+    "Complete GA4 DebugView checks for each implemented event and prohibited-data absence.",
+    "Verify Resend sender-domain configuration and appointment inbox delivery separately.",
+    "Disable or separately approve Cloudflare Web Analytics."
+  ]
+}

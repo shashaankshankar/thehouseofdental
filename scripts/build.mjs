@@ -11,16 +11,16 @@ const reviews = JSON.parse(await read(join(source, "data/reviews.json")));
 const financing = JSON.parse(await read(join(source, "data/financing.json")));
 const services = JSON.parse(await read(join(source, "data/services.json")));
 const technology = JSON.parse(await read(join(source, "data/technology.json")));
-const pilot = JSON.parse(await read("measurement/pilot-site.json"));
+const siteMeasurement = JSON.parse(await read("measurement/site.json"));
 const routeEligibility = JSON.parse(await read("measurement/eligibility/routes.json"));
 const contract = JSON.parse(await read("measurement/contracts/local_service_v1/contract.json"));
 const contractEvents = JSON.parse(await read("measurement/contracts/local_service_v1/events.json"));
 const contractParameters = JSON.parse(await read("measurement/contracts/local_service_v1/parameters.json"));
 const analytics = {
-  provider: pilot.ga4.provider,
-  enabled: pilot.ga4.enabled,
-  measurementId: pilot.ga4.measurementId,
-  consent: pilot.consent,
+  provider: siteMeasurement.ga4.provider,
+  enabled: siteMeasurement.ga4.enabled,
+  measurementId: siteMeasurement.ga4.measurementId,
+  consent: siteMeasurement.consent,
   contractVersion: contract.version,
   routeEligibility,
   eventPolicy: {

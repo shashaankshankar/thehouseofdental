@@ -17,16 +17,18 @@ test("source is split into focused modules", () => {
   assert.ok(sourceStyles.length >= 6);
 });
 
-test("GA4 integration is configurable and enabled for the approved test routes", async () => {
-  const pilot = JSON.parse(await readFile("measurement/pilot-site.json", "utf8"));
+test("GA4 integration is configurable and enabled for the approved production routes", async () => {
+  const siteMeasurement = JSON.parse(await readFile("measurement/site.json", "utf8"));
   const routes = JSON.parse(await readFile("measurement/eligibility/routes.json", "utf8"));
   const contract = JSON.parse(await readFile("measurement/contracts/local_service_v1/events.json", "utf8"));
   const script = await readFile("dist/main.js", "utf8");
   const analyticsScript = await readFile("src/scripts/80-analytics.js", "utf8");
   const styles = await readFile("dist/styles.css", "utf8");
   const headers = await readFile("dist/_headers", "utf8");
-  assert.equal(pilot.ga4.enabled, true);
-  assert.equal(pilot.ga4.measurementId, "G-TC66MQQ0T7");
+  assert.equal(siteMeasurement.deployment.status, "live");
+  assert.equal(siteMeasurement.ga4.enabled, true);
+  assert.equal(siteMeasurement.ga4.collectionStatus, "live");
+  assert.equal(siteMeasurement.ga4.measurementId, "G-TC66MQQ0T7");
   assert.equal(routes.default, "prohibited");
   assert.equal(routes.routes["/contact"], "approved");
   assert.deepEqual(contract.events.map((event) => event.name), ["form_start", "form_submit", "generate_lead", "phone_click", "email_click", "appointment_request", "cta_click"]);
@@ -181,10 +183,12 @@ test("unapproved and unknown routes do not initialize analytics", async () => {
 test("measurement evidence records local validation without claiming approval", async () => {
   const evidence = JSON.parse(await readFile("measurement/evidence/validation.json", "utf8"));
   assert.equal(evidence.status, "validated_locally");
-  assert.equal(evidence.approvalStatus, "pending_backlog");
+  assert.equal(evidence.approvalStatus, "governance_confirmation_required");
+  assert.equal(evidence.deploymentStatus, "live");
+  assert.equal(evidence.ga4RuntimeStatus, "enabled_on_live_approved_routes");
   assert.equal(evidence.measurementIdStatus, "provided");
   assert.ok(evidence.checks.length >= 10);
-  assert.ok(evidence.manualChecksRemaining.includes("DebugView event receipt"));
+  assert.ok(evidence.manualChecksRemaining.includes("GA4 DebugView event receipt"));
 });
 
 test("Google reputation integration has a safe fallback and no client API key", async () => {
@@ -195,9 +199,9 @@ test("Google reputation integration has a safe fallback and no client API key", 
   const endpoint = await readFile("worker/index.mjs", "utf8");
   assert.deepEqual(site.reputation, {
     endpoint: "/api/google-reputation",
-    fallback: { rating: 5, review_count: 332 }
+    fallback: { rating: 4.9, review_count: 337 }
   });
-  assert.ok(script.includes('const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rating":5,"review_count":332}};'));
+  assert.ok(script.includes('const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rating":4.9,"review_count":337}};'));
   assert.match(script, /if \(!endpoint\) \{\s*reveal\(fallback\);/);
   assert.doesNotMatch(script, /place_id/);
   assert.match(index, /data-reputation-rating>—<\/b>/);

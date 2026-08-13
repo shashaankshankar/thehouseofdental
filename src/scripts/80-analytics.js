@@ -19,7 +19,9 @@
   if (eligibilityFor(pagePath()) !== "approved") return;
 
   const safeCampaignLocation = () => {
-    if (window.location?.hash) return null;
+    const fragment = (window.location?.hash || "").replace(/^#/, "");
+    const allowedFragments = new Set(routeEligibility?.fragments?.[pagePath()] || []);
+    if (fragment && !allowedFragments.has(fragment)) return null;
     const allowedKeys = new Set(["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"]);
     const params = new URLSearchParams(window.location?.search || "");
     const sanitized = new URLSearchParams();

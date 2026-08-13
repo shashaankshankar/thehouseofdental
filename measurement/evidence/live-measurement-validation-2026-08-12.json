@@ -1,6 +1,6 @@
 {
   "evidenceVersion": 1,
-  "capturedAt": "2026-08-13T02:24:00Z",
+  "capturedAt": "2026-08-13T03:08:59Z",
   "environment": "https://thehouseofdentalwp.com",
   "ga4Property": "549721844",
   "webStream": "15427015396",
@@ -14,7 +14,7 @@
     {
       "name": "automated_measurement_suite",
       "status": "passed",
-      "observed": "34 measurement, privacy, site, Worker, and deployment checks passed, including consent gating, duplicate suppression, event allowlisting, and fail-closed routes."
+      "observed": "35 measurement, privacy, site, Worker, and deployment checks passed, including a runtime success-path test, consent gating, duplicate suppression, event allowlisting, and fail-closed routes."
     },
     {
       "name": "unsafe_url_fail_closed_live",
@@ -43,13 +43,18 @@
     },
     {
       "name": "backend_success_semantics",
-      "status": "approved_and_implemented",
-      "observed": "form_submit, generate_lead, and appointment_request run only after the Worker validates the request and the approved Resend handoff returns success. appointment_request is not a booked or confirmed appointment."
+      "status": "passed_live",
+      "observed": "The consented production test displayed the success state only after the Worker validated the request and Resend accepted the handoff. appointment_request is not a booked or confirmed appointment."
+    },
+    {
+      "name": "post_success_realtime_receipt",
+      "status": "passed",
+      "observed": "After one explicitly authorized consented production submission, the GA4 Realtime Data API returned exactly one each of form_submit, generate_lead, and appointment_request at minutesAgo=00."
     }
   ],
   "notExecuted": [
-    "No production contact form was submitted, so form_submit, generate_lead, appointment_request, Resend acceptance, and inbox delivery were not observed in this run.",
+    "Resend acceptance was observed through the live success response; inbox placement was not independently verified because the dental office inbox was not available.",
     "The current site exposes no annotated mailto CTA, so email_click is not applicable to the rendered first-site UI."
   ],
-  "status": "approved_governance_with_partial_live_event_evidence"
+  "status": "phase_1_passed_for_all_applicable_events"
 }

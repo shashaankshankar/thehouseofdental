@@ -13,5 +13,18 @@
     "/reviews": "approved",
     "/services": "approved",
     "/terms": "approved"
+  },
+  "fragments": {
+    "/": ["main-content"],
+    "/about": ["main-content", "dr-patel", "team", "technologies"],
+    "/accessibility": ["main-content"],
+    "/contact": ["main-content", "book"],
+    "/facial-aesthetics": ["main-content", "deka-laser", "microneedling", "emage-scan", "hydroderm-facial"],
+    "/new-patients": ["main-content", "insurance", "offers", "savings-plan"],
+    "/pre-post-op": ["main-content", "implants", "extractions", "crowns", "root-canals", "srp", "veneers", "dentures", "quietnite", "sedation", "deka-co2", "microneedling", "emage-scan", "hydroderm"],
+    "/privacy": ["main-content"],
+    "/reviews": ["main-content"],
+    "/services": ["main-content", "facial-aesthetics-services", "dental-services", "implants", "crowns", "restorative", "dentures", "root-canals", "cosmetic", "veneers", "preventive", "invisalign", "oral-surgery", "sedation", "tmj", "srp", "quietnite"],
+    "/terms": ["main-content"]
   }
 }

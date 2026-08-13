@@ -31,6 +31,7 @@ test("GA4 integration is configurable and enabled for the approved production ro
   assert.equal(siteMeasurement.ga4.measurementId, "G-TC66MQQ0T7");
   assert.equal(routes.default, "prohibited");
   assert.equal(routes.routes["/contact"], "approved");
+  assert.ok(routes.fragments["/contact"].includes("book"));
   assert.deepEqual(contract.events.map((event) => event.name), ["form_start", "form_submit", "generate_lead", "phone_click", "email_click", "appointment_request", "cta_click"]);
   assert.match(script, /const __SITE_ANALYTICS = \{"provider":"gtag","enabled":true,"measurementId":"G-TC66MQQ0T7","consent":\{"mode":"advanced","version":2,"storageKey":"thod-analytics-consent","waitForUpdate":500\},"contractVersion":"local_service_v1"/);
   assert.doesNotMatch(script, /"propertyId"|"webStreamId"|"connection"/);
@@ -216,7 +217,7 @@ test("successful contact response emits the three consented post-success events 
     }
   };
   const stored = new Map();
-  const window = { location: { pathname: "/contact", origin: "https://thehouseofdentalwp.com", search: "", hash: "" } };
+  const window = { location: { pathname: "/contact", origin: "https://thehouseofdentalwp.com", search: "", hash: "#book" } };
   class TestFormData {
     constructor(target) { this.values = target.fields; }
     *[Symbol.iterator]() { yield* this.values; }
@@ -227,7 +228,7 @@ test("successful contact response emits the three consented post-success events 
       enabled: true,
       measurementId: "G-TEST123",
       consent: { mode: "advanced", version: 2, storageKey: "test-consent", waitForUpdate: 500 },
-      routeEligibility: { default: "prohibited", routes: { "/contact": "approved" } },
+      routeEligibility: { default: "prohibited", routes: { "/contact": "approved" }, fragments: { "/contact": ["book"] } },
       eventPolicy: {
         allowedEvents: ["form_start", "form_submit", "generate_lead", "appointment_request"],
         allowedLocations: ["appointment_form", "contact_form"],

@@ -28,6 +28,7 @@
       form.reset();
       setStatus(result.message || "Your message was sent. We'll get back to you soon.", "success");
       window.thodAnalytics?.track("form_submit", { ctaLocation: "contact_form" });
+      window.thodAnalytics?.track("generate_lead", { ctaLocation: "contact_form" });
       window.thodAnalytics?.track("appointment_request", { ctaLocation: "contact_form" });
     } catch {
       setStatus("We couldn't send your request online. Please call (407) 678-1400.", "error");

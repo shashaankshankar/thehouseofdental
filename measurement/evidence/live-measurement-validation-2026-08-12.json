@@ -1,0 +1,51 @@
+{
+  "evidenceVersion": 1,
+  "capturedAt": "2026-08-13T02:24:00Z",
+  "environment": "https://thehouseofdentalwp.com",
+  "ga4Property": "549721844",
+  "webStream": "15427015396",
+  "measurementId": "G-TC66MQQ0T7",
+  "governanceApproval": {
+    "status": "approved",
+    "approvedBy": "Shashaank Shankar",
+    "approvedAt": "2026-08-13T02:20:44Z"
+  },
+  "checks": [
+    {
+      "name": "automated_measurement_suite",
+      "status": "passed",
+      "observed": "34 measurement, privacy, site, Worker, and deployment checks passed, including consent gating, duplicate suppression, event allowlisting, and fail-closed routes."
+    },
+    {
+      "name": "unsafe_url_fail_closed_live",
+      "status": "passed",
+      "observed": "The live contact route with ?email=test@example.com rendered the form but initialized no Google Analytics script and no analytics consent controls."
+    },
+    {
+      "name": "form_start_realtime_receipt",
+      "status": "passed",
+      "observed": "After consent and one Full Name focus, the GA4 Realtime Data API returned exactly one form_start at minutesAgo=00."
+    },
+    {
+      "name": "cta_click_realtime_receipt",
+      "status": "passed",
+      "observed": "After one annotated Book activation, the GA4 Realtime Data API returned exactly one cta_click at minutesAgo=00."
+    },
+    {
+      "name": "payload_privacy",
+      "status": "passed_by_code_and_fixture",
+      "observed": "The production adapter constructs event payloads only from page_path and allowlisted CTA metadata. It never reads FormData or contact fields; unsafe URL data fails before analytics initialization."
+    },
+    {
+      "name": "backend_success_semantics",
+      "status": "approved_and_implemented",
+      "observed": "form_submit, generate_lead, and appointment_request run only after the Worker validates the request and the approved Resend handoff returns success. appointment_request is not a booked or confirmed appointment."
+    }
+  ],
+  "notExecuted": [
+    "No production contact form was submitted, so form_submit, generate_lead, appointment_request, Resend acceptance, and inbox delivery were not observed in this run.",
+    "The browser blocked tel navigation, so phone_click was not generated in this run.",
+    "The current site exposes no annotated mailto CTA, so email_click is not applicable to the rendered first-site UI."
+  ],
+  "status": "approved_governance_with_partial_live_event_evidence"
+}

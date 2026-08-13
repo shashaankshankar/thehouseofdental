@@ -11,7 +11,9 @@
   },
   "industry": {
     "classification": "healthcare",
-    "analyticsEligibility": "requires_review"
+    "analyticsEligibility": "approved",
+    "approvedBy": "Shashaank Shankar",
+    "approvedAt": "2026-08-13T02:20:44Z"
   },
   "ga4": {
     "provider": "gtag",
@@ -19,14 +21,14 @@
     "collectionStatus": "live",
     "measurementId": "G-TC66MQQ0T7",
     "propertyId": "549721844",
-    "webStreamId": "15408312790",
-    "timezone": "",
+    "webStreamId": "15427015396",
+    "timezone": "America/New_York",
     "connection": {
       "method": "service_account",
-      "principal": "",
+      "principal": "analytics-reporting-reader@web-analytics-agency-prod.iam.gserviceaccount.com",
       "access": "viewer",
       "scope": "https://www.googleapis.com/auth/analytics.readonly",
-      "status": "awaiting_client_grant"
+      "status": "active_verified"
     }
   },
   "consent": {

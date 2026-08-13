@@ -18,6 +18,24 @@
   const eligibilityFor = (path) => routeEligibility?.routes?.[path] || routeEligibility?.default || routeEligibility?.default_behavior || "prohibited";
   if (eligibilityFor(pagePath()) !== "approved") return;
 
+  const safeCampaignLocation = () => {
+    if (window.location?.hash) return null;
+    const allowedKeys = new Set(["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"]);
+    const params = new URLSearchParams(window.location?.search || "");
+    const sanitized = new URLSearchParams();
+    const seen = new Set();
+    for (const [key, value] of params) {
+      if (!allowedKeys.has(key) || seen.has(key) || !/^[a-z0-9 ._~+-]{1,100}$/i.test(value) || /\d{4,}/.test(value)) return null;
+      seen.add(key);
+      sanitized.set(key, value);
+    }
+    const query = sanitized.toString();
+    const origin = window.location?.origin || "";
+    return `${origin}${pagePath()}${query ? `?${query}` : ""}`;
+  };
+  const pageLocation = safeCampaignLocation();
+  if (!pageLocation) return;
+
   const storageKey = consentConfig.storageKey || "thod-analytics-consent";
   const validChoices = new Set(["granted", "denied"]);
   const readChoice = () => {
@@ -63,7 +81,12 @@
   if (storedChoice) window.gtag("consent", "update", consentFor(storedChoice));
   window.gtag("set", "ads_data_redaction", true);
   window.gtag("js", new Date());
-  window.gtag("config", config.measurementId);
+  window.gtag("config", config.measurementId, {
+    page_location: pageLocation,
+    page_path: pagePath(),
+    page_referrer: "",
+    send_page_view: true
+  });
 
   const track = (eventName, metadata = {}) => {
     if (!analyticsStorageGranted || !allowedEvents.has(eventName)) return;

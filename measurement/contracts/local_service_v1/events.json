@@ -14,9 +14,9 @@
     },
     {
       "name": "generate_lead",
-      "status": "blocked_pending_downstream_confirmation",
-      "firesWhen": "An approved first-party system confirms receipt of a valid lead.",
-      "businessInterpretation": "Valid lead received."
+      "status": "implemented",
+      "firesWhen": "The Worker validates the appointment request and the approved Resend handoff accepts it for delivery to the dental office.",
+      "businessInterpretation": "Valid lead/request received; not a booked or confirmed appointment."
     },
     {
       "name": "phone_click",

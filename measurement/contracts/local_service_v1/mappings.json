@@ -4,12 +4,11 @@
   "mappings": [
     { "source": "eligible form first focus", "event": "form_start" },
     { "source": "approved appointment endpoint delivery", "event": "form_submit" },
+    { "source": "validated appointment request accepted by the approved Resend handoff", "event": "generate_lead" },
     { "source": "approved appointment endpoint delivery", "event": "appointment_request" },
     { "source": "annotated tel link", "event": "phone_click" },
     { "source": "annotated mailto link", "event": "email_click" },
     { "source": "annotated appointment or directions link", "event": "cta_click" }
   ],
-  "notMapped": [
-    { "event": "generate_lead", "reason": "No approved downstream valid-lead confirmation is available." }
-  ]
+  "notMapped": []
 }

@@ -1,8 +1,8 @@
 {
   "evidenceVersion": 1,
-  "capturedAt": "2026-08-12T23:59:11.313Z",
+  "capturedAt": "2026-08-13T02:23:39.095Z",
   "status": "validated_locally",
-  "approvalStatus": "governance_confirmation_required",
+  "approvalStatus": "approved",
   "deploymentStatus": "live",
   "measurementIdStatus": "provided",
   "ga4RuntimeStatus": "enabled_on_live_approved_routes",
@@ -60,14 +60,12 @@
     {
       "name": "lead_boundary",
       "passed": true,
-      "detail": "generate_lead remains blocked without downstream confirmation"
+      "detail": "generate_lead fires only after the approved validated request handoff"
     }
   ],
   "manualChecksRemaining": [
-    "named privacy/legal approval record",
-    "GA4 DebugView event receipt",
-    "reporting service-account access",
-    "appointment inbox delivery"
+    "GA4 DebugView event receipt for each applicable event",
+    "production appointment inbox delivery"
   ],
-  "notes": "This record proves local policy and build validation only. Public browser verification is recorded separately; client/privacy approval, GA4 account receipt, reporting access, and inbox delivery remain independent evidence gates."
+  "notes": "Governance was approved by the workspace owner. This record proves local policy and build validation; DebugView receipt and production inbox delivery remain independently observable evidence."
 }

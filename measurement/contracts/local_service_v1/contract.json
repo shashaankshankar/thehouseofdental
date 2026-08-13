@@ -1,6 +1,8 @@
 {
   "version": "local_service_v1",
-  "status": "pending_client_approval",
+  "status": "approved",
+  "approvedBy": "Shashaank Shankar",
+  "approvedAt": "2026-08-13T02:20:44Z",
   "collectionOwner": "website_analytics_adapter",
   "consentRequirement": "analytics_storage_granted",
   "industryRestrictions": [
@@ -8,5 +10,5 @@
     "Do not send form fields, user identifiers, appointment identifiers, treatment details, URLs with query values, or page metadata containing prohibited data.",
     "Unknown or unapproved routes must not load GA4."
   ],
-  "leadDefinition": "A generate_lead event requires an approved downstream system to confirm that a valid lead was received. The current appointment endpoint does not provide that confirmation."
+  "leadDefinition": "A generate_lead event fires only after the Worker validates the appointment request and the approved Resend handoff accepts it for delivery to the dental office. It is a received lead/request, never a booked or confirmed appointment."
 }

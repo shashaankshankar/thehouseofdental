@@ -59,12 +59,15 @@ test("GA4 conversion events are consent-gated and privacy-safe", async () => {
   assert.match(analyticsScript, /if \(!analyticsStorageGranted \|\| !allowedEvents\.has\(eventName\)\) return;/);
   assert.match(analyticsScript, /eligibilityFor\(pagePath\(\)\) !== "approved"/);
   assert.match(analyticsScript, /const payload = \{ page_path: pagePath\(\) \};/);
+  assert.match(analyticsScript, /page_location: pageLocation/);
+  assert.match(analyticsScript, /page_referrer: ""/);
   assert.match(analyticsScript, /allowedLocations\.has\(metadata\.ctaLocation\)/);
   assert.match(analyticsScript, /allowedCtaTypes\.has\(metadata\.ctaType\)/);
   assert.match(analyticsScript, /allowedServiceCategories\.has\(metadata\.serviceCategory\)/);
   assert.match(analyticsScript, /analyticsStorageGranted = choice === "granted"/);
   assert.match(formScript, /result\.ok !== true/);
   assert.match(formScript, /window\.thodAnalytics\?\.track\("form_submit"/);
+  assert.match(formScript, /window\.thodAnalytics\?\.track\("generate_lead"/);
   assert.match(formScript, /window\.thodAnalytics\?\.track\("appointment_request"/);
   assert.equal((formScript.match(/appointment_request/g) || []).length, 1);
   assert.doesNotMatch(analyticsScript, /FormData|name:|email:|phone:|message:|health/i);
@@ -139,7 +142,8 @@ test("conversion events wait for consent and decline keeps analytics storage den
     localStorage: { getItem: () => null, setItem() {} },
     Set,
     Number,
-    encodeURIComponent
+    encodeURIComponent,
+    URLSearchParams
   });
   listeners.get("phone:click")();
   assert.equal(window.dataLayer.filter((entry) => entry[0] === "event").length, 0);
@@ -180,15 +184,37 @@ test("unapproved and unknown routes do not initialize analytics", async () => {
   assert.equal(window.dataLayer, undefined);
 });
 
-test("measurement evidence records local validation without claiming approval", async () => {
+test("unsafe URL data fails closed before GA4 initializes", async () => {
+  const analyticsScript = await readFile("src/scripts/80-analytics.js", "utf8");
+  for (const location of [
+    { pathname: "/contact", origin: "https://example.test", search: "?email=person@example.com", hash: "" },
+    { pathname: "/contact", origin: "https://example.test", search: "?utm_campaign=patient-12345", hash: "" },
+    { pathname: "/contact", origin: "https://example.test", search: "", hash: "#patient-12345" }
+  ]) {
+    const window = { location };
+    const document = new Proxy({}, { get() { throw new Error("unsafe URL must fail before document access"); } });
+    vm.runInNewContext(analyticsScript, {
+      __SITE_ANALYTICS: {
+        provider: "gtag", enabled: true, measurementId: "G-TEST123",
+        consent: { mode: "advanced", version: 2 },
+        routeEligibility: { default: "prohibited", routes: { "/contact": "approved" } },
+        eventPolicy: { allowedEvents: [], allowedLocations: [], allowedCtaTypes: [], allowedServiceCategories: [] }
+      },
+      window, document, URLSearchParams, Set
+    });
+    assert.equal(window.dataLayer, undefined);
+  }
+});
+
+test("measurement evidence separates governance approval from observed DebugView proof", async () => {
   const evidence = JSON.parse(await readFile("measurement/evidence/validation.json", "utf8"));
   assert.equal(evidence.status, "validated_locally");
-  assert.equal(evidence.approvalStatus, "governance_confirmation_required");
+  assert.equal(evidence.approvalStatus, "approved");
   assert.equal(evidence.deploymentStatus, "live");
   assert.equal(evidence.ga4RuntimeStatus, "enabled_on_live_approved_routes");
   assert.equal(evidence.measurementIdStatus, "provided");
   assert.ok(evidence.checks.length >= 10);
-  assert.ok(evidence.manualChecksRemaining.includes("GA4 DebugView event receipt"));
+  assert.ok(evidence.manualChecksRemaining.some((item) => item.includes("GA4 DebugView event receipt")));
 });
 
 test("Google reputation integration has a safe fallback and no client API key", async () => {

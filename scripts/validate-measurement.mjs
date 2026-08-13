@@ -45,10 +45,11 @@ for (const event of expectedEvents) {
   if (!events.events?.some((item) => item.name === event)) errors.push(`missing contract event: ${event}`);
   if (!parameters.allowed?.event?.includes(event)) errors.push(`event is not allowed by parameters: ${event}`);
 }
-if (events.events?.find((event) => event.name === "generate_lead")?.status !== "blocked_pending_downstream_confirmation") {
-  errors.push("generate_lead must stay blocked until downstream confirmation is approved");
-}
-if (!mappings.notMapped?.some((item) => item.event === "generate_lead")) errors.push("missing generate_lead boundary mapping");
+if (siteMeasurement.industry?.analyticsEligibility !== "approved") errors.push("healthcare analytics eligibility approval is required");
+if (contract.status !== "approved" || !contract.approvedBy || !contract.approvedAt) errors.push("measurement contract approval record is required");
+if (validation.approval?.status !== "approved" || !validation.approval?.approvedBy) errors.push("privacy and consent approval record is required");
+if (events.events?.find((event) => event.name === "generate_lead")?.status !== "implemented") errors.push("approved generate_lead semantics must be implemented");
+if (!mappings.mappings?.some((item) => item.event === "generate_lead")) errors.push("approved generate_lead mapping is required");
 if (!validation.requiredChecks?.length) errors.push("measurement validation checks are required");
 
 const allowedEvents = new Set(parameters.allowed.event);
@@ -61,20 +62,20 @@ check("approved_route_coverage", Object.values(routes.routes).some((status) => s
 check("query_string_not_allowed", parameters.prohibited.includes("URL query parameters"), "query parameters are prohibited payload sources");
 check("fragment_not_allowed", parameters.prohibited.includes("URL query parameters"), "fragment/query URL data is not an analytics payload");
 check("direct_identifiers_not_allowed", ["name", "email", "personal phone number", "form contents"].every((item) => parameters.prohibited.includes(item)), "direct identifiers and form contents are prohibited");
-check("lead_boundary", events.events.find((event) => event.name === "generate_lead")?.status === "blocked_pending_downstream_confirmation", "generate_lead remains blocked without downstream confirmation");
+check("lead_boundary", events.events.find((event) => event.name === "generate_lead")?.status === "implemented" && mappings.mappings.some((item) => item.event === "generate_lead"), "generate_lead fires only after the approved validated request handoff");
 
 await mkdir("measurement/evidence", { recursive: true });
 await writeFile("measurement/evidence/validation.json", `${JSON.stringify({
   evidenceVersion: 1,
   capturedAt: new Date().toISOString(),
   status: errors.length ? "failed" : "validated_locally",
-  approvalStatus: "governance_confirmation_required",
+  approvalStatus: "approved",
   deploymentStatus: siteMeasurement.deployment.status,
   measurementIdStatus: siteMeasurement.ga4.measurementId ? "provided" : "not_provided",
   ga4RuntimeStatus: siteMeasurement.ga4.enabled ? "enabled_on_live_approved_routes" : "disabled",
   checks: evidenceChecks,
-  manualChecksRemaining: ["named privacy/legal approval record", "GA4 DebugView event receipt", "reporting service-account access", "appointment inbox delivery"],
-  notes: "This record proves local policy and build validation only. Public browser verification is recorded separately; client/privacy approval, GA4 account receipt, reporting access, and inbox delivery remain independent evidence gates."
+  manualChecksRemaining: ["GA4 DebugView event receipt for each applicable event", "production appointment inbox delivery"],
+  notes: "Governance was approved by the workspace owner. This record proves local policy and build validation; DebugView receipt and production inbox delivery remain independently observable evidence."
 }, null, 2)}\n`);
 
 if (errors.length) {

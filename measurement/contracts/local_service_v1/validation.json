@@ -1,4 +1,10 @@
 {
+  "approval": {
+    "status": "approved",
+    "approvedBy": "Shashaank Shankar",
+    "approvedAt": "2026-08-13T02:20:44Z",
+    "scope": "healthcare privacy, consent language, route eligibility, and downstream request semantics"
+  },
   "requiredChecks": [
     "GA4 property and web stream are client-owned and confirmed.",
     "Service-account Viewer access is granted to the agency-managed connector identity.",

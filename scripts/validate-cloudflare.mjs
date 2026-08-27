@@ -11,12 +11,14 @@ const requireEqual = (actual, expected, label) => {
 
 const config = JSON.parse(await read("wrangler.jsonc"));
 const site = JSON.parse(await read("src/data/site.json"));
+const blog = JSON.parse(await read("src/data/blog.json"));
 const pages = Object.entries(site.pages);
 const contentPages = pages.filter(([, page]) => page.path);
 const expectedPaths = [
   "/",
   "/about",
   "/accessibility",
+  "/blog",
   "/contact",
   "/facial-aesthetics",
   "/new-patients",
@@ -24,7 +26,8 @@ const expectedPaths = [
   "/privacy",
   "/reviews",
   "/services",
-  "/terms"
+  "/terms",
+  ...blog.articles.map((article) => `/blog/${article.slug}`)
 ];
 
 requireEqual(config.name, "thehouseofdental", "wrangler.jsonc name");
@@ -45,7 +48,7 @@ requireEqual(config.assets?.html_handling, "drop-trailing-slash", "wrangler.json
 requireEqual(config.assets?.not_found_handling, "404-page", "wrangler.jsonc assets.not_found_handling");
 if (JSON.stringify(config.assets?.run_worker_first) !== JSON.stringify(["/*"])) errors.push("wrangler.jsonc assets.run_worker_first must include /* so host redirects run before Static Assets");
 
-const metadataPaths = contentPages.map(([, page]) => page.path);
+const metadataPaths = [...contentPages.map(([, page]) => page.path), ...blog.articles.map((article) => `/blog/${article.slug}`)];
 if (metadataPaths.length !== expectedPaths.length || !expectedPaths.every((path) => metadataPaths.includes(path))) errors.push("site metadata clean paths do not match the approved route inventory");
 if (new Set(metadataPaths).size !== metadataPaths.length) errors.push("site metadata contains duplicate clean paths");
 if (pages.find(([file, page]) => file === "404.html" && page.path !== null)) errors.push("404.html must not have a public clean path");
@@ -58,6 +61,12 @@ const redirectMap = new Map(redirects.map(([from, to, status]) => [from, { to, s
 for (const [file, page] of contentPages) {
   const rule = redirectMap.get(`/${file}`);
   if (!rule || rule.to !== page.path || rule.status !== "301") errors.push(`dist/_redirects: ${file} must redirect directly to ${page.path}`);
+}
+for (const article of blog.articles) {
+  const file = `blog/${article.slug}.html`;
+  const path = `/blog/${article.slug}`;
+  const rule = redirectMap.get(`/${file}`);
+  if (!rule || rule.to !== path || rule.status !== "301") errors.push(`dist/_redirects: ${file} must redirect directly to ${path}`);
 }
 for (const [from, to] of Object.entries(site.redirects || {})) {
   const rule = redirectMap.get(from);
@@ -109,9 +118,16 @@ for (const [, page] of contentPages.filter(([, page]) => page.sitemap !== false 
   const canonical = new URL(page.path, `${site.baseUrl}/`).toString();
   if (!sitemap.includes(`<loc>${canonical}</loc>`)) errors.push(`dist/sitemap.xml: missing ${canonical}`);
 }
+for (const article of blog.articles) {
+  const canonical = new URL(`/blog/${article.slug}`, `${site.baseUrl}/`).toString();
+  if (!sitemap.includes(`<loc>${canonical}</loc>`)) errors.push(`dist/sitemap.xml: missing ${canonical}`);
+}
 
-const generatedHtml = await readdir(resolve(repo, "dist"));
-if (generatedHtml.filter((file) => file.endsWith(".html")).length !== 12) errors.push("dist: expected 12 generated HTML pages");
+const countHtml = async (directory) => {
+  const entries = await readdir(directory, { withFileTypes: true });
+  return (await Promise.all(entries.map((entry) => entry.isDirectory() ? countHtml(resolve(directory, entry.name)) : Number(entry.name.endsWith(".html"))))).reduce((sum, count) => sum + count, 0);
+};
+if (await countHtml(resolve(repo, "dist")) !== 23) errors.push("dist: expected 23 generated HTML pages");
 if (/\/_vercel\/|@vercel\/analytics/i.test(await read("dist/main.js"))) errors.push("dist/main.js: contains Vercel runtime code");
 
 if (errors.length) {

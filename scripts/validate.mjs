@@ -1,23 +1,32 @@
 import { access, readFile, readdir } from "node:fs/promises";
-import { dirname, resolve } from "node:path";
+import { dirname, relative, resolve } from "node:path";
 
 const root = resolve(process.argv[2] || "dist");
-const files = (await readdir(root)).filter((name) => name.endsWith(".html")).sort();
+const htmlFiles = async (directory) => {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const nested = await Promise.all(entries.map(async (entry) => entry.isDirectory() ? htmlFiles(resolve(directory, entry.name)) : entry.name.endsWith(".html") ? [relative(root, resolve(directory, entry.name))] : []));
+  return nested.flat();
+};
+const files = (await htmlFiles(root)).sort();
 const errors = [];
 const htmlByFile = new Map(await Promise.all(files.map(async (file) => [file, await readFile(resolve(root, file), "utf8")])));
 const site = JSON.parse(await readFile("src/data/site.json", "utf8"));
-const pageByPath = new Map(Object.entries(site.pages).filter(([, page]) => page.path).map(([file, page]) => [page.path, file]));
+const blog = JSON.parse(await readFile("src/data/blog.json", "utf8"));
+const pageByPath = new Map([
+  ...Object.entries(site.pages).filter(([, page]) => page.path).map(([file, page]) => [page.path, file]),
+  ...blog.articles.map((article) => [`/blog/${article.slug}`, `blog/${article.slug}.html`])
+]);
 const exists = async (path) => { try { await access(path); return true; } catch { return false; } };
 
-if (files.length !== 12) errors.push(`expected 12 HTML pages, found ${files.length}`);
+if (files.length !== 23) errors.push(`expected 23 HTML pages, found ${files.length}`);
 for (const [file, html] of htmlByFile) {
   const count = (pattern) => (html.match(pattern) || []).length;
   for (const [label, pattern, expected] of [
     ["title", /<title\b/g, 1], ["viewport", /name="viewport"/g, 1], ["robots", /name="robots"/g, 1],
-    ["main", /<main\b/g, 1], ["h1", /<h1\b/g, 1], ["stylesheet", /href="styles\.css"/g, 1]
+    ["main", /<main\b/g, 1], ["h1", /<h1\b/g, 1], ["stylesheet", /href="\/?styles\.css"/g, 1]
   ]) if (count(pattern) !== expected) errors.push(`${file}: expected ${expected} ${label}, found ${count(pattern)}`);
   if (file !== "404.html" && count(/rel="canonical"/g) !== 1) errors.push(`${file}: expected one canonical URL`);
-  if (file !== "404.html" && /href="[^"\n]*\.html(?:[#"]|$)/.test(html)) errors.push(`${file}: generated public URL still contains .html`);
+  if (file !== "404.html" && /href="\/[^"\n]*\.html(?:[#"]|$)/.test(html)) errors.push(`${file}: generated public URL still contains .html`);
   if (/\sstyle="/i.test(html)) errors.push(`${file}: contains inline style attribute`);
   if (/<[a-z][^>]*\bclass="[^"]*"[^>]*\bclass="/i.test(html)) errors.push(`${file}: contains duplicate class attributes`);
   if (/<script(?![^>]*type="application\/ld\+json")(?![^>]*src=)[^>]*>/i.test(html)) errors.push(`${file}: contains executable inline script`);
@@ -38,8 +47,8 @@ for (const [file, html] of htmlByFile) {
         continue;
       }
     } else if (referencePath) {
-      targetFile = referencePath;
-      if (!(await exists(resolve(dirname(resolve(root, file)), targetFile)))) {
+      targetFile = relative(root, resolve(dirname(resolve(root, file)), referencePath));
+      if (!(await exists(resolve(root, targetFile)))) {
         if (!targetFile.startsWith("assets/team/")) errors.push(`${file}: missing local target ${targetFile}`);
         continue;
       }

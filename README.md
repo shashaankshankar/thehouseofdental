@@ -4,7 +4,8 @@ Node-built static website for The House of Dental. The visual design and working
 
 ## Source layout
 
-- `src/pages/` contains the 12 page inputs: the 11 public pages plus the custom 404 page.
+- `src/pages/` contains the core page inputs, including the blog index and custom 404 page.
+- `src/data/blog.json` contains the ten general educational articles, SEO metadata, sources, related links, and image descriptions. The build renders these into nested article routes.
 - `src/templates/` contains the shared full, minimal, and footer shells.
 - `src/data/` contains site metadata, clean public paths, redirect aliases, service and technology modal records, review cards, and financing values.
 - `src/styles/` and `src/scripts/` contain ordered source modules concatenated into `dist/styles.css` and `dist/main.js`.
@@ -17,7 +18,7 @@ Node-built static website for The House of Dental. The visual design and working
 
 ## Generated export
 
-`npm run build` creates the 12 HTML pages plus `main.js`, `styles.css`, local assets, `_headers`, generated `_redirects`, `robots.txt`, and `sitemap.xml`. Public page URLs are extensionless; the Worker resolves clean paths to the generated flat HTML assets, while `_redirects` permanently moves legacy `.html` and alias URLs to their final clean destinations.
+`npm run build` creates 23 HTML pages, including `/blog` and ten nested article pages, plus `main.js`, `styles.css`, local assets, `_headers`, generated `_redirects`, `robots.txt`, and `sitemap.xml`. Public page URLs are extensionless; the Worker resolves clean paths to generated HTML assets, while `_redirects` permanently moves legacy `.html` and alias URLs to their final clean destinations.
 
 ## Commands
 
@@ -41,6 +42,8 @@ Workers Builds settings:
 - Preview command: `npx wrangler versions upload`
 - Existing `dev` → `qa` → `main` promotion flow remains in place.
 - Public preview URLs should be protected with Cloudflare Access before client review.
+
+The repository also includes `.github/workflows/cloudflare-deploy.yml` as the source-controlled production trigger. Each push to `main` runs `npm run check` and then deploys the `thehouseofdental` Worker with `npx wrangler deploy --config ./wrangler.jsonc --keep-vars`. Configure `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as GitHub Actions secrets before merging this workflow. Use either this workflow or Cloudflare Workers Builds for production, not both, to avoid duplicate deployments.
 
 Build and local Worker verification:
 
@@ -88,7 +91,11 @@ A successful adapter response means the message was accepted for notification; i
 
 ## Clean routes and redirects
 
-The `path` field in `src/data/site.json` is the single source for canonical URLs, Open Graph URLs, sitemap entries, measurement eligibility, and generated legacy redirects. The public paths are `/`, `/about`, `/accessibility`, `/contact`, `/facial-aesthetics`, `/new-patients`, `/pre-post-op`, `/privacy`, `/reviews`, `/services`, and `/terms`.
+The `path` field in `src/data/site.json` defines core clean routes. Blog article routes come from the slugs in `src/data/blog.json`. Together these sources drive canonical URLs, social metadata, sitemap entries, measurement eligibility, and generated legacy redirects.
+
+## Blog publishing
+
+The blog is a static, SEO-focused educational section. Article copy must remain general and evidence-based, with visible authoritative sources and no invented patient stories, local claims, prices, rankings, or named-clinician review claims. Keep the editorial voice natural: do not use em dashes, canned AI phrasing, repetitive section templates, or lists where connected prose is clearer. Every article image has a 720-pixel card variant and a 1440-pixel hero variant under `src/assets/blog/`.
 
 The generated `_redirects` file sends every former public `.html` URL directly to its clean path and sends `/home`, `/about-us`, `/dental-services`, `/new-patient`, and `/contact-us` directly to their final destinations. The custom 404 page is served by Static Assets `404-page` handling rather than a wildcard rewrite.
 

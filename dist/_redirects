@@ -1,6 +1,7 @@
 # Generated from src/data/site.json clean paths and legacy aliases.
 /about.html /about 301
 /accessibility.html /accessibility 301
+/blog.html /blog 301
 /contact.html /contact 301
 /facial-aesthetics.html /facial-aesthetics 301
 /index.html / 301
@@ -10,6 +11,16 @@
 /reviews.html /reviews 301
 /services.html /services 301
 /terms.html /terms 301
+/blog/dental-implants-process-benefits-recovery.html /blog/dental-implants-process-benefits-recovery 301
+/blog/same-day-crowns-vs-traditional-crowns.html /blog/same-day-crowns-vs-traditional-crowns 301
+/blog/veneers-vs-bonding-vs-whitening.html /blog/veneers-vs-bonding-vs-whitening 301
+/blog/clear-aligners-how-they-work.html /blog/clear-aligners-how-they-work 301
+/blog/gum-disease-signs-treatment-prevention.html /blog/gum-disease-signs-treatment-prevention 301
+/blog/root-canal-what-to-expect.html /blog/root-canal-what-to-expect 301
+/blog/sedation-dentistry-types-safety.html /blog/sedation-dentistry-types-safety 301
+/blog/tmj-disorders-symptoms-treatment.html /blog/tmj-disorders-symptoms-treatment 301
+/blog/co2-laser-resurfacing-benefits-recovery.html /blog/co2-laser-resurfacing-benefits-recovery 301
+/blog/microneedling-benefits-process-aftercare.html /blog/microneedling-benefits-process-aftercare 301
 /home / 301
 /about-us /about 301
 /dental-services /services 301

@@ -8,6 +8,7 @@ const validStatuses = new Set(["approved", "requires_review", "prohibited"]);
 const siteMeasurement = await readJson("measurement/site.json");
 const routes = await readJson("measurement/eligibility/routes.json");
 const site = await readJson("src/data/site.json");
+const blog = await readJson("src/data/blog.json");
 const contract = await readJson("measurement/contracts/local_service_v1/contract.json");
 const events = await readJson("measurement/contracts/local_service_v1/events.json");
 const parameters = await readJson("measurement/contracts/local_service_v1/parameters.json");
@@ -30,7 +31,10 @@ if (routes.default !== "prohibited") errors.push("unknown routes must be prohibi
 for (const [path, status] of Object.entries(routes.routes || {})) {
   if (!path.startsWith("/") || !validStatuses.has(status)) errors.push(`invalid route eligibility: ${path}`);
 }
-const expectedSiteRoutes = Object.values(site.pages).filter((page) => page.path).map((page) => page.path);
+const expectedSiteRoutes = [
+  ...Object.values(site.pages).filter((page) => page.path).map((page) => page.path),
+  ...blog.articles.map((article) => `/blog/${article.slug}`)
+];
 const configuredSiteRoutes = Object.keys(routes.routes || {});
 if (new Set(expectedSiteRoutes).size !== expectedSiteRoutes.length) errors.push("site metadata contains duplicate clean page paths");
 if (new Set(configuredSiteRoutes).size !== configuredSiteRoutes.length) errors.push("measurement route policy contains duplicate paths");

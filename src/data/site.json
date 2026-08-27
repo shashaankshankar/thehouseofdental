@@ -42,6 +42,19 @@
       "sitemap": false,
       "shell": "minimal"
     },
+    "blog.html": {
+      "path": "/blog",
+      "title": "Dental and Skin Health Articles | The House of Dental",
+      "description": "Clear, evidence-based articles about dental care, oral health, restorative treatment, orthodontics, and facial aesthetics.",
+      "socialTitle": "Dental and Skin Health Articles | The House of Dental",
+      "socialDescription": "Practical, evidence-based reading about dental care, oral health, restorative treatment, orthodontics, and facial aesthetics.",
+      "author": "The House of Dental",
+      "changefreq": "weekly",
+      "priority": "0.7",
+      "robots": "index, follow, max-image-preview:large",
+      "shell": "full",
+      "schemaType": "blog-index"
+    },
     "contact.html": {
       "path": "/contact",
       "title": "Contact & Book Appointment | The House of Dental — Winter Park, FL",

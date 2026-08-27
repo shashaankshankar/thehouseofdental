@@ -11,6 +11,7 @@ const reviews = JSON.parse(await read(join(source, "data/reviews.json")));
 const financing = JSON.parse(await read(join(source, "data/financing.json")));
 const services = JSON.parse(await read(join(source, "data/services.json")));
 const technology = JSON.parse(await read(join(source, "data/technology.json")));
+const blog = JSON.parse(await read(join(source, "data/blog.json")));
 const siteMeasurement = JSON.parse(await read("measurement/site.json"));
 const routeEligibility = JSON.parse(await read("measurement/eligibility/routes.json"));
 const contract = JSON.parse(await read("measurement/contracts/local_service_v1/contract.json"));
@@ -115,10 +116,51 @@ const alignCareCopy = (content) => {
 const reviewCards = reviews.map((review) => `<div class="review-card rv ${review.delay}"><p class="stars">★★★★★</p><p>&ldquo;${escapeText(review.text)}&rdquo;</p><p class="who">${escapeText(review.author)}</p></div>`).join("");
 const money = (value) => `$${Math.round(value).toLocaleString("en-US")}`;
 const financingCalculator = `<div class="cherry-box rv"><p class="eyebrow u-inline-001">${escapeText(financing.provider)}</p><h3>${escapeText(financing.heading)}</h3><p class="cherry-sub">${escapeText(financing.description)}</p><div class="cherry-amount"><span id="chr-amt">${money(financing.initial)}</span></div><input type="range" id="chr-range" min="${financing.minimum}" max="${financing.maximum}" step="${financing.step}" value="${financing.initial}" aria-label="Estimated treatment cost"><div class="cherry-plans"><div class="cherry-plan"><span class="val" id="chr-bi">${money(financing.initial / 4)} <i>&times;4</i></span><span class="lbl">Every 2 Weeks*</span></div><div class="cherry-plan"><span class="val" id="chr-24">${money(financing.initial / 24)}<i>/mo</i></span><span class="lbl">24 Months</span></div><div class="cherry-plan"><span class="val" id="chr-60">${money(financing.initial / 60)}<i>/mo</i></span><span class="lbl">60 Months</span></div></div><a class="btn btn-solid" href="${escapeAttribute(financing.applyUrl)}" id="chr-apply" target="_blank" rel="noopener">Apply With Cherry</a><p class="cherry-note">${escapeText(financing.disclosure)}</p></div>`;
-for (const [file, page] of Object.entries(site.pages)) {
-  let content = (await read(join(source, "pages", file))).replace("{{REVIEWS}}", reviewCards).replace("{{FINANCING_CALCULATOR}}", financingCalculator);
-  if (file === "pre-post-op.html") content = alignCareCopy(reorderCareSections(content));
-  content = decorateAnalyticsAttributes(content);
+const blogArticlePath = (article) => `/blog/${article.slug}`;
+const blogArticleFile = (article) => `blog/${article.slug}.html`;
+const blogImagePath = (article, size) => `/assets/blog/${article.slug}-${size}.jpg`;
+const absoluteUrl = (path) => new URL(path, `${site.baseUrl}/`).toString();
+const articleWordCount = (article) => article.sections.reduce((count, section) => count + section.paragraphs.join(" ").split(/\s+/).filter(Boolean).length, 0);
+const readingMinutes = (article) => Math.max(1, Math.ceil(articleWordCount(article) / 220));
+const formattedDate = (date) => new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(`${date}T00:00:00Z`));
+const articleBySlug = new Map(blog.articles.map((article) => [article.slug, article]));
+const renderBlogCard = (article, index = 1) => `<article class="blog-card"><a class="blog-card-media" href="${blogArticlePath(article)}"><img src="${blogImagePath(article, "card")}" width="720" height="480" alt="${escapeAttribute(article.imageAlt)}"${index === 0 ? ' loading="eager" fetchpriority="high"' : ' loading="lazy"'}></a><div class="blog-card-body"><div class="blog-card-meta"><span>${escapeText(article.category)}</span><span>${readingMinutes(article)} min read</span></div><h2><a href="${blogArticlePath(article)}">${escapeText(article.title)}</a></h2><p>${escapeText(article.description)}</p><span class="blog-read" aria-hidden="true">Read article</span></div></article>`;
+const blogCards = blog.articles.map(renderBlogCard).join("\n");
+const organization = { "@type": "Organization", name: site.name, url: site.baseUrl, logo: absoluteUrl("/assets/logo.svg") };
+const collectionSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "CollectionPage", name: site.pages["blog.html"].title, description: site.pages["blog.html"].description, url: absoluteUrl("/blog"), publisher: organization },
+    { "@type": "ItemList", itemListElement: blog.articles.map((article, index) => ({ "@type": "ListItem", position: index + 1, name: article.title, url: absoluteUrl(blogArticlePath(article)) })) }
+  ]
+};
+const articleSchema = (article) => ({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      headline: article.title,
+      description: article.description,
+      image: absoluteUrl(blogImagePath(article, "hero")),
+      datePublished: blog.publishedAt,
+      dateModified: blog.publishedAt,
+      author: organization,
+      publisher: organization,
+      mainEntityOfPage: absoluteUrl(blogArticlePath(article)),
+      articleSection: article.category,
+      wordCount: articleWordCount(article)
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+        { "@type": "ListItem", position: 2, name: "Blog", item: absoluteUrl("/blog") },
+        { "@type": "ListItem", position: 3, name: article.title, item: absoluteUrl(blogArticlePath(article)) }
+      ]
+    }
+  ]
+});
+const renderDocument = (page, content, options = {}) => {
   const shell = {
     header: decorateAnalyticsAttributes(templates[page.shell].header),
     footer: decorateAnalyticsAttributes(templates[page.shell].footer)
@@ -130,21 +172,85 @@ for (const [file, page] of Object.entries(site.pages)) {
   const geo = page.geoPlacename ? `<meta name="geo.region" content="US-FL"><meta name="geo.placename" content="${escapeAttribute(page.geoPlacename)}">` : "";
   const socialTitle = page.socialTitle || page.title;
   const socialDescription = page.socialDescription || page.description;
-  const social = canonicalUrl ? `<meta property="og:title" content="${escapeAttribute(socialTitle)}"><meta property="og:description" content="${escapeAttribute(socialDescription)}"><meta property="og:type" content="website"><meta property="og:site_name" content="${escapeAttribute(site.name)}"><meta property="og:locale" content="en_US"><meta property="og:url" content="${escapeAttribute(canonicalUrl)}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escapeAttribute(socialTitle)}"><meta name="twitter:description" content="${escapeAttribute(socialDescription)}">` : "";
+  const socialImage = options.socialImage ? `<meta property="og:image" content="${escapeAttribute(options.socialImage)}"><meta property="og:image:width" content="1440"><meta property="og:image:height" content="960"><meta property="og:image:alt" content="${escapeAttribute(options.socialImageAlt || "")}"><meta name="twitter:image" content="${escapeAttribute(options.socialImage)}">` : "";
+  const articleSocial = options.publishedAt ? `<meta property="article:published_time" content="${escapeAttribute(options.publishedAt)}"><meta property="article:modified_time" content="${escapeAttribute(options.modifiedAt || options.publishedAt)}"><meta property="article:section" content="${escapeAttribute(options.articleSection || "")}">` : "";
+  const social = canonicalUrl ? `<meta property="og:title" content="${escapeAttribute(socialTitle)}"><meta property="og:description" content="${escapeAttribute(socialDescription)}"><meta property="og:type" content="${escapeAttribute(options.socialType || "website")}"><meta property="og:site_name" content="${escapeAttribute(site.name)}"><meta property="og:locale" content="en_US"><meta property="og:url" content="${escapeAttribute(canonicalUrl)}">${socialImage}${articleSocial}<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escapeAttribute(socialTitle)}"><meta name="twitter:description" content="${escapeAttribute(socialDescription)}">` : "";
   const author = page.author ? `<meta name="author" content="${escapeAttribute(page.author)}">` : "";
-  const schema = page.schema === false ? "" : page.shell === "full" ? `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>` : "";
+  const schemaData = options.schemaData ?? (page.schema === false ? null : page.shell === "full" ? structuredData : null);
+  const schema = schemaData ? `<script type="application/ld+json">${JSON.stringify(schemaData)}</script>` : "";
   const fonts = page.shell === "full" ? '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital@1&display=swap" rel="stylesheet">' : "";
-  const html = `<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0a0a0b"><title>${escapeText(page.title)}</title>${keywords}${social}${geo}${description}<meta name="robots" content="${escapeAttribute(page.robots)}">${canonical}${author}${schema}${fonts}<link rel="icon" href="favicon-16x16.png" type="image/png" sizes="16x16"><link rel="icon" href="favicon-32x32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180"><link rel="stylesheet" href="styles.css"></head><body><a class="skip-link" href="#main-content">Skip to main content</a>${shell.header}${content}${shell.footer}${mobileActions}<script src="main.js" defer></script></body></html>`;
+  return `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0a0a0b"><title>${escapeText(page.title)}</title>${keywords}${social}${geo}${description}<meta name="robots" content="${escapeAttribute(page.robots)}">${canonical}${author}${schema}${fonts}<link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16"><link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180"><link rel="stylesheet" href="/styles.css"></head><body><a class="skip-link" href="#main-content">Skip to main content</a>${shell.header}${content}${shell.footer}${mobileActions}<script src="/main.js" defer></script></body></html>`;
+};
+for (const [file, page] of Object.entries(site.pages)) {
+  let content = (await read(join(source, "pages", file))).replace("{{REVIEWS}}", reviewCards).replace("{{FINANCING_CALCULATOR}}", financingCalculator).replace("{{BLOG_CARDS}}", blogCards);
+  if (file === "pre-post-op.html") content = alignCareCopy(reorderCareSections(content));
+  content = decorateAnalyticsAttributes(content);
+  const html = renderDocument(page, content, { schemaData: page.schemaType === "blog-index" ? collectionSchema : undefined });
   await writeFile(join(output, file), `${html}\n`);
 }
 
-const sitemapPages = Object.entries(site.pages).filter(([, page]) => page.path && page.sitemap !== false && !page.robots.includes("noindex"));
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapPages.map(([, page]) => `  <url><loc>${canonicalFor(page)}</loc><changefreq>${page.changefreq || "monthly"}</changefreq><priority>${page.priority || "0.8"}</priority></url>`).join("\n")}\n</urlset>\n`;
+await mkdir(join(output, "blog"), { recursive: true });
+const articlePages = blog.articles.map((article) => {
+  const page = {
+    path: blogArticlePath(article),
+    title: `${article.title} | The House of Dental`,
+    description: article.description,
+    socialTitle: article.title,
+    socialDescription: article.description,
+    author: site.name,
+    robots: "index, follow, max-image-preview:large",
+    shell: "full",
+    changefreq: "monthly",
+    priority: "0.7",
+    lastmod: blog.publishedAt
+  };
+  const relatedCards = article.related.map((slug, index) => renderBlogCard(articleBySlug.get(slug), index + 1)).join("\n");
+  const sections = article.sections.map((section) => `<section><h2>${escapeText(section.heading)}</h2>${section.paragraphs.map((paragraph) => `<p>${escapeText(paragraph)}</p>`).join("")}</section>`).join("\n");
+  const sources = article.sources.map((sourceItem) => `<li><a href="${escapeAttribute(sourceItem.url)}" target="_blank" rel="noopener noreferrer">${escapeText(sourceItem.label)}</a></li>`).join("");
+  const content = decorateAnalyticsAttributes(`<main id="main-content">
+  <article>
+    <header class="page-hero sec-noir article-hero">
+      <div class="wrap">
+        <p class="crumb"><a href="/">Home</a><span>/</span><a href="/blog">Blog</a><span>/</span>${escapeText(article.category)}</p>
+        <p class="eyebrow u-inline-001">${escapeText(article.category)}</p>
+        <h1>${escapeText(article.title)}</h1>
+        <p class="article-dek">${escapeText(article.description)}</p>
+        <div class="article-meta"><span>${formattedDate(blog.publishedAt)}</span><span>${readingMinutes(article)} min read</span><span>Published by ${escapeText(site.name)}</span></div>
+      </div>
+    </header>
+    <div class="sec sec-ivory article-shell">
+      <figure class="article-figure"><img src="${blogImagePath(article, "hero")}" width="1440" height="960" alt="${escapeAttribute(article.imageAlt)}" loading="eager" fetchpriority="high"></figure>
+      <div class="wrap article-layout">
+        <div class="article-body">
+          ${sections}
+          <section class="article-sources" aria-labelledby="sources-heading"><h2 id="sources-heading">Sources and further reading</h2><ol>${sources}</ol></section>
+          <p class="article-disclaimer"><strong>Editorial note:</strong> ${escapeText(blog.disclaimer)}</p>
+        </div>
+        <aside class="article-aside" aria-label="Related care"><h2>Related care</h2><p>Read about the service connected to this topic.</p><a href="${escapeAttribute(article.serviceHref)}">${escapeText(article.serviceLabel)}</a></aside>
+      </div>
+    </div>
+  </article>
+  <section class="sec sec-ivory article-related" aria-labelledby="related-heading"><div class="wrap"><div class="center-head"><p class="eyebrow">Keep reading</p><h2 id="related-heading">Related Articles</h2></div><div class="blog-grid">${relatedCards}</div></div></section>
+</main>`);
+  const html = renderDocument(page, content, {
+    schemaData: articleSchema(article),
+    socialType: "article",
+    socialImage: absoluteUrl(blogImagePath(article, "hero")),
+    socialImageAlt: article.imageAlt,
+    publishedAt: blog.publishedAt,
+    modifiedAt: blog.publishedAt,
+    articleSection: article.category
+  });
+  return { file: blogArticleFile(article), page, html };
+});
+for (const articlePage of articlePages) await writeFile(join(output, articlePage.file), `${articlePage.html}\n`);
+
+const allPages = [...Object.entries(site.pages).map(([file, page]) => ({ file, page })), ...articlePages.map(({ file, page }) => ({ file, page }))];
+const sitemapPages = allPages.filter(({ page }) => page.path && page.sitemap !== false && !page.robots.includes("noindex"));
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapPages.map(({ page }) => `  <url><loc>${canonicalFor(page)}</loc>${page.lastmod || page.path === "/blog" ? `<lastmod>${page.lastmod || blog.publishedAt}</lastmod>` : ""}<changefreq>${page.changefreq || "monthly"}</changefreq><priority>${page.priority || "0.8"}</priority></url>`).join("\n")}\n</urlset>\n`;
 await writeFile(join(output, "sitemap.xml"), sitemap);
-const pageRedirects = Object.entries(site.pages)
-  .filter(([, page]) => page.path)
-  .map(([file, page]) => `/${file} ${page.path} 301`);
+const pageRedirects = allPages.filter(({ page }) => page.path).map(({ file, page }) => `/${file} ${page.path} 301`);
 const aliasRedirects = Object.entries(site.redirects || {}).map(([from, to]) => `${from} ${to} 301`);
 await writeFile(join(output, "_redirects"), `# Generated from src/data/site.json clean paths and legacy aliases.\n${[...pageRedirects, ...aliasRedirects].join("\n")}\n`);
-console.log(`Built ${Object.keys(site.pages).length} static pages in ${output}/.`);
+console.log(`Built ${allPages.length} static pages in ${output}/.`);

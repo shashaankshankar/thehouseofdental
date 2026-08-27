@@ -50,7 +50,8 @@
     const paths = [link.getAttribute("href"), ...(link.dataset.activePaths?.split(/\s+/) || [])]
       .filter(Boolean)
       .map(normalizePath);
-    const active = paths.includes(current);
+    const prefix = link.dataset.activePrefix ? normalizePath(link.dataset.activePrefix) : "";
+    const active = paths.includes(current) || Boolean(prefix && (current === prefix || current.startsWith(`${prefix}/`)));
     link.classList.toggle("active", active);
     if (active) link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");

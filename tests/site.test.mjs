@@ -1,15 +1,47 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
+import { join } from "node:path";
 import vm from "node:vm";
 
-const pages = (await readdir("dist")).filter((name) => name.endsWith(".html")).sort();
+const listHtml = async (directory, prefix = "") => {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const nested = await Promise.all(entries.map((entry) => entry.isDirectory() ? listHtml(join(directory, entry.name), `${prefix}${entry.name}/`) : entry.name.endsWith(".html") ? [`${prefix}${entry.name}`] : []));
+  return nested.flat();
+};
+const pages = (await listHtml("dist")).sort();
 const sourceScripts = (await readdir("src/scripts")).filter((name) => name.endsWith(".js"));
 const sourceStyles = (await readdir("src/styles")).filter((name) => name.endsWith(".css"));
 
-test("site remains a focused 12-page static site", () => {
-  assert.equal(pages.length, 12);
-  assert.deepEqual(pages, ["404.html", "about.html", "accessibility.html", "contact.html", "facial-aesthetics.html", "index.html", "new-patients.html", "pre-post-op.html", "privacy.html", "reviews.html", "services.html", "terms.html"]);
+test("site contains the core pages, blog index, and ten articles", () => {
+  assert.equal(pages.length, 23);
+  assert.ok(pages.includes("blog.html"));
+  assert.equal(pages.filter((page) => page.startsWith("blog/")).length, 10);
+  for (const page of ["404.html", "about.html", "accessibility.html", "contact.html", "facial-aesthetics.html", "index.html", "new-patients.html", "pre-post-op.html", "privacy.html", "reviews.html", "services.html", "terms.html"]) assert.ok(pages.includes(page), page);
+});
+
+test("blog articles meet SEO, sourcing, image, and human-voice requirements", async () => {
+  const blog = JSON.parse(await readFile("src/data/blog.json", "utf8"));
+  const source = await readFile("src/data/blog.json", "utf8");
+  assert.equal(blog.articles.length, 10);
+  assert.equal(new Set(blog.articles.map((article) => article.slug)).size, 10);
+  assert.doesNotMatch(source, /[—–]/);
+  assert.doesNotMatch(source, /In today's|When it comes to|Whether you|It is important to note|Let's dive|comprehensive guide|The good news is|Additionally|Furthermore|Moreover|delve|seamless|transformative|cutting-edge/i);
+  for (const article of blog.articles) {
+    assert.ok(article.sections.length >= 4, article.slug);
+    assert.ok(article.sources.length >= 2, article.slug);
+    assert.equal(article.related.length, 3, article.slug);
+    const body = article.sections.flatMap((section) => section.paragraphs).join(" ");
+    assert.ok(body.split(/\s+/).length >= 500, `${article.slug} needs substantive copy`);
+    for (const size of ["card", "hero"]) await readFile(`src/assets/blog/${article.slug}-${size}.jpg`);
+    const html = await readFile(`dist/blog/${article.slug}.html`, "utf8");
+    assert.match(html, /<meta property="og:type" content="article">/, article.slug);
+    assert.match(html, /"@type":"BlogPosting"/, article.slug);
+    assert.match(html, /"@type":"BreadcrumbList"/, article.slug);
+    assert.match(html, /Sources and further reading/, article.slug);
+    assert.match(html, /This article is for general educational purposes/, article.slug);
+    assert.match(html, new RegExp(`rel="canonical" href="https://thehouseofdentalwp\\.com/blog/${article.slug}"`), article.slug);
+  }
 });
 
 test("source is split into focused modules", () => {
@@ -520,8 +552,8 @@ test("care page keeps Services selected in the shared navigation", async () => {
 });
 
 test("shared navigation and footer are generated consistently", async () => {
-  const fullPages = ["index.html", "about.html", "contact.html", "facial-aesthetics.html", "new-patients.html", "pre-post-op.html", "reviews.html", "services.html"];
-  const expectedNavigation = ["Facial Aesthetics", "Services", "New Patients", "About Us", "Reviews", "Contact", "Book"];
+  const fullPages = ["index.html", "about.html", "blog.html", "blog/dental-implants-process-benefits-recovery.html", "contact.html", "facial-aesthetics.html", "new-patients.html", "pre-post-op.html", "reviews.html", "services.html"];
+  const expectedNavigation = ["Facial Aesthetics", "Services", "New Patients", "About Us", "Blog", "Reviews", "Contact", "Book"];
   for (const page of fullPages) {
     const html = await readFile(`dist/${page}`, "utf8");
     assert.match(html, /id="primary-navigation"/, page);

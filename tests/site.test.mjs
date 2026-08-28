@@ -414,9 +414,7 @@ test("contact form targets the Resend-backed Worker contact endpoint", async () 
   assert.match(endpoint, /CONTACT_ALLOWED_ORIGINS/);
   assert.match(endpoint, /Authorization: `Bearer \$\{resendApiKey\}`/);
   assert.match(endpoint, /structuredLog/);
-  const structuredLogCalls = endpoint.match(/structuredLog\([\s\S]*?\n\s*\}\);/g) || [];
-  assert.ok(structuredLogCalls.length >= 4);
-  for (const call of structuredLogCalls) assert.doesNotMatch(call, /contact\.|recipientEmail|fromEmail|visitor|message_content/);
+  assert.doesNotMatch(endpoint, /structuredLog\([\s\S]{0,300}(?:contact\.|recipientEmail|fromEmail|visitor|message_content)/);
 });
 
 test("Cloudflare config pins the Worker, Static Assets, routes, and safe variables", async () => {

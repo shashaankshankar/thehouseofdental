@@ -413,7 +413,10 @@ test("contact form targets the Resend-backed Worker contact endpoint", async () 
   assert.match(endpoint, /CONTACT_RECIPIENT_EMAIL/);
   assert.match(endpoint, /CONTACT_ALLOWED_ORIGINS/);
   assert.match(endpoint, /Authorization: `Bearer \$\{resendApiKey\}`/);
-  assert.doesNotMatch(endpoint, /console\.(log|error|warn)/);
+  assert.match(endpoint, /structuredLog/);
+  const structuredLogCalls = endpoint.match(/structuredLog\([\s\S]*?\n\s*\}\);/g) || [];
+  assert.ok(structuredLogCalls.length >= 4);
+  for (const call of structuredLogCalls) assert.doesNotMatch(call, /contact\.|recipientEmail|fromEmail|visitor|message_content/);
 });
 
 test("Cloudflare config pins the Worker, Static Assets, routes, and safe variables", async () => {
@@ -422,6 +425,7 @@ test("Cloudflare config pins the Worker, Static Assets, routes, and safe variabl
   assert.equal(config.main, "./worker/index.mjs");
   assert.equal(config.workers_dev, false);
   assert.equal(config.preview_urls, true);
+  assert.deepEqual(config.observability, { enabled: true, head_sampling_rate: 1 });
   assert.equal(config.assets.directory, "./dist");
   assert.equal(config.assets.binding, "ASSETS");
   assert.equal(config.assets.html_handling, "drop-trailing-slash");
@@ -435,7 +439,7 @@ test("Cloudflare config pins the Worker, Static Assets, routes, and safe variabl
   assert.match(csp, /form-action 'self'/);
   assert.doesNotMatch(csp, /vercel|_vercel/i);
   const envExample = await readFile(".dev.vars.example", "utf8");
-  for (const key of ["GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "RESEND_API_KEY", "CONTACT_FROM_EMAIL", "CONTACT_RECIPIENT_EMAIL", "CONTACT_ALLOWED_ORIGINS"]) {
+  for (const key of ["GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "RESEND_API_KEY", "RESEND_WEBHOOK_SECRET", "CONTACT_FROM_EMAIL", "CONTACT_RECIPIENT_EMAIL", "CONTACT_ALLOWED_ORIGINS"]) {
     assert.match(envExample, new RegExp(`^${key}=\\s*$`, "m"));
   }
 });

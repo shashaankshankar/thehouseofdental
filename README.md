@@ -65,6 +65,7 @@ Encrypted secrets:
 
 - `GOOGLE_PLACES_API_KEY`
 - `RESEND_API_KEY` — store the real key as an encrypted Worker secret. Replace `re_xxxxxxxxx` with the real API key when configuring it; never commit it.
+- `RESEND_WEBHOOK_SECRET` — signing secret for the Resend webhook at `/api/resend-webhook`; store it as an encrypted Worker secret and verify signatures against the raw request body.
 
 The Google reputation endpoint reads the Place ID and API key only from Worker bindings, validates the upstream rating/count, and caches successful public data for five minutes. Failures are never cached. The contact endpoint validates the exact origin, body size, fields, and honeypot, then sends a server-generated email through Resend. It never creates or confirms an appointment and never logs request bodies, personal information, or secrets.
 

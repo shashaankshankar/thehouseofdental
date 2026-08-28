@@ -1,6 +1,15 @@
 const MAX_BODY_BYTES = 12000;
 const MAX_REPORT_BODY_BYTES = 8_000_000;
 const MAX_REPORT_ATTACHMENT_BASE64 = 7_000_000;
+const WEBHOOK_TOLERANCE_SECONDS = 300;
+const RESEND_WEBHOOK_EVENTS = new Set([
+  "email.sent",
+  "email.delivered",
+  "email.bounced",
+  "email.complained",
+  "email.failed",
+  "email.suppressed"
+]);
 const MAX_LENGTHS = {
   name: 100,
   phone: 50,
@@ -132,6 +141,56 @@ const constantTimeEqual = async (left, right) => {
   return difference === 0;
 };
 
+const structuredLog = (level, event) => {
+  const write = level === "error" ? console.error : level === "warn" ? console.warn : console.log;
+  write(JSON.stringify(event));
+};
+
+const resendErrorCategory = (status, body) => {
+  const text = `${body?.name || ""} ${body?.message || ""}`.toLowerCase();
+  if (status === 401 || status === 403) return "authentication";
+  if (text.includes("domain") || text.includes("sender") || text.includes("from")) return "sender_domain";
+  if (text.includes("suppress")) return "suppression";
+  if (status === 422) return "validation";
+  if (status === 429) return "rate_limit";
+  return status >= 500 ? "provider" : "rejected";
+};
+
+const decodeBase64 = (value) => {
+  try {
+    return Uint8Array.from(atob(value), (character) => character.charCodeAt(0));
+  } catch {
+    return null;
+  }
+};
+
+const verifyResendWebhook = async (request, payload, secret) => {
+  const id = request.headers.get("svix-id") || "";
+  const timestamp = request.headers.get("svix-timestamp") || "";
+  const signatures = (request.headers.get("svix-signature") || "")
+    .split(" ")
+    .map((entry) => entry.split(",", 2))
+    .filter(([version, signature]) => version === "v1" && signature);
+  const timestampNumber = Number(timestamp);
+  if (!id || !Number.isInteger(timestampNumber) || Math.abs(Date.now() / 1000 - timestampNumber) > WEBHOOK_TOLERANCE_SECONDS) {
+    return false;
+  }
+
+  const encodedSecret = secret.startsWith("whsec_") ? secret.slice(6) : secret;
+  const secretBytes = decodeBase64(encodedSecret);
+  if (!secretBytes || !signatures.length) return false;
+  const key = await crypto.subtle.importKey("raw", secretBytes, { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const expected = new Uint8Array(await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(`${id}.${timestamp}.${payload}`)));
+  for (const [, encodedSignature] of signatures) {
+    const actual = decodeBase64(encodedSignature);
+    if (!actual || actual.length !== expected.length) continue;
+    let difference = 0;
+    for (let index = 0; index < expected.length; index += 1) difference |= expected[index] ^ actual[index];
+    if (difference === 0) return true;
+  }
+  return false;
+};
+
 const validBase64 = (value) => typeof value === "string"
   && value.length > 0
   && value.length <= MAX_REPORT_ATTACHMENT_BASE64
@@ -247,6 +306,7 @@ const handleContact = async (request, env) => {
     return jsonResponse(503, { error: "Online messages are not configured. Please call the office." });
   }
 
+  const requestId = crypto.randomUUID();
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 8000);
   try {
@@ -275,13 +335,59 @@ const handleContact = async (request, env) => {
       }),
       signal: controller.signal
     });
-    if (!upstream.ok) return jsonResponse(502, { error: "We could not send your message. Please call the office." });
-    return jsonResponse(200, { ok: true, message: "Your message was sent. We'll get back to you soon." });
-  } catch {
+    const result = await upstream.json().catch(() => ({}));
+    if (!upstream.ok) {
+      structuredLog("error", {
+        event: "contact_email_rejected",
+        request_id: requestId,
+        provider_status: upstream.status,
+        category: resendErrorCategory(upstream.status, result)
+      });
+      return jsonResponse(502, { error: "We could not send your message. Please call the office.", request_id: requestId });
+    }
+    if (typeof result.id !== "string" || !result.id) {
+      structuredLog("error", { event: "contact_email_invalid_acceptance", request_id: requestId, provider_status: upstream.status });
+      return jsonResponse(502, { error: "We could not send your message. Please call the office.", request_id: requestId });
+    }
+    structuredLog("info", { event: "contact_email_accepted", request_id: requestId, email_id: result.id });
+    return jsonResponse(200, { ok: true, message: "Your message was sent. We'll get back to you soon.", request_id: requestId });
+  } catch (error) {
+    structuredLog("error", {
+      event: "contact_email_transport_failure",
+      request_id: requestId,
+      category: error?.name === "AbortError" ? "timeout" : "network"
+    });
     return jsonResponse(502, { error: "We could not send your message. Please call the office." });
   } finally {
     clearTimeout(timeout);
   }
+};
+
+const handleResendWebhook = async (request, env) => {
+  if (request.method !== "POST") return jsonResponse(405, { error: "Method not allowed." }, { allow: "POST" });
+  const secret = String(env.RESEND_WEBHOOK_SECRET || "").trim();
+  if (!secret) return jsonResponse(503, { error: "Webhook is not configured." });
+
+  const bodyResult = await readBody(request);
+  if (bodyResult.tooLarge) return jsonResponse(413, { error: "Request is too large." });
+  if (!await verifyResendWebhook(request, bodyResult.text, secret)) {
+    return jsonResponse(400, { error: "Invalid webhook signature." });
+  }
+
+  let event;
+  try {
+    event = JSON.parse(bodyResult.text);
+  } catch {
+    return jsonResponse(400, { error: "Invalid webhook payload." });
+  }
+  if (!RESEND_WEBHOOK_EVENTS.has(event?.type)) return jsonResponse(200, { ok: true });
+  structuredLog(["email.failed", "email.bounced", "email.complained", "email.suppressed"].includes(event.type) ? "warn" : "info", {
+    event: "resend_delivery_event",
+    event_type: event.type,
+    email_id: typeof event.data?.email_id === "string" ? event.data.email_id : null,
+    webhook_id: request.headers.get("svix-id")
+  });
+  return jsonResponse(200, { ok: true });
 };
 
 const reputationCacheKey = (request) => {
@@ -355,6 +461,7 @@ const handleApi = (request, env, ctx) => {
   if (path === "/api/google-reputation") return handleReputation(request, env, ctx);
   if (path === "/api/contact") return handleContact(request, env);
   if (path === "/api/report-email") return handleReportEmail(request, env);
+  if (path === "/api/resend-webhook") return handleResendWebhook(request, env);
   return Promise.resolve(jsonResponse(404, { error: "Not found." }));
 };
 

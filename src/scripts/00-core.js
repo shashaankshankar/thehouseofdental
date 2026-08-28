@@ -15,9 +15,33 @@
   document.querySelectorAll(".rv, .rv-img, .rv-line").forEach((element) => reveal ? reveal.observe(element) : element.classList.add("in"));
 
   const hero = document.querySelector(".hero-bg");
-  if (hero && !reduced) addEventListener("scroll", () => {
-    hero.style.transform = `translateY(${scrollY * 0.28}px)`;
-  }, { passive: true });
+  const heroSection = document.querySelector(".hero");
+  const heroStrip = document.querySelector(".hero-strip");
+  const heroFlowQuery = "(max-width: 900px), (max-height: 620px) and (orientation: landscape)";
+  const heroUsesFlowLayout = () => matchMedia(heroFlowQuery).matches;
+  const syncHeroStripHeight = () => {
+    if (!hero || !heroSection || !heroStrip) return;
+    if (heroUsesFlowLayout()) {
+      heroSection.style.removeProperty("--hero-strip-h");
+      return;
+    }
+    heroSection.style.setProperty("--hero-strip-h", `${heroStrip.getBoundingClientRect().height}px`);
+  };
+  syncHeroStripHeight();
+  addEventListener("resize", syncHeroStripHeight, { passive: true });
+  document.fonts?.ready.then(syncHeroStripHeight);
+  if (heroStrip && "ResizeObserver" in window) new ResizeObserver(syncHeroStripHeight).observe(heroStrip);
+
+  if (hero && !reduced) {
+    const updateHeroPosition = () => {
+      hero.style.transform = heroUsesFlowLayout()
+        ? "none"
+        : `translateY(${scrollY * 0.28}px)`;
+    };
+    updateHeroPosition();
+    addEventListener("scroll", updateHeroPosition, { passive: true });
+    addEventListener("resize", updateHeroPosition, { passive: true });
+  }
 
   const animateCounter = (element) => {
     const target = Number.parseFloat(element.dataset.count);

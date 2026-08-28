@@ -19,9 +19,33 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   document.querySelectorAll(".rv, .rv-img, .rv-line").forEach((element) => reveal ? reveal.observe(element) : element.classList.add("in"));
 
   const hero = document.querySelector(".hero-bg");
-  if (hero && !reduced) addEventListener("scroll", () => {
-    hero.style.transform = `translateY(${scrollY * 0.28}px)`;
-  }, { passive: true });
+  const heroSection = document.querySelector(".hero");
+  const heroStrip = document.querySelector(".hero-strip");
+  const heroFlowQuery = "(max-width: 900px), (max-height: 620px) and (orientation: landscape)";
+  const heroUsesFlowLayout = () => matchMedia(heroFlowQuery).matches;
+  const syncHeroStripHeight = () => {
+    if (!hero || !heroSection || !heroStrip) return;
+    if (heroUsesFlowLayout()) {
+      heroSection.style.removeProperty("--hero-strip-h");
+      return;
+    }
+    heroSection.style.setProperty("--hero-strip-h", `${heroStrip.getBoundingClientRect().height}px`);
+  };
+  syncHeroStripHeight();
+  addEventListener("resize", syncHeroStripHeight, { passive: true });
+  document.fonts?.ready.then(syncHeroStripHeight);
+  if (heroStrip && "ResizeObserver" in window) new ResizeObserver(syncHeroStripHeight).observe(heroStrip);
+
+  if (hero && !reduced) {
+    const updateHeroPosition = () => {
+      hero.style.transform = heroUsesFlowLayout()
+        ? "none"
+        : `translateY(${scrollY * 0.28}px)`;
+    };
+    updateHeroPosition();
+    addEventListener("scroll", updateHeroPosition, { passive: true });
+    addEventListener("resize", updateHeroPosition, { passive: true });
+  }
 
   const animateCounter = (element) => {
     const target = Number.parseFloat(element.dataset.count);
@@ -121,6 +145,68 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       }
     });
   }
+
+  const more = document.querySelector("[data-nav-more]");
+  const moreToggle = more?.querySelector("[data-nav-more-toggle]");
+  const moreDrop = more?.querySelector(".nav-more-panel");
+  const moreLinks = more ? [...more.querySelectorAll(".nav-more-panel a")] : [];
+  const hybridNavigation = () => matchMedia("(min-width: 1025px) and (max-width: 1127px)").matches;
+  const setMoreOpen = (open) => {
+    if (!more || !moreToggle) return;
+    more.classList.toggle("is-open", open);
+    moreToggle.setAttribute("aria-expanded", String(open));
+    moreDrop?.setAttribute("aria-hidden", String(hybridNavigation() && !open));
+  };
+  if (more && moreToggle) {
+    let hoverSuppressed = false;
+    let hoverOpened = false;
+    setMoreOpen(false);
+    more.addEventListener("mouseenter", () => {
+      if (!hoverSuppressed && !more.classList.contains("is-open")) {
+        hoverOpened = true;
+        setMoreOpen(true);
+      }
+    });
+    more.addEventListener("mouseleave", () => {
+      hoverSuppressed = false;
+      hoverOpened = false;
+      if (!more.contains(document.activeElement)) setMoreOpen(false);
+    });
+    more.addEventListener("focusin", (event) => {
+      if (event.target !== moreToggle) {
+        hoverSuppressed = false;
+        hoverOpened = false;
+        setMoreOpen(true);
+      }
+    });
+    more.addEventListener("focusout", () => {
+      requestAnimationFrame(() => {
+        if (!more.contains(document.activeElement) && !more.matches(":hover")) setMoreOpen(false);
+      });
+    });
+    moreToggle.addEventListener("click", () => {
+      if (hoverOpened && more.classList.contains("is-open")) {
+        hoverOpened = false;
+        setMoreOpen(true);
+        return;
+      }
+      const open = !more.classList.contains("is-open");
+      hoverOpened = false;
+      hoverSuppressed = !open;
+      setMoreOpen(open);
+    });
+    moreLinks.forEach((link) => link.addEventListener("click", () => setMoreOpen(false)));
+    document.addEventListener("click", (event) => {
+      if (!more.contains(event.target)) setMoreOpen(false);
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && more.classList.contains("is-open")) {
+        setMoreOpen(false);
+        moreToggle.focus();
+      }
+    });
+  }
+
   const normalizePath = (path) => {
     const pathname = path.split("#")[0].replace(/\/+$/, "");
     return pathname ? (pathname.startsWith("/") ? pathname : `/${pathname}`) : "/";
@@ -136,6 +222,16 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     if (active) link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");
   });
+
+  const syncResponsiveNavigation = () => {
+    const hybrid = hybridNavigation();
+    moreToggle?.setAttribute("aria-hidden", String(!hybrid));
+    moreDrop?.setAttribute("aria-hidden", String(hybrid && !more?.classList.contains("is-open")));
+    more?.classList.toggle("has-active", moreLinks.some((link) => link.classList.contains("active")));
+    if (!hybrid) setMoreOpen(false);
+  };
+  syncResponsiveNavigation();
+  addEventListener("resize", syncResponsiveNavigation, { passive: true });
 
   // Mobile browsers can restore the previous scroll position after following a
   // cross-page hash link. Reapply the selected care section once the guide has

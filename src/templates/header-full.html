@@ -45,9 +45,14 @@
           <li><a href="/about#technologies"><strong>Our Technologies</strong></a></li>
         </ul>
       </li>
-      <li><a data-primary-link data-active-prefix="/blog" href="/blog">Blog</a></li>
-      <li><a data-primary-link href="/reviews">Reviews</a></li>
-      <li><a data-primary-link href="/contact">Contact</a></li>
+      <li class="has-submenu nav-more" data-nav-more>
+        <button class="nav-more-toggle" type="button" data-nav-more-toggle aria-haspopup="true" aria-expanded="false" aria-controls="nav-more-drop">More</button>
+        <ul class="nav-more-panel" id="nav-more-drop" aria-label="More pages">
+          <li><a data-primary-link data-active-prefix="/blog" href="/blog">Blog</a></li>
+          <li><a data-primary-link href="/reviews">Reviews</a></li>
+          <li><a data-primary-link href="/contact">Contact</a></li>
+        </ul>
+      </li>
       <li><a data-primary-link class="btn btn-solid u-inline-034" href="/contact#book">Book</a></li>
     </ul>
   </div>

@@ -46,9 +46,14 @@
           <li><a href="/about#technologies"><strong>Our Technologies</strong></a></li>
         </ul>
       </li>
-      <li><a data-primary-link data-active-prefix="/blog" href="/blog">Blog</a></li>
-      <li><a data-primary-link href="/reviews">Reviews</a></li>
-      <li><a data-primary-link href="/contact">Contact</a></li>
+      <li class="has-submenu nav-more" data-nav-more>
+        <button class="nav-more-toggle" type="button" data-nav-more-toggle aria-haspopup="true" aria-expanded="false" aria-controls="nav-more-drop">More</button>
+        <ul class="nav-more-panel" id="nav-more-drop" aria-label="More pages">
+          <li><a data-primary-link data-active-prefix="/blog" href="/blog">Blog</a></li>
+          <li><a data-primary-link href="/reviews">Reviews</a></li>
+          <li><a data-primary-link href="/contact">Contact</a></li>
+        </ul>
+      </li>
       <li><a data-primary-link class="btn btn-solid u-inline-034" data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="/contact#book">Book</a></li>
     </ul>
   </div>
@@ -59,12 +64,14 @@
 <section class="hero">
   <div class="hero-bg u-inline-014"></div>
   <div class="wrap hero-inner">
-    <p class="eyebrow rv in">Aesthetics · Implants · Smile Design</p>
-    <h1 class="rv in">The Art of the<br><em>Confident</em> Smile</h1>
-    <p class="lede rv rv-d1 in">Transformative dental implants, comprehensive one-day restorations, and same-day crowns — advanced dental care, crafted for stunning results.</p>
-    <div class="hero-cta rv rv-d2 in">
-      <a class="btn btn-solid" data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="/contact#book">Book Appointment</a>
-      <a class="btn" href="/services">Explore Services</a>
+    <div class="hero-copy">
+      <p class="eyebrow rv in">Aesthetics · Implants · Smile Design</p>
+      <h1 class="rv in">The Art of the <em>Confident</em> Smile</h1>
+      <p class="lede rv rv-d1 in">Transformative dental implants, comprehensive one-day restorations, and same-day crowns — advanced dental care, crafted for stunning results.</p>
+      <div class="hero-cta rv rv-d2 in">
+        <a class="btn btn-solid" data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="/contact#book">Book Appointment</a>
+        <a class="btn" href="/services">Explore Services</a>
+      </div>
     </div>
   </div>
   <div class="hero-strip">

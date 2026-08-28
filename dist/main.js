@@ -742,20 +742,51 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   if (!pageLocation) return;
 
   const storageKey = consentConfig.storageKey || "thod-analytics-consent";
-  const validChoices = new Set(["granted", "denied"]);
   const readChoice = () => {
     try {
       const choice = localStorage.getItem(storageKey);
-      return validChoices.has(choice) ? choice : null;
+      if (choice === "granted") return choice;
+      if (choice === "denied") {
+        localStorage.removeItem(storageKey);
+        try {
+          sessionStorage.setItem(storageKey, "denied");
+        } catch {
+          // Legacy denial still applies to this page if session storage is unavailable.
+        }
+        return choice;
+      }
+    } catch {
+      // Continue to the session-only denial check.
+    }
+    try {
+      return sessionStorage.getItem(storageKey) === "denied" ? "denied" : null;
     } catch {
       return null;
     }
   };
   const saveChoice = (choice) => {
+    if (choice === "granted") {
+      try {
+        localStorage.setItem(storageKey, choice);
+      } catch {
+        // Consent still applies to the current page if storage is unavailable.
+      }
+      try {
+        sessionStorage.removeItem(storageKey);
+      } catch {
+        // A stale session denial cannot override the in-memory choice on this page.
+      }
+      return;
+    }
     try {
-      localStorage.setItem(storageKey, choice);
+      localStorage.removeItem(storageKey);
     } catch {
-      // Consent still applies to the current page if storage is unavailable.
+      // The in-memory denial still applies to this page.
+    }
+    try {
+      sessionStorage.setItem(storageKey, "denied");
+    } catch {
+      // The in-memory denial still applies to this page if storage is unavailable.
     }
   };
   const defaultConsent = {

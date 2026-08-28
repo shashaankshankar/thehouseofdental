@@ -195,6 +195,69 @@ test("conversion events wait for consent and decline keeps analytics storage den
   });
 });
 
+test("analytics approval persists while decline lasts only for the tab session", async () => {
+  const analyticsScript = await readFile("src/scripts/80-analytics.js", "utf8");
+  const local = new Map();
+  const makeStorage = (values) => ({
+    getItem: (key) => values.get(key) || null,
+    setItem: (key, value) => values.set(key, value),
+    removeItem: (key) => values.delete(key)
+  });
+  const runPage = (session) => {
+    const makeElement = () => ({
+      children: [], dataset: {}, hidden: false, listeners: new Map(),
+      addEventListener(type, handler) { this.listeners.set(type, handler); },
+      append(...children) { for (const child of children) { child.parentNode = this; this.children.push(child); } },
+      appendChild(child) { child.parentNode = this; this.children.push(child); },
+      setAttribute() {}, focus() {}
+    });
+    const document = {
+      head: makeElement(), body: makeElement(), createElement: makeElement,
+      querySelectorAll() { return []; }
+    };
+    const window = { location: { pathname: "/", origin: "https://example.test", search: "", hash: "" } };
+    vm.runInNewContext(analyticsScript, {
+      __SITE_ANALYTICS: {
+        provider: "gtag", enabled: true, measurementId: "G-TEST123",
+        consent: { mode: "advanced", version: 2, storageKey: "test-consent" },
+        routeEligibility: { default: "prohibited", routes: { "/": "approved" } },
+        eventPolicy: { allowedEvents: [], allowedLocations: [], allowedCtaTypes: [], allowedServiceCategories: [] }
+      },
+      window, document,
+      localStorage: makeStorage(local), sessionStorage: makeStorage(session),
+      Set, Number, Date, encodeURIComponent, URLSearchParams
+    });
+    const allElements = (elements) => elements.flatMap((element) => [element, ...allElements(element.children)]);
+    const elements = allElements(document.body.children);
+    return {
+      window,
+      banner: elements.find((element) => element.className === "consent-banner"),
+      allow: elements.find((element) => element.textContent === "Allow analytics"),
+      decline: elements.find((element) => element.textContent === "Decline analytics")
+    };
+  };
+
+  const firstSession = new Map();
+  let page = runPage(firstSession);
+  assert.equal(page.banner.hidden, false);
+  page.decline.listeners.get("click")();
+  assert.equal(local.has("test-consent"), false);
+  assert.equal(firstSession.get("test-consent"), "denied");
+  assert.equal(runPage(firstSession).banner.hidden, true);
+  assert.equal(runPage(new Map()).banner.hidden, false);
+
+  page = runPage(firstSession);
+  page.allow.listeners.get("click")();
+  assert.equal(local.get("test-consent"), "granted");
+  assert.equal(firstSession.has("test-consent"), false);
+  assert.equal(runPage(new Map()).banner.hidden, true);
+
+  page = runPage(new Map());
+  page.decline.listeners.get("click")();
+  assert.equal(local.has("test-consent"), false);
+  assert.equal(runPage(new Map()).banner.hidden, false);
+});
+
 test("successful contact response emits the three consented post-success events exactly once", async () => {
   const analyticsScript = await readFile("src/scripts/80-analytics.js", "utf8");
   const formScript = await readFile("src/scripts/60-forms.js", "utf8");

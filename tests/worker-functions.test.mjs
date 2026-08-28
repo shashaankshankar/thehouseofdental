@@ -21,6 +21,18 @@ const context = () => {
   };
 };
 const assets = (handler = async () => new Response("asset", { status: 200 })) => ({ fetch: handler });
+const webhookSecret = `whsec_${Buffer.from("test-webhook-secret").toString("base64")}`;
+const signedWebhookHeaders = async (payload, { id = "msg_test_webhook", timestamp = Math.floor(Date.now() / 1000) } = {}) => {
+  const key = await crypto.subtle.importKey(
+    "raw",
+    Buffer.from(webhookSecret.slice(6), "base64"),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const signature = Buffer.from(await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(`${id}.${timestamp}.${payload}`))).toString("base64");
+  return { "svix-id": id, "svix-timestamp": String(timestamp), "svix-signature": `v1,${signature}` };
+};
 
 test("unknown API paths return JSON 404 and endpoint methods return 405 with Allow", async () => {
   const env = { ASSETS: assets() };
@@ -36,6 +48,10 @@ test("unknown API paths return JSON 404 and endpoint methods return 405 with All
   const contactMethod = await worker.fetch(requestFor("/api/contact"), env, context());
   assert.equal(contactMethod.status, 405);
   assert.equal(contactMethod.headers.get("allow"), "POST");
+
+  const webhookMethod = await worker.fetch(requestFor("/api/resend-webhook"), env, context());
+  assert.equal(webhookMethod.status, 405);
+  assert.equal(webhookMethod.headers.get("allow"), "POST");
 });
 
 test("clean page routes resolve through the Static Assets binding", async () => {
@@ -137,7 +153,7 @@ test("contact endpoint sends the mapped Resend payload", async () => {
   let captured;
   globalThis.fetch = async (url, options) => {
     captured = { url: String(url), options };
-    return new Response("accepted", { status: 200 });
+    return new Response(JSON.stringify({ id: "contact-email-1" }), { status: 200 });
   };
   try {
     const env = {
@@ -153,7 +169,10 @@ test("contact endpoint sends the mapped Resend payload", async () => {
       body: new URLSearchParams({ ...validFields, "new-patient": "No" })
     }), env, context());
     assert.equal(response.status, 200);
-    assert.deepEqual(await json(response), { ok: true, message: "Your message was sent. We'll get back to you soon." });
+    const result = await json(response);
+    assert.equal(result.ok, true);
+    assert.equal(result.message, "Your message was sent. We'll get back to you soon.");
+    assert.match(result.request_id, /^[0-9a-f-]{36}$/);
     assert.equal(captured.url, "https://api.resend.com/emails");
     assert.equal(captured.options.headers.Authorization, "Bearer re_test-token");
     const payload = JSON.parse(captured.options.body);
@@ -166,8 +185,11 @@ test("contact endpoint sends the mapped Resend payload", async () => {
   }
 });
 
-test("contact upstream failure and timeout fail closed with 502", async () => {
+test("contact rejects missing provider IDs and classifies provider failures without personal data", async () => {
   const originalFetch = globalThis.fetch;
+  const originalConsoleError = console.error;
+  const logs = [];
+  console.error = (value) => logs.push(JSON.parse(value));
   const env = {
     ASSETS: assets(),
     CONTACT_ALLOWED_ORIGINS: origin,
@@ -176,23 +198,78 @@ test("contact upstream failure and timeout fail closed with 502", async () => {
     CONTACT_RECIPIENT_EMAIL: "office@example.com"
   };
   try {
-    globalThis.fetch = async () => new Response("failed", { status: 500 });
-    const failed = await worker.fetch(requestFor("/api/contact", {
+    const post = () => worker.fetch(requestFor("/api/contact", {
       method: "POST",
       headers: { Origin: origin, "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams(validFields)
     }), env, context());
-    assert.equal(failed.status, 502);
-
-    globalThis.fetch = async () => { throw new Error("upstream timeout"); };
-    const timedOut = await worker.fetch(requestFor("/api/contact", {
-      method: "POST",
-      headers: { Origin: origin, "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(validFields)
-    }), env, context());
-    assert.equal(timedOut.status, 502);
+    const cases = [
+      [async () => new Response("{}", { status: 200 }), "contact_email_invalid_acceptance", undefined],
+      [async () => new Response(JSON.stringify({ message: "Invalid API key" }), { status: 401 }), "contact_email_rejected", "authentication"],
+      [async () => new Response(JSON.stringify({ message: "Sender domain is not verified" }), { status: 422 }), "contact_email_rejected", "sender_domain"],
+      [async () => new Response(JSON.stringify({ message: "Recipient is suppressed" }), { status: 422 }), "contact_email_rejected", "suppression"],
+      [async () => new Response(JSON.stringify({ message: "Invalid payload" }), { status: 422 }), "contact_email_rejected", "validation"],
+      [async () => { throw new DOMException("Timed out", "AbortError"); }, "contact_email_transport_failure", "timeout"]
+    ];
+    for (const [fetchImpl, event, category] of cases) {
+      globalThis.fetch = fetchImpl;
+      const response = await post();
+      assert.equal(response.status, 502);
+      const log = logs.at(-1);
+      assert.equal(log.event, event);
+      if (category) assert.equal(log.category, category);
+      const serialized = JSON.stringify(log);
+      for (const value of Object.values(validFields)) if (value) assert.doesNotMatch(serialized, new RegExp(value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    }
   } finally {
     globalThis.fetch = originalFetch;
+    console.error = originalConsoleError;
+  }
+});
+
+test("Resend webhook requires a current valid signature and logs only delivery identifiers", async () => {
+  const originalConsoleLog = console.log;
+  const logs = [];
+  console.log = (value) => logs.push(JSON.parse(value));
+  try {
+    const unconfigured = await worker.fetch(requestFor("/api/resend-webhook", { method: "POST", body: "{}" }), { ASSETS: assets() }, context());
+    assert.equal(unconfigured.status, 503);
+
+    const invalid = await worker.fetch(requestFor("/api/resend-webhook", {
+      method: "POST",
+      headers: { "svix-id": "invalid", "svix-timestamp": String(Math.floor(Date.now() / 1000)), "svix-signature": "v1,invalid" },
+      body: "{}"
+    }), { ASSETS: assets(), RESEND_WEBHOOK_SECRET: webhookSecret }, context());
+    assert.equal(invalid.status, 400);
+
+    const payload = JSON.stringify({
+      type: "email.delivered",
+      created_at: "2026-08-28T05:00:00Z",
+      data: { email_id: "contact-email-1", to: ["private@example.com"], subject: "Private subject" }
+    });
+    const headers = await signedWebhookHeaders(payload);
+    const response = await worker.fetch(requestFor("/api/resend-webhook", { method: "POST", headers, body: payload }), {
+      ASSETS: assets(),
+      RESEND_WEBHOOK_SECRET: webhookSecret
+    }, context());
+    assert.equal(response.status, 200);
+    assert.deepEqual(await json(response), { ok: true });
+    assert.deepEqual(logs.at(-1), {
+      event: "resend_delivery_event",
+      event_type: "email.delivered",
+      email_id: "contact-email-1",
+      webhook_id: headers["svix-id"]
+    });
+    assert.doesNotMatch(JSON.stringify(logs), /private@example\.com|Private subject/);
+
+    const staleHeaders = await signedWebhookHeaders(payload, { timestamp: Math.floor(Date.now() / 1000) - 301 });
+    const stale = await worker.fetch(requestFor("/api/resend-webhook", { method: "POST", headers: staleHeaders, body: payload }), {
+      ASSETS: assets(),
+      RESEND_WEBHOOK_SECRET: webhookSecret
+    }, context());
+    assert.equal(stale.status, 400);
+  } finally {
+    console.log = originalConsoleLog;
   }
 });
 

@@ -74,15 +74,16 @@ for (const [from, to] of Object.entries(site.redirects || {})) {
 }
 if ((await read("dist/_redirects")).includes("/* /404.html 404")) errors.push("dist/_redirects: unsupported wildcard 404 redirect remains");
 
-const requiredEnvKeys = ["GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "RESEND_API_KEY", "CONTACT_FROM_EMAIL", "CONTACT_RECIPIENT_EMAIL", "CONTACT_ALLOWED_ORIGINS"];
+const requiredEnvKeys = ["GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "RESEND_API_KEY", "RESEND_WEBHOOK_SECRET", "CONTACT_FROM_EMAIL", "CONTACT_RECIPIENT_EMAIL", "CONTACT_ALLOWED_ORIGINS"];
 const devVarsExample = await read(".dev.vars.example");
 for (const key of requiredEnvKeys) if (!new RegExp(`^${key}=\\s*$`, "m").test(devVarsExample)) errors.push(`.dev.vars.example: missing empty ${key} entry`);
 
 const worker = await read("worker/index.mjs");
-for (const marker of ["/api/google-reputation", "/api/contact", "env.ASSETS.fetch", "GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "RESEND_API_KEY", "CONTACT_FROM_EMAIL", "CONTACT_RECIPIENT_EMAIL", "CONTACT_ALLOWED_ORIGINS"]) {
+for (const marker of ["/api/google-reputation", "/api/contact", "/api/resend-webhook", "env.ASSETS.fetch", "GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "RESEND_API_KEY", "RESEND_WEBHOOK_SECRET", "CONTACT_FROM_EMAIL", "CONTACT_RECIPIENT_EMAIL", "CONTACT_ALLOWED_ORIGINS"]) {
   if (!worker.includes(marker)) errors.push(`worker/index.mjs: missing ${marker}`);
 }
-if (/console\.(?:log|error|warn)/.test(worker)) errors.push("worker/index.mjs: personal information or secrets could be exposed through logs");
+const structuredLogCalls = worker.match(/structuredLog\([\s\S]*?\n\s*\}\);/g) || [];
+if (structuredLogCalls.some((call) => /contact\.|recipientEmail|fromEmail|visitor|message_content/.test(call))) errors.push("worker/index.mjs: contact details could be exposed through structured logs");
 if (/Math\.random/.test(worker)) errors.push("worker/index.mjs: insecure random source");
 
 for (const path of ["vercel.json", "api", "scripts/validate-vercel.mjs", "tests/vercel-functions.test.mjs"]) {

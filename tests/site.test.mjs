@@ -69,6 +69,7 @@ test("GA4 integration is configurable and enabled for the approved production ro
   assert.doesNotMatch(script, /"propertyId"|"webStreamId"|"connection"/);
   assert.ok(script.includes("https://www.googletagmanager.com/gtag/js?id="));
   assert.ok(headers.includes("script-src 'self' https://www.googletagmanager.com"));
+  assert.match(headers, /img-src[^;]*https:\/\/www\.googletagmanager\.com/);
   assert.ok(headers.includes("connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com"));
   assert.match(headers, /style-src[^;]*'unsafe-inline'/);
   assert.doesNotMatch(headers, /vercel|_vercel/i);
@@ -391,6 +392,7 @@ test("generated pages contain no inline implementation code", async () => {
   for (const page of pages) {
     const html = await readFile(`dist/${page}`, "utf8");
     assert.doesNotMatch(html, /\sstyle="/, page);
+    assert.doesNotMatch(html, /<img[^>]+src=""/, page);
     assert.doesNotMatch(html, /<script(?![^>]*type="application\/ld\+json")(?![^>]*src=)[^>]*>/, page);
     assert.equal((html.match(/name="robots"/g) || []).length, 1, page);
   }

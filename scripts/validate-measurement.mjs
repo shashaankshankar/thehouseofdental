@@ -68,10 +68,9 @@ check("fragment_not_allowed", parameters.prohibited.includes("URL query paramete
 check("direct_identifiers_not_allowed", ["name", "email", "personal phone number", "form contents"].every((item) => parameters.prohibited.includes(item)), "direct identifiers and form contents are prohibited");
 check("lead_boundary", events.events.find((event) => event.name === "generate_lead")?.status === "implemented" && mappings.mappings.some((item) => item.event === "generate_lead"), "generate_lead fires only after the approved validated request handoff");
 
-await mkdir("measurement/evidence", { recursive: true });
-await writeFile("measurement/evidence/validation.json", `${JSON.stringify({
+const evidencePath = "measurement/evidence/validation.json";
+const evidence = {
   evidenceVersion: 1,
-  capturedAt: new Date().toISOString(),
   status: errors.length ? "failed" : "validated_locally",
   approvalStatus: "approved",
   deploymentStatus: siteMeasurement.deployment.status,
@@ -80,7 +79,25 @@ await writeFile("measurement/evidence/validation.json", `${JSON.stringify({
   checks: evidenceChecks,
   manualChecksRemaining: ["GA4 DebugView event receipt for each applicable event", "production appointment inbox delivery"],
   notes: "Governance was approved by the workspace owner. This record proves local policy and build validation; DebugView receipt and production inbox delivery remain independently observable evidence."
-}, null, 2)}\n`);
+};
+
+let previousEvidence = null;
+try {
+  previousEvidence = await readJson(evidencePath);
+} catch {
+  // The first validation run creates the evidence file.
+}
+
+const { capturedAt: previousCapturedAt, ...previousEvidenceWithoutTimestamp } = previousEvidence || {};
+const evidenceUnchanged = JSON.stringify(previousEvidenceWithoutTimestamp) === JSON.stringify(evidence);
+const nextEvidence = {
+  evidenceVersion: evidence.evidenceVersion,
+  capturedAt: evidenceUnchanged && previousCapturedAt ? previousCapturedAt : new Date().toISOString(),
+  ...Object.fromEntries(Object.entries(evidence).filter(([key]) => key !== "evidenceVersion"))
+};
+
+await mkdir("measurement/evidence", { recursive: true });
+await writeFile(evidencePath, `${JSON.stringify(nextEvidence, null, 2)}\n`);
 
 if (errors.length) {
   for (const error of errors) console.error(`Measurement validation failed: ${error}`);

@@ -15,11 +15,25 @@
       "email_link",
       "appointment_link",
       "appointment_form",
-      "directions_link"
+      "directions_link",
+      "hero_scroll",
+      "proof_rating",
+      "proof_reviews",
+      "proof_cerec",
+      "proof_doctor",
+      "care_selection",
+      "comparison",
+      "review_link",
+      "doctor_link",
+      "implant_offer"
     ],
     "cta_type": [
       "appointment",
-      "directions"
+      "directions",
+      "content",
+      "proof",
+      "service",
+      "pricing"
     ],
     "service_category": [
       "dental",

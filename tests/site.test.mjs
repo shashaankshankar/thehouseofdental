@@ -645,21 +645,17 @@ test("shared navigation and footer are generated consistently", async () => {
   }
 });
 
-test("homepage preserves the restored legacy journey", async () => {
+test("homepage follows the approved needs-led conversion journey", async () => {
   const html = await readFile("dist/index.html", "utf8");
   const sections = [
     "Precision-Crafted Restorations",
-    'class="stats rv"',
-    'class="marquee-track"',
-    "The Collection",
+    "Results &amp; Reassurance",
+    "What Can We Help You With?",
     'id="technology"',
     'id="offers"',
-    "Meet Dr. Mainak Patel",
-    "quote-block",
-    'class="ba-grid"',
-    "Smile With Confidence"
+    "Feel Confident About Your Care"
   ];
-  let previous = html.indexOf('class="hero"');
+  let previous = html.indexOf('class="hero home-hero"');
 
   assert.ok(previous >= 0);
   for (const marker of sections) {
@@ -667,6 +663,11 @@ test("homepage preserves the restored legacy journey", async () => {
     assert.ok(position > previous, `${marker} should follow the prior homepage section`);
     previous = position;
   }
+  assert.match(html, /Dental emergency\?/);
+  assert.match(html, /class="hero-strip home-proof"/);
+  assert.match(html, /class="home-smile-portrait/);
+  assert.match(html, /Complete implant, abutment, and crown package/);
+  assert.doesNotMatch(html, /class="marquee-track"|class="stats rv"/);
   assert.match(html, /id="techmodal"/);
 });
 

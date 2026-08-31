@@ -60,7 +60,31 @@
 .home-page .home-text-link:hover span,
 .home-page .home-text-link:focus-visible span { transform: translateX(0.25rem); }
 
-.home-hero .hero-copy { max-width: 850px; }
+.home-hero .hero-copy { position: relative; z-index: 1; max-width: 850px; }
+.home-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(8,8,9,.42) 0%, rgba(8,8,9,.25) 31%, rgba(8,8,9,.07) 52%, transparent 68%);
+  pointer-events: none;
+}
+.hero-offer-cue {
+  position: absolute;
+  right: max(5vw, calc((100vw - var(--content-wide)) / 2));
+  bottom: calc(var(--hero-strip-h, 6.7rem) + 1.15rem);
+  z-index: 2;
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: .8rem;
+  color: var(--gold-pale);
+  font-size: .72rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.hero-offer-cue b { font-size: 1rem; font-weight: 400; transition: transform .25s var(--ease); }
+.hero-offer-cue:hover b, .hero-offer-cue:focus-visible b { transform: translateX(.25rem); }
 .home-hero .hero-discover {
   display: inline-flex;
   min-height: 44px;
@@ -144,10 +168,11 @@
 }
 
 .home-philosophy {
-  min-height: clamp(500px, 66vw, 690px);
+  min-height: clamp(560px, 48vw, 650px);
   overflow: hidden;
 }
 .home-philosophy-grid {
+  position: relative;
   display: grid;
   min-height: inherit;
   grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.22fr);
@@ -157,53 +182,43 @@
   position: relative;
   z-index: 2;
   display: flex;
-  max-width: 560px;
+  max-width: 400px;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(4rem, 8vw, 7rem) clamp(1rem, 4vw, 4rem) clamp(4rem, 8vw, 7rem) 0;
+  padding: clamp(2rem, 2.5vw, 2.5rem) clamp(1.5rem, 3vw, 2.5rem) clamp(2rem, 2.5vw, 2.5rem) 0;
 }
+.home-philosophy-lead,
+.home-philosophy-detail { display: contents; }
 .home-philosophy h2 {
   max-width: 12ch;
   margin-bottom: 1.5rem;
-  font-size: clamp(2.2rem, 4vw, 4.1rem);
+  font-size: clamp(2.2rem, 3.2vw, 3rem);
 }
 .home-philosophy-copy p:not(.eyebrow) { max-width: 49ch; }
 .home-philosophy-copy p + p { margin-top: 1rem; }
 .home-philosophy-copy .home-text-link { margin-top: 1.15rem; }
 .home-smile-portrait {
-  position: relative;
-  width: calc(100% + max(5vw, calc((100vw - var(--content-wide)) / 2)));
-  min-height: 100%;
-  background-image: url("/assets/hero-smile.jpg");
-  background-position: 68% 28%;
-  background-size: cover;
-  isolation: isolate;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.55) 14%, #000 34%);
-  mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.55) 14%, #000 34%);
-}
-.home-smile-portrait::after {
-  content: "";
   position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 69% 27%, transparent 0 13%, rgba(247,244,238,0.06) 30%, rgba(247,244,238,0.18) 100%);
-  pointer-events: none;
+  inset: 0 calc((100% - 100vw) / 2) 0 auto;
+  width: auto;
+  height: 100%;
+  aspect-ratio: 1.5 / 1;
+  background-color: var(--ivory);
+  background-image: url("/assets/hero-smile.png");
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 .home-reassurance { border-top: 1px solid var(--line-light); }
-.home-reassurance-grid {
-  display: grid;
-  grid-template-columns: 0.9fr 1.55fr 0.88fr;
-  grid-template-areas: "intro result quote" "intro result doctor";
-  gap: 1.6rem clamp(1.5rem, 3vw, 3.2rem);
-  align-items: center;
-}
+.home-reassurance-grid { display: grid; grid-template-columns: .85fr 1.15fr .9fr; grid-template-areas: "intro quote doctor"; gap: clamp(2rem, 5vw, 5rem); align-items: center; }
 .home-result-intro { grid-area: intro; }
 .home-result-intro h2 { margin-bottom: 1rem; font-size: clamp(2rem, 3vw, 3rem); }
 .home-result-intro .home-text-link { margin-top: 1rem; }
-.home-featured-ba { grid-area: result; width: 100%; aspect-ratio: 1.65 / 1; }
+.home-featured-ba { width: 100%; aspect-ratio: 1.8 / 1; }
 .home-quote {
   grid-area: quote;
-  padding-left: 1.5rem;
+  padding: .5rem 0 .5rem clamp(1.5rem, 3vw, 3rem);
   border-left: 1px solid var(--line-light);
 }
 .home-quote blockquote {
@@ -226,11 +241,11 @@
   min-height: 128px;
   grid-template-columns: 112px 1fr;
   align-items: center;
-  border-top: 1px solid var(--line-light);
+  border: 1px solid var(--line-light);
   color: var(--ink);
 }
 .home-doctor-card img { width: 100%; height: 112px; object-fit: cover; object-position: 50% 22%; }
-.home-doctor-card > span { display: flex; flex-direction: column; padding-left: 1rem; }
+.home-doctor-card > span { display: flex; flex-direction: column; padding: .8rem 1rem; }
 .home-doctor-card strong { font-family: var(--serif); font-size: 1rem; font-weight: 400; }
 .home-doctor-card small { margin-top: 0.2rem; color: rgba(28,27,24,.65); font-size: 0.78rem; }
 .home-doctor-card em { margin-top: 0.55rem; color: var(--gold-deep); font-size: 0.66rem; font-style: normal; letter-spacing: .12em; text-transform: uppercase; }
@@ -360,21 +375,26 @@
 }
 .home-tech-footer a { display: inline-flex; min-height: 44px; align-items: center; color: var(--gold-pale); }
 
-.home-implant { border-bottom: 1px solid var(--line-light); }
-.home-implant-grid {
-  display: grid;
-  grid-template-columns: .9fr 1.1fr;
-  gap: clamp(3rem, 8vw, 8rem);
-  align-items: center;
-}
-.home-implant h2 { max-width: 12ch; font-size: clamp(2.2rem, 4vw, 3.8rem); }
-.home-implant-offer { padding: clamp(2rem, 4vw, 3.2rem); border: 1px solid var(--gold-deep); background: rgba(198,161,91,.065); }
-.home-implant-offer > p { margin-bottom: 0.45rem; color: rgba(28,27,24,.72); }
-.home-implant-offer > strong { display: block; color: var(--gold-deep); font-family: var(--serif); font-size: clamp(2.7rem, 5vw, 4.5rem); font-weight: 400; line-height: 1.1; }
+.home-results-later { border-top: 1px solid var(--line-light); }
+.home-results-later-grid { display: grid; grid-template-columns: .72fr 1.28fr; gap: clamp(3rem, 8vw, 8rem); align-items: center; max-width: 1240px; }
+.home-results-later .home-result-intro { grid-area: auto; }
+.home-results-later h2 { max-width: 12ch; font-size: clamp(2.2rem, 4vw, 3.8rem); }
+.home-compare-note { margin-top: 1rem; color: var(--gold-deep); font-size: .76rem !important; letter-spacing: .13em; text-transform: uppercase; }
+.home-offers { border-top: 1px solid var(--line-dark); }
+.home-offers-heading { margin-bottom: 2.5rem; }
+.home-offers-heading p:last-child { color: var(--mist); }
+.home-offer-feature { display: grid; grid-template-columns: 1.15fr .55fr auto; gap: clamp(1.5rem, 4vw, 4rem); align-items: center; max-width: 1180px; margin-inline: auto; padding: clamp(2rem, 4vw, 3.25rem); border: 1px solid var(--line-dark); background: rgba(255,255,255,.025); }
+.home-offer-feature .tag { display: block; margin-bottom: .7rem; color: var(--gold-pale); font-size: .72rem; letter-spacing: .17em; text-transform: uppercase; }
+.home-offer-feature h3 { margin-bottom: .65rem; color: var(--ivory); font-size: clamp(1.65rem, 2.5vw, 2.35rem); }
+.home-offer-feature p { max-width: 50ch; margin: 0; color: var(--mist); }
+.home-offer-price span { display: block; color: var(--mist); font-size: .74rem; letter-spacing: .16em; text-transform: uppercase; }
+.home-offer-price strong { display: block; color: var(--gold-pale); font-family: var(--serif); font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 400; line-height: 1.05; white-space: nowrap; }
 .home-implant-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: 1.5rem; }
-.home-implant-offer details { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--line-light); }
-.home-implant-offer summary { min-height: 44px; cursor: pointer; color: var(--gold-deep); font-size: 0.78rem; letter-spacing: .14em; text-transform: uppercase; }
-.home-implant-offer details p { color: rgba(28,27,24,.66); font-size: .9rem; }
+.home-offer-feature .home-implant-actions { margin-top: 0; }
+.home-offer-feature .home-text-link { color: var(--gold-pale); }
+.home-offer-feature details { grid-column: 1 / -1; margin-top: 0; padding-top: 1rem; border-top: 1px solid var(--line-dark); }
+.home-offer-feature summary { min-height: 44px; cursor: pointer; color: var(--gold-pale); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; }
+.home-offer-feature details p { color: var(--mist); font-size: .9rem; }
 
 .home-visit { background: radial-gradient(circle at 14% 50%, rgba(198,161,91,.09), transparent 38%), var(--noir); }
 .home-visit-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: clamp(3rem, 9vw, 8rem); align-items: center; }
@@ -388,10 +408,40 @@
 .home-hours dt, .home-hours dd { font-size: .92rem; font-weight: 300; }
 .home-hours dd { color: var(--gold-pale); }
 
+@media (max-width: 1360px) {
+  .home-philosophy { min-height: 0; }
+  .home-philosophy-grid { width: 100%; grid-template-columns: 1fr; }
+  .home-philosophy-copy {
+    display: grid;
+    width: 90vw;
+    max-width: 1180px;
+    grid-template-columns: minmax(0, .92fr) minmax(0, 1fr);
+    gap: clamp(3rem, 7vw, 6.5rem);
+    align-items: start;
+    margin-inline: auto;
+    padding: clamp(3.75rem, 6vw, 5.5rem) 0 clamp(3rem, 5vw, 4.5rem);
+  }
+  .home-philosophy-lead,
+  .home-philosophy-detail { display: block; }
+  .home-philosophy h2 { max-width: 14ch; margin-bottom: 0; }
+  .home-philosophy-detail { padding-top: 1.5rem; }
+  .home-smile-portrait {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: clamp(360px, 40vw, 500px);
+    min-height: 0;
+    aspect-ratio: auto;
+    margin-left: 0;
+    background-position: 62% 36%;
+    background-size: cover;
+  }
+}
+
 @media (max-width: 1127px) {
   header.site .menu > li > a,
   header.site .menu > li > .nav-more-toggle { font-size: .9rem; letter-spacing: .1em; }
-  .home-reassurance-grid { grid-template-columns: .82fr 1.35fr; grid-template-areas: "intro result" "quote doctor"; }
+  .home-reassurance-grid { grid-template-columns: .8fr 1.2fr; grid-template-areas: "intro quote" "intro doctor"; }
   .home-quote { padding-left: 0; border-left: 0; }
 }
 
@@ -414,18 +464,22 @@
   .home-proof a:nth-child(4) { border-top: 1px solid var(--line-dark); }
   .home-philosophy { min-height: 0; }
   .home-philosophy-grid { width: 100%; grid-template-columns: 1fr; }
-  .home-philosophy-copy { width: 90vw; max-width: 680px; margin-inline: auto; padding: 4.5rem 0 2.5rem; }
-  .home-philosophy h2 { max-width: 14ch; }
-  .home-smile-portrait { width: 100%; min-height: 480px; background-position: 70% 24%; -webkit-mask-image: linear-gradient(180deg, transparent, #000 22%); mask-image: linear-gradient(180deg, transparent, #000 22%); }
-  .home-reassurance-grid { grid-template-columns: 1fr; grid-template-areas: "intro" "result" "quote" "doctor"; }
+  .home-philosophy-copy { display: block; width: 90vw; max-width: 680px; margin-inline: auto; padding: 4.5rem 0 2.5rem; }
+  .home-philosophy h2 { max-width: 14ch; margin-bottom: 1.5rem; }
+  .home-philosophy-detail { padding-top: 0; }
+  .hero-offer-cue { position: static; width: 90vw; max-width: var(--content); margin: 0 auto .8rem; justify-content: flex-end; }
+  .home-smile-portrait { position: relative; inset: auto; width: 100%; height: auto; min-height: 480px; aspect-ratio: auto; margin-left: 0; background-position: 62% 34%; background-size: cover; }
+  .home-reassurance-grid { grid-template-columns: 1fr; grid-template-areas: "intro" "quote" "doctor"; }
   .home-result-intro { max-width: 620px; }
   .home-quote { padding-top: 1.2rem; border-top: 1px solid var(--line-light); }
   .home-doctor-card { max-width: 520px; }
   .home-intent-grid { grid-template-columns: repeat(2, 1fr); }
-  .home-tech-heading, .home-implant-grid, .home-visit-grid { grid-template-columns: 1fr; }
+  .home-tech-heading, .home-results-later-grid, .home-visit-grid { grid-template-columns: 1fr; }
   .home-tech-heading { gap: 1.5rem; }
   .home-tech-grid { grid-template-columns: 1fr; }
   .home-tech-card.tech-card { min-height: 310px; }
+  .home-offer-feature { grid-template-columns: 1fr 1fr; }
+  .home-offer-feature .home-implant-actions { justify-self: end; }
   .home-hours { padding: 2rem 0 0; border-top: 1px solid var(--line-dark); border-left: 0; }
 }
 
@@ -439,7 +493,7 @@
   .home-proof a > span { font-size: .66rem; letter-spacing: .1em; }
   .home-philosophy-copy { width: 90vw; padding-top: 3.8rem; }
   .home-philosophy h2 { font-size: clamp(2.05rem, 10vw, 3rem); }
-  .home-smile-portrait { min-height: 390px; background-position: 72% 22%; }
+  .home-smile-portrait { min-height: 390px; background-position: 62% 34%; }
   .home-reassurance { padding-block: 3.8rem; }
   .home-featured-ba { aspect-ratio: 1.45 / 1; }
   .home-doctor-card { grid-template-columns: 96px 1fr; }
@@ -449,7 +503,8 @@
   .home-next { padding: .7rem 1rem; font-size: .62rem; }
   .home-tech-card.tech-card { min-height: 285px; }
   .home-tech-footer { align-items: flex-start; flex-direction: column; justify-content: center; padding-block: .8rem; }
-  .home-implant-offer { padding: 1.6rem 1.25rem; }
+  .home-offer-feature { grid-template-columns: 1fr; padding: 1.6rem 1.25rem; }
+  .home-offer-feature .home-implant-actions { justify-self: stretch; }
   .home-implant-actions { align-items: stretch; flex-direction: column; }
   .home-implant-actions .btn { text-align: center; }
   .home-visit-actions { display: grid; }

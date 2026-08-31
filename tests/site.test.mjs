@@ -649,9 +649,10 @@ test("homepage follows the approved needs-led conversion journey", async () => {
   const html = await readFile("dist/index.html", "utf8");
   const sections = [
     "Precision-Crafted Restorations",
-    "Results &amp; Reassurance",
+    "Care You Can Trust",
     "What Can We Help You With?",
     'id="technology"',
+    "Restorative Results",
     'id="offers"',
     "Feel Confident About Your Care"
   ];
@@ -666,7 +667,9 @@ test("homepage follows the approved needs-led conversion journey", async () => {
   assert.match(html, /Dental emergency\?/);
   assert.match(html, /class="hero-strip home-proof"/);
   assert.match(html, /class="home-smile-portrait/);
-  assert.match(html, /Complete implant, abutment, and crown package/);
+  assert.match(html, /Complete Implant Package/);
+  assert.match(html, /Current offers available/);
+  assert.ok(html.indexOf("Restorative Results") > html.indexOf('id="technology"'));
   assert.doesNotMatch(html, /class="marquee-track"|class="stats rv"/);
   assert.match(html, /id="techmodal"/);
 });

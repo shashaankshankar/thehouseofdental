@@ -1,5 +1,5 @@
 const __SITE_DETAIL_DATA = {"services":{"implants":{"cat":"Restorative","title":"Dental Implants","img":"assets/service-implants.jpg","paras":["Transformative dental implants that look, feel, and function like natural teeth. From single implants to full arch implant-supported dentures, The House of Dental offers tooth replacement solutions that are long-lasting, luminous, and made especially for you.","Dr. Patel focuses on computer-assisted dentistry and minimally invasive guided surgeries, and is a fellow of the International Congress of Oral Implantologists. Implant Special for patients without insurance: from $2,998 — implant, abutment, and crown included."],"items":["Single tooth implants","Implant-supported bridges","Full arch implant-supported dentures","Guided, minimally invasive placement"]},"restorative":{"cat":"Restorative","title":"Full Mouth Restoration","img":"assets/service-restoration.jpg","paras":["Comprehensive restorations that rebuild the health, function, and natural beauty of your smile. Materials and technologies are selected for your treatment plan, with customized care tailored to your needs at every step."],"items":["Precision-crafted restorations","Specialty porcelain work","Comprehensive treatment planning"]},"crowns":{"cat":"CEREC® Technology","title":"Same-Day Dental Crowns","img":"assets/service-crowns.jpg","paras":["The CEREC system allows us to craft crowns right here in our dental office, in a single visit. Depending on your treatment plan, this can avoid a temporary restoration and a separate lab visit — with a precision-crafted crown delivered the same day."],"items":[]},"dentures":{"cat":"Restorative","title":"Dentures","img":"assets/service-dentures.jpg","paras":["From removable dentures to full arch implant-supported dentures, we design comfortable, natural-looking tooth replacement that restores your ability to eat, speak, and smile with total confidence."],"items":[]},"root-canals":{"cat":"Restorative","title":"Root Canals","img":"assets/service-root-canals.jpg","paras":["Gentle, modern root canal therapy that relieves pain and saves your natural tooth. With fully digital imaging and a calm, patient-first approach, the experience is far more comfortable than its reputation."],"items":[]},"cosmetic":{"cat":"Cosmetic","title":"Cosmetic Dentistry","img":"assets/service-cosmetic.jpg","paras":["Want a more confident smile? Learn how porcelain veneers, dental crowns, or a complete smile makeover could give you a glowing smile designed around your features."],"items":[]},"veneers":{"cat":"Cosmetic","title":"Porcelain Veneers","img":"assets/service-veneers.jpg","paras":["Specialty porcelain restorations, individually crafted to reshape, brighten, and perfect your smile — with results that photograph beautifully and last for years."],"items":[]},"preventive":{"cat":"Preventive","title":"Preventive Care & Cleanings","img":"assets/service-preventive.jpg","paras":["Customized preventive care and oral health education. Our hygienists never rush — every cleaning is thorough, comfortable, and tailored to keeping your teeth and gums healthy for life."],"items":[]},"invisalign":{"cat":"Orthodontic","title":"Invisalign®","img":"assets/service-invisalign.jpg","paras":["Invisalign clear braces for teens and adults. Straighten your teeth discreetly with removable, nearly invisible aligners — no brackets, no wires, no interruptions to your life."],"items":[]},"oral-surgery":{"cat":"Surgical","title":"Oral Surgery","img":"assets/service-oral-surgery.jpg","paras":["From extractions to surgical implant placement, oral surgery at The House of Dental is performed with precision, advanced imaging, and genuine care for your comfort."],"items":[]},"sedation":{"cat":"Comfort","title":"Sedation Dentistry","img":"assets/service-sedation.jpg","paras":["Dental anxiety should never stand between you and a healthy smile. Our sedation options keep you calm and comfortable through any procedure — many patients barely remember their visit."],"items":[]},"tmj":{"cat":"Therapeutic","title":"TMJ Treatment","img":"assets/service-tmj.jpg","paras":["Jaw pain, clicking, and tension headaches often trace back to the temporomandibular joint. We diagnose and treat TMJ disorders to relieve pain and restore comfortable function."],"items":[]},"srp":{"cat":"Periodontal","title":"Scaling &amp; Root Planing","img":"assets/service-srp.jpg","paras":["Also called a deep cleaning, scaling and root planing treats gum disease below the gumline — removing hardened plaque and tartar from the tooth roots, then smoothing those root surfaces so the gum tissue can reattach and heal.","Left untreated, periodontal disease is the leading cause of adult tooth loss. Caught and managed early, it's highly controllable. Treatment is typically done by quadrant with local anesthetic for comfort, followed by periodontal maintenance visits to keep it stable."],"items":["Deep cleaning below the gumline","Root surface smoothing for tissue reattachment","Reduced pocket depths","Ongoing periodontal maintenance"]},"quietnite":{"cat":"Oral Appliance","title":"QuietNite Sleep","img":"assets/service-quietnite.jpg","paras":["The QuietNite is a custom mandibular advancement device for snoring and mild to moderate obstructive sleep apnea in adults. Two thermally formed trays fit over the upper and lower arches, joined by lateral connectors that gently hold the lower jaw forward during sleep.","Advancing the jaw increases the three-dimensional space in the airway, reducing air velocity and the soft-tissue vibration that causes snoring. The connectors are patient-adjustable at home, so comfort and effectiveness can be dialed in over time.","For many patients an oral appliance is far easier to live with than CPAP — no mask, no hose, no power source. If you've been diagnosed with severe sleep apnea, we coordinate with your physician rather than replacing prescribed therapy."],"items":["Custom fabricated from digital scans","Patient-adjustable jaw advancement","Treats snoring and mild to moderate OSA","A comfortable alternative to CPAP for many patients"]}},"technology":{"cerec":{"cat":"Chairside Milling","title":"CEREC® Same-Day Crowns","img":"assets/technology-cerec.jpg","paras":["CEREC lets us design, mill, and place a permanent ceramic crown in a single appointment. A digital scan of your tooth becomes a 3D model on screen, and our in-office milling unit carves the restoration from a solid block of ceramic while you wait.","The result: no impression putty, no temporary crown to fall off, and no second appointment weeks later. You walk in with a damaged tooth and walk out with a finished, color-matched restoration."],"soon":false},"ct-scan":{"cat":"3D Imaging","title":"CT Scan (Cone Beam)","img":"assets/technology-ct-scan-v2.jpg","paras":["Our cone beam CT scanner captures a complete three-dimensional view of your teeth, jaw, nerves, and sinuses in a single rotation — detail a traditional two-dimensional X-ray simply cannot show.","This is what makes guided implant surgery possible. Dr. Patel can measure bone density and volume, map the exact position of nerves, and plan the precise angle and depth of an implant before ever beginning the procedure. It means fewer surprises, less invasive surgery, and more predictable outcomes."],"soon":false},"digital-scans":{"cat":"Fully Digital","title":"Digital Scans & X-Rays","img":"assets/technology-digital-scans.jpg","paras":["We replaced messy impression trays with a handheld intraoral scanner that builds a precise digital model of your mouth in minutes — more comfortable, more accurate, and instantly viewable on screen.","Our digital radiographs use significantly less radiation than traditional film X-rays and appear immediately, so Dr. Patel can show you exactly what he's seeing and explain it in real time."],"soon":false},"guided-surgery":{"cat":"Implantology","title":"Computer-Guided Surgery","img":"assets/technology-guided-surgery.jpg","paras":["Using CT data, implant placement is planned digitally down to the millimeter, then executed with a custom surgical guide that directs the placement exactly as planned.","Because the position is determined before surgery begins, the procedure is more precise and far less invasive — often meaning smaller incisions, less discomfort, and a faster recovery than freehand placement."],"soon":false},"deka":{"cat":"Laser Aesthetics","title":"DEKA CO2 Facial Resurfacing Laser","img":"assets/technology-deka-co2-v2.jpg","paras":["DEKA is a leading name in medical laser technology, used for skin resurfacing and rejuvenation treatments that address fine lines, uneven texture, sun damage, pigmentation, and scarring.","The laser works by delivering precisely controlled energy to the skin, stimulating the body's natural collagen production and encouraging fresh, healthy tissue to replace damaged surface layers — with treatment intensity tailored to each patient's skin and goals."],"soon":false},"emage":{"cat":"Diagnostic Imaging","title":"Emage 3D Skin Scanner","img":"assets/technology-emage-3d-v2.jpg","paras":["The Emage scanner captures a detailed three-dimensional analysis of your skin — revealing sun damage, pigmentation, pore condition, wrinkles, and texture beneath the surface that the naked eye cannot detect.","It turns aesthetic treatment into something measurable. We can establish an objective baseline before treatment begins, build a plan around what your skin actually needs, and show you side-by-side progress over time rather than asking you to guess at the results."],"soon":false},"hydroderm":{"cat":"Signature Treatment","title":"Custom HydroDerm Facials","img":"assets/hydroderm-facial.jpg","paras":["A multi-step hydrating facial treatment that cleanses, gently exfoliates, extracts impurities, and infuses the skin with hydrating serums — all in one session, with no downtime.","Each facial is customized rather than one-size-fits-all: the serums and intensity are selected based on your skin's needs, which is where the Emage scanner comes in. Results are immediate — smoother texture, refined pores, and a visible glow."],"soon":false},"microneedling":{"cat":"Collagen Induction","title":"Microneedling","img":"assets/technology-microneedling-v2.jpg","paras":["Microneedling &mdash; collagen induction therapy &mdash; uses a precision device to create thousands of microscopic channels in the skin, triggering the body's natural wound-healing cascade.","As the skin repairs those channels it produces fresh collagen and elastin, softening acne scars, refining texture, tightening pores, and firming skin from within. Because it works without heat, it's safe across all skin types."],"soon":false}}};
-const __SITE_ANALYTICS = {"provider":"gtag","enabled":true,"measurementId":"G-TC66MQQ0T7","consent":{"mode":"advanced","version":2,"storageKey":"thod-analytics-consent","waitForUpdate":500},"contractVersion":"local_service_v1","routeEligibility":{"version":"local_service_v1","default":"prohibited","routes":{"/":"approved","/about":"approved","/accessibility":"approved","/blog":"approved","/blog/dental-implants-process-benefits-recovery":"approved","/blog/same-day-crowns-vs-traditional-crowns":"approved","/blog/veneers-vs-bonding-vs-whitening":"approved","/blog/clear-aligners-how-they-work":"approved","/blog/gum-disease-signs-treatment-prevention":"approved","/blog/root-canal-what-to-expect":"approved","/blog/sedation-dentistry-types-safety":"approved","/blog/tmj-disorders-symptoms-treatment":"approved","/blog/co2-laser-resurfacing-benefits-recovery":"approved","/blog/microneedling-benefits-process-aftercare":"approved","/contact":"approved","/facial-aesthetics":"approved","/new-patients":"approved","/pre-post-op":"approved","/privacy":"approved","/reviews":"approved","/services":"approved","/terms":"approved"},"fragments":{"/":["main-content"],"/about":["main-content","dr-patel","team","technologies"],"/accessibility":["main-content"],"/blog":["main-content"],"/blog/dental-implants-process-benefits-recovery":["main-content"],"/blog/same-day-crowns-vs-traditional-crowns":["main-content"],"/blog/veneers-vs-bonding-vs-whitening":["main-content"],"/blog/clear-aligners-how-they-work":["main-content"],"/blog/gum-disease-signs-treatment-prevention":["main-content"],"/blog/root-canal-what-to-expect":["main-content"],"/blog/sedation-dentistry-types-safety":["main-content"],"/blog/tmj-disorders-symptoms-treatment":["main-content"],"/blog/co2-laser-resurfacing-benefits-recovery":["main-content"],"/blog/microneedling-benefits-process-aftercare":["main-content"],"/contact":["main-content","book"],"/facial-aesthetics":["main-content","deka-laser","microneedling","emage-scan","hydroderm-facial"],"/new-patients":["main-content","insurance","offers","savings-plan"],"/pre-post-op":["main-content","implants","extractions","crowns","root-canals","srp","veneers","dentures","quietnite","sedation","deka-co2","microneedling","emage-scan","hydroderm"],"/privacy":["main-content"],"/reviews":["main-content"],"/services":["main-content","facial-aesthetics-services","dental-services","implants","crowns","restorative","dentures","root-canals","cosmetic","veneers","preventive","invisalign","oral-surgery","sedation","tmj","srp","quietnite"],"/terms":["main-content"]}},"eventPolicy":{"allowedEvents":["form_start","form_submit","generate_lead","phone_click","email_click","appointment_request","cta_click"],"allowedLocations":["phone_link","email_link","appointment_link","appointment_form","directions_link","hero_scroll","hero_offer","proof_rating","proof_reviews","proof_cerec","proof_doctor","care_selection","comparison","review_link","doctor_link","implant_offer"],"allowedCtaTypes":["appointment","directions","content","proof","service","pricing"],"allowedServiceCategories":["dental","facial_aesthetics"]}};
+const __SITE_ANALYTICS = {"provider":"gtag","enabled":true,"measurementId":"G-TC66MQQ0T7","consent":{"mode":"advanced","version":2,"storageKey":"thod-analytics-consent","waitForUpdate":500},"contractVersion":"local_service_v1","routeEligibility":{"version":"local_service_v1","default":"prohibited","routes":{"/":"approved","/about":"approved","/accessibility":"approved","/blog":"approved","/blog/dental-implants-process-benefits-recovery":"approved","/blog/same-day-crowns-vs-traditional-crowns":"approved","/blog/veneers-vs-bonding-vs-whitening":"approved","/blog/clear-aligners-how-they-work":"approved","/blog/gum-disease-signs-treatment-prevention":"approved","/blog/root-canal-what-to-expect":"approved","/blog/sedation-dentistry-types-safety":"approved","/blog/tmj-disorders-symptoms-treatment":"approved","/blog/co2-laser-resurfacing-benefits-recovery":"approved","/blog/microneedling-benefits-process-aftercare":"approved","/contact":"approved","/facial-aesthetics":"approved","/new-patients":"approved","/pre-post-op":"approved","/privacy":"approved","/reviews":"approved","/services":"approved","/terms":"approved"},"fragments":{"/":["main-content"],"/about":["main-content","dr-patel","team","technologies"],"/accessibility":["main-content"],"/blog":["main-content"],"/blog/dental-implants-process-benefits-recovery":["main-content"],"/blog/same-day-crowns-vs-traditional-crowns":["main-content"],"/blog/veneers-vs-bonding-vs-whitening":["main-content"],"/blog/clear-aligners-how-they-work":["main-content"],"/blog/gum-disease-signs-treatment-prevention":["main-content"],"/blog/root-canal-what-to-expect":["main-content"],"/blog/sedation-dentistry-types-safety":["main-content"],"/blog/tmj-disorders-symptoms-treatment":["main-content"],"/blog/co2-laser-resurfacing-benefits-recovery":["main-content"],"/blog/microneedling-benefits-process-aftercare":["main-content"],"/contact":["main-content","request","book"],"/facial-aesthetics":["main-content","deka-laser","microneedling","emage-scan","hydroderm-facial"],"/new-patients":["main-content","insurance","offers","savings-plan"],"/pre-post-op":["main-content","implants","extractions","crowns","root-canals","srp","veneers","dentures","quietnite","sedation","deka-co2","microneedling","emage-scan","hydroderm"],"/privacy":["main-content"],"/reviews":["main-content"],"/services":["main-content","facial-aesthetics-services","dental-services","implants","crowns","restorative","dentures","root-canals","cosmetic","veneers","preventive","invisalign","oral-surgery","sedation","tmj","srp","quietnite"],"/terms":["main-content"]}},"eventPolicy":{"allowedEvents":["form_start","form_submit","generate_lead","phone_click","email_click","appointment_request","cta_click"],"allowedLocations":["phone_link","email_link","appointment_link","appointment_form","directions_link","hero_scroll","hero_offer","proof_rating","proof_reviews","proof_cerec","proof_doctor","care_selection","comparison","review_link","doctor_link","implant_offer"],"allowedCtaTypes":["appointment","directions","content","proof","service","pricing"],"allowedServiceCategories":["dental","facial_aesthetics"]}};
 const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rating":4.9,"review_count":337}};
 
 (() => {
@@ -82,14 +82,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     addEventListener('scroll', updateCareBack, { passive: true });
   }
 
-  const booking = document.querySelector('#book');
-  if (booking) {
-    document.querySelectorAll('[data-contact-form] input, [data-contact-form] select, [data-contact-form] textarea').forEach((field) => {
-      field.addEventListener('focus', () => document.body.classList.add('booking-focus'));
-      field.addEventListener('blur', () => document.body.classList.remove('booking-focus'));
-    });
-  }
-
   const alignCareHash = () => {
     if (!document.querySelector('.care-block')) return;
     const target = document.getElementById(location.hash.slice(1));
@@ -107,7 +99,7 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   const button = document.querySelector(".burger");
   const menu = document.querySelector(".menu");
   const mobileNavigation = window.matchMedia("(max-width: 1024px)");
-  const hybridNavigation = () => window.matchMedia("(min-width: 1025px) and (max-width: 1127px)").matches;
+  const hybridNavigation = () => window.matchMedia("(min-width: 1025px) and (max-width: 1365px)").matches;
   const reducedMotion = () => window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches === true;
 
   const isAvailable = (element) => {
@@ -351,15 +343,12 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     alignHashTarget(target);
     return true;
   };
-  const booking = document.querySelector("#book");
-  const alignBookingHash = () => {
-    if (!booking || location.hash !== "#book") return false;
-    alignHashTarget(booking);
-    return true;
-  };
+  // The appointment request fragment opens the fixed drawer (45-inquiry.js)
+  // instead of scrolling the page.
+  const isInquiryHash = (hash = location.hash) => hash === "#request" || hash === "#book";
   const alignPageHash = () => {
     syncResponsiveNavigation();
-    if (alignBookingHash() || scrollToCareSection()) return;
+    if (isInquiryHash() || scrollToCareSection()) return;
     alignHashTarget(getHashTarget());
   };
 
@@ -367,7 +356,7 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     if (event.defaultPrevented || event.button !== 0 || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
     if (link.hasAttribute("download") || (link.target && link.target.toLowerCase() !== "_self")) return;
     const url = new URL(link.href, location.href);
-    if (url.origin !== location.origin || normalizePath(url.pathname) !== current || url.search !== location.search || !url.hash || url.hash === "#") return;
+    if (url.origin !== location.origin || normalizePath(url.pathname) !== current || url.search !== location.search || !url.hash || url.hash === "#" || isInquiryHash(url.hash)) return;
     const target = getHashTarget(url.hash);
     if (!target || !isAvailable(target)) return;
     event.preventDefault();
@@ -490,9 +479,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   const syncBodySurfaceState = () => {
     const menuOpen = Boolean(document.querySelector(".menu.open"));
     document.body.classList.toggle("menu-open", menuOpen);
-    document.body.classList.toggle("booking-target", Boolean(
-      location.hash === "#book" && document.getElementById("book")
-    ));
   };
   const menu = document.querySelector(".menu");
   syncBodySurfaceState();
@@ -789,6 +775,318 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
 })();
 
 (() => {
+  const OFFICE = { timeZone: "America/New_York", days: [1, 2, 3, 4], opens: 8 * 60, closes: 15 * 60 };
+  const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const clock = (minutes) => {
+    const hour = Math.floor(minutes / 60);
+    const minute = minutes % 60;
+    return `${hour % 12 || 12}:${String(minute).padStart(2, "0")}${hour < 12 ? "am" : "pm"}`;
+  };
+  const officeStatus = (now = new Date()) => {
+    const parts = new Intl.DateTimeFormat("en-US", {
+      timeZone: OFFICE.timeZone, weekday: "short", hour: "numeric", minute: "numeric", hourCycle: "h23"
+    }).formatToParts(now);
+    const read = (type) => parts.find((part) => part.type === type)?.value || "";
+    const day = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(read("weekday"));
+    const minutes = (Number(read("hour")) % 24) * 60 + Number(read("minute"));
+    if (day < 0 || !Number.isFinite(minutes)) throw new Error("Unavailable office clock");
+    const openDay = OFFICE.days.includes(day);
+    if (openDay && minutes >= OFFICE.opens && minutes < OFFICE.closes) {
+      return { open: true, text: `Open now · until ${clock(OFFICE.closes)}` };
+    }
+    if (openDay && minutes < OFFICE.opens) return { open: false, text: `Closed · opens today at ${clock(OFFICE.opens)}` };
+    for (let offset = 1; offset <= 7; offset += 1) {
+      const next = (day + offset) % 7;
+      if (!OFFICE.days.includes(next)) continue;
+      const label = offset === 1 ? "tomorrow" : DAY_NAMES[next];
+      return { open: false, text: `Closed · opens ${label} at ${clock(OFFICE.opens)}` };
+    }
+    return { open: false, text: "Closed" };
+  };
+  const renderOfficeStatus = () => {
+    const targets = document.querySelectorAll("[data-office-status]");
+    if (!targets.length) return;
+    let status;
+    try {
+      status = officeStatus();
+    } catch {
+      return;
+    }
+    targets.forEach((element) => {
+      element.textContent = status.text;
+      element.dataset.officeOpen = String(status.open);
+    });
+  };
+  renderOfficeStatus();
+  window.setInterval(renderOfficeStatus, 60000);
+  window.thodInquiry = { officeStatus };
+
+  const drawer = document.querySelector("[data-inquiry]");
+  if (!drawer) return;
+
+  const panel = drawer.querySelector(".inquiry-panel");
+  const form = drawer.querySelector("form[data-contact-form]");
+  const steps = [...drawer.querySelectorAll("[data-inquiry-step]")];
+  const summary = drawer.querySelector("[data-inquiry-summary]");
+  const progressLabel = drawer.querySelector("[data-inquiry-progress-label]");
+  const progressBars = [...drawer.querySelectorAll(".inquiry-progress-bars i")];
+  const backButton = drawer.querySelector("[data-inquiry-back]");
+  const nextButton = drawer.querySelector("[data-inquiry-next]");
+  const submitButton = drawer.querySelector("[data-inquiry-submit]");
+  const success = drawer.querySelector("[data-inquiry-success]");
+  const status = form.querySelector("[data-form-status]");
+  const phoneField = form.querySelector('input[name="phone"]');
+  const emailField = form.querySelector('input[name="email"]');
+  const nameField = form.querySelector('input[name="name"]');
+  const total = steps.length;
+  const reducedMotion = () => window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches === true;
+  const isInquiryHash = (hash) => hash === "#request" || hash === "#book";
+
+  let current = 1;
+  let returnFocus = null;
+  let inerted = [];
+  let completed = false;
+
+  const checked = (name) => form.querySelector(`input[name="${name}"]:checked`);
+  const choiceLabel = (name) => checked(name)?.parentElement?.querySelector("strong")?.textContent?.trim() || "";
+  const focusFirst = (step) => {
+    const target = step.querySelector('input:checked, input:not([type="radio"]):not([type="hidden"]), textarea, input');
+    if (!target) return;
+    window.setTimeout(() => target.focus({ preventScroll: true }), 0);
+  };
+  const setError = (step, message) => {
+    const error = step.querySelector("[data-inquiry-error]");
+    if (!error) return;
+    error.textContent = message || "";
+    error.hidden = !message;
+  };
+  const isFocusable = (element) => {
+    if (!element || element.disabled || element.hidden || element.closest("[hidden]")) return false;
+    const styles = getComputedStyle(element);
+    return styles.display !== "none" && styles.visibility !== "hidden";
+  };
+  const focusable = () => [...panel.querySelectorAll('button, a[href], input, textarea, select, [tabindex]:not([tabindex="-1"])')]
+    .filter((element) => element.tabIndex >= 0 && isFocusable(element));
+
+  const renderSummary = () => {
+    summary.replaceChildren();
+    const items = [{ step: 1, label: "Asking about", value: choiceLabel("treatment") }];
+    if (current > 2) {
+      items.push({ step: 2, label: "Follow-up", value: choiceLabel("preferred-response") });
+      items.push({ step: 2, label: "Timing", value: choiceLabel("preferred-time") });
+    }
+    const visible = items.filter((item) => item.value);
+    summary.hidden = current === 1 || !visible.length;
+    visible.forEach((item) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.setAttribute("aria-label", `${item.label}: ${item.value}. Change this answer`);
+      const label = document.createElement("small");
+      label.textContent = item.label;
+      const value = document.createElement("span");
+      value.textContent = item.value;
+      const change = document.createElement("em");
+      change.textContent = "Change";
+      button.append(label, value, change);
+      button.addEventListener("click", () => showStep(item.step));
+      summary.append(button);
+    });
+  };
+  const syncContactRequirements = () => {
+    const method = checked("preferred-response")?.value || "phone";
+    const phoneRequired = method !== "email";
+    const emailRequired = method === "email";
+    phoneField.required = phoneRequired;
+    emailField.required = emailRequired;
+    form.querySelectorAll("[data-inquiry-optional]").forEach((hint) => {
+      hint.hidden = hint.dataset.inquiryOptional === "phone" ? phoneRequired : emailRequired;
+    });
+  };
+  const showStep = (index, { focus = true } = {}) => {
+    current = Math.min(Math.max(index, 1), total);
+    steps.forEach((step, position) => {
+      const active = position + 1 === current;
+      step.hidden = !active;
+      step.classList.toggle("is-entering", active && !reducedMotion());
+      if (!active) setError(step, "");
+    });
+    progressLabel.textContent = `Step ${current} of ${total}`;
+    progressBars.forEach((bar, position) => bar.classList.toggle("is-done", position < current));
+    backButton.hidden = current === 1;
+    nextButton.hidden = current === total;
+    submitButton.hidden = current !== total;
+    if (current === total) syncContactRequirements();
+    renderSummary();
+    if (focus) {
+      focusFirst(steps[current - 1]);
+      panel.scrollTo?.({ top: 0, behavior: "auto" });
+    }
+  };
+  const validateStep = (index) => {
+    const step = steps[index - 1];
+    if (index === 1 && !checked("treatment")) {
+      setError(step, "Choose the option that fits best so we can route your request.");
+      return false;
+    }
+    if (index === 2 && !checked("preferred-response")) {
+      setError(step, "Let us know whether to call or email you.");
+      return false;
+    }
+    if (index === 3) {
+      syncContactRequirements();
+      const fields = [nameField, phoneField, emailField];
+      const invalid = fields.filter((field) => !field.checkValidity());
+      fields.forEach((field) => field.setAttribute("aria-invalid", String(invalid.includes(field))));
+      if (invalid.length) {
+        const first = invalid[0];
+        const messages = {
+          name: "Please tell us your name.",
+          phone: phoneField.required && !phoneField.value.trim() ? "Add the phone number we should call." : "That phone number doesn't look right.",
+          email: emailField.required && !emailField.value.trim() ? "Add the email address we should reply to." : "That email address doesn't look right."
+        };
+        setError(step, messages[first.name]);
+        first.focus({ preventScroll: true });
+        return false;
+      }
+    }
+    setError(step, "");
+    return true;
+  };
+
+  const resetFlow = () => {
+    form.reset();
+    completed = false;
+    form.hidden = false;
+    success.hidden = true;
+    if (status) {
+      status.textContent = "";
+      delete status.dataset.state;
+    }
+    form.querySelectorAll("[aria-invalid]").forEach((field) => field.removeAttribute("aria-invalid"));
+    showStep(1, { focus: false });
+  };
+  const inertBackground = () => {
+    if (inerted.length) return;
+    const background = [...document.body.children].filter((element) => element !== drawer && element.tagName !== "SCRIPT");
+    inerted = background.map((element) => ({ element, inert: element.inert }));
+    background.forEach((element) => { element.inert = true; });
+  };
+  const releaseBackground = () => {
+    inerted.forEach(({ element, inert }) => { element.inert = inert; });
+    inerted = [];
+  };
+  const open = ({ treatment = "", trigger = null } = {}) => {
+    const wasOpen = drawer.classList.contains("is-open");
+    if (!wasOpen) returnFocus = trigger || document.activeElement;
+    if (completed) resetFlow();
+    const preset = treatment ? form.querySelector(`input[name="treatment"][value="${CSS.escape(treatment)}"]`) : null;
+    if (preset) preset.checked = true;
+    drawer.classList.add("is-open");
+    document.body.classList.add("inquiry-open");
+    inertBackground();
+    showStep(preset ? 2 : 1, { focus: false });
+    window.setTimeout(() => {
+      if (!drawer.classList.contains("is-open")) return;
+      if (preset) focusFirst(steps[1]);
+      else panel.focus({ preventScroll: true });
+    }, 0);
+  };
+  const close = () => {
+    if (!drawer.classList.contains("is-open")) return;
+    drawer.classList.remove("is-open");
+    document.body.classList.remove("inquiry-open");
+    releaseBackground();
+    if (isInquiryHash(location.hash)) history.replaceState(null, "", `${location.pathname}${location.search}`);
+    if (completed) resetFlow();
+    const target = returnFocus?.isConnected && isFocusable(returnFocus) ? returnFocus : document.querySelector(".burger");
+    returnFocus = null;
+    if (target && isFocusable(target)) target.focus({ preventScroll: true });
+  };
+
+  nextButton.addEventListener("click", () => {
+    if (validateStep(current)) showStep(current + 1);
+  });
+  backButton.addEventListener("click", () => showStep(current - 1));
+  form.addEventListener("submit", (event) => {
+    if (current !== total || !validateStep(total)) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      if (current !== total) showStep(current);
+    }
+  });
+  form.querySelectorAll('input[name="preferred-response"]').forEach((input) => input.addEventListener("change", syncContactRequirements));
+  form.querySelectorAll('input[type="radio"]').forEach((input) => input.addEventListener("change", () => setError(input.closest("[data-inquiry-step]"), "")));
+  [nameField, phoneField, emailField].forEach((field) => field.addEventListener("input", () => field.removeAttribute("aria-invalid")));
+  form.addEventListener("contact:success", () => {
+    completed = true;
+    form.hidden = true;
+    success.hidden = false;
+    panel.scrollTo?.({ top: 0, behavior: "auto" });
+    window.setTimeout(() => success.focus({ preventScroll: true }), 0);
+  });
+  drawer.querySelectorAll("[data-inquiry-close]").forEach((element) => element.addEventListener("click", close));
+  document.addEventListener("keydown", (event) => {
+    if (!drawer.classList.contains("is-open")) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      event.stopPropagation();
+      close();
+      return;
+    }
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      event.stopPropagation();
+      return;
+    }
+    if (event.key !== "Tab") return;
+    event.stopPropagation();
+    const items = focusable();
+    if (!items.length) {
+      event.preventDefault();
+      return;
+    }
+    const first = items[0];
+    const last = items[items.length - 1];
+    const active = document.activeElement;
+    if (!panel.contains(active)) {
+      event.preventDefault();
+      (event.shiftKey ? last : first).focus();
+    } else if (event.shiftKey && (active === first || active === panel)) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && active === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }, true);
+
+  const inquiryLink = (link) => {
+    let url;
+    try {
+      url = new URL(link.getAttribute("href") || "", location.href);
+    } catch {
+      return false;
+    }
+    return url.origin === location.origin && (url.pathname === "/contact" || url.pathname === location.pathname) && isInquiryHash(url.hash);
+  };
+  document.querySelectorAll("a[href]").forEach((link) => {
+    if (!inquiryLink(link)) return;
+    link.addEventListener("click", (event) => {
+      if (event.button !== 0 || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+      event.preventDefault();
+      open({ treatment: link.dataset.inquiryTreatment || "", trigger: link });
+    });
+  });
+  const openFromHash = () => {
+    if (!isInquiryHash(location.hash)) return;
+    open();
+    history.replaceState(null, "", `${location.pathname}${location.search}`);
+  };
+  addEventListener("hashchange", openFromHash);
+  showStep(1, { focus: false });
+  openFromHash();
+})();
+
+(() => {
   const range = document.getElementById("chr-range");
   if (!range) return;
   const amount = document.getElementById("chr-amt");
@@ -815,44 +1113,48 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
 })();
 
 (() => {
-  const form = document.querySelector("form[data-contact-form]");
-  if (!form) return;
+  const forms = document.querySelectorAll("form[data-contact-form]");
+  if (!forms.length) return;
 
-  const button = form.querySelector("button[type='submit']");
-  const status = document.querySelector("#contact-status");
-  const setStatus = (message, state) => {
-    if (!status) return;
-    status.textContent = message;
-    status.dataset.state = state;
-  };
+  forms.forEach((form) => {
+    const button = form.querySelector("button[type='submit']");
+    const status = form.querySelector("[data-form-status]") || document.querySelector("#contact-status");
+    const setStatus = (message, state) => {
+      if (!status) return;
+      status.textContent = message;
+      status.dataset.state = state;
+    };
 
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    if (button?.disabled) return;
-    button?.setAttribute("aria-busy", "true");
-    if (button) button.disabled = true;
-    setStatus("Sending your message…", "pending");
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (button?.disabled) return;
+      button?.setAttribute("aria-busy", "true");
+      if (button) button.disabled = true;
+      setStatus("Sending your request…", "pending");
 
-    try {
-      const response = await fetch(form.action, {
-        method: "POST",
-        headers: { Accept: "application/json", "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-        body: new URLSearchParams(new FormData(form))
-      });
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok || result.ok !== true) throw new Error(result.error || "Request failed");
-      form.reset();
-      setStatus(result.message || "Your message was sent. We'll get back to you soon.", "success");
-      window.thodAnalytics?.track("form_submit", { ctaLocation: "contact_form" });
-      window.thodAnalytics?.track("generate_lead", { ctaLocation: "contact_form" });
-      window.thodAnalytics?.track("appointment_request", { ctaLocation: "contact_form" });
-    } catch {
-      setStatus("We couldn't send your request online. Please call (407) 678-1400.", "error");
-    } finally {
-      button?.removeAttribute("aria-busy");
-      if (button) button.disabled = false;
-      status?.focus({ preventScroll: true });
-    }
+      try {
+        const response = await fetch(form.action, {
+          method: "POST",
+          headers: { Accept: "application/json", "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+          body: new URLSearchParams(new FormData(form))
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok || result.ok !== true) throw new Error(result.error || "Request failed");
+        const message = result.message || "Your request was sent. We'll get back to you soon.";
+        form.reset();
+        setStatus(message, "success");
+        window.thodAnalytics?.track("form_submit", { ctaLocation: "contact_form" });
+        window.thodAnalytics?.track("generate_lead", { ctaLocation: "contact_form" });
+        window.thodAnalytics?.track("appointment_request", { ctaLocation: "contact_form" });
+        form.dispatchEvent(new CustomEvent("contact:success", { bubbles: true, detail: { message } }));
+      } catch {
+        setStatus("We couldn't send your request online. Please call (407) 678-1400.", "error");
+      } finally {
+        button?.removeAttribute("aria-busy");
+        if (button) button.disabled = false;
+        status?.focus({ preventScroll: true });
+      }
+    });
   });
 })();
 

@@ -171,15 +171,74 @@ test("contact endpoint sends the mapped Resend payload", async () => {
     assert.equal(response.status, 200);
     const result = await json(response);
     assert.equal(result.ok, true);
-    assert.equal(result.message, "Your message was sent. We'll get back to you soon.");
+    assert.equal(result.message, "Your request was sent. We'll get back to you soon.");
     assert.match(result.request_id, /^[0-9a-f-]{36}$/);
     assert.equal(captured.url, "https://api.resend.com/emails");
     assert.equal(captured.options.headers.Authorization, "Bearer re_test-token");
     const payload = JSON.parse(captured.options.body);
     assert.deepEqual(payload.to, ["office@example.com"]);
     assert.deepEqual(payload.reply_to, [validFields.email]);
+    assert.equal(payload.subject, "Website appointment request from Test Patient");
     assert.match(payload.html, /Test Patient/);
+    assert.match(payload.text, /Interested in: Not provided\nPreferred follow-up: Not provided\nPreferred time: Not provided/);
     assert.doesNotMatch(payload.html, /<script>/);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("contact endpoint validates appointment preferences and makes phone or email conditional", async () => {
+  const originalFetch = globalThis.fetch;
+  const sent = [];
+  globalThis.fetch = async (url, options) => {
+    sent.push(JSON.parse(options.body));
+    return new Response(JSON.stringify({ id: `contact-email-${sent.length}` }), { status: 200 });
+  };
+  const env = {
+    ASSETS: assets(),
+    CONTACT_ALLOWED_ORIGINS: origin,
+    RESEND_API_KEY: "re_test-token",
+    CONTACT_FROM_EMAIL: "website@example.com",
+    CONTACT_RECIPIENT_EMAIL: "office@example.com"
+  };
+  const post = (fields) => worker.fetch(requestFor("/api/contact", {
+    method: "POST",
+    headers: { Origin: origin, "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams(fields)
+  }), env, context());
+  try {
+    const phoneOnly = await post({ name: "Phone Patient", phone: "407-678-1400", email: "", "new-patient": "Yes", treatment: "implants", "preferred-response": "phone", "preferred-time": "morning", message: "Two missing molars." });
+    assert.equal(phoneOnly.status, 200);
+    assert.equal("reply_to" in sent.at(-1), false);
+    assert.match(sent.at(-1).text, /Email: Not provided/);
+    assert.match(sent.at(-1).text, /Interested in: Dental implants\nPreferred follow-up: Phone call\nPreferred time: Mornings/);
+    assert.match(sent.at(-1).html, /<strong>Interested in:<\/strong> Dental implants/);
+
+    const emailOnly = await post({ name: "Email Patient", phone: "", email: "email.patient@example.com", "new-patient": "No", treatment: "facial-aesthetics", "preferred-response": "email", "preferred-time": "flexible", message: "" });
+    assert.equal(emailOnly.status, 200);
+    assert.deepEqual(sent.at(-1).reply_to, ["email.patient@example.com"]);
+    assert.match(sent.at(-1).text, /Phone: Not provided/);
+
+    const escaped = await post({ name: "<b>Escaped</b>", phone: "407-678-1400", email: "", "new-patient": "Yes", treatment: "other", "preferred-response": "phone", "preferred-time": "afternoon", message: "<script>alert(1)</script>" });
+    assert.equal(escaped.status, 200);
+    assert.doesNotMatch(sent.at(-1).html, /<script>|<b>Escaped/);
+    assert.match(sent.at(-1).html, /&lt;script&gt;/);
+
+    const sentBefore = sent.length;
+    for (const fields of [
+      { ...validFields, phone: "", "preferred-response": "phone" },
+      { ...validFields, email: "", "preferred-response": "email" },
+      { ...validFields, email: "" },
+      { ...validFields, "preferred-response": "carrier-pigeon" },
+      { ...validFields, treatment: "unlisted" },
+      { ...validFields, "preferred-time": "midnight" },
+      { ...validFields, "preferred-response": "email", phone: "not a phone" },
+      { ...validFields, "preferred-response": "phone", email: "not-an-email" }
+    ]) {
+      const rejected = await post(fields);
+      assert.equal(rejected.status, 422, JSON.stringify(fields));
+    }
+    assert.equal(sent.length, sentBefore);
   } finally {
     globalThis.fetch = originalFetch;
   }

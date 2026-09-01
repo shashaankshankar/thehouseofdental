@@ -17,6 +17,17 @@ const MAX_LENGTHS = {
   newPatient: 10,
   message: 2000
 };
+const TREATMENT_LABELS = {
+  implants: "Dental implants",
+  "cerec-crowns": "Same-day CEREC crowns",
+  "facial-aesthetics": "Facial aesthetics",
+  "smile-makeover": "Smile makeover",
+  checkup: "Checkup and cleaning",
+  other: "Not sure yet"
+};
+const RESPONSE_LABELS = { phone: "Phone call", email: "Email" };
+const PREFERRED_TIME_LABELS = { morning: "Mornings", afternoon: "Early afternoons", flexible: "Flexible" };
+const NOT_PROVIDED = "Not provided";
 
 const REPUTATION_CACHE_CONTROL = "public, max-age=300, s-maxage=300, stale-while-revalidate=600";
 const SITE_VERIFICATION_FILES = new Map([
@@ -269,6 +280,28 @@ const handleReportEmail = async (request, env) => {
   }
 };
 
+const contactEmailPayload = (contact, fromEmail, recipientEmail) => {
+  const rows = [
+    ["Name", contact.name],
+    ["Phone", contact.phone || NOT_PROVIDED],
+    ["Email", contact.email || NOT_PROVIDED],
+    ["New patient", contact.newPatient],
+    ["Interested in", TREATMENT_LABELS[contact.treatment] || NOT_PROVIDED],
+    ["Preferred follow-up", RESPONSE_LABELS[contact.preferredResponse] || NOT_PROVIDED],
+    ["Preferred time", PREFERRED_TIME_LABELS[contact.preferredTime] || NOT_PROVIDED]
+  ];
+  const message = contact.message || "(No message provided.)";
+  const payload = {
+    from: fromEmail,
+    to: [recipientEmail],
+    subject: `Website appointment request from ${contact.name}`,
+    text: [...rows.map(([label, value]) => `${label}: ${value}`), "", message].join("\n"),
+    html: `<h2>Website appointment request</h2>${rows.map(([label, value]) => `<p><strong>${label}:</strong> ${escapeHtml(value)}</p>`).join("")}<p><strong>Message:</strong></p><p>${escapeHtml(message).replace(/\n/g, "<br>")}</p>`
+  };
+  if (contact.email) payload.reply_to = [contact.email];
+  return payload;
+};
+
 const handleContact = async (request, env) => {
   if (request.method !== "POST") return jsonResponse(405, { error: "Method not allowed." }, { allow: "POST" });
 
@@ -288,14 +321,24 @@ const handleContact = async (request, env) => {
     phone: textValue(body.phone),
     email: textValue(body.email),
     newPatient: textValue(body["new-patient"]),
+    treatment: textValue(body.treatment),
+    preferredResponse: textValue(body["preferred-response"]),
+    preferredTime: textValue(body["preferred-time"]),
     message: textValue(body.message)
   };
 
+  // A stated follow-up preference makes only that channel mandatory; without
+  // one the request must carry both so the office can always reach back.
+  const phoneRequired = contact.preferredResponse !== "email";
+  const emailRequired = contact.preferredResponse !== "phone";
   const errors = [];
   if (!contact.name || contact.name.length > MAX_LENGTHS.name) errors.push("name");
-  if (!isValidPhone(contact.phone) || contact.phone.length > MAX_LENGTHS.phone) errors.push("phone");
-  if (!isValidEmail(contact.email) || contact.email.length > MAX_LENGTHS.email) errors.push("email");
+  if ((phoneRequired || contact.phone) && (!isValidPhone(contact.phone) || contact.phone.length > MAX_LENGTHS.phone)) errors.push("phone");
+  if ((emailRequired || contact.email) && (!isValidEmail(contact.email) || contact.email.length > MAX_LENGTHS.email)) errors.push("email");
   if (!["Yes", "No"].includes(contact.newPatient)) errors.push("new-patient");
+  if (contact.treatment && !TREATMENT_LABELS[contact.treatment]) errors.push("treatment");
+  if (contact.preferredResponse && !RESPONSE_LABELS[contact.preferredResponse]) errors.push("preferred-response");
+  if (contact.preferredTime && !PREFERRED_TIME_LABELS[contact.preferredTime]) errors.push("preferred-time");
   if (contact.message.length > MAX_LENGTHS.message) errors.push("message");
   if (errors.length) return jsonResponse(422, { error: "Please review the highlighted fields and try again." });
 
@@ -318,21 +361,7 @@ const handleContact = async (request, env) => {
         "Content-Type": "application/json",
         "User-Agent": "the-house-of-dental-contact-form"
       },
-      body: JSON.stringify({
-        from: fromEmail,
-        to: [recipientEmail],
-        reply_to: [contact.email],
-        subject: `Website contact message from ${contact.name}`,
-        text: [
-          `Name: ${contact.name}`,
-          `Phone: ${contact.phone}`,
-          `Email: ${contact.email}`,
-          `New patient: ${contact.newPatient}`,
-          "",
-          contact.message || "(No message provided.)"
-        ].join("\n"),
-        html: `<h2>Website contact message</h2><p><strong>Name:</strong> ${escapeHtml(contact.name)}</p><p><strong>Phone:</strong> ${escapeHtml(contact.phone)}</p><p><strong>Email:</strong> ${escapeHtml(contact.email)}</p><p><strong>New patient:</strong> ${escapeHtml(contact.newPatient)}</p><p><strong>Message:</strong></p><p>${escapeHtml(contact.message || "(No message provided.)").replace(/\n/g, "<br>")}</p>`
-      }),
+      body: JSON.stringify(contactEmailPayload(contact, fromEmail, recipientEmail)),
       signal: controller.signal
     });
     const result = await upstream.json().catch(() => ({}));
@@ -350,7 +379,7 @@ const handleContact = async (request, env) => {
       return jsonResponse(502, { error: "We could not send your message. Please call the office.", request_id: requestId });
     }
     structuredLog("info", { event: "contact_email_accepted", request_id: requestId, email_id: result.id });
-    return jsonResponse(200, { ok: true, message: "Your message was sent. We'll get back to you soon.", request_id: requestId });
+    return jsonResponse(200, { ok: true, message: "Your request was sent. We'll get back to you soon.", request_id: requestId });
   } catch (error) {
     structuredLog("error", {
       event: "contact_email_transport_failure",

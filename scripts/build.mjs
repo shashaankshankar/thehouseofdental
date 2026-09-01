@@ -64,7 +64,7 @@ const templates = {
 const decorateAnalyticsAttributes = (markup) => markup
   .replaceAll('href="tel:', 'data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:')
   .replaceAll('href="mailto:', 'data-analytics-event="email_click" data-analytics-location="email_link" href="mailto:')
-  .replaceAll('href="/contact#book"', 'data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="/contact#book"')
+  .replaceAll('href="/contact#request"', 'data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="/contact#request"')
   .replaceAll('href="https://goo.gl/maps', 'data-analytics-event="cta_click" data-analytics-location="directions_link" data-analytics-cta-type="directions" href="https://goo.gl/maps');
 
 await rm(output, { recursive: true, force: true });
@@ -79,7 +79,10 @@ const scripts = (await readdir(join(source, "scripts"))).filter((file) => file.e
 const scriptSources = await Promise.all(scripts.map(async (file) => (await read(join(source, "scripts", file))).trimEnd()));
 await writeFile(join(output, "main.js"), `const __SITE_DETAIL_DATA = ${JSON.stringify({ services, technology })};\nconst __SITE_ANALYTICS = ${JSON.stringify(analytics)};\nconst __SITE_REPUTATION = ${JSON.stringify(reputation)};\n\n${scriptSources.join("\n\n")}\n`);
 
-const mobileActions = decorateAnalyticsAttributes('<nav class="mobile-actions" aria-label="Quick contact"><a href="tel:+14076781400">Call</a><a href="/contact#book">Book Appointment</a></nav>');
+const mobileActions = decorateAnalyticsAttributes('<nav class="mobile-actions" aria-label="Quick contact"><a href="tel:+14076781400">Call (407) 678-1400</a><a href="/contact#request">Request Visit</a></nav>');
+// The appointment request drawer ships with every full-shell page so contextual
+// CTAs open it in place; minimal and standalone pages link to the contact page.
+const inquiryDrawer = decorateAnalyticsAttributes(await read(join(source, "templates/inquiry.html")));
 const escapeText = (value = "") => value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 const decodeEntities = (value = "") => value
   .replaceAll("&amp;", "&")
@@ -189,8 +192,9 @@ const renderDocument = (page, content, options = {}) => {
   const schemaData = options.schemaData ?? (page.schema === false ? null : page.shell === "full" ? structuredData : null);
   const schema = schemaData ? `<script type="application/ld+json">${JSON.stringify(schemaData)}</script>` : "";
   const fonts = page.shell === "full" ? '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital@1&display=swap" rel="stylesheet">' : "";
+  const drawer = page.shell === "full" ? inquiryDrawer : "";
   return `<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0a0a0b"><title>${escapeText(page.title)}</title>${keywords}${social}${geo}${description}<meta name="robots" content="${escapeAttribute(page.robots)}">${canonical}${author}${schema}${fonts}<link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16"><link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180"><link rel="stylesheet" href="/styles.css"></head><body><a class="skip-link" href="#main-content">Skip to main content</a>${shell.header}${content}${shell.footer}${mobileActions}<script src="/main.js" defer></script></body></html>`;
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0a0a0b"><title>${escapeText(page.title)}</title>${keywords}${social}${geo}${description}<meta name="robots" content="${escapeAttribute(page.robots)}">${canonical}${author}${schema}${fonts}<link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16"><link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180"><link rel="stylesheet" href="/styles.css"></head><body><a class="skip-link" href="#main-content">Skip to main content</a>${shell.header}${content}${shell.footer}${mobileActions}${drawer}<script src="/main.js" defer></script></body></html>`;
 };
 for (const [file, page] of Object.entries(site.pages)) {
   let content = (await read(join(source, "pages", file))).replace("{{REVIEWS}}", reviewCards).replace("{{FINANCING_CALCULATOR}}", financingCalculator).replace("{{BLOG_CARDS}}", blogCards);

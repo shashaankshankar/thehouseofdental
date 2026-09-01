@@ -612,7 +612,7 @@ body.modal-open { overflow: hidden; }
 }
 
 /* ---- Full desktop navigation: expose every destination inline ---- */
-@media (min-width: 1128px) {
+@media (min-width: 1366px) {
   .menu > li.nav-more::before { display: none; }
   .menu > li.nav-more { display: contents; }
   .menu > li > .nav-more-toggle { display: none; }
@@ -674,17 +674,10 @@ body.modal-open { overflow: hidden; }
   .nav-more-panel > li > a.active::after { transform: scaleX(1); }
 }
 
-/* The full desktop set still fits at the exact lower boundary with a
-   slightly tighter rhythm; the navigation remains fully visible rather than
-   relying on clipped overflow. */
-@media (min-width: 1128px) and (max-width: 1194px) {
-  .menu { gap: 1rem; }
-  .menu > li + li::before,
-  .nav-more-panel > li::before { left: -0.55rem; }
-}
-
-/* ---- Hybrid navigation: preserve core content links while secondary links live in More ---- */
-@media (min-width: 1025px) and (max-width: 1127px) {
+/* ---- Hybrid navigation: preserve core content links while secondary links live in More.
+   The inline set with the appointment CTA needs roughly 1330px, so More stays
+   in place through common laptop widths rather than clipping the menu. ---- */
+@media (min-width: 1025px) and (max-width: 1365px) {
   .menu { gap: 1.1rem; }
   .menu > li + li::before { left: -0.55rem; }
   .nav-more { display: list-item; }
@@ -869,10 +862,6 @@ body.modal-open { overflow: hidden; }
 
 @media (max-width: 760px) {
   .foot-grid { grid-template-columns: 1fr; gap: 2.4rem; }
-  .contact-quick-cards { order: 2; }
-  .contact-form { order: 1; }
-  .contact-quick-cards + .contact-form { display: flex; flex-direction: column; }
-  .contact-form .btn { min-height: 44px; }
   .svcmodal .close { min-width: 44px; min-height: 44px; }
 }
 

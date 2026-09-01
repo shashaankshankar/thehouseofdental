@@ -76,7 +76,7 @@ Encrypted secrets:
 
 The Google reputation endpoint reads the Place ID and API key only from Worker bindings, validates the upstream rating/count, and caches successful public data for five minutes. Failures are never cached. The contact endpoint validates the exact origin, body size, fields, and honeypot, then sends a server-generated email through Resend. It never creates or confirms an appointment and never logs request bodies, personal information, or secrets.
 
-The browser form posts to `/api/contact` using URL-encoded form data. The Worker maps it to the Resend API payload with the office as `to` and the visitor as `reply_to`. A successful delivery means the office received a contact email; it does not create or confirm an appointment.
+The appointment request drawer (`src/templates/inquiry.html`, rendered into every full-shell page and opened by any `/contact#request` link) posts to `/api/contact` using URL-encoded form data. The Worker maps it to the Resend API payload with the office as `to` and, when the visitor supplied an email address, the visitor as `reply_to`. A successful delivery means the office received a request email; it does not create or confirm an appointment.
 
 ```json
 {
@@ -84,13 +84,18 @@ The browser form posts to `/api/contact` using URL-encoded form data. The Worker
   "submitted_at": "ISO-8601 timestamp",
   "appointment": {
     "name": "string",
-    "phone": "string",
-    "email": "string",
+    "phone": "string (required unless preferredResponse is email)",
+    "email": "string (required unless preferredResponse is phone)",
     "newPatient": "Yes or No",
+    "treatment": "implants | cerec-crowns | facial-aesthetics | smile-makeover | checkup | other",
+    "preferredResponse": "phone | email",
+    "preferredTime": "morning | afternoon | flexible",
     "message": "string"
   }
 }
 ```
+
+Optional preference fields are validated against those allowlists and rendered as "Not provided" in the office email when absent.
 
 A successful adapter response means the message was accepted for notification; it is not a booked appointment or confirmed lead.
 

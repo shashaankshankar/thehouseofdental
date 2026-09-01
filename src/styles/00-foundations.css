@@ -53,8 +53,7 @@ body {
   overflow-x: hidden;
 }
 body.menu-open { overflow: hidden; }
-body.menu-open .mobile-actions,
-body:has(#book:target) .mobile-actions { display: none; }
+body.menu-open .mobile-actions { display: none; }
 
 ::selection { background: var(--gold); color: var(--noir); }
 

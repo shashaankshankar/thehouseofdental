@@ -907,15 +907,6 @@ a.quick-card:hover { background: rgba(198,161,91,0.08); }
   color: var(--ivory);
   line-height: 1.55;
 }
-.contact-form { max-width: 760px; margin: 0 auto; }
-@media (max-width: 760px) {
-  #book, #book ~ .contact-quick-cards, #book ~ .contact-form { scroll-margin-top: calc(var(--head-h, 86px) + 1rem); }
-  #book + .contact-quick-cards { order: 2; }
-  #book + .contact-quick-cards + .contact-form { order: 1; }
-  #book { order: 0; }
-  #book, #book + .contact-quick-cards, #book + .contact-quick-cards + .contact-form { width: 100%; }
-  #book { margin-bottom: 1.8rem; }
-}
 @media (max-width: 760px) { .contact-quick { grid-template-columns: 1fr; } }
 
 /* ---------- About: accolade contrast fix ---------- */

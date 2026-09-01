@@ -2,9 +2,6 @@
   const syncBodySurfaceState = () => {
     const menuOpen = Boolean(document.querySelector(".menu.open"));
     document.body.classList.toggle("menu-open", menuOpen);
-    document.body.classList.toggle("booking-target", Boolean(
-      location.hash === "#book" && document.getElementById("book")
-    ));
   };
   const menu = document.querySelector(".menu");
   syncBodySurfaceState();

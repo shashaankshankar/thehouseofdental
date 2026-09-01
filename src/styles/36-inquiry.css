@@ -1,0 +1,599 @@
+/* ============================================================
+   Appointment request drawer ("Consultation Concierge") and the
+   contextual request entry points that open it.
+   ============================================================ */
+
+/* ---------- Drawer shell ---------- */
+.inquiry {
+  position: fixed;
+  inset: 0;
+  z-index: 9600;
+  display: none;
+}
+.inquiry.is-open { display: block; }
+.inquiry-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 11, 0.72);
+  backdrop-filter: blur(6px);
+  animation: inquiry-fade 0.3s var(--ease);
+}
+.inquiry-panel {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: min(540px, 100%);
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.4rem, 4vw, 2.75rem) calc(2rem + env(safe-area-inset-bottom, 0px));
+  box-shadow: -24px 0 60px rgba(0, 0, 0, 0.35);
+  animation: inquiry-slide 0.5s var(--ease);
+}
+.inquiry-panel:focus { outline: none; }
+@keyframes inquiry-slide { from { transform: translateX(6%); opacity: 0; } }
+@keyframes inquiry-fade { from { opacity: 0; } }
+
+.inquiry-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line-light);
+  background: var(--ivory);
+  color: var(--ink);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+  transition: border-color 0.3s, color 0.3s;
+}
+.inquiry-close:hover,
+.inquiry-close:focus-visible { border-color: var(--gold-deep); color: var(--gold-deep); }
+
+/* ---------- Header ---------- */
+.inquiry-head { padding-right: 3rem; margin-bottom: 1.6rem; }
+.inquiry-kicker {
+  font-family: var(--serif);
+  color: var(--gold-deep);
+  font-size: 0.74rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+.inquiry-head h2 { font-size: clamp(1.7rem, 3vw, 2.2rem); margin-bottom: 0.7rem; }
+.inquiry-intro { color: rgba(28, 27, 24, 0.74); font-size: 0.95rem; max-width: 40ch; }
+
+/* Live office status: a small dot that turns gold while the office is open. */
+.inquiry-office,
+.office-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(28, 27, 24, 0.62);
+}
+.inquiry-office { margin-top: 0.9rem; }
+.inquiry-office::before,
+.office-status::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  opacity: 0.55;
+}
+.inquiry-office[data-office-open="true"]::before,
+.office-status[data-office-open="true"]::before {
+  background: var(--gold);
+  border-color: var(--gold);
+  opacity: 1;
+}
+.sec-noir .office-status,
+.hero .office-status { color: rgba(247, 244, 238, 0.72); }
+.sec-noir .office-status[data-office-open="true"]::before,
+.hero .office-status[data-office-open="true"]::before { background: var(--gold-pale); border-color: var(--gold-pale); }
+
+/* ---------- Progress ---------- */
+.inquiry-progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+.inquiry-progress-label {
+  font-size: 0.66rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+.inquiry-progress-bars { display: flex; gap: 0.35rem; flex: 1; max-width: 12rem; }
+.inquiry-progress-bars i {
+  flex: 1;
+  height: 2px;
+  background: var(--line-light);
+  transition: background 0.3s var(--ease);
+}
+.inquiry-progress-bars i.is-done { background: var(--gold-deep); }
+
+/* ---------- Selection summary ---------- */
+.inquiry-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1.4rem;
+}
+.inquiry-summary button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 36px;
+  padding: 0.35rem 0.7rem 0.35rem 0.8rem;
+  border: 1px solid var(--line-light);
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.25s var(--ease);
+}
+.inquiry-summary button small {
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(28, 27, 24, 0.55);
+}
+.inquiry-summary button em {
+  font-style: normal;
+  color: var(--gold-deep);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-bottom: 1px solid currentColor;
+}
+.inquiry-summary button:hover,
+.inquiry-summary button:focus-visible { border-color: var(--gold-deep); }
+
+/* ---------- Steps ---------- */
+.inquiry-step { border: 0; padding: 0; margin: 0; min-width: 0; }
+.inquiry-step.is-entering { animation: inquiry-step-in 0.35s var(--ease); }
+@keyframes inquiry-step-in { from { opacity: 0; transform: translateY(8px); } }
+.inquiry-question {
+  display: block;
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+  padding: 0;
+}
+.inquiry-question-secondary { margin-top: 1.6rem; }
+.inquiry-help { color: rgba(28, 27, 24, 0.62); font-size: 0.86rem; margin-bottom: 1rem; }
+
+/* Treatment and preference choices render as tappable chips. */
+.inquiry-choices { display: grid; gap: 0.6rem; }
+.inquiry-choices-pair { grid-template-columns: 1fr 1fr; }
+.inquiry-choices-row { grid-template-columns: repeat(3, 1fr); }
+.inquiry-chip { position: relative; display: block; cursor: pointer; }
+.inquiry-chip input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.inquiry-chip > span {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-height: 56px;
+  justify-content: center;
+  padding: 0.75rem 2.4rem 0.75rem 1rem;
+  border: 1px solid var(--line-light);
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--ink);
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+}
+.inquiry-chip > span::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  width: 0.5rem;
+  height: 0.9rem;
+  border: solid var(--gold-deep);
+  border-width: 0 1.5px 1.5px 0;
+  transform: translateY(-65%) rotate(45deg) scale(0);
+  transition: transform 0.25s var(--ease);
+}
+.inquiry-chip strong { font-weight: 400; font-size: 0.96rem; }
+.inquiry-chip small { font-size: 0.76rem; color: rgba(28, 27, 24, 0.6); line-height: 1.35; }
+.inquiry-chip-compact > span { min-height: 48px; padding: 0.6rem 1.7rem 0.6rem 0.8rem; text-align: center; align-items: center; }
+.inquiry-chip-compact > span::after { right: 0.65rem; }
+.inquiry-chip-compact strong { font-size: 0.86rem; }
+.inquiry-chip:hover > span { border-color: rgba(112, 83, 31, 0.55); }
+.inquiry-chip input:checked + span {
+  border-color: var(--gold-deep);
+  background: rgba(198, 161, 91, 0.14);
+}
+.inquiry-chip input:checked + span::after { transform: translateY(-65%) rotate(45deg) scale(1); }
+.inquiry-chip input:focus-visible + span { outline: 2px solid var(--gold-deep); outline-offset: 3px; }
+
+/* Yes/No pills reuse the chip mechanics at a smaller scale. */
+.inquiry-pills-field { gap: 0.7rem; }
+.inquiry-pills-label { font-size: 0.66rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold-deep); }
+.inquiry-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.inquiry-pill { position: relative; cursor: pointer; }
+.inquiry-pill input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.inquiry-pill span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--line-light);
+  font-size: 0.84rem;
+  color: var(--ink);
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+}
+.inquiry-pill input:checked + span { border-color: var(--gold-deep); background: rgba(198, 161, 91, 0.14); }
+.inquiry-pill input:focus-visible + span { outline: 2px solid var(--gold-deep); outline-offset: 3px; }
+
+.inquiry-grid { gap: 1.1rem 1.2rem; }
+.inquiry .field input,
+.inquiry .field textarea { font-size: 1rem; }
+.inquiry .field input[aria-invalid="true"],
+.inquiry .field textarea[aria-invalid="true"] { border-bottom-color: #9a3b26; }
+.inquiry .field textarea { min-height: 96px; }
+.inquiry-label-note,
+.inquiry .field label span { letter-spacing: 0.12em; color: rgba(28, 27, 24, 0.5); }
+
+.inquiry-error {
+  margin-top: 0.9rem;
+  color: #9a3b26;
+  font-size: 0.86rem;
+}
+.inquiry-note {
+  margin-top: 1.2rem;
+  color: rgba(28, 27, 24, 0.6);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+.inquiry .form-status { margin: 0.6rem 0 0; max-width: none; text-align: left; color: var(--gold-deep); }
+.inquiry .form-status:empty { display: none; }
+.inquiry .form-status[data-state="error"] { color: #9a3b26; }
+
+/* ---------- Actions ---------- */
+.inquiry-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.8rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line-light);
+}
+.inquiry-actions .btn {
+  min-height: 48px;
+  min-width: 11rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.inquiry-back {
+  margin-right: auto;
+  min-height: 44px;
+  padding: 0.4rem 0.2rem;
+  border: 0;
+  background: transparent;
+  color: var(--gold-deep);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.inquiry-back:hover,
+.inquiry-back:focus-visible { color: var(--ink); }
+.inquiry-alt {
+  margin-top: 1.1rem;
+  text-align: center;
+  font-size: 0.82rem;
+  color: rgba(28, 27, 24, 0.62);
+}
+.inquiry-alt a { color: var(--gold-deep); border-bottom: 1px solid currentColor; }
+
+/* ---------- Success ---------- */
+.inquiry-success { padding-top: 0.5rem; }
+.inquiry-success:focus { outline: none; }
+.inquiry-success h3 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 0.9rem; }
+.inquiry-success p:not(.inquiry-kicker) { color: rgba(28, 27, 24, 0.74); max-width: 44ch; }
+.inquiry-success-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.8rem; }
+
+/* ---------- Page state while open ---------- */
+body.inquiry-open { overflow: hidden; }
+body.inquiry-open .consent-banner,
+body.inquiry-open .mobile-actions { display: none; }
+
+/* Without JavaScript the fragment link on the contact page still reveals the
+   full form, and the browser posts it directly to the Worker. */
+@media (scripting: none) {
+  .inquiry:target { display: block; }
+  .inquiry:target .inquiry-step[hidden],
+  .inquiry:target .inquiry-submit[hidden] { display: block; }
+  .inquiry:target .inquiry-step + .inquiry-step { margin-top: 2rem; }
+  .inquiry:target .inquiry-progress,
+  .inquiry:target .inquiry-continue { display: none; }
+  body:has(.inquiry:target) { overflow: hidden; }
+  body:has(.inquiry:target) .mobile-actions { display: none; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 760px) {
+  .inquiry-panel {
+    width: 100%;
+    box-shadow: none;
+    padding: calc(1.6rem + env(safe-area-inset-top, 0px)) 5vw calc(2rem + env(safe-area-inset-bottom, 0px));
+    animation: inquiry-rise 0.45s var(--ease);
+  }
+  @keyframes inquiry-rise { from { transform: translateY(4%); opacity: 0; } }
+  .inquiry-close { top: calc(0.9rem + env(safe-area-inset-top, 0px)); right: 5vw; }
+  .inquiry-head h2 { font-size: 1.65rem; }
+  .inquiry-choices-row { grid-template-columns: 1fr; }
+  .inquiry-chip-compact > span { text-align: left; align-items: flex-start; }
+  .inquiry-grid { grid-template-columns: 1fr; }
+  .inquiry-actions { flex-wrap: wrap; }
+  .inquiry-actions .btn { flex: 1 1 100%; }
+  .inquiry-back { flex: 1 1 100%; order: 2; text-align: center; margin: 0; }
+}
+@media (max-width: 400px) {
+  .inquiry-choices-pair { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .inquiry-backdrop,
+  .inquiry-panel,
+  .inquiry-step.is-entering { animation: none; }
+}
+
+/* ============================================================
+   Contextual request entry points
+   ============================================================ */
+
+/* Homepage hero: live status under the primary actions. */
+.hero-status { margin-top: 1.1rem; font-size: 1rem; }
+.hero-status .office-status { text-shadow: 0 1px 5px rgba(10, 10, 11, 0.55); }
+
+/* "Ask about" chips: a direct route for visitors who already know what they want. */
+.ask-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 0.7rem;
+  margin-top: clamp(2rem, 4vw, 2.75rem);
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--line-light);
+}
+.ask-row-label {
+  margin-right: 0.4rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(28, 27, 24, 0.62);
+}
+.ask-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--line-light);
+  background: rgba(255, 255, 255, 0.45);
+  color: var(--ink);
+  font-size: 0.86rem;
+  transition: border-color 0.25s var(--ease), background 0.25s var(--ease), color 0.25s var(--ease);
+}
+.ask-chip::after {
+  content: "\2192";
+  color: var(--gold-deep);
+  font-size: 0.85rem;
+  transition: transform 0.25s var(--ease);
+}
+.ask-chip:hover,
+.ask-chip:focus-visible { border-color: var(--gold-deep); background: rgba(198, 161, 91, 0.12); }
+.ask-chip:hover::after,
+.ask-chip:focus-visible::after { transform: translateX(0.2rem); }
+
+/* Shared two-button contextual action rows. */
+.context-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem 1rem;
+}
+.context-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Dr. Patel column: the feature card plus a direct line beneath it. */
+.home-doctor-column { display: flex; flex-direction: column; gap: 1rem; }
+.home-doctor-column .home-doctor-feature { flex: none; }
+.home-doctor-actions {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.25rem 1.4rem;
+  border: 1px solid var(--line-dark);
+  background: rgba(255, 255, 255, 0.025);
+}
+.home-doctor-actions p { color: var(--mist); font-size: 0.95rem !important; }
+.home-doctor-actions .context-actions .btn { flex: 1 1 12rem; }
+.home-reassurance-layout { align-items: stretch; }
+.home-reassurance-layout .home-reviews-panel { height: auto; min-height: 0; }
+
+/* Implant special: codes fold away, the offer leads with a conversation. */
+.home-offer-details {
+  width: 100%;
+  max-width: 58ch;
+  margin: 1.6rem auto 0;
+  text-align: left;
+  border-top: 1px solid var(--line-dark);
+  border-bottom: 1px solid var(--line-dark);
+}
+.home-offer-details summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 48px;
+  padding: 0.6rem 0;
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-pale);
+}
+.home-offer-details summary::-webkit-details-marker { display: none; }
+.home-offer-details summary::after {
+  content: "+";
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--gold);
+  transition: transform 0.25s var(--ease);
+}
+.home-offer-details[open] summary::after { transform: rotate(45deg); }
+.home-offer-details summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.home-offer-details ul { list-style: none; margin: 0.2rem 0 1rem; }
+.home-offer-details li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-top: 1px solid rgba(198, 161, 91, 0.16);
+  color: var(--mist);
+  font-size: 0.9rem;
+}
+.home-offer-details li code {
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  color: var(--gold-pale);
+  white-space: nowrap;
+}
+.home-offer-details .home-offer-fine-print { margin: 0 0 1rem; font-size: 0.8rem !important; }
+.home-offer-card .home-implant-actions { justify-content: center; margin-top: 2.2rem; }
+.home-offer-card .home-implant-actions .btn { margin-top: 0; min-width: 0; }
+.home-offer-card .home-implant-actions .home-text-link { color: var(--gold-pale); flex-basis: 100%; justify-content: center; }
+
+/* Technology: one consultation line per group instead of a button per card. */
+.home-tech-action {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem 1.5rem;
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--line-light);
+  background: rgba(255, 255, 255, 0.4);
+}
+.home-tech-action p { margin: 0; font-size: 0.95rem !important; color: rgba(28, 27, 24, 0.78); }
+
+/* Before/after: a soft prompt beneath the result. */
+.home-result-prompt {
+  margin-top: 1.8rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line-dark);
+}
+.home-result-prompt p { color: var(--mist); font-size: 0.95rem !important; margin-bottom: 1rem; }
+
+/* Final homepage CTA hours block gains the live status line. */
+.home-hours .office-status { margin-top: 1rem; color: rgba(28, 27, 24, 0.62); }
+
+/* ---------- Contact page ---------- */
+.contact-concierge .center-head p:last-child { max-width: 56ch; margin-inline: auto; }
+.concierge-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  max-width: 900px;
+  margin: 0 auto 2.5rem;
+  padding: clamp(1.75rem, 4vw, 2.75rem);
+  border: 1px solid var(--gold);
+  background: linear-gradient(160deg, rgba(198, 161, 91, 0.07), transparent 55%);
+}
+.concierge-copy h3 { font-size: clamp(1.4rem, 2.4vw, 1.8rem); margin: 0.9rem 0 1rem; }
+.concierge-steps {
+  list-style: none;
+  counter-reset: concierge;
+  display: grid;
+  gap: 0.55rem;
+  color: var(--mist);
+  font-size: 0.94rem;
+}
+.concierge-steps li {
+  counter-increment: concierge;
+  display: flex;
+  gap: 0.8rem;
+  align-items: baseline;
+}
+.concierge-steps li::before {
+  content: counter(concierge, decimal-leading-zero);
+  flex: none;
+  font-family: var(--serif);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+}
+.concierge-actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.8rem;
+}
+.concierge-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  text-align: center;
+}
+.concierge-note { margin-top: 0.4rem; color: var(--mist); font-size: 0.8rem; line-height: 1.55; }
+.contact-privacy {
+  max-width: 62ch;
+  margin: 0 auto;
+  text-align: center;
+  color: var(--mist);
+  font-size: 0.8rem;
+}
+.contact-privacy a { color: var(--gold); }
+.contact-concierge .contact-quick { margin-bottom: 2.25rem; }
+
+@media (max-width: 760px) {
+  .concierge-panel { grid-template-columns: 1fr; }
+  .home-tech-action { justify-content: flex-start; }
+  .home-tech-action .btn { width: 100%; }
+}
+@media (max-width: 560px) {
+  .ask-row { gap: 0.5rem; }
+  .ask-row-label { flex-basis: 100%; margin: 0 0 0.2rem; }
+  .ask-chip { font-size: 0.82rem; padding-inline: 0.85rem; }
+  .context-actions { display: grid; }
+  .context-actions .btn { width: 100%; white-space: normal; }
+  .home-offer-details li { flex-direction: column; gap: 0.15rem; }
+  .home-offer-card .home-implant-actions { width: 100%; }
+  .home-offer-card .home-implant-actions .home-text-link { flex-basis: auto; width: 100%; }
+  .home-result-prompt .context-actions { display: grid; }
+}

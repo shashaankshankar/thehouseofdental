@@ -40,7 +40,7 @@
     "/blog/tmj-disorders-symptoms-treatment": ["main-content"],
     "/blog/co2-laser-resurfacing-benefits-recovery": ["main-content"],
     "/blog/microneedling-benefits-process-aftercare": ["main-content"],
-    "/contact": ["main-content", "book"],
+    "/contact": ["main-content", "request", "book"],
     "/facial-aesthetics": ["main-content", "deka-laser", "microneedling", "emage-scan", "hydroderm-facial"],
     "/new-patients": ["main-content", "insurance", "offers", "savings-plan"],
     "/pre-post-op": ["main-content", "implants", "extractions", "crowns", "root-canals", "srp", "veneers", "dentures", "quietnite", "sedation", "deka-co2", "microneedling", "emage-scan", "hydroderm"],

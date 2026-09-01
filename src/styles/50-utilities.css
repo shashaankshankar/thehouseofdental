@@ -205,7 +205,7 @@
     inset: auto 0 0;
     z-index: 9000;
     display: grid;
-    grid-template-columns: .75fr 1.25fr;
+    grid-template-columns: 1.1fr .9fr;
     padding-bottom: env(safe-area-inset-bottom);
     background: var(--noir);
     border-top: 1px solid var(--gold-deep);
@@ -214,28 +214,27 @@
     min-height: 58px;
     display: grid;
     place-items: center;
+    padding-inline: .5rem;
     color: var(--ivory);
     font-size: .68rem;
-    letter-spacing: .16em;
+    letter-spacing: .1em;
     text-transform: uppercase;
+    text-align: center;
+    white-space: nowrap;
   }
   .mobile-actions a + a { background: var(--gold-deep); color: var(--noir); }
   body.menu-open,
   body.modal-open,
-  body.booking-focus,
-  body.booking-target { padding-bottom: 0; }
+  body.inquiry-open { padding-bottom: 0; }
   body.menu-open .mobile-actions,
   body.modal-open .mobile-actions,
-  body.booking-focus .mobile-actions,
-  body.booking-target .mobile-actions { display: none; }
+  body.inquiry-open .mobile-actions { display: none; }
 }
 
 @supports selector(body:has(*)) {
   @media (max-width: 760px) {
-    body:has(.menu.open),
-    body:has(#book:target) { padding-bottom: 0; }
-    body:has(.menu.open) .mobile-actions,
-    body:has(#book:target) .mobile-actions { display: none; }
+    body:has(.menu.open) { padding-bottom: 0; }
+    body:has(.menu.open) .mobile-actions { display: none; }
   }
 }
 

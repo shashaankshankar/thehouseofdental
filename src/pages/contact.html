@@ -9,12 +9,29 @@
   </div>
 </section>
 
-<section class="sec sec-noir u-inline-006">
+<section class="sec sec-noir contact-concierge u-inline-006">
   <div class="wrap">
-    <div class="center-head u-inline-007" id="book">
-      <p class="eyebrow rv u-inline-001">Contact Us</p>
-      <h2 class="rv rv-d1">Send Us a Message</h2>
-      <p class="rv rv-d2 u-inline-004">Send us a note and our team will reply by email or phone — or reach us directly at <a href="tel:+14076781400" class="u-inline-008">(407) 678-1400</a>.</p>
+    <div class="center-head u-inline-007">
+      <p class="eyebrow rv u-inline-001">Appointment Requests</p>
+      <h2 class="rv rv-d1">Request an Appointment</h2>
+      <p class="rv rv-d2 u-inline-004">Tell us what you'd like to address and how to reach you. Our front desk reviews every request and follows up by phone or email, usually within one business day, to confirm a time with you.</p>
+    </div>
+
+    <div class="concierge-panel rv">
+      <div class="concierge-copy">
+        <span class="office-status" data-office-status data-office-open="">Monday to Thursday, 8:00am to 3:00pm</span>
+        <h3>A short request, answered by a real person</h3>
+        <ol class="concierge-steps">
+          <li>Choose the treatment or question on your mind.</li>
+          <li>Tell us whether to call or email, and when.</li>
+          <li>Share your contact details and anything we should know.</li>
+        </ol>
+      </div>
+      <div class="concierge-actions">
+        <a class="btn btn-solid" href="#request" data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment">Request an Appointment</a>
+        <a class="btn" href="tel:+14076781400">Call (407) 678-1400</a>
+        <p class="concierge-note">Sending a request does not confirm an appointment. We hold times only after speaking with you.</p>
+      </div>
     </div>
 
     <div class="contact-quick rv contact-quick-cards">
@@ -32,42 +49,7 @@
       </div>
     </div>
 
-    <form class="contact-form rv rv-d1" name="contact" action="/api/contact" method="POST" data-contact-form data-analytics-form="contact_message">
-      <div class="field form-honeypot" aria-hidden="true">
-        <label for="f-company">Company</label>
-        <input id="f-company" name="company" type="text" tabindex="-1" autocomplete="off">
-      </div>
-      <div class="form-grid">
-        <div class="field">
-          <label for="f-name">Full Name</label>
-          <input id="f-name" name="name" type="text" required autocomplete="name">
-        </div>
-        <div class="field">
-          <label for="f-phone">Phone Number</label>
-          <input id="f-phone" name="phone" type="tel" required autocomplete="tel">
-        </div>
-        <div class="field">
-          <label for="f-email">Email</label>
-          <input id="f-email" name="email" type="email" required autocomplete="email">
-        </div>
-        <div class="field">
-          <label for="f-new">New Patient?</label>
-          <select id="f-new" name="new-patient">
-            <option>Yes</option>
-            <option>No</option>
-          </select>
-        </div>
-        <div class="field full">
-          <label for="f-msg">How Can We Help?</label>
-          <textarea id="f-msg" name="message" placeholder="Tell us what you're looking for — a cleaning, a consultation, or something urgent."></textarea>
-        </div>
-        <div class="field full u-inline-009">
-          <button class="btn btn-solid u-inline-010" type="submit">Send Message</button>
-          <p class="u-inline-011">Please don't include sensitive medical details in this form.</p>
-          <p class="form-status" id="contact-status" role="status" aria-live="polite" tabindex="-1"></p>
-        </div>
-      </div>
-    </form>
+    <p class="contact-privacy rv">Please don't include sensitive medical details in your request. If you have a dental emergency, call <a href="tel:+14076781400">(407) 678-1400</a> so we can help right away.</p>
   </div>
 </section>
 

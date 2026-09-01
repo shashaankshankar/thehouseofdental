@@ -78,14 +78,6 @@
     addEventListener('scroll', updateCareBack, { passive: true });
   }
 
-  const booking = document.querySelector('#book');
-  if (booking) {
-    document.querySelectorAll('[data-contact-form] input, [data-contact-form] select, [data-contact-form] textarea').forEach((field) => {
-      field.addEventListener('focus', () => document.body.classList.add('booking-focus'));
-      field.addEventListener('blur', () => document.body.classList.remove('booking-focus'));
-    });
-  }
-
   const alignCareHash = () => {
     if (!document.querySelector('.care-block')) return;
     const target = document.getElementById(location.hash.slice(1));

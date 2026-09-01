@@ -55,7 +55,7 @@
           <li><a data-primary-link href="/contact">Contact</a></li>
         </ul>
       </li>
-      <li><a data-primary-link class="btn btn-solid u-inline-034" data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="/contact#book">Book</a></li>
+      <li><a data-primary-link class="btn btn-solid u-inline-034" data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="/contact#request">Request Visit</a></li>
     </ul>
   </div>
 </header>
@@ -142,4 +142,109 @@
     </div>
   </div>
 </footer>
-<nav class="mobile-actions" aria-label="Quick contact"><a data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:+14076781400">Call</a><a data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="/contact#book">Book Appointment</a></nav><script src="/main.js" defer></script></body></html>
+<nav class="mobile-actions" aria-label="Quick contact"><a data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:+14076781400">Call (407) 678-1400</a><a data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="/contact#request">Request Visit</a></nav><aside class="inquiry" id="request" data-inquiry>
+  <div class="inquiry-backdrop" data-inquiry-close></div>
+  <div class="inquiry-panel sec-ivory" role="dialog" aria-modal="true" aria-labelledby="inquiry-title" aria-describedby="inquiry-intro" tabindex="-1">
+    <button class="inquiry-close" type="button" data-inquiry-close aria-label="Close appointment request">&times;</button>
+    <header class="inquiry-head">
+      <p class="inquiry-kicker">Consultation Concierge</p>
+      <h2 id="inquiry-title">Request an Appointment</h2>
+      <p class="inquiry-intro" id="inquiry-intro">Three quick questions. A member of our team follows up personally to find a time that works.</p>
+      <p class="inquiry-office" data-office-status data-office-open="">Monday to Thursday, 8:00am to 3:00pm</p>
+    </header>
+
+    <form class="inquiry-form" name="appointment-request" action="/api/contact" method="POST" data-contact-form data-analytics-form="appointment_request" novalidate>
+      <div class="field form-honeypot" aria-hidden="true">
+        <label for="rq-company">Company</label>
+        <input id="rq-company" name="company" type="text" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="inquiry-progress" data-inquiry-progress>
+        <span class="inquiry-progress-label" data-inquiry-progress-label>Step 1 of 3</span>
+        <span class="inquiry-progress-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+      </div>
+
+      <div class="inquiry-summary" data-inquiry-summary hidden></div>
+
+      <fieldset class="inquiry-step" data-inquiry-step="1">
+        <legend class="inquiry-question">What can we help you with?</legend>
+        <p class="inquiry-help">Choose the closest match. You can add details at the end.</p>
+        <div class="inquiry-choices" data-inquiry-group="treatment">
+          <label class="inquiry-chip"><input type="radio" name="treatment" value="implants"><span><strong>Dental implants</strong><small>Replace one or more missing teeth</small></span></label>
+          <label class="inquiry-chip"><input type="radio" name="treatment" value="cerec-crowns"><span><strong>Same-day CEREC crowns</strong><small>Repair a tooth in one visit</small></span></label>
+          <label class="inquiry-chip"><input type="radio" name="treatment" value="facial-aesthetics"><span><strong>Facial aesthetics</strong><small>CO2 laser, microneedling, facials</small></span></label>
+          <label class="inquiry-chip"><input type="radio" name="treatment" value="smile-makeover"><span><strong>Smile makeover</strong><small>Veneers, whitening, Invisalign&reg;</small></span></label>
+          <label class="inquiry-chip"><input type="radio" name="treatment" value="checkup"><span><strong>Checkup and cleaning</strong><small>Routine or new-patient exam</small></span></label>
+          <label class="inquiry-chip"><input type="radio" name="treatment" value="other"><span><strong>Not sure yet</strong><small>Tell us what's on your mind</small></span></label>
+        </div>
+        <p class="inquiry-error" data-inquiry-error role="alert" hidden></p>
+      </fieldset>
+
+      <fieldset class="inquiry-step" data-inquiry-step="2" hidden>
+        <legend class="inquiry-question">How should we follow up?</legend>
+        <div class="inquiry-choices inquiry-choices-pair" data-inquiry-group="preferred-response">
+          <label class="inquiry-chip"><input type="radio" name="preferred-response" value="phone" checked><span><strong>Phone call</strong><small>Quickest way to settle on a time</small></span></label>
+          <label class="inquiry-chip"><input type="radio" name="preferred-response" value="email"><span><strong>Email</strong><small>Best if you're hard to reach by phone</small></span></label>
+        </div>
+        <p class="inquiry-question inquiry-question-secondary" id="inquiry-time-label">When works best for you?</p>
+        <p class="inquiry-help">Our office hours are Monday to Thursday, 8:00am to 3:00pm.</p>
+        <div class="inquiry-choices inquiry-choices-row" role="radiogroup" aria-labelledby="inquiry-time-label" data-inquiry-group="preferred-time">
+          <label class="inquiry-chip inquiry-chip-compact"><input type="radio" name="preferred-time" value="morning"><span><strong>Mornings</strong></span></label>
+          <label class="inquiry-chip inquiry-chip-compact"><input type="radio" name="preferred-time" value="afternoon"><span><strong>Early afternoons</strong></span></label>
+          <label class="inquiry-chip inquiry-chip-compact"><input type="radio" name="preferred-time" value="flexible" checked><span><strong>Flexible</strong></span></label>
+        </div>
+        <p class="inquiry-error" data-inquiry-error role="alert" hidden></p>
+      </fieldset>
+
+      <fieldset class="inquiry-step" data-inquiry-step="3" hidden>
+        <legend class="inquiry-question">Where should we reach you?</legend>
+        <div class="form-grid inquiry-grid">
+          <div class="field full">
+            <label for="rq-name">Full name</label>
+            <input id="rq-name" name="name" type="text" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="rq-phone">Phone <span data-inquiry-optional="phone" hidden>(optional)</span></label>
+            <input id="rq-phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel">
+          </div>
+          <div class="field">
+            <label for="rq-email">Email <span data-inquiry-optional="email">(optional)</span></label>
+            <input id="rq-email" name="email" type="email" autocomplete="email" inputmode="email">
+          </div>
+          <div class="field full inquiry-pills-field">
+            <span class="inquiry-pills-label" id="inquiry-new-patient-label">Are you a new patient?</span>
+            <div class="inquiry-pills" role="radiogroup" aria-labelledby="inquiry-new-patient-label">
+              <label class="inquiry-pill"><input type="radio" name="new-patient" value="Yes" checked><span>Yes</span></label>
+              <label class="inquiry-pill"><input type="radio" name="new-patient" value="No"><span>No, I've visited before</span></label>
+            </div>
+          </div>
+          <div class="field full">
+            <label for="rq-message">Anything you'd like us to know? <span class="inquiry-label-note">(optional)</span></label>
+            <textarea id="rq-message" name="message" rows="3" maxlength="2000" placeholder="A question, a timeline, or what prompted your visit."></textarea>
+          </div>
+        </div>
+        <p class="inquiry-error" data-inquiry-error role="alert" hidden></p>
+        <p class="inquiry-note">Please don't include sensitive medical details. Sending this form requests an appointment; it does not confirm one.</p>
+        <p class="form-status" id="inquiry-status" data-form-status role="status" aria-live="polite" tabindex="-1"></p>
+      </fieldset>
+
+      <div class="inquiry-actions">
+        <button class="inquiry-back" type="button" data-inquiry-back hidden><span aria-hidden="true">&larr;</span> Back</button>
+        <button class="btn btn-solid inquiry-continue" type="button" data-inquiry-next>Continue</button>
+        <button class="btn btn-solid inquiry-submit" type="submit" data-inquiry-submit hidden>Send Request</button>
+      </div>
+      <p class="inquiry-alt">Prefer to talk? Call <a data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:+14076781400">(407) 678-1400</a></p>
+    </form>
+
+    <div class="inquiry-success" data-inquiry-success hidden tabindex="-1">
+      <p class="inquiry-kicker">Request received</p>
+      <h3>Thank you. We'll be in touch.</h3>
+      <p>Your request has reached our front desk. A member of our team will follow up by phone or email, usually within one business day, to find a time that works for you.</p>
+      <div class="inquiry-success-actions">
+        <button class="btn btn-solid" type="button" data-inquiry-close>Done</button>
+        <a class="btn" data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:+14076781400">Call (407) 678-1400</a>
+      </div>
+    </div>
+  </div>
+</aside>
+<script src="/main.js" defer></script></body></html>

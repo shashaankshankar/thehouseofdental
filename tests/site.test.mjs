@@ -63,7 +63,8 @@ test("GA4 integration is configurable and enabled for the approved production ro
   assert.equal(siteMeasurement.ga4.measurementId, "G-TC66MQQ0T7");
   assert.equal(routes.default, "prohibited");
   assert.equal(routes.routes["/contact"], "approved");
-  assert.ok(routes.fragments["/contact"].includes("book"));
+  assert.ok(routes.fragments["/contact"].includes("request"));
+  assert.ok(routes.fragments["/contact"].includes("book"), "legacy #book arrivals stay measurable");
   assert.deepEqual(contract.events.map((event) => event.name), ["form_start", "form_submit", "generate_lead", "phone_click", "email_click", "appointment_request", "cta_click"]);
   assert.match(script, /const __SITE_ANALYTICS = \{"provider":"gtag","enabled":true,"measurementId":"G-TC66MQQ0T7","consent":\{"mode":"advanced","version":2,"storageKey":"thod-analytics-consent","waitForUpdate":500\},"contractVersion":"local_service_v1"/);
   assert.doesNotMatch(script, /"propertyId"|"webStreamId"|"connection"/);
@@ -113,8 +114,9 @@ test("generated CTAs carry contract analytics attributes", async () => {
   const home = await readFile("dist/index.html", "utf8");
   assert.match(contact, /data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:/);
   assert.match(contact, /data-analytics-event="cta_click" data-analytics-location="directions_link" data-analytics-cta-type="directions" href="https:\/\/goo\.gl\/maps/);
-  assert.match(home, /data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="\/contact#book"/);
-  assert.match(contact, /data-analytics-form="contact_message"/);
+  assert.match(home, /data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="\/contact#request"/);
+  assert.match(contact, /data-analytics-form="appointment_request"/);
+  assert.doesNotMatch(home, /href="\/contact#book"/);
 });
 
 test("disabled analytics does not touch Google or the page", async () => {
@@ -294,29 +296,30 @@ test("successful contact response emits the three consented post-success events 
   const form = makeElement("form");
   form.action = "/api/contact";
   form.fields = [["name", "Measurement QA"], ["email", "measurement.qa@example.com"], ["message", "Test only"]];
-  form.querySelector = (selector) => selector === "button[type='submit']" ? submitButton : null;
+  const status = makeElement("p");
+  form.querySelector = (selector) => selector === "button[type='submit']" ? submitButton : selector === "[data-form-status]" ? status : null;
   form.resetCount = 0;
   form.reset = () => { form.resetCount += 1; };
-  const status = makeElement("p");
+  form.dispatched = [];
+  form.dispatchEvent = (event) => { form.dispatched.push(event); };
   const document = {
     head: makeElement("head"),
     body: makeElement("body"),
     createElement: makeElement,
-    querySelector(selector) {
-      if (selector === "form[data-contact-form]") return form;
-      if (selector === "#contact-status") return status;
-      return null;
-    },
+    querySelector() { return null; },
     querySelectorAll(selector) {
-      if (selector === "form[data-analytics-form]") return [form];
+      if (selector === "form[data-analytics-form]" || selector === "form[data-contact-form]") return [form];
       return [];
     }
   };
   const stored = new Map();
-  const window = { location: { pathname: "/contact", origin: "https://thehouseofdentalwp.com", search: "", hash: "#book" } };
+  const window = { location: { pathname: "/contact", origin: "https://thehouseofdentalwp.com", search: "", hash: "#request" } };
   class TestFormData {
     constructor(target) { this.values = target.fields; }
     *[Symbol.iterator]() { yield* this.values; }
+  }
+  class TestCustomEvent {
+    constructor(type, init = {}) { this.type = type; this.detail = init.detail; this.bubbles = Boolean(init.bubbles); }
   }
   const context = {
     __SITE_ANALYTICS: {
@@ -324,7 +327,7 @@ test("successful contact response emits the three consented post-success events 
       enabled: true,
       measurementId: "G-TEST123",
       consent: { mode: "advanced", version: 2, storageKey: "test-consent", waitForUpdate: 500 },
-      routeEligibility: { default: "prohibited", routes: { "/contact": "approved" }, fragments: { "/contact": ["book"] } },
+      routeEligibility: { default: "prohibited", routes: { "/contact": "approved" }, fragments: { "/contact": ["request"] } },
       eventPolicy: {
         allowedEvents: ["form_start", "form_submit", "generate_lead", "appointment_request"],
         allowedLocations: ["appointment_form", "contact_form"],
@@ -335,8 +338,9 @@ test("successful contact response emits the three consented post-success events 
     window,
     document,
     localStorage: { getItem: (key) => stored.get(key) || null, setItem: (key, value) => stored.set(key, value) },
-    fetch: async () => ({ ok: true, json: async () => ({ ok: true, message: "Your message was sent. We'll get back to you soon." }) }),
+    fetch: async () => ({ ok: true, json: async () => ({ ok: true, message: "Your request was sent. We'll get back to you soon." }) }),
     FormData: TestFormData,
+    CustomEvent: TestCustomEvent,
     URLSearchParams,
     Set,
     Number,
@@ -363,7 +367,72 @@ test("successful contact response emits the three consented post-success events 
   ]);
   assert.equal(form.resetCount, 1);
   assert.equal(status.dataset.state, "success");
-  assert.equal(status.textContent, "Your message was sent. We'll get back to you soon.");
+  assert.equal(status.textContent, "Your request was sent. We'll get back to you soon.");
+  assert.deepEqual(JSON.parse(JSON.stringify(form.dispatched.map((event) => [event.type, event.bubbles, event.detail]))), [
+    ["contact:success", true, { message: "Your request was sent. We'll get back to you soon." }]
+  ]);
+});
+
+test("appointment request drawer ships on full-shell pages and opens from every request link", async () => {
+  const home = await readFile("dist/index.html", "utf8");
+  const contact = await readFile("dist/contact.html", "utf8");
+  const article = await readFile("dist/blog/dental-implants-process-benefits-recovery.html", "utf8");
+  const privacy = await readFile("dist/privacy.html", "utf8");
+  const script = await readFile("dist/main.js", "utf8");
+  const styles = await readFile("dist/styles.css", "utf8");
+  for (const [page, html] of [["index", home], ["contact", contact], ["article", article]]) {
+    assert.equal((html.match(/<aside class="inquiry" id="request" data-inquiry>/g) || []).length, 1, page);
+    assert.match(html, /role="dialog" aria-modal="true" aria-labelledby="inquiry-title"/, page);
+    assert.match(html, /data-inquiry-step="1"[\s\S]*?data-inquiry-step="2" hidden[\s\S]*?data-inquiry-step="3" hidden/, page);
+    assert.match(html, /name="treatment" value="implants"/, page);
+    assert.match(html, /name="preferred-response" value="phone" checked/, page);
+    assert.match(html, /name="preferred-time" value="flexible" checked/, page);
+    assert.match(html, /requests an appointment; it does not confirm one/, page);
+  }
+  assert.doesNotMatch(privacy, /data-inquiry/);
+  assert.match(privacy, /href="\/contact#request">Request an Appointment</);
+  assert.match(home, /class="hero-cta[^"]*"><a class="btn btn-solid"[^>]*href="\/contact#request">Request an Appointment<\/a><a class="btn"[^>]*href="tel:\+14076781400">Call \(407\) 678-1400<\/a>/);
+  assert.match(home, /class="office-status" data-office-status/);
+  for (const treatment of ["implants", "cerec-crowns", "facial-aesthetics", "smile-makeover", "checkup"]) {
+    assert.match(home, new RegExp(`class="ask-chip" data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="/contact#request" data-inquiry-treatment="${treatment}"`), treatment);
+  }
+  assert.match(home, /<details class="home-offer-details">\s*<summary>What's included<\/summary>/);
+  assert.match(home, /class="home-doctor-actions/);
+  assert.equal((home.match(/class="home-tech-action/g) || []).length, 2);
+  assert.match(home, /class="home-result-prompt"/);
+  assert.match(home, /aria-label="Quick contact"><a[^>]*href="tel:\+14076781400">Call \(407\) 678-1400<\/a><a[^>]*href="\/contact#request">Request Visit<\/a>/);
+  assert.doesNotMatch(contact, /<form[^>]*data-analytics-form="contact_message"/);
+  assert.match(contact, /class="concierge-panel/);
+  assert.match(contact, /Sending a request does not confirm an appointment/);
+  assert.match(script, /form\.dispatchEvent\(new CustomEvent\("contact:success"/);
+  assert.match(script, /addEventListener\("contact:success"/);
+  assert.match(script, /timeZone: "America\/New_York"/);
+  assert.match(script, /event\.key === "Escape"/);
+  assert.match(styles, /body\.inquiry-open \.consent-banner,\s*body\.inquiry-open \.mobile-actions \{ display: none; \}/);
+  assert.match(styles, /@media \(scripting: none\)[\s\S]*?\.inquiry:target \{ display: block; \}/);
+  assert.match(styles, /@media \(max-width: 760px\) \{\s*\.inquiry-panel \{\s*width: 100%;/);
+});
+
+test("office status resolves against the Eastern-time Monday to Thursday schedule", async () => {
+  const inquiryScript = await readFile("src/scripts/45-inquiry.js", "utf8");
+  const window = {
+    setInterval() {},
+    matchMedia: () => ({ matches: false })
+  };
+  const document = {
+    querySelectorAll: () => [],
+    querySelector: () => null
+  };
+  vm.runInNewContext(inquiryScript, { window, document, Intl, Date, Number, String, Math, Error });
+  const { officeStatus } = window.thodInquiry;
+  const at = (iso) => JSON.parse(JSON.stringify(officeStatus(new Date(iso))));
+  assert.deepEqual(at("2026-09-01T14:00:00Z"), { open: true, text: "Open now · until 3:00pm" });
+  assert.deepEqual(at("2026-09-01T19:00:00Z"), { open: false, text: "Closed · opens tomorrow at 8:00am" });
+  assert.deepEqual(at("2026-09-01T11:30:00Z"), { open: false, text: "Closed · opens today at 8:00am" });
+  assert.deepEqual(at("2026-09-03T19:30:00Z"), { open: false, text: "Closed · opens Monday at 8:00am" });
+  assert.deepEqual(at("2026-09-05T15:00:00Z"), { open: false, text: "Closed · opens Monday at 8:00am" });
+  assert.deepEqual(at("2026-12-14T13:30:00Z"), { open: true, text: "Open now · until 3:00pm" });
+  assert.deepEqual(at("2026-12-14T12:30:00Z"), { open: false, text: "Closed · opens today at 8:00am" });
 });
 
 test("unapproved and unknown routes do not initialize analytics", async () => {
@@ -468,11 +537,12 @@ test("contact form targets the Resend-backed Worker contact endpoint", async () 
   const endpoint = await readFile("worker/index.mjs", "utf8");
   assert.match(html, /<form[^>]+action="\/api\/contact"[^>]+method="POST"[^>]+data-contact-form/);
   assert.match(html, /name="company"/);
-  assert.match(html, /id="contact-status"/);
-  assert.match(html, />Send Message</);
+  assert.match(html, /id="inquiry-status" data-form-status/);
+  assert.match(html, />Send Request</);
   assert.doesNotMatch(html, /data-netlify|name="form-name"/);
   assert.match(formScript, /preventDefault\(\)/);
   assert.match(formScript, /URLSearchParams\(new FormData\(form\)\)/);
+  assert.match(formScript, /querySelectorAll\("form\[data-contact-form\]"\)/);
   assert.match(endpoint, /RESEND_API_KEY/);
   assert.match(endpoint, /CONTACT_FROM_EMAIL/);
   assert.match(endpoint, /CONTACT_RECIPIENT_EMAIL/);
@@ -620,7 +690,7 @@ test("care page keeps Services selected in the shared navigation", async () => {
 
 test("shared navigation and footer are generated consistently", async () => {
   const fullPages = ["index.html", "about.html", "blog.html", "blog/dental-implants-process-benefits-recovery.html", "contact.html", "facial-aesthetics.html", "new-patients.html", "pre-post-op.html", "reviews.html", "services.html"];
-  const expectedNavigation = ["Facial Aesthetics", "Services", "New Patients", "About Us", "Blog", "Reviews", "Contact", "Book"];
+  const expectedNavigation = ["Facial Aesthetics", "Services", "New Patients", "About Us", "Blog", "Reviews", "Contact", "Request Visit"];
   for (const page of fullPages) {
     const html = await readFile(`dist/${page}`, "utf8");
     assert.match(html, /id="primary-navigation"/, page);

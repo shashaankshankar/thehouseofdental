@@ -3,7 +3,7 @@
   const button = document.querySelector(".burger");
   const menu = document.querySelector(".menu");
   const mobileNavigation = window.matchMedia("(max-width: 1024px)");
-  const hybridNavigation = () => window.matchMedia("(min-width: 1025px) and (max-width: 1127px)").matches;
+  const hybridNavigation = () => window.matchMedia("(min-width: 1025px) and (max-width: 1365px)").matches;
   const reducedMotion = () => window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches === true;
 
   const isAvailable = (element) => {
@@ -247,15 +247,12 @@
     alignHashTarget(target);
     return true;
   };
-  const booking = document.querySelector("#book");
-  const alignBookingHash = () => {
-    if (!booking || location.hash !== "#book") return false;
-    alignHashTarget(booking);
-    return true;
-  };
+  // The appointment request fragment opens the fixed drawer (45-inquiry.js)
+  // instead of scrolling the page.
+  const isInquiryHash = (hash = location.hash) => hash === "#request" || hash === "#book";
   const alignPageHash = () => {
     syncResponsiveNavigation();
-    if (alignBookingHash() || scrollToCareSection()) return;
+    if (isInquiryHash() || scrollToCareSection()) return;
     alignHashTarget(getHashTarget());
   };
 
@@ -263,7 +260,7 @@
     if (event.defaultPrevented || event.button !== 0 || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
     if (link.hasAttribute("download") || (link.target && link.target.toLowerCase() !== "_self")) return;
     const url = new URL(link.href, location.href);
-    if (url.origin !== location.origin || normalizePath(url.pathname) !== current || url.search !== location.search || !url.hash || url.hash === "#") return;
+    if (url.origin !== location.origin || normalizePath(url.pathname) !== current || url.search !== location.search || !url.hash || url.hash === "#" || isInquiryHash(url.hash)) return;
     const target = getHashTarget(url.hash);
     if (!target || !isAvailable(target)) return;
     event.preventDefault();

@@ -47,7 +47,7 @@
 .emergency-utility a:focus-visible { color: var(--gold); }
 
 @media (min-width: 1128px) {
-  header.site .menu { gap: clamp(0.85rem, 1.15vw, 1.35rem); }
+  header.site .menu { gap: clamp(0.7rem, 1.1vw, 1.35rem); }
   header.site .menu > li + li::before,
   header.site .nav-more-panel > li::before { left: clamp(-0.72rem, -0.6vw, -0.45rem); }
   header.site .menu > li > a,
@@ -57,9 +57,9 @@
     letter-spacing: 0.075em;
   }
   header.site .menu > li:last-child .btn {
-    font-size: 1rem;
-    letter-spacing: 0.12em;
-    padding-inline: 1rem;
+    font-size: 0.84rem;
+    letter-spacing: 0.1em;
+    padding-inline: 0.95rem;
   }
 }
 
@@ -212,7 +212,7 @@
     display: grid;
     inset: 40% 0 calc(var(--hero-strip-h, 6.7rem) + 1rem);
     grid-template-columns: minmax(0, 850px) minmax(15rem, 1fr);
-    grid-template-rows: repeat(5, auto);
+    grid-template-rows: repeat(6, auto);
     column-gap: clamp(2rem, 4vw, 5rem);
     align-content: center;
     align-items: start;
@@ -222,7 +222,8 @@
   .home-hero .hero-copy > h1 { grid-column: 1; grid-row: 2; }
   .home-hero .hero-copy > .lede { grid-column: 1; grid-row: 3; }
   .home-hero .hero-copy > .hero-cta { grid-column: 1; grid-row: 4; }
-  .home-hero .hero-copy > .hero-discover { grid-column: 1; grid-row: 5; justify-self: start; }
+  .home-hero .hero-copy > .hero-status { grid-column: 1; grid-row: 5; margin-top: 1rem; }
+  .home-hero .hero-copy > .hero-discover { grid-column: 1; grid-row: 6; justify-self: start; }
   .home-hero .hero-offer-cue {
     position: static;
     grid-column: 2;

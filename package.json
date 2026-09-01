@@ -11,6 +11,7 @@
     "test": "node --test tests/site.test.mjs tests/worker-functions.test.mjs",
     "deploy": "npx wrangler deploy --config ./wrangler.jsonc",
     "preview": "npx wrangler versions upload --config ./wrangler.jsonc",
+    "check:ci": "npm run build && npm run validate:measurement && npm run validate && npm test && npm run validate:cloudflare && node --check worker/index.mjs && node --check dist/main.js",
     "check": "npm run build && npm run validate:measurement && npm run validate && npm test && npm run validate:cloudflare && node --check worker/index.mjs && node --check dist/main.js && npx wrangler deploy --dry-run --config ./wrangler.jsonc"
   },
   "devDependencies": {

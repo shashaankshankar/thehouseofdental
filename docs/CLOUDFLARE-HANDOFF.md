@@ -1,6 +1,6 @@
 # The House of Dental — client setup and launch handoff
 
-This document lists the information, accounts, approvals, and production checks needed from the client before the website can be launched on Cloudflare Workers. Local build success is not deployment approval. The agency will keep the site unpublished until the client-owned setup and final go-live approval are complete.
+This document lists the information, accounts, approvals, and production checks needed before a production release or DNS change on Cloudflare Workers. Local build success is not deployment approval. Client-owned setup and final go-live approval remain separate gates.
 
 ## 1. Who owns what
 
@@ -150,7 +150,7 @@ The agency will provide a preview URL after the approved configuration is availa
 Approve or reject each item:
 
 - Home page and all navigation links.
-- All 12 generated pages.
+- All 23 generated pages, including the blog index and ten educational articles.
 - Phone links and contact calls to action.
 - Contact form validation and success/failure messaging.
 - Receipt of one approved synthetic contact message, if Resend is enabled.

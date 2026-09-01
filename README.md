@@ -27,7 +27,8 @@ Node-built static website for The House of Dental. The visual design and working
 - `npm run validate:measurement` checks the healthcare analytics contract and route-policy drift against `src/data/site.json`.
 - `npm run validate:cloudflare` checks Wrangler configuration, Worker wiring, redirects, headers, environment documentation, and generated runtime files.
 - `npm test` runs structural, privacy, accessibility-runtime, route, and Worker endpoint tests.
-- `npm run check` rebuilds the site, runs every local gate, syntax-checks the Worker, and runs `wrangler deploy --dry-run`.
+- `npm run check:ci` runs the reproducible build, validation, test, and syntax gates used by continuous integration.
+- `npm run check` runs the CI gates plus `wrangler deploy --dry-run` for local Cloudflare packaging verification.
 - `npm run clean` removes generated output.
 
 ## Cloudflare Workers deployment
@@ -37,13 +38,13 @@ The target is one isolated Worker named `thehouseofdental` with Static Assets fr
 Workers Builds settings:
 
 - Production branch: `main`
-- Build command: `npm run check`
+- Build command: `npm run build`
 - Deploy command: `npx wrangler deploy`
 - Preview command: `npx wrangler versions upload`
 - Existing `dev` → `qa` → `main` promotion flow remains in place.
 - Public preview URLs should be protected with Cloudflare Access before client review.
 
-The repository also includes `.github/workflows/cloudflare-deploy.yml` as the source-controlled production trigger. Each push to `main` runs `npm run check` and then deploys the `thehouseofdental` Worker with `npx wrangler deploy --config ./wrangler.jsonc --keep-vars`. Configure `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as GitHub Actions secrets before merging this workflow. Use either this workflow or Cloudflare Workers Builds for production, not both, to avoid duplicate deployments.
+The `.github/workflows/cloudflare-qa.yml` workflow is a validation gate for `qa` pushes and pull requests; it does not deploy production. Keep production deployment owned by the native Workers Builds trigger for `main`. Do not add a second `main` deployment workflow unless Workers Builds is deliberately replaced.
 
 Build and local Worker verification:
 

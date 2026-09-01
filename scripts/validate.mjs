@@ -43,13 +43,13 @@ for (const [file, html] of htmlByFile) {
       targetFile = pageByPath.get(referencePath);
       if (!targetFile) {
         const assetPath = resolve(root, referencePath.slice(1));
-        if (!(await exists(assetPath)) && !referencePath.startsWith("/assets/team/")) errors.push(`${file}: missing local target ${referencePath}`);
+        if (!(await exists(assetPath))) errors.push(`${file}: missing local target ${referencePath}`);
         continue;
       }
     } else if (referencePath) {
       targetFile = relative(root, resolve(dirname(resolve(root, file)), referencePath));
       if (!(await exists(resolve(root, targetFile)))) {
-        if (!targetFile.startsWith("assets/team/")) errors.push(`${file}: missing local target ${targetFile}`);
+        errors.push(`${file}: missing local target ${targetFile}`);
         continue;
       }
     }

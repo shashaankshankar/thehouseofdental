@@ -68,8 +68,10 @@
     <p class="lede rv rv-d1 in">Advanced restorative and cosmetic dentistry, thoughtfully planned around your comfort, health, and confidence.</p>
     <div class="hero-cta rv rv-d2 in"><a class="btn btn-solid" data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="/contact#book">Book Appointment</a><a class="btn" data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:+14076781400">Call the Office</a></div>
     <a class="hero-discover" href="#why-us" data-analytics-event="cta_click" data-analytics-location="hero_scroll" data-analytics-cta-type="content">See why patients choose us <span aria-hidden="true">↓</span></a>
-  </div></div>
-  <a class="hero-offer-cue" href="#offers" data-analytics-event="cta_click" data-analytics-location="hero_offer" data-analytics-cta-type="pricing"><span>Current offers available</span><b aria-hidden="true">→</b></a>
+  </div>
+    <a class="hero-offer-cue hero-offer-cue--desktop" href="#offers" data-analytics-event="cta_click" data-analytics-location="hero_offer" data-analytics-cta-type="pricing"><span><small>Current Offer</small><strong>Dental implants from <em>$2,998</em></strong></span><b aria-hidden="true">→</b></a>
+  </div>
+  <a class="hero-offer-cue hero-offer-cue--responsive" href="#offers" data-analytics-event="cta_click" data-analytics-location="hero_offer" data-analytics-cta-type="pricing"><span><small>Current Offer</small><strong>Dental implants from <em>$2,998</em></strong></span><b aria-hidden="true">→</b></a>
   <nav class="hero-strip home-proof" aria-label="Practice highlights"><div class="wrap">
     <a href="/reviews" data-analytics-event="cta_click" data-analytics-location="proof_rating" data-analytics-cta-type="proof"><strong><b class="reputation-value reputation-value-pending" data-reputation-rating>—</b></strong><span>Google Rating</span></a>
     <a href="/reviews" data-analytics-event="cta_click" data-analytics-location="proof_reviews" data-analytics-cta-type="proof"><strong><b class="reputation-value reputation-value-pending" data-reputation-review-count>—</b></strong><span>Patient Reviews</span></a>
@@ -81,7 +83,7 @@
 <section class="home-philosophy sec-ivory" id="why-us"><div class="wrap home-philosophy-grid">
   <div class="home-philosophy-copy">
     <div class="home-philosophy-lead">
-      <p class="eyebrow rv">Precision-Crafted Restorations</p>
+      <p class="eyebrow home-section-eyebrow rv"><span>Precision-Crafted Restorations</span></p>
       <h2 class="rv">Restoring the Natural Beauty of Your Smile</h2>
     </div>
     <div class="home-philosophy-detail">
@@ -93,50 +95,88 @@
   <div class="home-smile-portrait rv-img" role="img" aria-label="Woman smiling, with her smile in sharp focus"></div>
 </div></section>
 
-<section class="home-reassurance sec sec-ivory" id="results"><div class="wrap home-reassurance-grid">
-  <div class="home-result-intro rv"><p class="eyebrow">Care You Can Trust</p><h2>Known for Thoughtful, Personal Care</h2><p>Clear answers, careful planning, and a team that listens.</p><a class="home-text-link" href="/reviews">Read patient reviews <span aria-hidden="true">→</span></a></div>
-  <figure class="home-quote rv rv-d1"><blockquote>“Dr. Patel and his staff are simply the best. They do such a thorough and amazing job — so nice and so professional.”</blockquote><figcaption>Eric A. · Patient</figcaption></figure>
-  <a class="home-doctor-card rv rv-d2" href="/about#dr-patel" data-analytics-event="cta_click" data-analytics-location="doctor_link" data-analytics-cta-type="content"><img src="assets/dr-patel.jpg" alt="Dr. Mainak Patel, DMD"><span><strong>Dr. Mainak Patel, DMD</strong><small>Implant and restorative dentistry</small><em>Meet Dr. Patel →</em></span></a>
+<section class="home-reassurance sec sec-noir" id="results"><div class="wrap">
+  <header class="home-reassurance-heading rv"><div><p class="eyebrow home-section-eyebrow"><span>Care You Can Trust</span></p><h2>Known for Thoughtful, Personal Care</h2></div></header>
+  <div class="home-reassurance-layout">
+    <a class="home-doctor-feature rv" href="/about#dr-patel" data-analytics-event="cta_click" data-analytics-location="doctor_link" data-analytics-cta-type="content">
+      <img src="assets/dr-patel-home-cutout.png?v=2" alt="Dr. Mainak Patel, DMD" loading="lazy">
+      <span><small>Meet your dentist</small><strong>Dr. Mainak Patel, DMD</strong><em>Implant and restorative dentistry <b aria-hidden="true">→</b></em></span>
+    </a>
+    <div class="home-reviews-panel rv rv-d1" data-review-carousel>
+      <div class="home-review-kicker"><span>Patient Stories</span><span class="home-review-stars" aria-label="Five star review">★★★★★</span></div>
+      <div class="home-review-stage" aria-live="polite">
+        <figure class="home-quote" id="home-review-eric" data-quote><blockquote>“Dr. Patel and his staff are simply the best. They do such a thorough and amazing job — so nice and so professional.”</blockquote><figcaption>Eric A. · Patient</figcaption></figure>
+        <figure class="home-quote" id="home-review-linda" data-quote hidden><blockquote>“Each time, he explained exactly what he was doing and how everything fit into the master plan. His staff are simply amazing.”</blockquote><figcaption>Linda G. · Patient</figcaption></figure>
+        <figure class="home-quote" id="home-review-john" data-quote hidden><blockquote>“They explain issues, causes, and options in layman’s terms. A very positive atmosphere — the best dental practice I have ever been to.”</blockquote><figcaption>John O. · Patient</figcaption></figure>
+        <figure class="home-quote" id="home-review-lucille" data-quote hidden><blockquote>“I feel very comfortable and in good hands under the care of Dr. Patel and his staff. I am so lucky to have found him.”</blockquote><figcaption>Lucille S. · Patient</figcaption></figure>
+      </div>
+      <div class="home-review-controls">
+        <button class="home-review-arrow" type="button" data-review-prev aria-label="Previous patient review">←</button>
+        <div class="quote-nav" aria-label="Choose a patient review">
+          <button class="quote-dot home-review-tab on" type="button" aria-label="Show review from Eric A." aria-controls="home-review-eric"></button>
+          <button class="quote-dot home-review-tab" type="button" aria-label="Show review from Linda G." aria-controls="home-review-linda"></button>
+          <button class="quote-dot home-review-tab" type="button" aria-label="Show review from John O." aria-controls="home-review-john"></button>
+          <button class="quote-dot home-review-tab" type="button" aria-label="Show review from Lucille S." aria-controls="home-review-lucille"></button>
+        </div>
+        <button class="home-review-arrow" type="button" data-review-next aria-label="Next patient review">→</button>
+      </div>
+      <a class="home-text-link" href="/reviews">Read all patient reviews <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
 </div></section>
 
-<section class="home-care sec sec-ivory"><div class="wrap">
-  <div class="center-head home-section-head"><p class="eyebrow rv">Care Designed Around You</p><h2 class="rv rv-d1">What Can We Help You With?</h2><p class="rv rv-d2">Start with what you want to change. We’ll guide you to the right treatment options.</p></div>
+<section class="home-care sec sec-ivory" id="care"><div class="wrap">
+  <div class="center-head home-section-head"><p class="eyebrow home-section-eyebrow rv"><span>Care Designed Around You</span></p><h2 class="rv rv-d1">What Can We Help You With?</h2><p class="rv rv-d2">Start with what you want to change. We’ll guide you to the right treatment options.</p></div>
   <div class="home-intent-grid">
-    <a class="home-intent-card rv" href="/services#implants" data-analytics-event="cta_click" data-analytics-location="care_selection" data-analytics-cta-type="service"><img src="assets/service-implants.jpg" alt="Dental implant model" loading="lazy"><span><small>Restore function</small><strong>Replace Missing Teeth</strong><em>See options →</em></span></a>
-    <a class="home-intent-card rv rv-d1" href="/services#crowns" data-analytics-event="cta_click" data-analytics-location="care_selection" data-analytics-cta-type="service"><img src="assets/service-crowns.jpg" alt="Dental crown model" loading="lazy"><span><small>One-visit care</small><strong>Repair a Tooth in One Visit</strong><em>See options →</em></span></a>
-    <a class="home-intent-card rv rv-d2" href="/services#veneers" data-analytics-event="cta_click" data-analytics-location="care_selection" data-analytics-cta-type="service"><img src="assets/service-veneers.jpg" alt="Patient smiling" loading="lazy"><span><small>Cosmetic dentistry</small><strong>Improve My Smile</strong><em>See options →</em></span></a>
-    <a class="home-intent-card rv" href="/services#sedation" data-analytics-event="cta_click" data-analytics-location="care_selection" data-analytics-cta-type="service"><img src="assets/team-care.jpg" alt="Dental team providing patient care" loading="lazy"><span><small>Comfort-focused care</small><strong>Feel Comfortable During Treatment</strong><em>See options →</em></span></a>
-    <a class="home-intent-card rv rv-d1" href="/services#preventive" data-analytics-event="cta_click" data-analytics-location="care_selection" data-analytics-cta-type="service"><img src="assets/service-preventive.jpg" alt="Dental professional providing preventive care" loading="lazy"><span><small>Preventive dentistry</small><strong>Keep My Teeth Healthy</strong><em>See options →</em></span></a>
-    <a class="home-intent-card rv rv-d2" href="/facial-aesthetics" data-analytics-event="cta_click" data-analytics-location="care_selection" data-analytics-cta-type="service"><img src="assets/hydroderm-facial.jpg" alt="Relaxing facial aesthetics treatment" loading="lazy"><span><small>Beyond the smile</small><strong>Explore Facial Aesthetics</strong><em>See options →</em></span></a>
+    <a class="home-intent-card rv" href="/facial-aesthetics" data-analytics-event="cta_click" data-analytics-location="care_selection" data-analytics-cta-type="service"><img src="assets/hydroderm-facial.jpg" alt="Patient receiving a hydrodermabrasion facial treatment" loading="lazy"><span><small>Beyond the smile</small><strong>Explore Facial Aesthetics</strong><em>See options →</em></span></a>
+    <a class="home-intent-card rv rv-d1" href="/services#implants" data-analytics-event="cta_click" data-analytics-location="care_selection" data-analytics-cta-type="service"><img src="assets/service-implants.jpg" alt="Dental implant model" loading="lazy"><span><small>Restore function</small><strong>Replace Missing Teeth</strong><em>See options →</em></span></a>
+    <a class="home-intent-card rv rv-d2" href="/services#crowns" data-analytics-event="cta_click" data-analytics-location="care_selection" data-analytics-cta-type="service"><img src="assets/blog/same-day-crowns-vs-traditional-crowns-card.jpg" alt="Digital scanner, dental crown, and impression model" loading="lazy"><span><small>One-visit care</small><strong>Repair a Tooth in One Visit</strong><em>See options →</em></span></a>
+    <a class="home-intent-card rv" href="/services#veneers" data-analytics-event="cta_click" data-analytics-location="care_selection" data-analytics-cta-type="service"><img src="assets/service-veneers.jpg" alt="Close-up of a patient's restored smile" loading="lazy"><span><small>Cosmetic dentistry</small><strong>Improve My Smile</strong><em>See options →</em></span></a>
+    <a class="home-intent-card rv rv-d1" href="/services#sedation" data-analytics-event="cta_click" data-analytics-location="care_selection" data-analytics-cta-type="service"><img src="assets/blog/sedation-dentistry-types-safety-card.jpg" alt="Dental chair prepared for a comfortable sedation visit" loading="lazy"><span><small>Comfort-focused care</small><strong>Feel Comfortable During Treatment</strong><em>See options →</em></span></a>
+    <a class="home-intent-card rv rv-d2" href="/services#preventive" data-analytics-event="cta_click" data-analytics-location="care_selection" data-analytics-cta-type="service"><img src="assets/service-cosmetic.jpg" alt="Dentist reviewing dental X-rays with a patient" loading="lazy"><span><small>Preventive dentistry</small><strong>Keep My Teeth Healthy</strong><em>See options →</em></span></a>
   </div>
-</div></section>
-
-<div class="home-next" aria-hidden="true"><span>Next: technology designed around your visit</span></div>
-
-<section class="home-technology sec sec-noir" id="technology"><div class="wrap">
-  <div class="home-tech-heading"><div><p class="eyebrow rv">Technology With a Purpose</p><h2 class="rv rv-d1">Designed for a Better Visit</h2></div><p class="rv rv-d2">Fewer visits, more precise planning, and a more comfortable experience.</p></div>
-  <div class="home-tech-grid">
-    <button class="home-tech-card tech-card rv" id="cerec" data-tech="cerec" type="button"><img src="assets/technology-cerec.jpg" alt="CEREC same-day crown technology" loading="lazy"><span><small>CEREC&reg;</small><strong>One-Visit Restorations</strong><em>See how it works →</em></span></button>
-    <button class="home-tech-card tech-card rv rv-d1" id="guided-surgery" data-tech="guided-surgery" type="button"><img src="assets/technology-guided-surgery.jpg" alt="Computer-guided dental treatment planning" loading="lazy"><span><small>Guided surgery</small><strong>More Precise Implant Planning</strong><em>See how it works →</em></span></button>
-    <button class="home-tech-card tech-card rv rv-d2" id="digital-scans" data-tech="digital-scans" type="button"><img src="assets/technology-digital-scans.jpg" alt="Digital dental imaging equipment" loading="lazy"><span><small>Digital imaging</small><strong>Comfortable Scans and Treatment</strong><em>See how it works →</em></span></button>
-  </div>
-  <div class="home-tech-footer rv"><span>Also at The House of Dental</span><a href="/facial-aesthetics">Explore facial aesthetics <span aria-hidden="true">→</span></a></div>
-</div></section>
-
-<div class="svcmodal" id="techmodal" role="dialog" aria-modal="true" aria-labelledby="techm-title"><div class="backdrop" data-close></div><div class="panel"><button class="close" data-close aria-label="Close">&times;</button><img id="techm-img" alt=""><div class="content"><span class="kicker" id="techm-cat"></span><h2 id="techm-title"></h2><div id="techm-body"></div></div></div></div>
-
-<section class="home-results-later sec sec-ivory" aria-labelledby="results-title"><div class="wrap home-results-later-grid">
-  <div class="home-result-intro rv"><p class="eyebrow">Restorative Results</p><h2 id="results-title">Crafted to Look Natural</h2><p>See one smile restored by Dr. Patel and his team.</p><p class="home-compare-note">Drag the gold control to compare.</p></div>
-  <div class="ba home-featured-ba rv rv-d1" data-analytics-event="cta_click" data-analytics-location="comparison" data-analytics-cta-type="content"><img src="assets/norma-before.jpg" alt="Smile before restoration"><div class="after-wrap"><img src="assets/norma-after.jpg" alt="Smile after restoration"></div><div class="handle"></div><span class="lab before">Before</span><span class="lab after">After</span></div>
+  <a class="home-next rv" href="#offers" data-analytics-event="cta_click" data-analytics-location="care_scroll" data-analytics-cta-type="content">Next: current offers <span aria-hidden="true">↓</span></a>
 </div></section>
 
 <section class="home-offers sec sec-noir" id="offers"><div class="wrap">
-  <div class="center-head home-offers-heading rv"><p class="eyebrow">Current Offers</p><h2>More Ways to Plan Your Care</h2><p>Explore current pricing and payment options.</p></div>
-  <article class="home-offer-feature rv rv-d1"><div><span class="tag">Dental Implant Offer</span><h3>Complete Implant Package</h3><p>Implant, custom abutment, and porcelain or ceramic crown.</p></div><div class="home-offer-price"><span>From</span><strong>$2,998</strong></div><div class="home-implant-actions"><a class="btn btn-solid" href="/services#implants" data-analytics-event="cta_click" data-analytics-location="implant_offer" data-analytics-cta-type="pricing">View Implant Pricing</a><a class="home-text-link" href="/new-patients#insurance">Insurance &amp; financing →</a></div><details><summary>Offer details</summary><p>Includes ADA procedure codes D6010 implant body, D6057 custom abutment, and D6058 abutment-supported porcelain/ceramic crown.</p></details></article>
+  <div class="center-head home-offers-heading rv"><p class="eyebrow home-section-eyebrow"><span>Current Offers</span></p><h2>More Ways to Plan Your Care</h2><p>Explore current pricing and payment options.</p></div>
+  <div class="home-offers-grid">
+    <article class="home-offer-card rv rv-d1"><span class="tag">Implant Special</span><h3>Dental Implants</h3><p class="home-offer-price"><span>From</span> <strong>$2,998</strong></p><p class="home-offer-description">Includes the implant, custom abutment, and porcelain or ceramic crown.</p><p class="home-offer-fine-print">ADA procedure codes: D6010 implant body · D6057 custom abutment · D6058 abutment-supported porcelain/ceramic crown</p><a class="btn" href="/services#implants" data-analytics-event="cta_click" data-analytics-location="implant_offer" data-analytics-cta-type="pricing">Learn More</a></article>
+  </div>
+  <a class="home-next home-next-on-dark rv" href="#technology" data-analytics-event="cta_click" data-analytics-location="offer_scroll" data-analytics-cta-type="content">Next: technology designed around your visit <span aria-hidden="true">↓</span></a>
 </div></section>
 
-<section class="home-visit sec sec-noir"><div class="wrap home-visit-grid">
-  <div><p class="eyebrow rv">Your Next Step</p><h2 class="rv rv-d1">Feel Confident About Your Care</h2><p class="rv rv-d2">Talk with our team, ask questions, and plan a visit at your pace.</p><div class="home-visit-actions rv rv-d3"><a class="btn btn-solid" data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="/contact#book">Book Appointment</a><a class="btn" data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:+14076781400">Call (407) 678-1400</a><a class="btn" data-analytics-event="cta_click" data-analytics-location="directions_link" data-analytics-cta-type="directions" href="https://goo.gl/maps/CT32JzwGHYR7qNJX6" target="_blank" rel="noopener">Get Directions</a></div></div>
+<section class="home-technology sec sec-ivory" id="technology"><div class="wrap">
+  <div class="home-tech-heading"><p class="eyebrow home-section-eyebrow rv"><span>Technology With a Purpose</span></p><h2 class="rv rv-d1">Designed for a Better Visit</h2></div>
+  <div class="home-tech-group" aria-labelledby="dental-technology-title">
+    <h3 class="home-tech-group-title rv" id="dental-technology-title">Dental Technology</h3>
+    <div class="home-tech-grid">
+      <button class="home-tech-card tech-card rv" id="cerec" data-tech="cerec" type="button"><img src="assets/technology-cerec.jpg" alt="CEREC digital dental scanner" loading="lazy"><span><small>CEREC&reg;</small><strong>One-Visit Restorations</strong><em>See how it works →</em></span></button>
+      <button class="home-tech-card tech-card rv rv-d1" id="ct-scan" data-tech="ct-scan" type="button"><img src="assets/technology-ct-scan-v2.png" alt="Modern cone beam CT scanner in a dental treatment room" loading="lazy"><span><small>Cone Beam CT</small><strong>Detailed 3D Treatment Planning</strong><em>See how it works →</em></span></button>
+      <button class="home-tech-card tech-card rv rv-d2" id="digital-scans" data-tech="digital-scans" type="button"><img src="assets/technology-digital-scans.jpg" alt="Digital intraoral scanner and imaging equipment" loading="lazy"><span><small>Digital Scans</small><strong>More Comfortable Impressions</strong><em>See how it works →</em></span></button>
+      <button class="home-tech-card tech-card rv rv-d3" id="guided-surgery" data-tech="guided-surgery" type="button"><img src="assets/technology-guided-surgery.jpg" alt="Dentist using digital guidance for implant planning" loading="lazy"><span><small>Guided Surgery</small><strong>Precise Implant Placement</strong><em>See how it works →</em></span></button>
+    </div>
+  </div>
+  <div class="home-tech-group home-tech-group-aesthetics" aria-labelledby="aesthetics-technology-title">
+    <h3 class="home-tech-group-title rv" id="aesthetics-technology-title">Facial Aesthetics Technology</h3>
+    <div class="home-tech-grid">
+      <button class="home-tech-card tech-card rv" id="deka" data-tech="deka" type="button"><img src="assets/technology-deka-co2-v2.png" alt="CO2 facial resurfacing treatment with protective eye shields" loading="lazy"><span><small>DEKA CO2 Laser</small><strong>Resurface and Renew Skin</strong><em>See how it works →</em></span></button>
+      <button class="home-tech-card tech-card rv rv-d1" id="microneedling" data-tech="microneedling" type="button"><img src="assets/technology-microneedling-v2.png" alt="Professional microneedling treatment on a patient's cheek" loading="lazy"><span><small>Microneedling</small><strong>Support Collagen and Texture</strong><em>See how it works →</em></span></button>
+      <button class="home-tech-card tech-card rv rv-d2" id="emage" data-tech="emage" type="button"><img src="assets/technology-emage-3d-v2.png" alt="Patient using a professional 3D facial skin analysis scanner" loading="lazy"><span><small>Emage 3D</small><strong>Understand What Your Skin Needs</strong><em>See how it works →</em></span></button>
+      <button class="home-tech-card tech-card rv rv-d3" id="hydroderm" data-tech="hydroderm" type="button"><img src="assets/hydroderm-facial.jpg" alt="Patient receiving a HydroDerm facial" loading="lazy"><span><small>Custom HydroDerm</small><strong>Hydrate, Exfoliate, Refresh</strong><em>See how it works →</em></span></button>
+    </div>
+  </div>
+</div></section>
+
+<div class="svcmodal" id="techmodal" role="dialog" aria-modal="true" aria-labelledby="techm-title"><div class="backdrop" data-close></div><button class="modal-nav modal-nav-prev" data-modal-prev type="button" aria-label="Previous technology"><span aria-hidden="true">&#8249;</span></button><div class="panel"><button class="close" data-close aria-label="Close">&times;</button><img id="techm-img" alt=""><div class="content"><span class="kicker" id="techm-cat"></span><h2 id="techm-title"></h2><div id="techm-body"></div></div></div><button class="modal-nav modal-nav-next" data-modal-next type="button" aria-label="Next technology"><span aria-hidden="true">&#8250;</span></button></div>
+
+<section class="home-results-later sec sec-noir" aria-labelledby="results-title"><div class="wrap home-results-later-grid">
+  <div class="home-result-intro rv"><p class="eyebrow home-section-eyebrow"><span>Restorative Results</span></p><h2 id="results-title">Crafted to Look Natural</h2><p>See one smile restored by Dr. Patel and his team.</p><p class="home-compare-note">Drag the gold control to compare.</p></div>
+  <div class="ba home-featured-ba rv rv-d1" data-analytics-event="cta_click" data-analytics-location="comparison" data-analytics-cta-type="content"><img src="assets/norma-before.jpg" alt="Smile before restoration"><div class="after-wrap"><img src="assets/norma-after.jpg" alt="Smile after restoration"></div><div class="handle"></div><span class="lab before">Before</span><span class="lab after">After</span></div>
+</div></section>
+
+<section class="home-visit sec sec-ivory"><div class="wrap home-visit-grid">
+  <div><p class="eyebrow home-section-eyebrow rv"><span>Your Next Step</span></p><h2 class="rv rv-d1">Feel Confident About Your Care</h2><p class="rv rv-d2">Talk with our team, ask questions, and plan a visit at your pace.</p><div class="home-visit-actions rv rv-d3"><a class="btn btn-solid" data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="/contact#book">Book Appointment</a><a class="btn" data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:+14076781400">Call (407) 678-1400</a><a class="btn" data-analytics-event="cta_click" data-analytics-location="directions_link" data-analytics-cta-type="directions" href="https://goo.gl/maps/CT32JzwGHYR7qNJX6" target="_blank" rel="noopener">Get Directions</a></div></div>
   <div class="home-hours rv rv-d1"><h3>Visit The House of Dental</h3><p>6504 University Blvd<br>Winter Park, FL 32792</p><dl><div><dt>Monday–Thursday</dt><dd>8:00am–3:00pm</dd></div><div><dt>Friday–Sunday</dt><dd>Closed</dd></div></dl></div>
 </div></section>
 </main>

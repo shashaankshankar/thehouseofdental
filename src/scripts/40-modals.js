@@ -14,8 +14,9 @@
     const title = document.getElementById(`${definition.prefix}-title`);
     const body = document.getElementById(`${definition.prefix}-body`);
     const panel = dialog.querySelector(".panel");
-    const previous = definition.kind === "service" ? dialog.querySelector("[data-modal-prev]") : null;
-    const next = definition.kind === "service" ? dialog.querySelector("[data-modal-next]") : null;
+    const previous = dialog.querySelector("[data-modal-prev]");
+    const next = dialog.querySelector("[data-modal-next]");
+    const supportsNavigation = Boolean(previous && next);
     let returnFocus;
     let activeTrigger;
     let transitionTimer;
@@ -72,7 +73,7 @@
       dialog.classList.remove("show-swipe-hint");
     };
     const showSwipeHint = () => {
-      if (definition.kind !== "service") return;
+      if (!supportsNavigation) return;
       hideSwipeHint();
       dialog.classList.add("show-swipe-hint");
       swipeHintTimer = window.setTimeout(hideSwipeHint, 1800);
@@ -199,14 +200,14 @@
     });
     dialog.querySelectorAll("[data-close]").forEach((element) => element.addEventListener("click", close));
     panel.addEventListener("touchstart", (event) => {
-      if (definition.kind !== "service") return;
+      if (!supportsNavigation) return;
       hideSwipeHint();
       const touch = event.changedTouches[0];
       touchStart = { x: touch.clientX, y: touch.clientY };
       panel.classList.add("is-dragging");
     }, { passive: true });
     panel.addEventListener("touchmove", (event) => {
-      if (!touchStart || definition.kind !== "service") return;
+      if (!touchStart || !supportsNavigation) return;
       const touch = event.changedTouches[0];
       const dx = touch.clientX - touchStart.x;
       const dy = touch.clientY - touchStart.y;
@@ -245,7 +246,7 @@
           else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
         }
       }
-      if (definition.kind !== "service") return;
+      if (!supportsNavigation) return;
       if (event.key === "ArrowLeft") {
         event.preventDefault();
         navigate(-1);

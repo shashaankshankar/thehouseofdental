@@ -647,13 +647,14 @@ test("shared navigation and footer are generated consistently", async () => {
 
 test("homepage follows the approved needs-led conversion journey", async () => {
   const html = await readFile("dist/index.html", "utf8");
+  const styles = await readFile("dist/styles.css", "utf8");
   const sections = [
     "Precision-Crafted Restorations",
     "Care You Can Trust",
     "What Can We Help You With?",
+    'id="offers"',
     'id="technology"',
     "Restorative Results",
-    'id="offers"',
     "Feel Confident About Your Care"
   ];
   let previous = html.indexOf('class="hero home-hero"');
@@ -667,8 +668,45 @@ test("homepage follows the approved needs-led conversion journey", async () => {
   assert.match(html, /Dental emergency\?/);
   assert.match(html, /class="hero-strip home-proof"/);
   assert.match(html, /class="home-smile-portrait/);
-  assert.match(html, /Complete Implant Package/);
-  assert.match(html, /Current offers available/);
+  assert.match(html, /Implant Special/);
+  assert.match(html, /Dental implants from \$2,998/);
+  assert.equal((html.match(/class="hero-offer-cue/g) || []).length, 2);
+  assert.match(html, /hero-offer-cue--desktop/);
+  assert.match(html, /hero-offer-cue--responsive/);
+  assert.match(styles, /@media \(max-width: 900px\), \(max-height: 620px\) and \(orientation: landscape\)[\s\S]*?\.hero-offer-cue\s*\{[\s\S]*?box-sizing:\s*border-box;[\s\S]*?width:\s*100%;[\s\S]*?padding:\s*1rem 4vw;/);
+  assert.match(styles, /@media \(max-width: 900px\), \(max-height: 620px\) and \(orientation: landscape\)[\s\S]*?\.hero-offer-cue--desktop\s*\{\s*display:\s*none;\s*\}[\s\S]*?\.hero-offer-cue--responsive\s*\{\s*display:\s*grid;\s*\}/);
+  assert.match(styles, /@media \(max-width: 560px\)[\s\S]*?\.hero-offer-cue\s*\{[^}]*padding:\s*\.95rem 5vw;/);
+  assert.match(styles, /@media \(min-width: 901px\) and \(min-height: 621px\)[\s\S]*?\.home-hero \.hero-bg\s*\{\s*background-position:\s*center 45%;\s*\}/);
+  assert.match(styles, /\.home-hero \.hero-copy > \.hero-cta\s*\{[^}]*grid-row:\s*4;[^}]*\}[\s\S]*?\.home-hero \.hero-offer-cue\s*\{[^}]*grid-row:\s*4;/);
+  assert.equal((html.match(/class="home-offer-card/g) || []).length, 1);
+  assert.match(styles, /\.home-offers-grid[^}]*repeat\(auto-fit, minmax\(min\(100%, 300px\), 1fr\)\)/);
+  assert.match(html, /assets\/dr-patel-home-cutout\.png/);
+  assert.equal((html.match(/data-quote/g) || []).length, 4);
+  assert.equal((html.match(/class="quote-dot home-review-tab/g) || []).length, 4);
+  assert.match(html, /data-review-prev/);
+  assert.match(html, /data-review-next/);
+  const careCards = html.match(/<a class="home-intent-card[\s\S]*?<\/a>/g) || [];
+  assert.equal(careCards.length, 6);
+  assert.match(careCards[0], /href="\/facial-aesthetics"/);
+  assert.match(html, /assets\/blog\/same-day-crowns-vs-traditional-crowns-card\.jpg/);
+  assert.match(html, /assets\/blog\/sedation-dentistry-types-safety-card\.jpg/);
+  assert.match(html, /class="home-next rv" href="#offers"/);
+  assert.match(html, /class="home-next home-next-on-dark rv" href="#technology"/);
+  assert.doesNotMatch(html, /Fewer visits, more precise planning, and a more comfortable experience\./);
+  assert.equal((html.match(/class="home-tech-card tech-card/g) || []).length, 8);
+  for (const technology of ["ct-scan", "deka", "microneedling", "emage", "hydroderm"]) {
+    assert.match(html, new RegExp(`data-tech="${technology}"`));
+  }
+  for (const image of ["ct-scan", "deka-co2", "microneedling", "emage-3d"]) {
+    assert.match(html, new RegExp(`assets/technology-${image}-v2\\.png`));
+  }
+  assert.match(html, /Dental Technology/);
+  assert.match(html, /Facial Aesthetics Technology/);
+  assert.match(html, /data-modal-prev/);
+  assert.match(html, /data-modal-next/);
+  assert.doesNotMatch(html, /home-tech-footer/);
+  assert.equal((html.match(/class="eyebrow home-section-eyebrow/g) || []).length, 7);
+  assert.match(styles, /\.home-doctor-feature[^}]*linear-gradient\(180deg, #fbf8ef 0%, #a98956 100%\)/);
   assert.ok(html.indexOf("Restorative Results") > html.indexOf('id="technology"'));
   assert.doesNotMatch(html, /class="marquee-track"|class="stats rv"/);
   assert.match(html, /id="techmodal"/);

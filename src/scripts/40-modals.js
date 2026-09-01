@@ -1,4 +1,23 @@
 (() => {
+  const syncBodySurfaceState = () => {
+    const menuOpen = Boolean(document.querySelector(".menu.open"));
+    document.body.classList.toggle("menu-open", menuOpen);
+    document.body.classList.toggle("booking-target", Boolean(
+      location.hash === "#book" && document.getElementById("book")
+    ));
+  };
+  const menu = document.querySelector(".menu");
+  syncBodySurfaceState();
+  if (menu && "MutationObserver" in window) {
+    new MutationObserver(syncBodySurfaceState).observe(menu, {
+      attributes: true,
+      attributeFilter: ["class"]
+    });
+  }
+  ["hashchange", "popstate", "pageshow"].forEach((eventName) => {
+    addEventListener(eventName, syncBodySurfaceState);
+  });
+
   const definitions = [
     { dialog: "svcmodal", trigger: ".svc-card", key: "svc", kind: "service", prefix: "svcm" },
     { dialog: "techmodal", trigger: ".tech-card", key: "tech", kind: "technology", prefix: "techm" }
@@ -33,6 +52,13 @@
     const getDetail = (id) => detailData[id];
     const getTrigger = (id) => document.querySelector(`${definition.trigger}[data-${definition.key}="${CSS.escape(id)}"]`);
     const getTriggers = () => [...document.querySelectorAll(definition.trigger)].filter((trigger) => getDetail(trigger.dataset[definition.key]));
+    const isFocusable = (element) => {
+      if (element.disabled || element.hidden || element.getAttribute("aria-hidden") === "true") return false;
+      const styles = getComputedStyle(element);
+      return styles.display !== "none" && styles.visibility !== "hidden";
+    };
+    const getFocusable = () => [...dialog.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])')]
+      .filter(isFocusable);
     const inertBackground = () => {
       if (inerted.length) return;
       const modalMain = dialog.closest("main");
@@ -62,7 +88,7 @@
       document.body.classList.remove("modal-open");
       inerted.forEach(({ element, inert }) => { element.inert = inert; });
       inerted = [];
-      returnFocus?.focus();
+      if (returnFocus?.isConnected && isFocusable(returnFocus)) returnFocus.focus();
       returnFocus = null;
     };
     const hideSwipeHint = () => {
@@ -116,7 +142,9 @@
       dialog.classList.add("open");
       document.body.classList.add("modal-open");
       inertBackground();
-      if (focusClose) window.setTimeout(() => dialog.querySelector("button.close[data-close]")?.focus(), 0);
+      if (focusClose) window.setTimeout(() => {
+        if (dialog.classList.contains("open")) dialog.querySelector("button.close[data-close]")?.focus();
+      }, 0);
     };
     const open = (id, trigger, { focusClose = true, transition = false, direction = 1 } = {}) => {
       const detail = getDetail(id);
@@ -237,12 +265,17 @@
     next?.addEventListener("click", () => { hideSwipeHint(); navigate(1, next); });
     document.addEventListener("keydown", (event) => {
       if (!dialog.classList.contains("open")) return;
-      if (event.key === "Escape") close();
+      if (event.key === "Escape") {
+        event.preventDefault();
+        close();
+        return;
+      }
       if (event.key === "Tab") {
-        const items = [...dialog.querySelectorAll('button, a, [tabindex]:not([tabindex="-1"])')].filter((element) => !element.disabled);
+        const items = getFocusable();
         if (items.length) {
           const first = items[0]; const last = items[items.length - 1];
-          if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+          if (!dialog.contains(document.activeElement)) { event.preventDefault(); first.focus(); }
+          else if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
           else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
         }
       }

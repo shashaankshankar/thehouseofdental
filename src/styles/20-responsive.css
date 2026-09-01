@@ -476,6 +476,7 @@ body.modal-open { overflow: hidden; }
   margin: 0.5rem 0 0.8rem;
 }
 .member .bio { font-size: 0.9rem; color: rgba(28,27,24,0.72); line-height: 1.65; }
+
 @media (max-width: 1000px) {
   .team-grid { grid-template-columns: repeat(2, 1fr); }
   .member.lead { grid-column: span 2; }

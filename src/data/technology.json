@@ -12,7 +12,7 @@
   "ct-scan": {
     "cat": "3D Imaging",
     "title": "CT Scan (Cone Beam)",
-    "img": "assets/technology-ct-scan-v2.png",
+    "img": "assets/technology-ct-scan-v2.jpg",
     "paras": [
       "Our cone beam CT scanner captures a complete three-dimensional view of your teeth, jaw, nerves, and sinuses in a single rotation — detail a traditional two-dimensional X-ray simply cannot show.",
       "This is what makes guided implant surgery possible. Dr. Patel can measure bone density and volume, map the exact position of nerves, and plan the precise angle and depth of an implant before ever beginning the procedure. It means fewer surprises, less invasive surgery, and more predictable outcomes."
@@ -42,7 +42,7 @@
   "deka": {
     "cat": "Laser Aesthetics",
     "title": "DEKA CO2 Facial Resurfacing Laser",
-    "img": "assets/technology-deka-co2-v2.png",
+    "img": "assets/technology-deka-co2-v2.jpg",
     "paras": [
       "DEKA is a leading name in medical laser technology, used for skin resurfacing and rejuvenation treatments that address fine lines, uneven texture, sun damage, pigmentation, and scarring.",
       "The laser works by delivering precisely controlled energy to the skin, stimulating the body's natural collagen production and encouraging fresh, healthy tissue to replace damaged surface layers — with treatment intensity tailored to each patient's skin and goals."
@@ -52,7 +52,7 @@
   "emage": {
     "cat": "Diagnostic Imaging",
     "title": "Emage 3D Skin Scanner",
-    "img": "assets/technology-emage-3d-v2.png",
+    "img": "assets/technology-emage-3d-v2.jpg",
     "paras": [
       "The Emage scanner captures a detailed three-dimensional analysis of your skin — revealing sun damage, pigmentation, pore condition, wrinkles, and texture beneath the surface that the naked eye cannot detect.",
       "It turns aesthetic treatment into something measurable. We can establish an objective baseline before treatment begins, build a plan around what your skin actually needs, and show you side-by-side progress over time rather than asking you to guess at the results."
@@ -72,7 +72,7 @@
   "microneedling": {
     "cat": "Collagen Induction",
     "title": "Microneedling",
-    "img": "assets/technology-microneedling-v2.png",
+    "img": "assets/technology-microneedling-v2.jpg",
     "paras": [
       "Microneedling &mdash; collagen induction therapy &mdash; uses a precision device to create thousands of microscopic channels in the skin, triggering the body's natural wound-healing cascade.",
       "As the skin repairs those channels it produces fresh collagen and elastin, softening acne scars, refining texture, tightening pores, and firming skin from within. Because it works without heat, it's safe across all skin types."

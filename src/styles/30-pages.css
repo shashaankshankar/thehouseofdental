@@ -3,6 +3,46 @@
   background: linear-gradient(150deg, rgba(198,161,91,0.18), rgba(28,27,24,0.85));
 }
 
+/* Accessible hit areas: keep the existing visual treatment while giving
+   recurring navigation and contact controls a dependable 44px target. */
+header.site .emergency-utility .wrap { min-height: 44px; }
+header.site .emergency-utility a,
+header.site .brand,
+header.site .minimal-nav .btn,
+.page-hero .crumb a,
+.center-head a[href^="tel:"],
+.foot-grid a,
+.foot-legal a,
+.contact-quick .quick-card,
+.consent-banner .btn,
+.consent-button,
+.consent-settings {
+  min-width: 44px;
+  min-height: 44px;
+}
+header.site .emergency-utility a,
+header.site .brand,
+header.site .minimal-nav .btn,
+.page-hero .crumb a,
+.center-head a[href^="tel:"],
+.foot-grid a,
+.foot-legal a,
+.consent-banner .btn,
+.consent-button,
+.consent-settings {
+  display: inline-flex;
+  align-items: center;
+}
+.home-reviews-panel .home-review-controls {
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+}
+.home-reviews-panel .home-review-arrow {
+  width: 44px;
+  min-width: 44px;
+  min-height: 44px;
+}
+.home-reviews-panel .home-review-tab { min-width: 44px; min-height: 44px; }
+
 /* Progressive enhancement: the built-in detail sections are the fallback. */
 .inline-details {
   margin-top: clamp(3rem, 7vw, 6rem);
@@ -163,6 +203,7 @@
   display: inline-block;
   align-self: flex-start;
   position: relative;
+  min-width: 44px;
   min-height: 44px;
   margin: 1.2rem 2rem 2.4rem;
   padding-bottom: 0;
@@ -702,6 +743,9 @@
 .care-nav a {
   display: inline-flex;
   align-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.45rem 0.35rem;
   font-size: 0.66rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -717,6 +761,8 @@
   bottom: clamp(1rem, 3vw, 2rem);
   z-index: 50;
   display: grid;
+  min-width: 44px;
+  min-height: 44px;
   width: 3rem;
   height: 3rem;
   place-items: center;

@@ -29,33 +29,24 @@
     }
   };
 
-  const animate = (targets, target, format) => {
-    if (reduced) {
-      for (const element of targets) element.textContent = format(target);
-      return;
-    }
-    const start = performance.now();
-    const tick = (time) => {
-      const progress = Math.min((time - start) / 1600, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      for (const element of targets) element.textContent = format(target * eased);
-      if (progress < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  };
-
-  const apply = (value) => {
-    const normalized = normalize(value);
-    if (!normalized) return false;
-    animate(ratingTargets, normalized.rating, (value) => value.toFixed(1));
-    animate(reviewCountTargets, normalized.reviewCount, (value) => Math.round(value).toLocaleString("en-US"));
-    updateSchema(normalized);
-    return true;
-  };
-
   const reveal = (value) => {
-    if (!apply(value)) apply(fallback);
-    for (const element of reputationTargets) element.classList.remove("reputation-value-pending");
+    const normalized = normalize(value) || normalize(fallback);
+    if (!normalized) return;
+
+    // Keep the dash visible until a complete, validated pair is ready. The
+    // commit updates both surfaces in one synchronous turn, so no intermediate
+    // rating or review count can be painted.
+    const tick = () => {
+      const rating = normalized.rating.toFixed(1);
+      const reviewCount = normalized.reviewCount.toLocaleString("en-US");
+      for (const element of ratingTargets) element.textContent = rating;
+      for (const element of reviewCountTargets) element.textContent = reviewCount;
+      updateSchema(normalized);
+      for (const element of reputationTargets) element.classList.remove("reputation-value-pending");
+    };
+
+    if (reduced) tick();
+    else requestAnimationFrame(tick);
   };
 
   if (!endpoint) {

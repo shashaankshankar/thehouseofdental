@@ -38,7 +38,10 @@ img, svg, video, iframe, table { max-width: 100%; }
 /* Prevent long words/emails breaking layout on narrow screens */
 h1, h2, h3, p, a, li, td { overflow-wrap: break-word; }
 
-html { scroll-behavior: smooth; }
+/* Keep initial and scripted fragment arrivals stationary; navigation.js opts
+   into smooth movement only for deliberate same-document user jumps. */
+html { scroll-behavior: auto; }
+:where([id]) { scroll-margin-top: calc(var(--head-h, 86px) + 1rem); }
 
 body {
   font-family: var(--sans);
@@ -49,6 +52,9 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
+body.menu-open { overflow: hidden; }
+body.menu-open .mobile-actions,
+body:has(#book:target) .mobile-actions { display: none; }
 
 ::selection { background: var(--gold); color: var(--noir); }
 

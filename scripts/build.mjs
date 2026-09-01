@@ -124,7 +124,7 @@ const articleWordCount = (article) => article.sections.reduce((count, section) =
 const readingMinutes = (article) => Math.max(1, Math.ceil(articleWordCount(article) / 220));
 const formattedDate = (date) => new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(`${date}T00:00:00Z`));
 const articleBySlug = new Map(blog.articles.map((article) => [article.slug, article]));
-const renderBlogCard = (article, index = 1) => `<article class="blog-card"><a class="blog-card-media" href="${blogArticlePath(article)}"><img src="${blogImagePath(article, "card")}" width="720" height="480" alt="${escapeAttribute(article.imageAlt)}"${index === 0 ? ' loading="eager" fetchpriority="high"' : ' loading="lazy"'}></a><div class="blog-card-body"><div class="blog-card-meta"><span>${escapeText(article.category)}</span><span>${readingMinutes(article)} min read</span></div><h2><a href="${blogArticlePath(article)}">${escapeText(article.title)}</a></h2><p>${escapeText(article.description)}</p><span class="blog-read" aria-hidden="true">Read article</span></div></article>`;
+const renderBlogCard = (article, index = 1) => `<article class="blog-card"><a class="blog-card-media" href="${blogArticlePath(article)}"><img src="${blogImagePath(article, "card")}" width="720" height="480" alt="${escapeAttribute(article.imageAlt)}" decoding="async"${index === 0 ? ' loading="eager" fetchpriority="high"' : ' loading="lazy"'}></a><div class="blog-card-body"><div class="blog-card-meta"><span>${escapeText(article.category)}</span><span>${readingMinutes(article)} min read</span></div><h2><a href="${blogArticlePath(article)}">${escapeText(article.title)}</a></h2><p>${escapeText(article.description)}</p><span class="blog-read" aria-hidden="true">Read article</span></div></article>`;
 const blogCards = blog.articles.map(renderBlogCard).join("\n");
 const organization = { "@type": "Organization", name: site.name, url: site.baseUrl, logo: absoluteUrl("/assets/logo.svg") };
 const collectionSchema = {
@@ -220,7 +220,7 @@ const articlePages = blog.articles.map((article) => {
       </div>
     </header>
     <div class="sec sec-ivory article-shell">
-      <figure class="article-figure"><img src="${blogImagePath(article, "hero")}" width="1440" height="960" alt="${escapeAttribute(article.imageAlt)}" loading="eager" fetchpriority="high"></figure>
+      <figure class="article-figure"><img src="${blogImagePath(article, "hero")}" width="1440" height="960" alt="${escapeAttribute(article.imageAlt)}" loading="eager" fetchpriority="high" decoding="async"></figure>
       <div class="wrap article-layout">
         <div class="article-body">
           ${sections}

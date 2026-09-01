@@ -108,6 +108,9 @@ for (const path of sourcePaths) {
   if (/vercel|_vercel|@vercel/i.test(contents)) errors.push(`${path}: contains Vercel-specific coupling`);
 }
 if (await exists("src/static/_redirects")) errors.push("src/static/_redirects must be generated from site metadata, not hand-copied");
+for (const path of ["dist/assets/aesthetics/README.txt", "dist/assets/team/README.txt"]) {
+  if (await exists(path)) errors.push(`${path}: internal asset notes must not be published`);
+}
 
 const contact = await read("dist/contact.html");
 if (!/<form[^>]+action="\/api\/contact"[^>]+data-contact-form/.test(contact)) errors.push("dist/contact.html: missing Worker contact action");

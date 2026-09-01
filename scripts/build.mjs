@@ -5,6 +5,16 @@ const source = "src";
 const output = "dist";
 const read = (path) => readFile(path, "utf8");
 const escapeAttribute = (value = "") => value.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;");
+const copyPublicTree = async (sourceDirectory, outputDirectory) => {
+  await mkdir(outputDirectory, { recursive: true });
+  for (const entry of await readdir(sourceDirectory, { withFileTypes: true })) {
+    if (entry.name === "README.txt") continue;
+    const sourcePath = join(sourceDirectory, entry.name);
+    const outputPath = join(outputDirectory, entry.name);
+    if (entry.isDirectory()) await copyPublicTree(sourcePath, outputPath);
+    else await cp(sourcePath, outputPath);
+  }
+};
 const site = JSON.parse(await read(join(source, "data/site.json")));
 const canonicalFor = (page) => page.path ? new URL(page.path, `${site.baseUrl}/`).toString() : "";
 const reviews = JSON.parse(await read(join(source, "data/reviews.json")));
@@ -59,7 +69,7 @@ const decorateAnalyticsAttributes = (markup) => markup
 
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
-await cp(join(source, "assets"), join(output, "assets"), { recursive: true });
+await copyPublicTree(join(source, "assets"), join(output, "assets"));
 for (const file of await readdir(join(source, "static"))) await cp(join(source, "static", file), join(output, file));
 
 const styles = (await readdir(join(source, "styles"))).filter((file) => file.endsWith(".css")).sort();

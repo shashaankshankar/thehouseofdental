@@ -30,6 +30,7 @@ Node-built static website for The House of Dental. The visual design and working
 - `npm run check:ci` runs the reproducible build, validation, test, and syntax gates used by continuous integration.
 - `npm run check` runs the CI gates plus `wrangler deploy --dry-run` for local Cloudflare packaging verification.
 - `npm run clean` removes generated output.
+- `.node-version` pins the local and Workers Builds runtime to Node.js 24.
 - Node.js 24 is the supported local and CI runtime; Wrangler requires Node.js 22 or newer.
 
 ## Cloudflare Workers deployment
@@ -39,6 +40,7 @@ The target is one isolated Worker named `thehouseofdental` with Static Assets fr
 Workers Builds settings:
 
 - Production branch: `main`
+- Node.js version: `24` (tracked in `.node-version`)
 - Build command: `npm run build`
 - Deploy command: `npx wrangler deploy`
 - Preview command: `npx wrangler versions upload`

@@ -681,9 +681,17 @@ body.modal-open { overflow: hidden; }
   .nav-more { display: list-item; }
 }
 
+/* ---- Narrow desktop: keep the visible CTA inside the shared header frame ---- */
+@media (min-width: 1025px) and (max-width: 1074px) {
+  header.site .nav { gap: 1rem; }
+  header.site .menu { gap: 0.8rem; }
+  header.site .menu > li + li::before { left: -0.4rem; }
+}
+
 /* ---- Large tablet & small laptop: 1024px and below ---- */
 @media (max-width: 1024px) {
-  header.site .nav {
+  header.site .nav,
+  header.site .emergency-utility .wrap {
     width: 92vw;
     padding-left: 0;
   }

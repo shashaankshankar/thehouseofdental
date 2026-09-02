@@ -177,13 +177,15 @@ header.site {
   gap: 2.5rem;
   padding: 1.1rem 0;
 }
-header.site .nav {
+header.site .nav,
+header.site .emergency-utility .wrap {
   width: calc(100% - 4rem);
   max-width: none;
   padding-left: max(0px, calc((100vw - min(var(--content-wide), 90vw)) / 2 - 2rem));
 }
 @media (min-width: 1800px) {
-  header.site .nav {
+  header.site .nav,
+  header.site .emergency-utility .wrap {
     width: min(1600px, calc(100vw - 4rem));
     max-width: 1600px;
     margin-inline: auto;
@@ -1807,9 +1809,17 @@ body.modal-open { overflow: hidden; }
   .nav-more { display: list-item; }
 }
 
+/* ---- Narrow desktop: keep the visible CTA inside the shared header frame ---- */
+@media (min-width: 1025px) and (max-width: 1074px) {
+  header.site .nav { gap: 1rem; }
+  header.site .menu { gap: 0.8rem; }
+  header.site .menu > li + li::before { left: -0.4rem; }
+}
+
 /* ---- Large tablet & small laptop: 1024px and below ---- */
 @media (max-width: 1024px) {
-  header.site .nav {
+  header.site .nav,
+  header.site .emergency-utility .wrap {
     width: 92vw;
     padding-left: 0;
   }

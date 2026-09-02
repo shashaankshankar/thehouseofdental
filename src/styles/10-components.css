@@ -34,13 +34,15 @@ header.site {
   gap: 2.5rem;
   padding: 1.1rem 0;
 }
-header.site .nav {
+header.site .nav,
+header.site .emergency-utility .wrap {
   width: calc(100% - 4rem);
   max-width: none;
   padding-left: max(0px, calc((100vw - min(var(--content-wide), 90vw)) / 2 - 2rem));
 }
 @media (min-width: 1800px) {
-  header.site .nav {
+  header.site .nav,
+  header.site .emergency-utility .wrap {
     width: min(1600px, calc(100vw - 4rem));
     max-width: 1600px;
     margin-inline: auto;

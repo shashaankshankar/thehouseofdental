@@ -897,10 +897,12 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   };
   const syncContactRequirements = () => {
     const method = checked("preferred-response")?.value || "phone";
-    const phoneRequired = method !== "email";
+    const phoneRequired = method === "phone";
     const emailRequired = method === "email";
     phoneField.required = phoneRequired;
     emailField.required = emailRequired;
+    phoneField.setAttribute("aria-required", String(phoneRequired));
+    emailField.setAttribute("aria-required", String(emailRequired));
     form.querySelectorAll("[data-inquiry-optional]").forEach((hint) => {
       hint.hidden = hint.dataset.inquiryOptional === "phone" ? phoneRequired : emailRequired;
     });
@@ -918,7 +920,7 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     backButton.hidden = current === 1;
     nextButton.hidden = current === total;
     submitButton.hidden = current !== total;
-    if (current === total) syncContactRequirements();
+    syncContactRequirements();
     renderSummary();
     if (focus) {
       focusFirst(steps[current - 1]);

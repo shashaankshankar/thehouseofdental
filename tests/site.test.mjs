@@ -424,6 +424,27 @@ test("appointment request drawer ships on full-shell pages and opens from every 
   assert.match(styles, /@media \(max-width: 760px\) \{\s*\.inquiry-panel \{\s*width: 100%;/);
 });
 
+test("header utility anchors share the navigation frame", async () => {
+  const styles = await readFile("dist/styles.css", "utf8");
+  assert.match(styles, /header\.site \.nav,\s*header\.site \.emergency-utility \.wrap \{\s*width: calc\(100% - 4rem\);\s*max-width: none;\s*padding-left: max\(0px, calc\(\(100vw - min\(var\(--content-wide\), 90vw\)\) \/ 2 - 2rem\)\);\s*\}/);
+  assert.match(styles, /@media \(min-width: 1800px\) \{\s*header\.site \.nav,\s*header\.site \.emergency-utility \.wrap \{[\s\S]*?width: min\(1600px, calc\(100vw - 4rem\)\);[\s\S]*?max-width: 1600px;[\s\S]*?padding-left: 0;/);
+  assert.match(styles, /@media \(min-width: 1025px\) and \(max-width: 1074px\) \{\s*header\.site \.nav \{ gap: 1rem; \}\s*header\.site \.menu \{ gap: 0\.8rem; \}/);
+  assert.match(styles, /@media \(max-width: 1024px\) \{\s*header\.site \.nav,\s*header\.site \.emergency-utility \.wrap \{\s*width: 92vw;\s*padding-left: 0;/);
+});
+
+test("appointment request contact fields follow the selected response channel", async () => {
+  const script = await readFile("src/scripts/45-inquiry.js", "utf8");
+  assert.match(script, /const method = checked\("preferred-response"\)\?\.value \|\| "phone";/);
+  assert.match(script, /const phoneRequired = method === "phone";/);
+  assert.match(script, /const emailRequired = method === "email";/);
+  assert.match(script, /phoneField\.required = phoneRequired;/);
+  assert.match(script, /emailField\.required = emailRequired;/);
+  assert.match(script, /phoneField\.setAttribute\("aria-required", String\(phoneRequired\)\);/);
+  assert.match(script, /emailField\.setAttribute\("aria-required", String\(emailRequired\)\);/);
+  assert.match(script, /hint\.hidden = hint\.dataset\.inquiryOptional === "phone" \? phoneRequired : emailRequired;/);
+  assert.match(script, /submitButton\.hidden = current !== total;\s*syncContactRequirements\(\);/);
+});
+
 test("office status resolves against the Eastern-time Monday to Thursday schedule", async () => {
   const inquiryScript = await readFile("src/scripts/45-inquiry.js", "utf8");
   const window = {
@@ -758,7 +779,7 @@ test("homepage follows the approved needs-led conversion journey", async () => {
   assert.equal((html.match(/<figcaption data-initial="[A-Z]">/g) || []).length, 4);
   assert.match(html, /class="home-smile-portrait/);
   assert.match(html, /Implant Special/);
-  assert.match(html, /Dental implants from \$2,998/);
+  assert.match(html, /Dental implants from \$2,998/i);
   assert.equal((html.match(/class="hero-offer-cue/g) || []).length, 2);
   assert.match(html, /hero-offer-cue--desktop/);
   assert.match(html, /hero-offer-cue--responsive/);

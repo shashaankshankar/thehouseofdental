@@ -381,8 +381,16 @@ test("appointment request drawer ships on full-shell pages and opens from every 
   const script = await readFile("dist/main.js", "utf8");
   const styles = await readFile("dist/styles.css", "utf8");
   for (const [page, html] of [["index", home], ["contact", contact], ["article", article]]) {
-    assert.equal((html.match(/<aside class="inquiry" id="request" data-inquiry>/g) || []).length, 1, page);
-    assert.match(html, /role="dialog" aria-modal="true" aria-labelledby="inquiry-title"/, page);
+    assert.equal((html.match(/<aside class="inquiry[^"]*" id="request" data-inquiry/g) || []).length, 1, page);
+    if (page === "contact") {
+      // The contact page renders the form in place: no overlay chrome, no dialog semantics.
+      assert.match(html, /<aside class="inquiry inquiry-inline" id="request" data-inquiry data-inquiry-inline>/, page);
+      assert.doesNotMatch(html, /role="dialog"|inquiry-backdrop|class="inquiry-close"/, page);
+      assert.ok(html.indexOf('class="concierge-panel') < html.indexOf("data-inquiry-inline"), page);
+    } else {
+      assert.match(html, /<aside class="inquiry" id="request" data-inquiry>/, page);
+      assert.match(html, /role="dialog" aria-modal="true" aria-labelledby="inquiry-title"/, page);
+    }
     assert.match(html, /data-inquiry-step="1"[\s\S]*?data-inquiry-step="2" hidden[\s\S]*?data-inquiry-step="3" hidden/, page);
     assert.match(html, /name="treatment" value="implants"/, page);
     assert.match(html, /name="preferred-response" value="phone" checked/, page);
@@ -393,6 +401,8 @@ test("appointment request drawer ships on full-shell pages and opens from every 
   assert.match(privacy, /href="\/contact#request">Request an Appointment</);
   assert.match(home, /class="hero-cta[^"]*"><a class="btn btn-solid"[^>]*href="\/contact#request">Request an Appointment<\/a><a class="btn"[^>]*href="tel:\+14076781400">Call \(407\) 678-1400<\/a>/);
   assert.match(home, /class="office-status" data-office-status/);
+  assert.match(home, /class="hero-proof-inline[^"]*"><span class="stars" aria-hidden="true">★★★★★<\/span>/);
+  assert.match(script, /data-inquiry-inline/);
   for (const treatment of ["implants", "cerec-crowns", "facial-aesthetics", "smile-makeover", "checkup"]) {
     assert.match(home, new RegExp(`class="ask-chip" data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="/contact#request" data-inquiry-treatment="${treatment}"`), treatment);
   }
@@ -409,6 +419,7 @@ test("appointment request drawer ships on full-shell pages and opens from every 
   assert.match(script, /timeZone: "America\/New_York"/);
   assert.match(script, /event\.key === "Escape"/);
   assert.match(styles, /body\.inquiry-open \.consent-banner,\s*body\.inquiry-open \.mobile-actions \{ display: none; \}/);
+  assert.match(styles, /\.inquiry-actions \.btn\[hidden\] \{ display: none; \}/);
   assert.match(styles, /@media \(scripting: none\)[\s\S]*?\.inquiry:target \{ display: block; \}/);
   assert.match(styles, /@media \(max-width: 760px\) \{\s*\.inquiry-panel \{\s*width: 100%;/);
 });
@@ -504,10 +515,14 @@ test("Google reputation integration has a safe fallback and no client API key", 
   assert.ok(script.includes('const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rating":4.9,"review_count":337}};'));
   assert.match(script, /if \(!endpoint\) \{\s*reveal\(fallback\);/);
   assert.doesNotMatch(script, /place_id/);
-  assert.match(index, /data-reputation-rating>—<\/b>/);
-  assert.match(index, /data-reputation-review-count>—<\/b>/);
-  assert.match(reviews, /data-reputation-rating>—<\/span>/);
-  assert.match(reviews, /data-reputation-review-count>—<\/span>/);
+  // Fallback values render immediately; live values still overwrite them.
+  assert.match(index, /data-reputation-rating>4\.9<\/b>/);
+  assert.match(index, /data-reputation-review-count>337<\/b>/);
+  assert.match(reviews, /data-reputation-rating>4\.9<\/span>/);
+  assert.match(reviews, /data-reputation-review-count>337<\/span>/);
+  assert.doesNotMatch(reviews, /Winter Park&rsquo;s Trusted Practice/);
+  assert.equal((reviews.match(/<span class="review-source">Google review<\/span>/g) || []).length, 5);
+  assert.match(reviews, /<p class="who" data-initial="L">Linda G\.<\/p>/);
   assert.match(script, /reputation-value-pending/);
   assert.match(script, /prefers-reduced-motion/);
   assert.match(script, /requestAnimationFrame\(tick\)/);
@@ -725,7 +740,7 @@ test("homepage follows the approved needs-led conversion journey", async () => {
     'id="offers"',
     'id="technology"',
     "Restorative Results",
-    "Feel Confident About Your Care"
+    "We Would Love to Meet You"
   ];
   let previous = html.indexOf('class="hero home-hero"');
 
@@ -736,7 +751,11 @@ test("homepage follows the approved needs-led conversion journey", async () => {
     previous = position;
   }
   assert.match(html, /Dental emergency\?/);
+  assert.match(html, /class="util-left"><span class="office-status" data-office-status[^>]*>[^<]*<\/span><span class="util-addr">6504 University Blvd, Winter Park<\/span><\/span><span class="util-right"><span>Dental emergency\?<\/span>/);
   assert.match(html, /class="hero-strip home-proof"/);
+  assert.match(html, /class="home-hours-photo" src="assets\/office-exterior\.jpg"/);
+  assert.match(html, /Patient Stories · Google Reviews/);
+  assert.equal((html.match(/<figcaption data-initial="[A-Z]">/g) || []).length, 4);
   assert.match(html, /class="home-smile-portrait/);
   assert.match(html, /Implant Special/);
   assert.match(html, /Dental implants from \$2,998/);
@@ -747,7 +766,7 @@ test("homepage follows the approved needs-led conversion journey", async () => {
   assert.match(styles, /@media \(max-width: 900px\), \(max-height: 620px\) and \(orientation: landscape\)[\s\S]*?\.hero-offer-cue--desktop\s*\{\s*display:\s*none;\s*\}[\s\S]*?\.hero-offer-cue--responsive\s*\{\s*display:\s*grid;\s*\}/);
   assert.match(styles, /@media \(max-width: 560px\)[\s\S]*?\.hero-offer-cue\s*\{[^}]*padding:\s*\.95rem 5vw;/);
   assert.match(styles, /@media \(min-width: 901px\) and \(min-height: 621px\)[\s\S]*?\.home-hero \.hero-bg\s*\{\s*background-position:\s*center 45%;\s*\}/);
-  assert.match(styles, /\.home-hero \.hero-copy > \.hero-cta\s*\{[^}]*grid-row:\s*4;[^}]*\}[\s\S]*?\.home-hero \.hero-offer-cue\s*\{[^}]*grid-row:\s*4;/);
+  assert.match(styles, /\.home-hero \.hero-copy > \.hero-cta\s*\{[^}]*grid-row:\s*4;[^}]*\}[\s\S]*?\.home-hero \.hero-copy > \.hero-proof-inline\s*\{[^}]*grid-row:\s*5;[^}]*\}[\s\S]*?\.home-hero \.hero-offer-cue\s*\{[^}]*grid-row:\s*6;/);
   assert.equal((html.match(/class="home-offer-card/g) || []).length, 1);
   assert.match(styles, /\.home-offers-grid[^}]*repeat\(auto-fit, minmax\(min\(100%, 300px\), 1fr\)\)/);
   assert.match(html, /assets\/dr-patel-home-cutout\.png/);
@@ -776,10 +795,21 @@ test("homepage follows the approved needs-led conversion journey", async () => {
   assert.match(html, /data-modal-next/);
   assert.doesNotMatch(html, /home-tech-footer/);
   assert.equal((html.match(/class="eyebrow home-section-eyebrow/g) || []).length, 7);
-  assert.match(styles, /\.home-doctor-feature[^}]*linear-gradient\(180deg, #fbf8ef 0%, #a98956 100%\)/);
+  assert.match(styles, /\.home-doctor-feature[^}]*linear-gradient\(180deg, #f4eddf 0%, #c9ad78 100%\)/);
   assert.ok(html.indexOf("Restorative Results") > html.indexOf('id="technology"'));
   assert.doesNotMatch(html, /class="marquee-track"|class="stats rv"/);
   assert.match(html, /id="techmodal"/);
+});
+
+test("interior pages carry an on-page index under a shorter hero", async () => {
+  const about = await readFile("dist/about.html", "utf8");
+  const patients = await readFile("dist/new-patients.html", "utf8");
+  const styles = await readFile("dist/styles.css", "utf8");
+  assert.match(about, /<nav class="page-subnav" aria-label="On this page"><div class="wrap"><span>On this page<\/span><a href="#dr-patel">Dr\. Patel<\/a><a href="#team">The Team<\/a><a href="#technologies">Our Technologies<\/a><a [^>]*href="\/contact#request">Request an Appointment<\/a><\/div><\/nav>/);
+  assert.match(patients, /<nav class="page-subnav" aria-label="On this page"><div class="wrap"><span>On this page<\/span><a href="#insurance">Insurance &amp; Financing<\/a><a href="#offers">Special Offers<\/a><a href="#savings-plan">Savings Plan<\/a><a [^>]*href="\/contact#request">Request an Appointment<\/a><\/div><\/nav>/);
+  assert.match(about, /id="dr-patel">[\s\S]*?<img decoding="async" src="assets\/dr-patel-home-cutout\.png" width="1024" height="1536" alt="Dr\. Mainak Patel, DMD">/);
+  assert.match(styles, /\.page-subnav \.wrap \{[\s\S]*?overflow-x: auto;/);
+  assert.match(styles, /\.page-hero-center \{[\s\S]*?padding: clamp\(4\.5rem, 10vh, 6\.5rem\) 0 clamp\(2rem, 5vh, 3rem\);/);
 });
 
 test("runtime keeps required accessible interactions", async () => {

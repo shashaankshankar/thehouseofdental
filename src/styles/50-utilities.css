@@ -323,7 +323,6 @@
 .foot-legal a,
 .legal-copy a[href^="tel:"],
 .center-head a[href^="tel:"],
-a.quick-card,
 .care-back-to-top {
   min-height: 44px;
   display: inline-flex;

@@ -13,7 +13,6 @@ header.site .minimal-nav .btn,
 .center-head a[href^="tel:"],
 .foot-grid a,
 .foot-legal a,
-.contact-quick .quick-card,
 .consent-banner .btn,
 .consent-button,
 .consent-settings {
@@ -568,8 +567,12 @@ header.site .minimal-nav .btn,
   padding-top: 0;
 }
 .review-kpi-section .stats {
+  grid-template-columns: repeat(3, 1fr); /* Polish 06: three tiles, no filler */
   border-top: 0;
   border-bottom: 0;
+}
+@media (max-width: 1000px) {
+  .review-kpi-section .stat:nth-child(3) { grid-column: 1 / -1; }
 }
 
 @media (max-width: 560px) {
@@ -633,7 +636,7 @@ header.site .minimal-nav .btn,
 /* ---------- Centered page heroes (matches Facial Aesthetics) ---------- */
 .page-hero-center {
   text-align: center;
-  padding: clamp(6rem, 15vh, 9rem) 0 clamp(3.5rem, 8vh, 5rem);
+  padding: clamp(4.5rem, 10vh, 6.5rem) 0 clamp(2rem, 5vh, 3rem); /* Polish 10: first content shows without scrolling */
   position: relative;
   overflow: hidden;
 }
@@ -646,6 +649,33 @@ header.site .minimal-nav .btn,
 }
 .page-hero-center > .wrap { position: relative; }
 .page-hero-center .crumb { justify-content: center; }
+
+/* ---------- Polish 10: "On this page" index under interior heroes ---------- */
+.page-subnav { background: var(--noir); border-bottom: 1px solid var(--line-dark); }
+.page-subnav .wrap {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0.85rem 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mist);
+  white-space: nowrap;
+}
+.page-subnav .wrap::-webkit-scrollbar { display: none; }
+.page-subnav span { color: var(--gold-pale); }
+.page-subnav a {
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  border-bottom: 1px solid transparent;
+  transition: color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.page-subnav a:hover,
+.page-subnav a:focus-visible { color: var(--gold); border-color: var(--gold); }
 
 /* ---------- Single featured offer ---------- */
 .offer-single {
@@ -875,43 +905,50 @@ header.site .minimal-nav .btn,
 .payment-block { padding-bottom: clamp(2.5rem, 6vh, 4rem); }
 .insurance-block { border-top: 1px solid var(--line-dark); padding-top: clamp(3.5rem, 8vh, 5.5rem) !important; }
 
-/* ---------- Contact page ---------- */
-.contact-quick {
+/* ---------- Contact page (Polish 08: practical details beside the inline form) ---------- */
+.contact-details {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--line-dark);
-  border: 1px solid var(--line-dark);
-  max-width: 900px;
-  margin: 0 auto 3.5rem;
+  gap: 0.9rem;
+  margin-top: 1.6rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line-dark);
 }
-.quick-card {
-  background: var(--noir);
-  padding: 2rem 1.4rem;
-  text-align: center;
-  transition: background 0.45s var(--ease);
-}
-a.quick-card:hover { background: rgba(198,161,91,0.08); }
-.qc-label {
-  display: block;
-  font-size: 0.6rem;
-  letter-spacing: 0.34em;
+.contact-details a,
+.contact-details div { display: grid; gap: 0.15rem; }
+.contact-details small {
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--gold);
-  margin-bottom: 0.9rem;
 }
-.qc-value {
-  display: block;
+.contact-details span {
   font-family: var(--serif);
   font-size: 1.05rem;
   color: var(--ivory);
-  line-height: 1.55;
+  line-height: 1.45;
 }
-@media (max-width: 760px) { .contact-quick { grid-template-columns: 1fr; } }
+.contact-details a:hover span,
+.contact-details a:focus-visible span { color: var(--gold-pale); }
+.contact-photo {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  margin-top: 1.6rem;
+  border: 1px solid var(--line-dark);
+}
 
 /* ---------- About: accolade contrast fix ---------- */
 .accolades .stat .lab { color: rgba(28,27,24,0.78); }
 .accolades .stat .num { color: var(--gold-deep); }
+
+/* ---------- About: Polish 09, the homepage portrait next to the name ---------- */
+#dr-patel .split .media img {
+  height: auto;
+  object-position: 50% 0;
+  filter: none;
+  background: linear-gradient(180deg, #f4eddf 0%, #c9ad78 100%);
+}
 
 
 /* care page final note + offer section spacing */

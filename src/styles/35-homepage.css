@@ -23,17 +23,25 @@
   border-bottom: 1px solid var(--line-dark);
   background: rgba(10, 10, 11, 0.96);
 }
+/* Polish 02: welcome first (live hours + address), emergency + phone second. */
 .emergency-utility .wrap {
   display: flex;
   min-height: 36px;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: 0.8rem;
   color: var(--mist);
   font-size: 0.75rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
+.emergency-utility .wrap * { white-space: nowrap; }
+.util-left,
+.util-right { display: inline-flex; align-items: center; }
+.util-left { gap: 1.2rem; }
+.util-left .office-status { font-size: inherit; letter-spacing: inherit; color: var(--gold-pale); }
+.util-addr { color: var(--mist); }
+.util-right { gap: 0.8rem; }
 .emergency-utility a {
   display: inline-flex;
   min-height: 36px;
@@ -45,6 +53,11 @@
 }
 .emergency-utility a:hover,
 .emergency-utility a:focus-visible { color: var(--gold); }
+@media (max-width: 1127px) { .util-addr { display: none; } }
+@media (max-width: 760px) {
+  .util-left { display: none; }
+  .emergency-utility .wrap { justify-content: center; }
+}
 
 @media (min-width: 1128px) {
   header.site .menu { gap: clamp(0.7rem, 1.1vw, 1.35rem); }
@@ -58,12 +71,11 @@
   }
   header.site .menu > li:last-child .btn {
     font-size: 0.84rem;
-    letter-spacing: 0.1em;
     padding-inline: 0.95rem;
   }
 }
 
-.home-page p { font-size: 1.0625rem; }
+.home-page p { font-size: 1.0625rem; line-height: 1.65; }
 .home-page .home-text-link {
   display: inline-flex;
   min-height: 44px;
@@ -86,7 +98,7 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(90deg, rgba(8,8,9,.42) 0%, rgba(8,8,9,.25) 31%, rgba(8,8,9,.07) 52%, transparent 68%);
+  background: linear-gradient(90deg, rgba(22,15,6,.5) 0%, rgba(22,15,6,.3) 34%, rgba(22,15,6,.08) 60%, transparent 76%);
   pointer-events: none;
 }
 .hero-offer-cue {
@@ -130,23 +142,23 @@
 .hero-offer-cue:hover b, .hero-offer-cue:focus-visible b { border-color: rgba(225, 197, 139, .9); background: rgba(198, 161, 91, .1); }
 .hero-offer-cue:hover b, .hero-offer-cue:focus-visible b { transform: translateX(.25rem); }
 .hero-offer-cue--responsive { display: none; }
-.home-hero .hero-discover {
+
+/* Polish 03: the 4.9-star line sits beside the CTAs so trust lands before the first scroll. */
+.hero-proof-inline {
   display: inline-flex;
-  min-height: 44px;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.7rem;
-  margin-top: 1rem;
-  color: rgba(247, 244, 238, 0.78);
-  font-size: 0.76rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  gap: 0.6rem;
+  margin-top: 1.1rem;
+  color: rgba(247, 244, 238, 0.88);
+  font-size: 0.92rem;
+  text-shadow: 0 1px 5px rgba(10, 10, 11, 0.55);
 }
-.home-hero .hero-discover span {
-  color: var(--gold);
-  transition: transform 0.25s var(--ease);
-}
-.home-hero .hero-discover:hover span,
-.home-hero .hero-discover:focus-visible span { transform: translateY(0.25rem); }
+.hero-proof-inline .stars { color: var(--gold); font-size: 0.82rem; letter-spacing: 0.14em; }
+.hero-proof-inline b { font-weight: 500; color: var(--ivory); }
+.hero-proof-inline a { color: var(--gold-pale); border-bottom: 1px solid rgba(230, 211, 171, 0.4); }
+.hero-proof-inline a:hover,
+.hero-proof-inline a:focus-visible { color: var(--gold); border-color: var(--gold); }
 
 .home-proof {
   margin-bottom: 0;
@@ -194,6 +206,7 @@
 }
 .home-proof strong b { color: inherit; font: inherit; font-weight: 400; }
 .home-proof strong .reputation-value { min-width: 0; }
+.home-proof a:first-child strong::after { content: " ★"; color: var(--gold); font-size: 0.68em; vertical-align: 0.18em; }
 .home-proof a > span {
   margin-top: 0.38rem;
   color: var(--gold-pale);
@@ -208,33 +221,34 @@
     min-height: clamp(700px, calc(88svh - var(--head-h, 120px)), 820px);
   }
   .home-hero .hero-bg { background-position: center 45%; }
+  /* Copy anchors to the bottom of its box so the offer cue always clears the proof strip. */
   .home-hero .hero-inner {
     display: grid;
-    inset: 40% 0 calc(var(--hero-strip-h, 6.7rem) + 1rem);
-    grid-template-columns: minmax(0, 850px) minmax(15rem, 1fr);
+    inset: 20% 0 calc(var(--hero-strip-h, 6.7rem) + 1rem);
+    grid-template-columns: minmax(0, 720px) minmax(20rem, 1fr);
     grid-template-rows: repeat(6, auto);
     column-gap: clamp(2rem, 4vw, 5rem);
-    align-content: center;
+    align-content: end;
     align-items: start;
   }
   .home-hero .hero-copy { display: contents; }
   .home-hero .hero-copy > .eyebrow { grid-column: 1; grid-row: 1; }
   .home-hero .hero-copy > h1 { grid-column: 1; grid-row: 2; }
-  .home-hero .hero-copy > .lede { grid-column: 1; grid-row: 3; }
+  .home-hero .hero-copy > .lede { grid-column: 1; grid-row: 3; margin-bottom: 1.2rem; }
   .home-hero .hero-copy > .hero-cta { grid-column: 1; grid-row: 4; }
-  .home-hero .hero-copy > .hero-status { grid-column: 1; grid-row: 5; margin-top: 1rem; }
-  .home-hero .hero-copy > .hero-discover { grid-column: 1; grid-row: 6; justify-self: start; }
+  .home-hero .hero-copy > .hero-proof-inline { grid-column: 1; grid-row: 5; margin-top: 0.8rem; }
   .home-hero .hero-offer-cue {
     position: static;
-    grid-column: 2;
-    grid-row: 4;
+    grid-column: 1;
+    grid-row: 6;
     align-self: center;
-    justify-self: end;
+    justify-self: start;
+    margin-top: 1rem;
   }
 }
 
 .home-philosophy {
-  min-height: clamp(540px, 42vw, 680px);
+  min-height: clamp(420px, 34vw, 540px);
   overflow: hidden;
 }
 .home-philosophy-grid {
@@ -288,11 +302,12 @@
 .home-reassurance .eyebrow { color: var(--gold-pale); }
 .home-reassurance .eyebrow::before,
 .home-reassurance .eyebrow::after { background: var(--gold-pale); }
-.home-reassurance-heading { display: block; margin-bottom: clamp(2.5rem, 5vw, 4.5rem); }
+.home-reassurance-heading { display: block; margin-bottom: 2rem; }
 .home-reassurance-heading h2 { max-width: none; font-size: clamp(2.35rem, 4vw, 4rem); }
 .home-reassurance-layout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(2rem, 6vw, 5.5rem); align-items: stretch; }
 .home-featured-ba { width: 100%; aspect-ratio: 1.8 / 1; }
-.home-doctor-feature { position: relative; display: grid; height: clamp(420px, 38vw, 500px); min-height: 0; overflow: hidden; isolation: isolate; color: var(--ivory); background: linear-gradient(180deg, #fbf8ef 0%, #a98956 100%); }
+/* Polish 06: the doctor card gradient softens toward ivory; panels size to their content. */
+.home-doctor-feature { position: relative; display: grid; height: clamp(380px, 30vw, 440px); min-height: 0; overflow: hidden; isolation: isolate; color: var(--ivory); background: linear-gradient(180deg, #f4eddf 0%, #c9ad78 100%); }
 .home-doctor-feature img { width: 100%; height: 100%; min-height: 0; object-fit: cover; object-position: 50% 0; transition: transform .7s ease; }
 .home-doctor-feature > span { position: absolute; right: 0; bottom: 0; left: 0; display: flex; flex-direction: column; padding: 1.4rem 1.6rem; background: rgba(10,10,10,.94); }
 .home-doctor-feature small { color: var(--gold-pale); font-size: .67rem; letter-spacing: .17em; text-transform: uppercase; }
@@ -300,10 +315,10 @@
 .home-doctor-feature em { margin-top: .3rem; color: var(--mist); font-size: .82rem; font-style: normal; }
 .home-doctor-feature em b { margin-left: .35rem; color: var(--gold-pale); font-weight: 400; }
 .home-doctor-feature:hover img { transform: scale(1.02); }
-.home-reviews-panel { display: flex; height: clamp(420px, 38vw, 500px); min-height: 0; flex-direction: column; justify-content: space-between; padding: clamp(1.75rem, 4vw, 3.25rem); border: 1px solid var(--line-dark); background: rgba(255,255,255,.025); }
+.home-reviews-panel { display: flex; height: clamp(380px, 30vw, 440px); min-height: 0; flex-direction: column; justify-content: space-between; padding: clamp(1.75rem, 4vw, 3.25rem); border: 1px solid var(--line-dark); background: rgba(255,255,255,.025); }
 .home-review-kicker { display: flex; justify-content: space-between; gap: 1rem; color: var(--gold-pale); font-size: .7rem; letter-spacing: .17em; text-transform: uppercase; }
 .home-review-stars { letter-spacing: .22em; }
-.home-review-stage { display: grid; align-items: center; min-height: 200px; padding-block: 1.4rem; }
+.home-review-stage { display: grid; align-items: center; min-height: 0; padding-block: 1.4rem; }
 .home-quote {
   animation: home-review-in .45s ease both;
 }
@@ -314,11 +329,29 @@
   line-height: 1.48;
 }
 .home-quote figcaption {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   margin-top: 0.9rem;
   color: var(--gold-pale);
   font-size: 0.72rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+}
+.home-quote figcaption::before {
+  content: attr(data-initial);
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: var(--serif);
+  font-size: 1rem;
+  letter-spacing: 0;
+  text-transform: none;
 }
 .home-review-controls { display: grid; grid-template-columns: 44px 1fr 44px; gap: .9rem; align-items: center; margin-bottom: 1rem; }
 .home-review-controls .quote-nav { display: grid; grid-template-columns: repeat(4, 1fr); gap: .7rem; margin: 0; }
@@ -338,26 +371,29 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
 }
+/* Polish 05: cards read as photographs; the overlay starts at 40% and a hairline frame lifts on hover. */
 .home-intent-card {
   position: relative;
-  height: clamp(315px, 26vw, 350px);
+  height: clamp(230px, 19vw, 270px);
   min-height: 0;
   overflow: hidden;
+  border: 1px solid var(--line-light);
   background: var(--noir);
   color: var(--ivory);
+  transition: box-shadow 0.35s var(--ease), transform 0.35s var(--ease);
 }
 .home-intent-card::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(10,10,11,.04) 20%, rgba(10,10,11,.88) 100%);
+  background: linear-gradient(180deg, rgba(10,10,11,0) 40%, rgba(10,10,11,.86) 100%);
   transition: background 0.3s var(--ease);
 }
 .home-intent-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(.82) contrast(1.02);
+  filter: saturate(.96);
   transition: transform 0.45s var(--ease), filter 0.45s var(--ease);
 }
 .home-intent-card > span,
@@ -392,10 +428,14 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
+.home-intent-card:hover,
+.home-intent-card:focus-visible,
+.home-tech-card.tech-card:hover,
+.home-tech-card.tech-card:focus-visible { box-shadow: 0 18px 40px rgba(28, 27, 24, .16); transform: translateY(-3px); }
 .home-intent-card:hover img,
 .home-intent-card:focus-visible img { transform: scale(1.035); filter: saturate(.95) contrast(1.04); }
 .home-intent-card:hover::after,
-.home-intent-card:focus-visible::after { background: linear-gradient(180deg, rgba(10,10,11,.02), rgba(10,10,11,.78)); }
+.home-intent-card:focus-visible::after { background: linear-gradient(180deg, rgba(10,10,11,0) 40%, rgba(10,10,11,.8) 100%); }
 
 .home-next {
   display: inline-flex;
@@ -414,14 +454,14 @@
 .home-next-on-dark { color: rgba(247, 244, 238, .68); }
 .home-next-on-dark span { color: var(--gold-pale); }
 .home-tech-heading {
-  margin-bottom: 2.7rem;
+  margin-bottom: 2rem;
 }
 .home-tech-heading h2 {
   max-width: none;
   font-size: clamp(2.2rem, 4vw, 3.8rem);
   white-space: nowrap;
 }
-.home-tech-group + .home-tech-group { margin-top: clamp(3.5rem, 7vw, 6rem); }
+.home-tech-group + .home-tech-group { margin-top: clamp(2.5rem, 4vw, 3.5rem); }
 .home-tech-group-title {
   margin-bottom: 1.25rem;
   padding-bottom: 1rem;
@@ -437,21 +477,22 @@
 .home-tech-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
 .home-tech-card.tech-card {
   position: relative;
-  min-height: 330px;
+  min-height: 240px;
   overflow: hidden;
   padding: 0;
-  border: 1px solid var(--line-dark);
+  border: 1px solid var(--line-light);
   background: var(--noir-soft);
   color: var(--ivory);
   text-align: left;
+  transition: box-shadow 0.35s var(--ease), transform 0.35s var(--ease);
 }
 #technology .home-tech-card.tech-card::before {
   z-index: 1;
   height: 100%;
-  background: linear-gradient(180deg, rgba(10,10,11,.03) 20%, rgba(10,10,11,.9) 100%);
+  background: linear-gradient(180deg, rgba(10,10,11,0) 42%, rgba(10,10,11,.9) 100%);
   transform: none;
 }
-.home-tech-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(12%) saturate(.78); transition: transform .45s var(--ease), filter .45s var(--ease); }
+.home-tech-card img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.92); transition: transform .45s var(--ease), filter .45s var(--ease); }
 .home-tech-card:hover img,
 .home-tech-card:focus-visible img { transform: scale(1.035); filter: grayscale(0) saturate(.95); }
 .home-tech-card > span { z-index: 2; color: var(--ivory); }
@@ -471,34 +512,37 @@
   gap: 1rem;
   margin-inline: auto;
 }
+/* Polish 04: the offer card takes its height from its content, so Visit arrives one screen sooner. */
 .home-offer-card {
   display: flex;
-  min-height: clamp(540px, 48vw, 650px);
+  min-height: 0;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4.5rem);
+  padding: clamp(2.5rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3.5rem);
   border: 1px solid var(--gold);
   background: rgba(255,255,255,.018);
   color: var(--ivory);
   text-align: center;
 }
-.home-offer-card .tag { display: block; margin-bottom: 2rem; color: var(--gold); font-size: .72rem; letter-spacing: .3em; text-transform: uppercase; }
-.home-offer-card h3 { margin-bottom: 1.5rem; font-size: clamp(2rem, 3.2vw, 3rem); }
-.home-offer-card .home-offer-price { margin: 0 0 2.4rem; color: var(--gold); font-family: var(--serif); line-height: 1; }
-.home-offer-card .home-offer-price span { font-size: clamp(2.3rem, 4.8vw, 4.5rem); }
-.home-offer-card .home-offer-price strong { font-size: clamp(3rem, 6vw, 5.7rem); font-weight: 400; white-space: nowrap; }
+.home-offer-card .tag { display: block; margin-bottom: 1.2rem; color: var(--gold); font-size: .72rem; letter-spacing: .3em; text-transform: uppercase; }
+.home-offer-card h3 { margin-bottom: 1rem; font-size: clamp(1.8rem, 2.6vw, 2.4rem); }
+.home-offer-card .home-offer-price { margin: 0 0 1.4rem; color: var(--gold); font-family: var(--serif); line-height: 1; }
+.home-offer-card .home-offer-price span { font-size: clamp(1.6rem, 3vw, 2.4rem); }
+.home-offer-card .home-offer-price strong { font-size: clamp(2.6rem, 4.5vw, 4rem); font-weight: 400; white-space: nowrap; }
 .home-offer-description { max-width: 48ch; margin: 0; color: var(--mist); }
 .home-offer-fine-print { max-width: 58ch; margin: 2rem 0 0; color: rgba(180, 176, 169, .82); font-size: .88rem !important; line-height: 1.7; }
-.home-offer-card .btn { min-width: 210px; margin-top: 2.5rem; }
+.home-offer-card .btn { min-width: 210px; margin-top: 1.5rem; }
 .home-implant-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: 1.5rem; }
 
 .home-visit { background: radial-gradient(circle at 14% 50%, rgba(198,161,91,.1), transparent 38%), var(--ivory); color: var(--ink); }
-.home-visit-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: clamp(3rem, 9vw, 8rem); align-items: center; }
+/* Polish 07: the office photo becomes the wayfinding image beside the hours. */
+.home-visit-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: clamp(3rem, 9vw, 8rem); align-items: start; }
 .home-visit h2 { max-width: 13ch; font-size: clamp(2.4rem, 4.4vw, 4.2rem); }
 .home-visit-grid > div:first-child > p:not(.eyebrow) { max-width: 48ch; margin-top: 1.25rem; color: rgba(28, 27, 24, .72); }
 .home-visit-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
 .home-hours { padding-left: clamp(2rem, 5vw, 4rem); border-left: 1px solid var(--line-light); }
+.home-hours-photo { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; margin-bottom: 1.4rem; border: 1px solid var(--line-light); }
 .home-hours h3 { font-size: 1.6rem; }
 .home-hours > p { margin: .8rem 0 1.2rem; color: rgba(28, 27, 24, .72); }
 .home-hours dl > div { display: flex; justify-content: space-between; gap: 1rem; padding: .65rem 0; border-top: 1px solid var(--line-light); }
@@ -611,7 +655,7 @@
   .home-hero { min-height: 0; }
   .home-hero .hero-inner { padding-block: 2.8rem; }
   .home-proof .wrap { grid-template-columns: repeat(2, 1fr); padding: 0; }
-  .home-proof a { min-height: 96px; }
+  .home-proof a { min-height: 84px; }
   .home-proof a:nth-child(3) { border-left: 0; border-top: 1px solid var(--line-dark); }
   .home-proof a:nth-child(4) { border-top: 1px solid var(--line-dark); }
   .home-philosophy { min-height: 0; }
@@ -619,50 +663,49 @@
   .home-philosophy-copy { display: block; width: 90vw; max-width: 680px; margin-inline: auto; padding: 4.5rem 0 2.5rem; }
   .home-philosophy h2 { max-width: 14ch; margin-bottom: 1.5rem; }
   .home-philosophy-detail { padding-top: 0; }
-  .home-smile-portrait { position: relative; inset: auto; width: 100%; height: auto; min-height: 480px; aspect-ratio: auto; margin-left: 0; background-position: 62% 34%; background-size: cover; }
+  .home-smile-portrait { position: relative; inset: auto; width: 100%; height: auto; min-height: 380px; aspect-ratio: auto; margin-left: 0; background-position: 62% 34%; background-size: cover; }
   .home-reassurance-layout { grid-template-columns: 1fr; }
-  .home-doctor-feature { height: 430px; }
+  .home-doctor-feature { height: 380px; }
   .home-doctor-feature img { object-position: 50% 0; }
-  .home-reviews-panel { height: auto; min-height: 430px; }
+  .home-reviews-panel { height: auto; min-height: 0; }
   .home-intent-grid { grid-template-columns: repeat(2, 1fr); }
-  .home-intent-card { height: 320px; }
+  .home-intent-card { height: 260px; }
   .home-results-later-grid, .home-visit-grid { grid-template-columns: 1fr; }
   .home-tech-heading h2 { white-space: normal; }
   .home-tech-grid { grid-template-columns: repeat(2, 1fr); }
-  .home-tech-card.tech-card { min-height: 310px; }
-  .home-hours { padding: 2rem 0 0; border-top: 1px solid var(--line-light); border-left: 0; }
+  .home-tech-card.tech-card { min-height: 250px; }
+  .home-hours { padding: 0; border-top: 1px solid var(--line-light); border-left: 0; }
 }
 
 @media (max-width: 560px) {
   .emergency-utility .wrap { min-height: 42px; justify-content: center; gap: .55rem; font-size: .68rem; letter-spacing: .08em; }
   .emergency-utility a { min-height: 42px; padding-left: .55rem; }
   .home-page p { font-size: 1rem; }
-  .home-hero .hero-discover { display: none; }
-  .hero-offer-cue { min-height: 92px; gap: .75rem; padding: .95rem 5vw; }
+  .home-hero .hero-inner { padding-block: 2.2rem; }
+  .hero-offer-cue { min-height: 68px; gap: .75rem; padding: .95rem 5vw; }
   .hero-offer-cue > span { display: flex; min-width: 0; flex-direction: column; align-items: flex-start; gap: .25rem; }
   .hero-offer-cue small { padding-right: 0; border-right: 0; }
   .hero-offer-cue strong { font-size: .98rem; line-height: 1.25; }
   .hero-offer-cue b { width: 1.85rem; height: 1.85rem; flex: 0 0 auto; margin-left: auto; }
-  .home-proof a { min-height: 94px; padding: 1rem .55rem; }
+  .home-proof a { min-height: 78px; padding: .8rem .5rem; }
   .home-proof strong { font-size: 1.16rem; }
   .home-proof a > span { font-size: .66rem; letter-spacing: .1em; }
-  .home-philosophy-copy { width: 90vw; padding-top: 3.8rem; }
+  .home-philosophy-copy { width: 90vw; padding-top: 3rem; }
   .home-philosophy h2 { font-size: clamp(2.05rem, 10vw, 3rem); }
-  .home-smile-portrait { min-height: 390px; background-position: 62% 34%; }
-  .home-reassurance { padding-block: 3.8rem; }
+  .home-smile-portrait { min-height: 300px; background-position: 62% 34%; }
+  .home-reassurance { padding-block: 3rem; }
   .home-featured-ba { aspect-ratio: 1.45 / 1; }
-  .home-doctor-feature { height: 350px; }
+  .home-doctor-feature { height: 320px; }
   .home-doctor-feature img { object-position: 50% 0; }
-  .home-reviews-panel { min-height: 430px; padding: 1.5rem 1.25rem; }
-  .home-review-stage { min-height: 220px; }
+  .home-reviews-panel { min-height: 0; padding: 1.4rem 1.2rem; }
   .home-review-controls { grid-template-columns: 40px 1fr 40px; gap: .45rem; }
   .home-review-arrow { width: 40px; }
   .home-intent-grid { grid-template-columns: 1fr; }
-  .home-intent-card { height: 285px; }
+  .home-intent-card { height: 230px; }
   .home-next { font-size: .64rem; letter-spacing: .13em; }
   .home-tech-grid { grid-template-columns: 1fr; }
-  .home-tech-card.tech-card { min-height: 285px; }
-  .home-offer-card { min-height: 0; padding: 3rem 1.25rem; }
+  .home-tech-card.tech-card { min-height: 220px; }
+  .home-offer-card { padding: 2.25rem 1.25rem; }
   .home-offer-card .home-offer-price span { display: block; margin-bottom: .25rem; }
   .home-implant-actions { align-items: stretch; flex-direction: column; }
   .home-implant-actions .btn { text-align: center; }
@@ -727,7 +770,6 @@
     min-height: 44px;
     padding: .7rem 1.1rem;
   }
-  .home-hero .hero-discover { display: none; }
 }
 
 @media (max-width: 760px) and (max-height: 620px) and (orientation: landscape) {
@@ -771,6 +813,8 @@
 }
 
 @media (hover: none) {
+  .home-intent-card:hover,
+  .home-tech-card.tech-card:hover { transform: none; box-shadow: none; }
   .home-intent-card:hover img,
   .home-tech-card:hover img { transform: none; }
 }
@@ -778,6 +822,5 @@
 @media (prefers-reduced-motion: reduce) {
   .home-intent-card img,
   .home-tech-card img,
-  .home-page .home-text-link span,
-  .home-hero .hero-discover span { transition: none; }
+  .home-page .home-text-link span { transition: none; }
 }

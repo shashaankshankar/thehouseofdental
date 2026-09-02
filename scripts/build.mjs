@@ -82,7 +82,15 @@ await writeFile(join(output, "main.js"), `const __SITE_DETAIL_DATA = ${JSON.stri
 const mobileActions = decorateAnalyticsAttributes('<nav class="mobile-actions" aria-label="Quick contact"><a href="tel:+14076781400">Call (407) 678-1400</a><a href="/contact#request">Request Visit</a></nav>');
 // The appointment request drawer ships with every full-shell page so contextual
 // CTAs open it in place; minimal and standalone pages link to the contact page.
-const inquiryDrawer = decorateAnalyticsAttributes(await read(join(source, "templates/inquiry.html")));
+const inquiryTemplate = await read(join(source, "templates/inquiry.html"));
+const inquiryDrawer = decorateAnalyticsAttributes(inquiryTemplate);
+// The Contact page renders the same form in place of its {{INQUIRY}} placeholder
+// instead of behind a second click, so the overlay chrome and dialog semantics go.
+const inquiryInline = inquiryTemplate
+  .replace('<aside class="inquiry" id="request" data-inquiry>', '<aside class="inquiry inquiry-inline" id="request" data-inquiry data-inquiry-inline>')
+  .replace(/\s*<div class="inquiry-backdrop" data-inquiry-close><\/div>/, "")
+  .replace(' role="dialog" aria-modal="true"', "")
+  .replace(/\s*<button class="inquiry-close"[^>]*>&times;<\/button>/, "");
 const escapeText = (value = "") => value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 const decodeEntities = (value = "") => value
   .replaceAll("&amp;", "&")
@@ -126,7 +134,7 @@ const alignCareCopy = (content) => {
   ];
   return replacements.reduce((value, [from, to]) => value.replaceAll(from, to), content);
 };
-const reviewCards = reviews.map((review) => `<div class="review-card rv ${review.delay}"><p class="stars">★★★★★</p><p>&ldquo;${escapeText(review.text)}&rdquo;</p><p class="who">${escapeText(review.author)}</p></div>`).join("");
+const reviewCards = reviews.map((review) => `<div class="review-card rv ${review.delay}"><p class="stars">★★★★★<span class="review-source">Google review</span></p><p>&ldquo;${escapeText(review.text)}&rdquo;</p><p class="who" data-initial="${escapeAttribute(review.author.trim().charAt(0))}">${escapeText(review.author)}</p></div>`).join("");
 const money = (value) => `$${Math.round(value).toLocaleString("en-US")}`;
 const financingCalculator = `<div class="cherry-box rv"><p class="eyebrow u-inline-001">${escapeText(financing.provider)}</p><h3>${escapeText(financing.heading)}</h3><p class="cherry-sub">${escapeText(financing.description)}</p><div class="cherry-amount"><span id="chr-amt">${money(financing.initial)}</span></div><input type="range" id="chr-range" min="${financing.minimum}" max="${financing.maximum}" step="${financing.step}" value="${financing.initial}" aria-label="Estimated treatment cost"><div class="cherry-plans"><div class="cherry-plan"><span class="val" id="chr-bi">${money(financing.initial / 4)} <i>&times;4</i></span><span class="lbl">Every 2 Weeks*</span></div><div class="cherry-plan"><span class="val" id="chr-24">${money(financing.initial / 24)}<i>/mo</i></span><span class="lbl">24 Months</span></div><div class="cherry-plan"><span class="val" id="chr-60">${money(financing.initial / 60)}<i>/mo</i></span><span class="lbl">60 Months</span></div></div><a class="btn btn-solid" href="${escapeAttribute(financing.applyUrl)}" id="chr-apply" target="_blank" rel="noopener">Apply With Cherry</a><p class="cherry-note">${escapeText(financing.disclosure)}</p></div>`;
 const blogArticlePath = (article) => `/blog/${article.slug}`;
@@ -192,15 +200,17 @@ const renderDocument = (page, content, options = {}) => {
   const schemaData = options.schemaData ?? (page.schema === false ? null : page.shell === "full" ? structuredData : null);
   const schema = schemaData ? `<script type="application/ld+json">${JSON.stringify(schemaData)}</script>` : "";
   const fonts = page.shell === "full" ? '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital@1&display=swap" rel="stylesheet">' : "";
-  const drawer = page.shell === "full" ? inquiryDrawer : "";
+  const drawer = page.shell === "full" && !options.inlineInquiry ? inquiryDrawer : "";
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0a0a0b"><title>${escapeText(page.title)}</title>${keywords}${social}${geo}${description}<meta name="robots" content="${escapeAttribute(page.robots)}">${canonical}${author}${schema}${fonts}<link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16"><link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180"><link rel="stylesheet" href="/styles.css"></head><body><a class="skip-link" href="#main-content">Skip to main content</a>${shell.header}${content}${shell.footer}${mobileActions}${drawer}<script src="/main.js" defer></script></body></html>`;
 };
 for (const [file, page] of Object.entries(site.pages)) {
-  let content = (await read(join(source, "pages", file))).replace("{{REVIEWS}}", reviewCards).replace("{{FINANCING_CALCULATOR}}", financingCalculator).replace("{{BLOG_CARDS}}", blogCards);
+  let content = await read(join(source, "pages", file));
+  const inlineInquiry = content.includes("{{INQUIRY}}");
+  content = content.replace("{{REVIEWS}}", reviewCards).replace("{{FINANCING_CALCULATOR}}", financingCalculator).replace("{{BLOG_CARDS}}", blogCards).replace("{{INQUIRY}}", inquiryInline);
   if (file === "pre-post-op.html") content = alignCareCopy(reorderCareSections(content));
   content = decorateAnalyticsAttributes(content);
-  const html = renderDocument(page, content, { schemaData: page.schemaType === "blog-index" ? collectionSchema : undefined });
+  const html = renderDocument(page, content, { schemaData: page.schemaType === "blog-index" ? collectionSchema : undefined, inlineInquiry });
   await writeFile(join(output, file), `${html}\n`);
 }
 

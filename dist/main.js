@@ -824,6 +824,9 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   const drawer = document.querySelector("[data-inquiry]");
   if (!drawer) return;
 
+  // The Contact page renders the form in place; the step flow runs the same,
+  // but nothing overlays, traps focus, or needs closing.
+  const inline = drawer.hasAttribute("data-inquiry-inline");
   const panel = drawer.querySelector(".inquiry-panel");
   const form = drawer.querySelector("form[data-contact-form]");
   const steps = [...drawer.querySelectorAll("[data-inquiry-step]")];
@@ -977,10 +980,19 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   };
   const open = ({ treatment = "", trigger = null } = {}) => {
     const wasOpen = drawer.classList.contains("is-open");
-    if (!wasOpen) returnFocus = trigger || document.activeElement;
+    if (!wasOpen && !inline) returnFocus = trigger || document.activeElement;
     if (completed) resetFlow();
     const preset = treatment ? form.querySelector(`input[name="treatment"][value="${CSS.escape(treatment)}"]`) : null;
     if (preset) preset.checked = true;
+    if (inline) {
+      showStep(preset ? 2 : 1, { focus: false });
+      drawer.scrollIntoView({ block: "start", behavior: reducedMotion() ? "auto" : "smooth" });
+      window.setTimeout(() => {
+        if (preset) focusFirst(steps[1]);
+        else panel.focus({ preventScroll: true });
+      }, 0);
+      return;
+    }
     drawer.classList.add("is-open");
     document.body.classList.add("inquiry-open");
     inertBackground();
@@ -992,6 +1004,12 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     }, 0);
   };
   const close = () => {
+    if (inline) {
+      // "Done" on the inline form simply readies it for another request.
+      if (completed) resetFlow();
+      panel.focus({ preventScroll: true });
+      return;
+    }
     if (!drawer.classList.contains("is-open")) return;
     drawer.classList.remove("is-open");
     document.body.classList.remove("inquiry-open");
@@ -1079,7 +1097,7 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   const openFromHash = () => {
     if (!isInquiryHash(location.hash)) return;
     open();
-    history.replaceState(null, "", `${location.pathname}${location.search}`);
+    if (!inline) history.replaceState(null, "", `${location.pathname}${location.search}`);
   };
   addEventListener("hashchange", openFromHash);
   showStep(1, { focus: false });

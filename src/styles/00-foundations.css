@@ -21,7 +21,7 @@
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --content-wide: 1200px;
   --content-narrow: 820px;
-  --space-section: clamp(5rem, 10vh, 8rem);
+  --space-section: clamp(3.5rem, 7vh, 5.5rem); /* Polish 04: same sections, tighter vertical budget */
   --space-mobile: clamp(3.5rem, 8vh, 6rem);
 }
 
@@ -45,7 +45,7 @@ html { scroll-behavior: auto; }
 
 body {
   font-family: var(--sans);
-  font-weight: 300;
+  font-weight: 400; /* Polish 01: heavier body for legibility on noir */
   background: var(--noir);
   color: var(--ivory);
   line-height: 1.7;
@@ -71,9 +71,9 @@ h1, h2, h3, .display {
 
 .eyebrow {
   font-family: var(--sans);
-  font-size: 0.72rem;
+  font-size: 0.7rem; /* Polish 01: tighter tracking on labels */
   font-weight: 400;
-  letter-spacing: 0.42em;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--gold);
   display: inline-flex;

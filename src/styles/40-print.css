@@ -13,7 +13,7 @@ PRINT STYLESHEET — clean output, nothing cut off
   /* Hide all chrome */
   header.site, footer.site, .care-nav, .aesthetic-nav, .download-bar,
   .care-dl, .burger, .menu, .band, .btn, .svcmodal, .marquee,
-  .hero-strip, .quote-nav, .contact-quick, form, .inquiry, .mobile-actions { display: none !important; }
+  .hero-strip, .quote-nav, form, .inquiry, .mobile-actions { display: none !important; }
 
   /* Neutralize theme backgrounds */
   section, .sec, .sec-noir, .sec-ivory, .care-block,

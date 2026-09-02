@@ -439,14 +439,13 @@ body.modal-open { overflow: hidden; }
 .member.lead { grid-column: span 2; }
 .portrait {
   position: relative;
-  aspect-ratio: 4/5;
+  aspect-ratio: 4/3; /* Polish 09: shallower placeholders until photography exists */
   background: linear-gradient(160deg, var(--ivory-deep), #e2dccd);
   overflow: hidden;
   border: 1px solid var(--line-light);
   display: grid;
   place-items: center;
 }
-.member.lead .portrait { aspect-ratio: 8/5; }
 .portrait::after {
   content: attr(data-initials);
   font-family: var(--serif);
@@ -484,7 +483,6 @@ body.modal-open { overflow: hidden; }
 @media (max-width: 560px) {
   .team-grid { grid-template-columns: 1fr; }
   .member.lead { grid-column: span 1; }
-  .member.lead .portrait { aspect-ratio: 4/5; }
 }
 
 /* ---------- Technology cards ---------- */
@@ -696,7 +694,6 @@ body.modal-open { overflow: hidden; }
   #facial-aesthetics .tech-card { padding: 2.2rem 1.2rem 2rem; }
   .team-grid { grid-template-columns: repeat(3, 1fr); }
   .member.lead { grid-column: span 3; }
-  .member.lead .portrait { aspect-ratio: 12/5; }
   .hero h1 { max-width: 18ch; }
 }
 
@@ -705,7 +702,6 @@ body.modal-open { overflow: hidden; }
   .sec { padding: var(--space-mobile) 0; }
   .team-grid { grid-template-columns: repeat(2, 1fr); }
   .member.lead { grid-column: span 2; }
-  .member.lead .portrait { aspect-ratio: 8/5; }
   .foot-mast .rule { max-width: 110px; }
   .split { gap: 2.4rem; }
   .cherry-plan { padding: 1.1rem 0.6rem; }
@@ -809,14 +805,13 @@ body.modal-open { overflow: hidden; }
   .tech-grid, #facial-aesthetics .tech-grid.dark { grid-template-columns: 1fr; }
   .team-grid { grid-template-columns: 1fr; max-width: 340px; margin-inline: auto; }
   .member.lead { grid-column: span 1; }
-  .member.lead .portrait, .portrait { aspect-ratio: 4/5; }
   .stats { grid-template-columns: 1fr 1fr; }
   .stat { padding: 1.8rem 0.6rem; }
   .stat .lab { font-size: 0.58rem; letter-spacing: 0.18em; }
   .hero h1 { font-size: clamp(2.2rem, 9vw, 3rem); margin-bottom: 1.2rem; }
   .hero p.lede { font-size: 0.98rem; margin-bottom: 2rem; }
   .hero-strip .wrap { grid-template-columns: 1fr 1fr; }
-  .btn { padding: 0.78rem 1.35rem; font-size: 0.68rem; letter-spacing: 0.22em; }
+  .btn { font-size: 0.74rem; }
   .btn-lg { padding: 0.9rem 1.6rem; }
   .quote-body { font-size: 1.05rem; }
   .foot-legal { flex-direction: column; gap: 0.7rem; font-size: 0.6rem; }
@@ -832,14 +827,12 @@ body.modal-open { overflow: hidden; }
   }
   .ba .handle::before { left: 31px; width: 1px; }
   .ba .handle::after { width: 40px; height: 40px; font-size: 0.82rem; }
-  .center-head, .section-head { margin-bottom: 2.4rem; }
 }
 
 /* ---- Very small phones: 380px and below ---- */
 @media (max-width: 380px) {
   .logo-img { height: 38px; }
   .hero h1 { font-size: 2.1rem; }
-  .eyebrow { font-size: 0.62rem; letter-spacing: 0.3em; }
   .stats { grid-template-columns: 1fr; }
   .stat { border-left: none; border-top: 1px solid var(--line-dark); }
   .stat:first-child { border-top: none; }

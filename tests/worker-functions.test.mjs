@@ -131,14 +131,22 @@ test("contact endpoint validates body size, origin, fields, honeypot, and config
     body: new URLSearchParams({ ...validFields, email: "not-an-email" })
   }), env, context());
   assert.equal(invalidFields.status, 422);
+  assert.deepEqual((await json(invalidFields)).fields, ["email"]);
 
     const honeypot = await worker.fetch(requestFor("/api/contact", {
     method: "POST",
     headers: { Origin: origin, "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({ ...validFields, company: "bot" })
+    body: new URLSearchParams({ ...validFields, form_note: "bot" })
   }), env, context());
   assert.equal(honeypot.status, 202);
   assert.deepEqual(await json(honeypot), { ok: true });
+
+    const legacyAutofill = await worker.fetch(requestFor("/api/contact", {
+    method: "POST",
+    headers: { Origin: origin, "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({ ...validFields, company: "autofilled value" })
+  }), env, context());
+  assert.equal(legacyAutofill.status, 503);
 
     const unconfigured = await worker.fetch(requestFor("/api/contact", {
     method: "POST",

@@ -286,9 +286,9 @@
     </header>
 
     <form class="inquiry-form" name="appointment-request" action="/api/contact" method="POST" data-contact-form data-analytics-form="appointment_request" novalidate>
-      <div class="field form-honeypot" aria-hidden="true">
-        <label for="rq-company">Company</label>
-        <input id="rq-company" name="company" type="text" tabindex="-1" autocomplete="off">
+      <div class="field form-honeypot" aria-hidden="true" hidden>
+        <label for="rq-form-note">Leave this field blank</label>
+        <input id="rq-form-note" name="form_note" type="text" tabindex="-1" autocomplete="off" readonly>
       </div>
 
       <div class="inquiry-progress" data-inquiry-progress>
@@ -309,6 +309,7 @@
           <label class="inquiry-chip"><input type="radio" name="treatment" value="checkup"><span><strong>Checkup and Cleaning</strong><small>Routine or new-patient exam</small></span></label>
           <label class="inquiry-chip"><input type="radio" name="treatment" value="other"><span><strong>Not Sure Yet</strong><small>Tell us what's on your mind</small></span></label>
         </div>
+        <p class="inquiry-field-error" id="rq-treatment-error" data-inquiry-field-error="treatment" role="alert" hidden></p>
         <p class="inquiry-error" data-inquiry-error role="alert" hidden></p>
       </fieldset>
 
@@ -318,6 +319,7 @@
           <label class="inquiry-chip"><input type="radio" name="preferred-response" value="phone" checked><span><strong>Phone call</strong><small>Quickest way to settle on a time</small></span></label>
           <label class="inquiry-chip"><input type="radio" name="preferred-response" value="email"><span><strong>Email</strong><small>Best if you're hard to reach by phone</small></span></label>
         </div>
+        <p class="inquiry-field-error" id="rq-preferred-response-error" data-inquiry-field-error="preferred-response" role="alert" hidden></p>
         <p class="inquiry-question inquiry-question-secondary" id="inquiry-time-label">When works best for you?</p>
         <p class="inquiry-help">Our office hours are Monday to Thursday, 8:00am to 3:00pm.</p>
         <div class="inquiry-choices inquiry-choices-row" role="radiogroup" aria-labelledby="inquiry-time-label" data-inquiry-group="preferred-time">
@@ -325,6 +327,7 @@
           <label class="inquiry-chip inquiry-chip-compact"><input type="radio" name="preferred-time" value="afternoon"><span><strong>Early afternoons</strong></span></label>
           <label class="inquiry-chip inquiry-chip-compact"><input type="radio" name="preferred-time" value="flexible" checked><span><strong>Flexible</strong></span></label>
         </div>
+        <p class="inquiry-field-error" id="rq-preferred-time-error" data-inquiry-field-error="preferred-time" role="alert" hidden></p>
         <p class="inquiry-error" data-inquiry-error role="alert" hidden></p>
       </fieldset>
 
@@ -333,15 +336,18 @@
         <div class="form-grid inquiry-grid">
           <div class="field full">
             <label for="rq-name">Full name</label>
-            <input id="rq-name" name="name" type="text" required autocomplete="name">
+            <input id="rq-name" name="name" type="text" required maxlength="100" autocomplete="name" aria-describedby="rq-name-error">
+            <p class="inquiry-field-error" id="rq-name-error" data-inquiry-field-error="name" role="alert" hidden></p>
           </div>
           <div class="field">
             <label for="rq-phone">Phone <span data-inquiry-optional="phone" hidden>(optional)</span></label>
-            <input id="rq-phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel">
+            <input id="rq-phone" name="phone" type="tel" required maxlength="50" autocomplete="tel" inputmode="tel" aria-describedby="rq-phone-error">
+            <p class="inquiry-field-error" id="rq-phone-error" data-inquiry-field-error="phone" role="alert" hidden></p>
           </div>
           <div class="field">
             <label for="rq-email">Email <span data-inquiry-optional="email">(optional)</span></label>
-            <input id="rq-email" name="email" type="email" autocomplete="email" inputmode="email">
+            <input id="rq-email" name="email" type="email" maxlength="254" autocomplete="email" inputmode="email" aria-describedby="rq-email-error">
+            <p class="inquiry-field-error" id="rq-email-error" data-inquiry-field-error="email" role="alert" hidden></p>
           </div>
           <div class="field full inquiry-pills-field">
             <span class="inquiry-pills-label" id="inquiry-new-patient-label">Are you a new patient?</span>
@@ -349,10 +355,12 @@
               <label class="inquiry-pill"><input type="radio" name="new-patient" value="Yes" checked><span>Yes</span></label>
               <label class="inquiry-pill"><input type="radio" name="new-patient" value="No"><span>No, I've visited before</span></label>
             </div>
+            <p class="inquiry-field-error" id="rq-new-patient-error" data-inquiry-field-error="new-patient" role="alert" hidden></p>
           </div>
           <div class="field full">
             <label for="rq-message">Anything you'd like us to know? <span class="inquiry-label-note">(optional)</span></label>
-            <textarea id="rq-message" name="message" rows="3" maxlength="2000" placeholder="A question, a timeline, or what prompted your visit."></textarea>
+            <textarea id="rq-message" name="message" rows="3" maxlength="2000" placeholder="A question, a timeline, or what prompted your visit." aria-describedby="rq-message-error"></textarea>
+            <p class="inquiry-field-error" id="rq-message-error" data-inquiry-field-error="message" role="alert" hidden></p>
           </div>
         </div>
         <p class="inquiry-error" data-inquiry-error role="alert" hidden></p>

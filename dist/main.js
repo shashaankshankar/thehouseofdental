@@ -841,7 +841,18 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   const phoneField = form.querySelector('input[name="phone"]');
   const emailField = form.querySelector('input[name="email"]');
   const nameField = form.querySelector('input[name="name"]');
+  const messageField = form.querySelector('textarea[name="message"]');
   const total = steps.length;
+  const fieldErrorMessage = {
+    name: "Please tell us your name.",
+    phone: "Enter a phone number with at least 7 digits.",
+    email: "Enter a valid email address.",
+    treatment: "Choose the option that fits best so we can route your request.",
+    "preferred-response": "Choose whether we should call or email you.",
+    "preferred-time": "Choose a preferred time or select Flexible.",
+    "new-patient": "Tell us whether you are a new patient.",
+    message: "Keep your note under 2,000 characters."
+  };
   const reducedMotion = () => window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches === true;
   const isInquiryHash = (hash) => hash === "#request" || hash === "#book";
 
@@ -852,6 +863,26 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
 
   const checked = (name) => form.querySelector(`input[name="${name}"]:checked`);
   const choiceLabel = (name) => checked(name)?.parentElement?.querySelector("strong")?.textContent?.trim() || "";
+  const fieldsFor = (name) => [...form.querySelectorAll("[name]")].filter((field) => field.name === name);
+  const fieldError = (name) => form.querySelector(`[data-inquiry-field-error="${name}"]`);
+  const setFieldError = (name, message = "") => {
+    const error = fieldError(name);
+    if (error) {
+      error.textContent = message;
+      error.hidden = !message;
+    }
+    fieldsFor(name).forEach((field) => {
+      field.setAttribute("aria-invalid", String(Boolean(message)));
+      if (!error?.id) return;
+      const describedBy = new Set((field.getAttribute("aria-describedby") || "").split(/\s+/).filter(Boolean));
+      if (message) describedBy.add(error.id);
+      else describedBy.delete(error.id);
+      if (describedBy.size) field.setAttribute("aria-describedby", [...describedBy].join(" "));
+      else field.removeAttribute("aria-describedby");
+    });
+  };
+  const clearFieldErrors = () => form.querySelectorAll("[data-inquiry-field-error]").forEach((error) => setFieldError(error.dataset.inquiryFieldError, ""));
+  const clearStepFieldErrors = (step) => step.querySelectorAll("[data-inquiry-field-error]").forEach((error) => setFieldError(error.dataset.inquiryFieldError, ""));
   const focusFirst = (step) => {
     const target = step.querySelector('input:checked, input:not([type="radio"]):not([type="hidden"]), textarea, input');
     if (!target) return;
@@ -913,7 +944,10 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       const active = position + 1 === current;
       step.hidden = !active;
       step.classList.toggle("is-entering", active && !reducedMotion());
-      if (!active) setError(step, "");
+      if (!active) {
+        setError(step, "");
+        clearStepFieldErrors(step);
+      }
     });
     progressLabel.textContent = `Step ${current} of ${total}`;
     progressBars.forEach((bar, position) => bar.classList.toggle("is-done", position < current));
@@ -930,26 +964,34 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   const validateStep = (index) => {
     const step = steps[index - 1];
     if (index === 1 && !checked("treatment")) {
-      setError(step, "Choose the option that fits best so we can route your request.");
+      setFieldError("treatment", fieldErrorMessage.treatment);
       return false;
     }
     if (index === 2 && !checked("preferred-response")) {
-      setError(step, "Let us know whether to call or email you.");
+      setFieldError("preferred-response", fieldErrorMessage["preferred-response"]);
       return false;
     }
     if (index === 3) {
       syncContactRequirements();
+      clearStepFieldErrors(step);
       const fields = [nameField, phoneField, emailField];
-      const invalid = fields.filter((field) => !field.checkValidity());
-      fields.forEach((field) => field.setAttribute("aria-invalid", String(invalid.includes(field))));
+      const phoneValue = phoneField.value.trim();
+      const emailValue = emailField.value.trim();
+      const phoneLooksValid = /^[+()\d.\-\s]{7,50}$/.test(phoneValue) && phoneValue.replace(/\D/g, "").length >= 7;
+      const emailLooksValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue);
+      const manualInvalid = new Set();
+      if (!nameField.value.trim() || nameField.value.trim().length > 100) manualInvalid.add(nameField);
+      if ((phoneField.required && !phoneValue) || (phoneValue && (!phoneLooksValid || phoneValue.length > 50))) manualInvalid.add(phoneField);
+      if ((emailField.required && !emailValue) || (emailValue && (!emailLooksValid || emailValue.length > 254))) manualInvalid.add(emailField);
+      const invalid = fields.filter((field) => manualInvalid.has(field) || !field.checkValidity());
       if (invalid.length) {
         const first = invalid[0];
         const messages = {
-          name: "Please tell us your name.",
-          phone: phoneField.required && !phoneField.value.trim() ? "Add the phone number we should call." : "That phone number doesn't look right.",
-          email: emailField.required && !emailField.value.trim() ? "Add the email address we should reply to." : "That email address doesn't look right."
+          name: fieldErrorMessage.name,
+          phone: phoneField.required && !phoneValue ? "Add the phone number we should call." : fieldErrorMessage.phone,
+          email: emailField.required && !emailValue ? "Add the email address we should reply to." : fieldErrorMessage.email
         };
-        setError(step, messages[first.name]);
+        setFieldError(first.name, messages[first.name]);
         first.focus({ preventScroll: true });
         return false;
       }
@@ -967,6 +1009,7 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       status.textContent = "";
       delete status.dataset.state;
     }
+    clearFieldErrors();
     form.querySelectorAll("[aria-invalid]").forEach((field) => field.removeAttribute("aria-invalid"));
     showStep(1, { focus: false });
   };
@@ -1035,8 +1078,23 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     }
   });
   form.querySelectorAll('input[name="preferred-response"]').forEach((input) => input.addEventListener("change", syncContactRequirements));
-  form.querySelectorAll('input[type="radio"]').forEach((input) => input.addEventListener("change", () => setError(input.closest("[data-inquiry-step]"), "")));
-  [nameField, phoneField, emailField].forEach((field) => field.addEventListener("input", () => field.removeAttribute("aria-invalid")));
+  form.querySelectorAll('input[type="radio"]').forEach((input) => input.addEventListener("change", () => {
+    setFieldError(input.name, "");
+    setError(input.closest("[data-inquiry-step]"), "");
+  }));
+  [nameField, phoneField, emailField, messageField].forEach((field) => field.addEventListener("input", () => setFieldError(field.name, "")));
+  form.addEventListener("contact:validation-error", (event) => {
+    const fields = [...new Set((event.detail?.fields || []).filter((name) => fieldErrorMessage[name]))];
+    if (!fields.length) return;
+    clearFieldErrors();
+    const firstField = fieldsFor(fields[0])[0];
+    const targetStep = firstField?.closest("[data-inquiry-step]");
+    const targetIndex = targetStep ? steps.indexOf(targetStep) + 1 : total;
+    showStep(targetIndex, { focus: false });
+    fields.forEach((name) => setFieldError(name, fieldErrorMessage[name]));
+    const firstInvalid = fields.flatMap(fieldsFor)[0];
+    firstInvalid?.focus({ preventScroll: true });
+  });
   form.addEventListener("contact:success", () => {
     completed = true;
     form.hidden = true;
@@ -1159,7 +1217,13 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
           body: new URLSearchParams(new FormData(form))
         });
         const result = await response.json().catch(() => ({}));
-        if (!response.ok || result.ok !== true) throw new Error(result.error || "Request failed");
+        // A 202 is the Worker honeypot response, not a sent message.
+        if (response.status !== 200 || result.ok !== true) {
+          const error = new Error(result.error || "Request failed");
+          error.status = response.status;
+          error.result = result;
+          throw error;
+        }
         const message = result.message || "Your request was sent. We'll get back to you soon.";
         form.reset();
         setStatus(message, "success");
@@ -1167,8 +1231,14 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
         window.thodAnalytics?.track("generate_lead", { ctaLocation: "contact_form" });
         window.thodAnalytics?.track("appointment_request", { ctaLocation: "contact_form" });
         form.dispatchEvent(new CustomEvent("contact:success", { bubbles: true, detail: { message } }));
-      } catch {
-        setStatus("We couldn't send your request online. Please call (407) 678-1400.", "error");
+      } catch (error) {
+        if (error.status === 422 && Array.isArray(error.result?.fields)) {
+          form.dispatchEvent(new CustomEvent("contact:validation-error", {
+            bubbles: true,
+            detail: { fields: error.result.fields }
+          }));
+        }
+        setStatus(error.result?.error || "We couldn't send your request online. Please call (407) 678-1400.", "error");
       } finally {
         button?.removeAttribute("aria-busy");
         if (button) button.disabled = false;

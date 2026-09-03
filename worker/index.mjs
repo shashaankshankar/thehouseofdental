@@ -314,7 +314,9 @@ const handleContact = async (request, env) => {
   }
 
   const body = parseBody(request, bodyResult.text);
-  if (textValue(body.company)) return jsonResponse(202, { ok: true });
+  // Keep this decoy name unrelated to common autofill fields such as "company".
+  // The old field is intentionally ignored so cached forms cannot suppress a real request.
+  if (textValue(body.form_note)) return jsonResponse(202, { ok: true });
 
   const contact = {
     name: textValue(body.name),
@@ -340,7 +342,7 @@ const handleContact = async (request, env) => {
   if (contact.preferredResponse && !RESPONSE_LABELS[contact.preferredResponse]) errors.push("preferred-response");
   if (contact.preferredTime && !PREFERRED_TIME_LABELS[contact.preferredTime]) errors.push("preferred-time");
   if (contact.message.length > MAX_LENGTHS.message) errors.push("message");
-  if (errors.length) return jsonResponse(422, { error: "Please review the highlighted fields and try again." });
+  if (errors.length) return jsonResponse(422, { error: "Please review the highlighted fields and try again.", fields: [...new Set(errors)] });
 
   const resendApiKey = String(env.RESEND_API_KEY || "").trim();
   const fromEmail = String(env.CONTACT_FROM_EMAIL || "").trim();

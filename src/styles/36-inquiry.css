@@ -267,10 +267,19 @@
 .inquiry .field textarea { font-size: 1rem; }
 .inquiry .field input[aria-invalid="true"],
 .inquiry .field textarea[aria-invalid="true"] { border-bottom-color: #9a3b26; }
+.inquiry .inquiry-chip input[aria-invalid="true"] + span,
+.inquiry .inquiry-pill input[aria-invalid="true"] + span { border-color: #9a3b26; }
 .inquiry .field textarea { min-height: 96px; }
 .inquiry-label-note,
 .inquiry .field label span { letter-spacing: 0.12em; color: rgba(28, 27, 24, 0.5); }
 
+.inquiry-field-error {
+  margin: -0.15rem 0 0;
+  color: #9a3b26;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+.inquiry-field-error[hidden] { display: none; }
 .inquiry-error {
   margin-top: 0.9rem;
   color: #9a3b26;

@@ -25,7 +25,13 @@
           body: new URLSearchParams(new FormData(form))
         });
         const result = await response.json().catch(() => ({}));
-        if (!response.ok || result.ok !== true) throw new Error(result.error || "Request failed");
+        // A 202 is the Worker honeypot response, not a sent message.
+        if (response.status !== 200 || result.ok !== true) {
+          const error = new Error(result.error || "Request failed");
+          error.status = response.status;
+          error.result = result;
+          throw error;
+        }
         const message = result.message || "Your request was sent. We'll get back to you soon.";
         form.reset();
         setStatus(message, "success");
@@ -33,8 +39,14 @@
         window.thodAnalytics?.track("generate_lead", { ctaLocation: "contact_form" });
         window.thodAnalytics?.track("appointment_request", { ctaLocation: "contact_form" });
         form.dispatchEvent(new CustomEvent("contact:success", { bubbles: true, detail: { message } }));
-      } catch {
-        setStatus("We couldn't send your request online. Please call (407) 678-1400.", "error");
+      } catch (error) {
+        if (error.status === 422 && Array.isArray(error.result?.fields)) {
+          form.dispatchEvent(new CustomEvent("contact:validation-error", {
+            bubbles: true,
+            detail: { fields: error.result.fields }
+          }));
+        }
+        setStatus(error.result?.error || "We couldn't send your request online. Please call (407) 678-1400.", "error");
       } finally {
         button?.removeAttribute("aria-busy");
         if (button) button.disabled = false;

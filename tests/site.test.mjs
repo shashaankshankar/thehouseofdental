@@ -338,7 +338,7 @@ test("successful contact response emits the three consented post-success events 
     window,
     document,
     localStorage: { getItem: (key) => stored.get(key) || null, setItem: (key, value) => stored.set(key, value) },
-    fetch: async () => ({ ok: true, json: async () => ({ ok: true, message: "Your request was sent. We'll get back to you soon." }) }),
+    fetch: async () => ({ ok: true, status: 200, json: async () => ({ ok: true, message: "Your request was sent. We'll get back to you soon." }) }),
     FormData: TestFormData,
     CustomEvent: TestCustomEvent,
     URLSearchParams,
@@ -371,6 +371,12 @@ test("successful contact response emits the three consented post-success events 
   assert.deepEqual(JSON.parse(JSON.stringify(form.dispatched.map((event) => [event.type, event.bubbles, event.detail]))), [
     ["contact:success", true, { message: "Your request was sent. We'll get back to you soon." }]
   ]);
+
+  context.fetch = async () => ({ ok: true, status: 202, json: async () => ({ ok: true }) });
+  await form.dispatch("submit", { preventDefault() {} });
+  assert.equal(status.dataset.state, "error");
+  assert.equal(form.resetCount, 1);
+  assert.equal(form.dispatched.length, 1);
 });
 
 test("appointment request drawer ships on full-shell pages and opens from every request link", async () => {
@@ -443,6 +449,23 @@ test("appointment request contact fields follow the selected response channel", 
   assert.match(script, /emailField\.setAttribute\("aria-required", String\(emailRequired\)\);/);
   assert.match(script, /hint\.hidden = hint\.dataset\.inquiryOptional === "phone" \? phoneRequired : emailRequired;/);
   assert.match(script, /submitButton\.hidden = current !== total;\s*syncContactRequirements\(\);/);
+});
+
+test("contact validation exposes the rejected fields to visitors", async () => {
+  const template = await readFile("src/templates/inquiry.html", "utf8");
+  const inquiryScript = await readFile("src/scripts/45-inquiry.js", "utf8");
+  const formScript = await readFile("src/scripts/60-forms.js", "utf8");
+  const worker = await readFile("worker/index.mjs", "utf8");
+  const styles = await readFile("src/styles/36-inquiry.css", "utf8");
+  assert.match(template, /name="phone"[^>]+aria-describedby="rq-phone-error"/);
+  assert.match(template, /data-inquiry-field-error="phone"/);
+  assert.match(inquiryScript, /phoneLooksValid/);
+  assert.match(inquiryScript, /contact:validation-error/);
+  assert.match(formScript, /error\.result\.fields/);
+  assert.match(formScript, /contact:validation-error/);
+  assert.match(worker, /fields: \[\.\.\.new Set\(errors\)\]/);
+  assert.match(styles, /\.inquiry-field-error/);
+  assert.match(styles, /inquiry-chip input\[aria-invalid="true"\]/);
 });
 
 test("office status resolves against the Eastern-time Monday to Thursday schedule", async () => {
@@ -577,14 +600,19 @@ test("contact form targets the Resend-backed Worker contact endpoint", async () 
   const html = await readFile("dist/contact.html", "utf8");
   const script = await readFile("dist/main.js", "utf8");
   const formScript = await readFile("src/scripts/60-forms.js", "utf8");
+  const utilityStyles = await readFile("src/styles/50-utilities.css", "utf8");
   const endpoint = await readFile("worker/index.mjs", "utf8");
   assert.match(html, /<form[^>]+action="\/api\/contact"[^>]+method="POST"[^>]+data-contact-form/);
-  assert.match(html, /name="company"/);
+  assert.match(html, /name="form_note"/);
+  assert.match(html, /name="form_note"[^>]+readonly/);
+  assert.doesNotMatch(html, /name="company"/);
+  assert.match(utilityStyles, /\.form-honeypot\[hidden\]\s*\{\s*display:\s*none;/);
   assert.match(html, /id="inquiry-status" data-form-status/);
   assert.match(html, />Send Request</);
   assert.doesNotMatch(html, /data-netlify|name="form-name"/);
   assert.match(formScript, /preventDefault\(\)/);
   assert.match(formScript, /URLSearchParams\(new FormData\(form\)\)/);
+  assert.match(formScript, /response\.status !== 200/);
   assert.match(formScript, /querySelectorAll\("form\[data-contact-form\]"\)/);
   assert.match(endpoint, /RESEND_API_KEY/);
   assert.match(endpoint, /CONTACT_FROM_EMAIL/);

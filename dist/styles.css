@@ -4274,10 +4274,19 @@ header.site .minimal-nav .btn,
 .inquiry .field textarea { font-size: 1rem; }
 .inquiry .field input[aria-invalid="true"],
 .inquiry .field textarea[aria-invalid="true"] { border-bottom-color: #9a3b26; }
+.inquiry .inquiry-chip input[aria-invalid="true"] + span,
+.inquiry .inquiry-pill input[aria-invalid="true"] + span { border-color: #9a3b26; }
 .inquiry .field textarea { min-height: 96px; }
 .inquiry-label-note,
 .inquiry .field label span { letter-spacing: 0.12em; color: rgba(28, 27, 24, 0.5); }
 
+.inquiry-field-error {
+  margin: -0.15rem 0 0;
+  color: #9a3b26;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+.inquiry-field-error[hidden] { display: none; }
 .inquiry-error {
   margin-top: 0.9rem;
   color: #9a3b26;
@@ -4882,6 +4891,7 @@ PRINT STYLESHEET — clean output, nothing cut off
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
 .foot-legal a { color: inherit; text-decoration: underline; text-underline-offset: .2em; }
 .form-honeypot { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.form-honeypot[hidden] { display: none; }
 .form-status { max-width: 38rem; margin-top: .8rem; text-align: center; color: var(--gold); }
 .form-status:focus { outline: none; }
 .legal-copy { color: var(--ink); }

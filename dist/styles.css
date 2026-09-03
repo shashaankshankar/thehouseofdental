@@ -2429,9 +2429,9 @@ header.site .minimal-nav .btn,
 .aesthetic-head {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(2.5rem, 6vw, 5rem);
+  gap: clamp(2rem, 5vw, 4.5rem);
   align-items: center;
-  margin-bottom: clamp(3rem, 7vh, 5rem);
+  margin-bottom: clamp(2.5rem, 5vh, 4rem);
 }
 .aesthetic-flip .aesthetic-head .aesthetic-media { order: 2; }
 .aesthetic-media {
@@ -2439,11 +2439,18 @@ header.site .minimal-nav .btn,
   border: 1px solid var(--line-dark);
 }
 .aesthetic-media img {
+  display: block;
   width: 100%;
-  aspect-ratio: 4/3;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  max-height: min(420px, 48vh);
   object-fit: cover;
   background: linear-gradient(150deg, rgba(198,161,91,0.2), rgba(28,27,24,0.9));
 }
+#deka-laser .aesthetic-media img { object-position: center 30%; }
+#microneedling .aesthetic-media img { object-position: center 40%; }
+#emage-scan .aesthetic-media img { object-position: center 25%; }
+#hydroderm-facial .aesthetic-media img { object-position: center 40%; }
 .aesthetic-media::after {
   content: "";
   position: absolute;
@@ -2451,6 +2458,9 @@ header.site .minimal-nav .btn,
   border: 1px solid var(--gold);
   opacity: 0.4;
   z-index: -1;
+}
+.aesthetic-flip .aesthetic-media::after {
+  inset: 1.2rem 1.2rem -1.2rem -1.2rem;
 }
 .aesthetic-intro h2 { font-size: clamp(2rem, 3.8vw, 3.2rem); margin-bottom: 1.3rem; }
 .aesthetic-lede {
@@ -2521,18 +2531,34 @@ header.site .minimal-nav .btn,
 .expect-row p { font-size: 0.88rem; color: var(--mist); line-height: 1.65; }
 
 @media (max-width: 1000px) {
+  .aesthetic-head { gap: clamp(1.5rem, 3vw, 2.5rem); }
+  .aesthetic-media img { max-height: 340px; }
   .expect-grid { grid-template-columns: 1fr 1fr; }
   .aesthetic-body { grid-template-columns: 1fr; }
   .aesthetic-aside { border-left: none; border-top: 1px solid var(--gold); padding-left: 0; padding-top: 1.6rem; }
 }
 @media (max-width: 760px) {
-  .aesthetic-head { grid-template-columns: 1fr; }
+  .aesthetic-head {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+    margin-bottom: clamp(2rem, 4vh, 2.75rem);
+  }
   .aesthetic-flip .aesthetic-head .aesthetic-media { order: 0; }
+  .aesthetic-media img {
+    aspect-ratio: 16 / 10;
+    max-height: clamp(200px, 46vw, 300px);
+  }
   .aesthetic-media::after { display: none; }
   .expect-grid { grid-template-columns: 1fr; }
   .aesthetic-nav { position: static; }
   .aesthetic-nav .wrap { gap: 1rem; }
   .aesthetic-nav a { font-size: 0.64rem; }
+}
+@media (max-width: 480px) {
+  .aesthetic-media img {
+    aspect-ratio: 16 / 9;
+    max-height: 220px;
+  }
 }
 
 
@@ -3360,7 +3386,7 @@ header.site .minimal-nav .btn,
     display: grid;
     inset: 20% 0 calc(var(--hero-strip-h, 6.7rem) + 1rem);
     grid-template-columns: minmax(0, 720px) minmax(20rem, 1fr);
-    grid-template-rows: repeat(6, auto);
+    grid-template-rows: repeat(5, auto);
     column-gap: clamp(2rem, 4vw, 5rem);
     align-content: end;
     align-items: start;
@@ -3373,11 +3399,11 @@ header.site .minimal-nav .btn,
   .home-hero .hero-copy > .hero-proof-inline { grid-column: 1; grid-row: 5; margin-top: 0.8rem; }
   .home-hero .hero-offer-cue {
     position: static;
-    grid-column: 1;
-    grid-row: 6;
+    grid-column: 2;
+    grid-row: 4 / 6;
     align-self: center;
-    justify-self: start;
-    margin-top: 1rem;
+    justify-self: end;
+    margin-top: 0;
   }
 }
 

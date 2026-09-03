@@ -787,7 +787,7 @@ test("homepage follows the approved needs-led conversion journey", async () => {
   assert.match(styles, /@media \(max-width: 900px\), \(max-height: 620px\) and \(orientation: landscape\)[\s\S]*?\.hero-offer-cue--desktop\s*\{\s*display:\s*none;\s*\}[\s\S]*?\.hero-offer-cue--responsive\s*\{\s*display:\s*grid;\s*\}/);
   assert.match(styles, /@media \(max-width: 560px\)[\s\S]*?\.hero-offer-cue\s*\{[^}]*padding:\s*\.95rem 5vw;/);
   assert.match(styles, /@media \(min-width: 901px\) and \(min-height: 621px\)[\s\S]*?\.home-hero \.hero-bg\s*\{\s*background-position:\s*center 45%;\s*\}/);
-  assert.match(styles, /\.home-hero \.hero-copy > \.hero-cta\s*\{[^}]*grid-row:\s*4;[^}]*\}[\s\S]*?\.home-hero \.hero-copy > \.hero-proof-inline\s*\{[^}]*grid-row:\s*5;[^}]*\}[\s\S]*?\.home-hero \.hero-offer-cue\s*\{[^}]*grid-row:\s*6;/);
+  assert.match(styles, /\.home-hero \.hero-copy > \.hero-cta\s*\{[^}]*grid-row:\s*4;[^}]*\}[\s\S]*?\.home-hero \.hero-copy > \.hero-proof-inline\s*\{[^}]*grid-row:\s*5;[^}]*\}[\s\S]*?\.home-hero \.hero-offer-cue\s*\{[^}]*grid-column:\s*2;[^}]*grid-row:\s*4\s*\/\s*6;/);
   assert.equal((html.match(/class="home-offer-card/g) || []).length, 1);
   assert.match(styles, /\.home-offers-grid[^}]*repeat\(auto-fit, minmax\(min\(100%, 300px\), 1fr\)\)/);
   assert.match(html, /assets\/dr-patel-home-cutout\.png/);

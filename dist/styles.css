@@ -2587,17 +2587,37 @@ header.site .minimal-nav .btn,
   background: rgba(255, 255, 255, 0.018);
 }
 
-/* Reviews KPI strip: keep the visual rhythm quiet and vertical. */
+/* Reviews KPI strip: keep the two primary counts balanced, with the
+   supporting star proof point centered beneath them when space is limited. */
 .sec-noir.review-kpi-section {
   padding-top: 0;
 }
 .review-kpi-section .stats {
-  grid-template-columns: repeat(3, 1fr); /* Polish 06: three tiles, no filler */
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* Polish 06: three tiles, no filler */
   border-top: 0;
   border-bottom: 0;
 }
 @media (max-width: 1000px) {
-  .review-kpi-section .stat:nth-child(3) { grid-column: 1 / -1; }
+  .review-kpi-section .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .review-kpi-section .stat {
+    min-width: 0;
+  }
+  .review-kpi-section .stat:nth-child(3) {
+    grid-column: 1 / -1;
+    border-left: 0;
+  }
+}
+@media (max-width: 560px) {
+  .review-kpi-section .stat { padding: 1.55rem 0.3rem; }
+  .review-kpi-section .stat .lab {
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    line-height: 1.45;
+  }
+}
+@media (max-width: 380px) {
+  .review-kpi-section .stat { padding-inline: 0.15rem; }
+  .review-kpi-section .stat .lab { font-size: 0.54rem; letter-spacing: 0.12em; }
 }
 
 @media (max-width: 560px) {

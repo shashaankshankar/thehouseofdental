@@ -556,6 +556,13 @@ test("Google reputation integration has a safe fallback and no client API key", 
   assert.doesNotMatch(script, /GOOGLE_PLACES_API_KEY/);
 });
 
+test("reviews KPI strip uses a balanced two-row mobile layout", async () => {
+  const styles = await readFile("dist/styles.css", "utf8");
+  assert.match(styles, /\.review-kpi-section \.stats \{\s*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\);/);
+  assert.match(styles, /@media \(max-width: 1000px\) \{\s*\.review-kpi-section \.stats \{\s*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);/);
+  assert.match(styles, /\.review-kpi-section \.stat:nth-child\(3\) \{\s*grid-column: 1 \/ -1;\s*border-left: 0;/);
+});
+
 test("generated pages contain no inline implementation code", async () => {
   for (const page of pages) {
     const html = await readFile(`dist/${page}`, "utf8");

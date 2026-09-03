@@ -294,9 +294,9 @@ const contactEmailPayload = (contact, fromEmail, recipientEmail) => {
   const payload = {
     from: fromEmail,
     to: [recipientEmail],
-    subject: `Website appointment request from ${contact.name}`,
+    subject: `Website Appointment Request from ${contact.name}`,
     text: [...rows.map(([label, value]) => `${label}: ${value}`), "", message].join("\n"),
-    html: `<h2>Website appointment request</h2>${rows.map(([label, value]) => `<p><strong>${label}:</strong> ${escapeHtml(value)}</p>`).join("")}<p><strong>Message:</strong></p><p>${escapeHtml(message).replace(/\n/g, "<br>")}</p>`
+    html: `<h2>Website Appointment Request</h2>${rows.map(([label, value]) => `<p><strong>${label}:</strong> ${escapeHtml(value)}</p>`).join("")}<p><strong>Message:</strong></p><p>${escapeHtml(message).replace(/\n/g, "<br>")}</p>`
   };
   if (contact.email) payload.reply_to = [contact.email];
   return payload;

@@ -186,7 +186,7 @@ test("contact endpoint sends the mapped Resend payload", async () => {
     const payload = JSON.parse(captured.options.body);
     assert.deepEqual(payload.to, ["office@example.com"]);
     assert.deepEqual(payload.reply_to, [validFields.email]);
-    assert.equal(payload.subject, "Website appointment request from Test Patient");
+    assert.equal(payload.subject, "Website Appointment Request from Test Patient");
     assert.match(payload.html, /Test Patient/);
     assert.match(payload.text, /Interested in: Not provided\nPreferred follow-up: Not provided\nPreferred time: Not provided/);
     assert.doesNotMatch(payload.html, /<script>/);

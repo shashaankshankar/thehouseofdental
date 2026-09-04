@@ -1,7 +1,7 @@
 const MAX_BODY_BYTES = 12000;
-const MAX_REPORT_BODY_BYTES = 8_000_000;
-const MAX_REPORT_ATTACHMENT_BASE64 = 7_000_000;
 const WEBHOOK_TOLERANCE_SECONDS = 300;
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const CONTACT_IDEMPOTENCY_SCOPE = "website-contact";
 const RESEND_WEBHOOK_EVENTS = new Set([
   "email.sent",
   "email.delivered",
@@ -66,6 +66,23 @@ const jsonResponse = (status, body, { allow = "", cacheControl = "no-store" } = 
 };
 
 const textValue = (value) => (typeof value === "string" ? value.trim() : "");
+
+const validUuid = (value) => UUID_PATTERN.test(value) ? value.toLowerCase() : "";
+
+const contactAttemptId = (request) => {
+  for (const header of ["idempotency-key", "x-contact-attempt-id"]) {
+    const value = validUuid(request.headers.get(header)?.trim() || "");
+    if (value) return value;
+  }
+  return crypto.randomUUID().toLowerCase();
+};
+
+const resendContactIdempotencyKey = (attemptId) => `${CONTACT_IDEMPOTENCY_SCOPE}:${attemptId}`;
+
+const hashTechnicalIdentifier = async (value) => {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+};
 
 const configuredOrigins = (env) => String(env.CONTACT_ALLOWED_ORIGINS || "")
   .split(",")
@@ -139,22 +156,115 @@ const escapeHtml = (value) => value.replace(/[&<>"']/g, (character) => ({
   "'": "&#39;"
 }[character]));
 
-const constantTimeEqual = async (left, right) => {
-  const encoder = new TextEncoder();
-  const [leftHash, rightHash] = await Promise.all([
-    crypto.subtle.digest("SHA-256", encoder.encode(left)),
-    crypto.subtle.digest("SHA-256", encoder.encode(right))
-  ]);
-  const leftBytes = new Uint8Array(leftHash);
-  const rightBytes = new Uint8Array(rightHash);
-  let difference = leftBytes.length ^ rightBytes.length;
-  for (let index = 0; index < leftBytes.length; index += 1) difference |= leftBytes[index] ^ rightBytes[index];
-  return difference === 0;
-};
-
 const structuredLog = (level, event) => {
   const write = level === "error" ? console.error : level === "warn" ? console.warn : console.log;
   write(JSON.stringify(event));
+};
+
+const deliveryDatabase = (env) => {
+  const database = env?.DELIVERY_DB;
+  return database && typeof database.prepare === "function" ? database : null;
+};
+
+const schedule = async (ctx, promise) => {
+  if (typeof ctx?.waitUntil === "function") {
+    ctx.waitUntil(promise);
+    return;
+  }
+  await promise;
+};
+
+const persistContactCorrelation = async (env, record) => {
+  const database = deliveryDatabase(env);
+  if (!database || !record.submissionHash) return;
+  const clientId = (env && env.CLIENT_ID) || "thehouseofdental";
+  try {
+    await database.prepare(`
+      INSERT INTO delivery_correlations (
+        request_id,
+        submission_hash,
+        client_id,
+        resend_message_id,
+        provider_status,
+        provider_status_code,
+        created_at,
+        updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      ON CONFLICT(submission_hash) DO UPDATE SET
+        request_id = excluded.request_id,
+        client_id = excluded.client_id,
+        resend_message_id = COALESCE(excluded.resend_message_id, delivery_correlations.resend_message_id),
+        provider_status = excluded.provider_status,
+        provider_status_code = excluded.provider_status_code,
+        updated_at = excluded.updated_at
+    `).bind(
+      record.requestId,
+      record.submissionHash,
+      clientId,
+      record.resendMessageId,
+      record.providerStatus,
+      record.providerStatusCode,
+      record.createdAt,
+      record.updatedAt
+    ).run();
+  } catch {
+    structuredLog("warn", {
+      event: "delivery_correlation_persist_failed",
+      operation: "contact",
+      request_id: record.requestId
+    });
+  }
+};
+
+const safeProviderId = (value) => typeof value === "string" && /^[A-Za-z0-9._:-]{1,200}$/.test(value) ? value : null;
+const safeProviderTimestamp = (value) => typeof value === "string" && value.length <= 64 && /^[0-9T:.+Z-]+$/.test(value) ? value : null;
+
+const persistWebhookCorrelation = async (env, record) => {
+  const database = deliveryDatabase(env);
+  if (!database) return { enabled: false, duplicate: false };
+  try {
+    const inserted = await database.prepare(`
+      INSERT INTO delivery_webhook_events (
+        webhook_id,
+        event_type,
+        resend_message_id,
+        provider_event_at,
+        received_at
+      ) VALUES (?, ?, ?, ?, ?)
+      ON CONFLICT(webhook_id) DO NOTHING
+    `).bind(
+      record.webhookId,
+      record.eventType,
+      record.resendMessageId,
+      record.providerEventAt,
+      record.receivedAt
+    ).run();
+    const duplicate = Number.isFinite(Number(inserted?.meta?.changes)) && Number(inserted.meta.changes) === 0;
+    if (!duplicate && record.resendMessageId) {
+      await database.prepare(`
+        UPDATE delivery_correlations
+        SET provider_status = ?,
+            last_webhook_id = ?,
+            last_webhook_at = ?,
+            updated_at = ?
+        WHERE resend_message_id = ?
+      `).bind(
+        record.eventType,
+        record.webhookId,
+        record.providerEventAt || record.receivedAt,
+        record.receivedAt,
+        record.resendMessageId
+      ).run();
+    }
+    return { enabled: true, duplicate };
+  } catch {
+    structuredLog("warn", {
+      event: "delivery_correlation_persist_failed",
+      operation: "webhook",
+      webhook_id: record.webhookId
+    });
+    return { enabled: true, duplicate: false };
+  }
 };
 
 const resendErrorCategory = (status, body) => {
@@ -202,84 +312,6 @@ const verifyResendWebhook = async (request, payload, secret) => {
   return false;
 };
 
-const validBase64 = (value) => typeof value === "string"
-  && value.length > 0
-  && value.length <= MAX_REPORT_ATTACHMENT_BASE64
-  && value.length % 4 === 0
-  && /^[A-Za-z0-9+/]+={0,2}$/.test(value);
-
-const handleReportEmail = async (request, env) => {
-  if (request.method !== "POST") return jsonResponse(405, { error: "Method not allowed." }, { allow: "POST" });
-
-  const relayToken = String(env.REPORT_RELAY_TOKEN || "").trim();
-  const authorization = request.headers.get("authorization") || "";
-  if (relayToken.length < 32 || !await constantTimeEqual(authorization, `Bearer ${relayToken}`)) {
-    return jsonResponse(401, { error: "Unauthorized." });
-  }
-
-  const contentType = (request.headers.get("content-type") || "").toLowerCase();
-  const idempotencyKey = String(request.headers.get("idempotency-key") || "").trim();
-  if (!contentType.includes("application/json") || !/^[A-Za-z0-9:_-]{8,200}$/.test(idempotencyKey)) {
-    return jsonResponse(422, { error: "Invalid report request." });
-  }
-
-  const bodyResult = await readBody(request, MAX_REPORT_BODY_BYTES);
-  if (bodyResult.tooLarge) return jsonResponse(413, { error: "Request is too large." });
-  const body = parseBody(request, bodyResult.text);
-  const recipient = String(env.REPORT_RELAY_RECIPIENT || "").trim().toLowerCase();
-  const sender = String(env.CONTACT_FROM_EMAIL || "").trim();
-  const resendApiKey = String(env.RESEND_API_KEY || "").trim();
-  const recipients = Array.isArray(body.to) ? body.to : [];
-  const attachments = Array.isArray(body.attachments) ? body.attachments : [];
-  const attachment = attachments[0] || {};
-  const subject = textValue(body.subject);
-  const html = typeof body.html === "string" ? body.html : "";
-  const validPayload = isValidEmail(recipient)
-    && recipients.length === 1
-    && textValue(recipients[0]).toLowerCase() === recipient
-    && subject.length > 0
-    && subject.length <= 200
-    && html.length > 0
-    && html.length <= 100_000
-    && attachments.length === 1
-    && /^[A-Za-z0-9_.-]{1,100}\.pdf$/.test(textValue(attachment.filename))
-    && validBase64(attachment.content);
-  if (!resendApiKey || !isValidEmail(sender) || !validPayload) {
-    return jsonResponse(422, { error: "Invalid report request." });
-  }
-
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 15_000);
-  try {
-    const upstream = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${resendApiKey}`,
-        "Content-Type": "application/json",
-        "Idempotency-Key": idempotencyKey,
-        "User-Agent": "the-house-of-dental-report-relay"
-      },
-      body: JSON.stringify({
-        from: sender,
-        to: [recipient],
-        subject,
-        html,
-        attachments: [{ filename: textValue(attachment.filename), content: attachment.content }]
-      }),
-      signal: controller.signal
-    });
-    if (!upstream.ok) return jsonResponse(502, { error: "Report delivery failed." });
-    const result = await upstream.json().catch(() => ({}));
-    if (typeof result.id !== "string" || !result.id) return jsonResponse(502, { error: "Report delivery failed." });
-    return jsonResponse(200, { id: result.id });
-  } catch {
-    return jsonResponse(502, { error: "Report delivery failed." });
-  } finally {
-    clearTimeout(timeout);
-  }
-};
-
 const contactEmailPayload = (contact, fromEmail, recipientEmail) => {
   const rows = [
     ["Name", contact.name],
@@ -302,7 +334,7 @@ const contactEmailPayload = (contact, fromEmail, recipientEmail) => {
   return payload;
 };
 
-const handleContact = async (request, env) => {
+const handleContact = async (request, env, ctx) => {
   if (request.method !== "POST") return jsonResponse(405, { error: "Method not allowed." }, { allow: "POST" });
 
   const bodyResult = await readBody(request);
@@ -316,7 +348,7 @@ const handleContact = async (request, env) => {
   const body = parseBody(request, bodyResult.text);
   // Keep this decoy name unrelated to common autofill fields such as "company".
   // The old field is intentionally ignored so cached forms cannot suppress a real request.
-  if (textValue(body.form_note)) return jsonResponse(202, { ok: true });
+  if (textValue(body.form_note)) return jsonResponse(202, { ok: true, accepted: false });
 
   const contact = {
     name: textValue(body.name),
@@ -352,6 +384,18 @@ const handleContact = async (request, env) => {
   }
 
   const requestId = crypto.randomUUID();
+  const attemptId = contactAttemptId(request);
+  const submissionHash = await hashTechnicalIdentifier(attemptId).catch(() => "");
+  const timestamp = new Date().toISOString();
+  const persist = (providerStatus, providerStatusCode, resendMessageId = null) => schedule(ctx, persistContactCorrelation(env, {
+    requestId,
+    submissionHash,
+    resendMessageId: safeProviderId(resendMessageId),
+    providerStatus,
+    providerStatusCode,
+    createdAt: timestamp,
+    updatedAt: new Date().toISOString()
+  }));
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 8000);
   try {
@@ -361,6 +405,7 @@ const handleContact = async (request, env) => {
         Accept: "application/json",
         Authorization: `Bearer ${resendApiKey}`,
         "Content-Type": "application/json",
+        "Idempotency-Key": resendContactIdempotencyKey(attemptId),
         "User-Agent": "the-house-of-dental-contact-form"
       },
       body: JSON.stringify(contactEmailPayload(contact, fromEmail, recipientEmail)),
@@ -374,20 +419,24 @@ const handleContact = async (request, env) => {
         provider_status: upstream.status,
         category: resendErrorCategory(upstream.status, result)
       });
+      await persist("rejected", upstream.status);
       return jsonResponse(502, { error: "We could not send your message. Please call the office.", request_id: requestId });
     }
     if (typeof result.id !== "string" || !result.id) {
       structuredLog("error", { event: "contact_email_invalid_acceptance", request_id: requestId, provider_status: upstream.status });
+      await persist("invalid_acceptance", upstream.status);
       return jsonResponse(502, { error: "We could not send your message. Please call the office.", request_id: requestId });
     }
+    await persist("accepted", upstream.status, result.id);
     structuredLog("info", { event: "contact_email_accepted", request_id: requestId, email_id: result.id });
-    return jsonResponse(200, { ok: true, message: "Your request was sent. We'll get back to you soon.", request_id: requestId });
+    return jsonResponse(200, { ok: true, accepted: true, message: "Your request was sent. We'll get back to you soon.", request_id: requestId });
   } catch (error) {
     structuredLog("error", {
       event: "contact_email_transport_failure",
       request_id: requestId,
       category: error?.name === "AbortError" ? "timeout" : "network"
     });
+    await persist(error?.name === "AbortError" ? "timeout" : "transport_failure", null);
     return jsonResponse(502, { error: "We could not send your message. Please call the office." });
   } finally {
     clearTimeout(timeout);
@@ -412,11 +461,21 @@ const handleResendWebhook = async (request, env) => {
     return jsonResponse(400, { error: "Invalid webhook payload." });
   }
   if (!RESEND_WEBHOOK_EVENTS.has(event?.type)) return jsonResponse(200, { ok: true });
+  const webhookId = safeProviderId(request.headers.get("svix-id"));
+  const resendMessageId = safeProviderId(event.data?.email_id);
+  const correlation = await persistWebhookCorrelation(env, {
+    webhookId,
+    eventType: event.type,
+    resendMessageId,
+    providerEventAt: safeProviderTimestamp(event.data?.created_at || event.created_at),
+    receivedAt: new Date().toISOString()
+  });
+  if (correlation.duplicate) return jsonResponse(200, { ok: true });
   structuredLog(["email.failed", "email.bounced", "email.complained", "email.suppressed"].includes(event.type) ? "warn" : "info", {
     event: "resend_delivery_event",
     event_type: event.type,
-    email_id: typeof event.data?.email_id === "string" ? event.data.email_id : null,
-    webhook_id: request.headers.get("svix-id")
+    email_id: resendMessageId,
+    webhook_id: webhookId
   });
   return jsonResponse(200, { ok: true });
 };
@@ -490,8 +549,7 @@ const handleReputation = async (request, env, ctx) => {
 const handleApi = (request, env, ctx) => {
   const path = new URL(request.url).pathname;
   if (path === "/api/google-reputation") return handleReputation(request, env, ctx);
-  if (path === "/api/contact") return handleContact(request, env);
-  if (path === "/api/report-email") return handleReportEmail(request, env);
+  if (path === "/api/contact") return handleContact(request, env, ctx);
   if (path === "/api/resend-webhook") return handleResendWebhook(request, env);
   return Promise.resolve(jsonResponse(404, { error: "Not found." }));
 };

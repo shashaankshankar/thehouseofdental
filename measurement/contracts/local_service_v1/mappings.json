@@ -8,7 +8,9 @@
     { "source": "approved appointment endpoint delivery", "event": "appointment_request" },
     { "source": "annotated tel link", "event": "phone_click" },
     { "source": "annotated mailto link", "event": "email_click" },
-    { "source": "annotated appointment or directions link", "event": "cta_click" }
+    { "source": "annotated review, financing, scroll, appointment, or directions link", "event": "cta_click" },
+    { "source": "approved pre/post-care PDF download link", "event": "file_download" },
+    { "source": "eligible inquiry step transition", "event": "form_step" }
   ],
   "notMapped": []
 }

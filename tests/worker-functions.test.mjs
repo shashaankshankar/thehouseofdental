@@ -139,7 +139,7 @@ test("contact endpoint validates body size, origin, fields, honeypot, and config
     body: new URLSearchParams({ ...validFields, form_note: "bot" })
   }), env, context());
   assert.equal(honeypot.status, 202);
-  assert.deepEqual(await json(honeypot), { ok: true });
+  assert.deepEqual(await json(honeypot), { ok: true, accepted: false });
 
     const legacyAutofill = await worker.fetch(requestFor("/api/contact", {
     method: "POST",
@@ -179,10 +179,12 @@ test("contact endpoint sends the mapped Resend payload", async () => {
     assert.equal(response.status, 200);
     const result = await json(response);
     assert.equal(result.ok, true);
+    assert.equal(result.accepted, true);
     assert.equal(result.message, "Your request was sent. We'll get back to you soon.");
     assert.match(result.request_id, /^[0-9a-f-]{36}$/);
     assert.equal(captured.url, "https://api.resend.com/emails");
     assert.equal(captured.options.headers.Authorization, "Bearer re_test-token");
+    assert.match(captured.options.headers["Idempotency-Key"], /^website-contact:[0-9a-f-]{36}$/);
     const payload = JSON.parse(captured.options.body);
     assert.deepEqual(payload.to, ["office@example.com"]);
     assert.deepEqual(payload.reply_to, [validFields.email]);
@@ -190,6 +192,39 @@ test("contact endpoint sends the mapped Resend payload", async () => {
     assert.match(payload.html, /Test Patient/);
     assert.match(payload.text, /Interested in: Not provided\nPreferred follow-up: Not provided\nPreferred time: Not provided/);
     assert.doesNotMatch(payload.html, /<script>/);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("contact retries reuse a valid attempt key while preserving provider status handling", async () => {
+  const originalFetch = globalThis.fetch;
+  const idempotencyKeys = [];
+  let calls = 0;
+  globalThis.fetch = async (url, options) => {
+    idempotencyKeys.push(options.headers["Idempotency-Key"]);
+    calls += 1;
+    return calls === 1
+      ? new Response(JSON.stringify({ message: "temporary provider failure" }), { status: 500 })
+      : new Response(JSON.stringify({ id: "contact-email-retry" }), { status: 200 });
+  };
+  const env = {
+    ASSETS: assets(),
+    CONTACT_ALLOWED_ORIGINS: origin,
+    RESEND_API_KEY: "re_test-token",
+    CONTACT_FROM_EMAIL: "website@example.com",
+    CONTACT_RECIPIENT_EMAIL: "office@example.com"
+  };
+  const attemptId = "123e4567-e89b-42d3-a456-426614174000";
+  const post = () => worker.fetch(requestFor("/api/contact", {
+    method: "POST",
+    headers: { Origin: origin, "Content-Type": "application/x-www-form-urlencoded", "Idempotency-Key": attemptId },
+    body: new URLSearchParams(validFields)
+  }), env, context());
+  try {
+    assert.equal((await post()).status, 502);
+    assert.equal((await post()).status, 200);
+    assert.deepEqual(idempotencyKeys, [`website-contact:${attemptId}`, `website-contact:${attemptId}`]);
   } finally {
     globalThis.fetch = originalFetch;
   }
@@ -340,89 +375,90 @@ test("Resend webhook requires a current valid signature and logs only delivery i
   }
 });
 
-test("report relay is bearer-protected, recipient-locked, and forwards one PDF idempotently", async () => {
+test("optional D1 correlation stores technical fields and deduplicates webhook delivery", async () => {
   const originalFetch = globalThis.fetch;
-  let captured;
-  globalThis.fetch = async (url, options) => {
-    captured = { url: String(url), options };
-    return new Response(JSON.stringify({ id: "email-report-1" }), { status: 200 });
+  const originalConsoleLog = console.log;
+  const databaseCalls = [];
+  const webhookIds = new Set();
+  const database = {
+    prepare(sql) {
+      return {
+        bind(...args) {
+          databaseCalls.push({ sql: sql.replace(/\s+/g, " ").trim(), args });
+          return {
+            async run() {
+              if (sql.includes("INSERT INTO delivery_webhook_events")) {
+                const webhookId = args[0];
+                if (webhookIds.has(webhookId)) return { meta: { changes: 0 } };
+                webhookIds.add(webhookId);
+              }
+              return { meta: { changes: 1 } };
+            }
+          };
+        }
+      };
+    }
   };
-  const relayToken = "r".repeat(48);
-  const env = {
+  const attemptId = "123e4567-e89b-42d3-a456-426614174000";
+  const contactEnv = {
     ASSETS: assets(),
-    RESEND_API_KEY: "re_live-token",
+    CONTACT_ALLOWED_ORIGINS: origin,
+    RESEND_API_KEY: "re_test-token",
     CONTACT_FROM_EMAIL: "website@example.com",
-    REPORT_RELAY_TOKEN: relayToken,
-    REPORT_RELAY_RECIPIENT: "operator@example.com"
+    CONTACT_RECIPIENT_EMAIL: "office@example.com",
+    DELIVERY_DB: database
   };
-  const payload = {
-    from: "ignored@example.com",
-    to: ["operator@example.com"],
-    subject: "Approved analytics report",
-    html: "<p>Approved report.</p>",
-    attachments: [{ filename: "analytics-report.pdf", content: "JVBERi0xLjQ=" }]
-  };
+  globalThis.fetch = async () => new Response(JSON.stringify({ id: "contact-email-d1" }), { status: 200 });
   try {
-    const unauthorized = await worker.fetch(requestFor("/api/report-email", {
+    const contactContext = context();
+    const contact = await worker.fetch(requestFor("/api/contact", {
       method: "POST",
-      headers: { Authorization: "Bearer incorrect", "Content-Type": "application/json", "Idempotency-Key": "report:test:1" },
-      body: JSON.stringify(payload)
-    }), env, context());
-    assert.equal(unauthorized.status, 401);
-    assert.equal(captured, undefined);
+      headers: { Origin: origin, "Content-Type": "application/x-www-form-urlencoded", "Idempotency-Key": attemptId },
+      body: new URLSearchParams(validFields)
+    }), contactEnv, contactContext);
+    await contactContext.flush();
+    assert.equal(contact.status, 200);
+    assert.equal((await json(contact)).accepted, true);
 
-    const wrongRecipient = await worker.fetch(requestFor("/api/report-email", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${relayToken}`, "Content-Type": "application/json", "Idempotency-Key": "report:test:1" },
-      body: JSON.stringify({ ...payload, to: ["other@example.com"] })
-    }), env, context());
-    assert.equal(wrongRecipient.status, 422);
-    assert.equal(captured, undefined);
+    const contactInsert = databaseCalls.find(({ sql }) => sql.includes("INSERT INTO delivery_correlations"));
+    assert.ok(contactInsert);
+    assert.match(contactInsert.args[0], /^[0-9a-f-]{36}$/);
+    assert.match(contactInsert.args[1], /^[0-9a-f]{64}$/);
+    assert.equal(contactInsert.args[2], "thehouseofdental");
+    assert.equal(contactInsert.args[3], "contact-email-d1");
+    assert.equal(contactInsert.args[4], "accepted");
+    assert.doesNotMatch(JSON.stringify(contactInsert), /Test Patient|test@example\.com|407-678-1400/);
 
-    const response = await worker.fetch(requestFor("/api/report-email", {
+    const customContext = context();
+    const customContact = await worker.fetch(requestFor("/api/contact", {
       method: "POST",
-      headers: { Authorization: `Bearer ${relayToken}`, "Content-Type": "application/json", "Idempotency-Key": "report:test:1" },
-      body: JSON.stringify(payload)
-    }), env, context());
-    assert.equal(response.status, 200);
-    assert.deepEqual(await json(response), { id: "email-report-1" });
-    assert.equal(captured.url, "https://api.resend.com/emails");
-    assert.equal(captured.options.headers.Authorization, "Bearer re_live-token");
-    assert.equal(captured.options.headers["Idempotency-Key"], "report:test:1");
-    const forwarded = JSON.parse(captured.options.body);
-    assert.equal(forwarded.from, "website@example.com");
-    assert.deepEqual(forwarded.to, ["operator@example.com"]);
-    assert.deepEqual(forwarded.attachments, payload.attachments);
+      headers: { Origin: origin, "Content-Type": "application/x-www-form-urlencoded", "Idempotency-Key": "223e4567-e89b-42d3-a456-426614174000" },
+      body: new URLSearchParams({ ...validFields, message: "Custom client" })
+    }), { ...contactEnv, CLIENT_ID: "custom-client" }, customContext);
+    await customContext.flush();
+    assert.equal(customContact.status, 200);
+    const customInsert = databaseCalls.filter(({ sql }) => sql.includes("INSERT INTO delivery_correlations"))[1];
+    assert.ok(customInsert);
+    assert.equal(customInsert.args[2], "custom-client");
+
+    const logs = [];
+    console.log = (value) => logs.push(JSON.parse(value));
+    const payload = JSON.stringify({
+      type: "email.delivered",
+      data: { email_id: "contact-email-d1", created_at: "2026-08-28T05:00:00Z", to: ["private@example.com"] }
+    });
+    const headers = await signedWebhookHeaders(payload, { id: "msg_d1_webhook" });
+    const webhookEnv = { ASSETS: assets(), RESEND_WEBHOOK_SECRET: webhookSecret, DELIVERY_DB: database };
+    const first = await worker.fetch(requestFor("/api/resend-webhook", { method: "POST", headers, body: payload }), webhookEnv, context());
+    const duplicate = await worker.fetch(requestFor("/api/resend-webhook", { method: "POST", headers, body: payload }), webhookEnv, context());
+    assert.equal(first.status, 200);
+    assert.equal(duplicate.status, 200);
+    assert.equal(logs.filter((entry) => entry.event === "resend_delivery_event").length, 1);
+    assert.equal(databaseCalls.filter(({ sql }) => sql.includes("INSERT INTO delivery_webhook_events")).length, 2);
+    assert.doesNotMatch(JSON.stringify(logs), /private@example\.com/);
   } finally {
     globalThis.fetch = originalFetch;
-  }
-});
-
-test("report relay rejects malformed payloads and fails closed on provider errors", async () => {
-  const originalFetch = globalThis.fetch;
-  const relayToken = "r".repeat(48);
-  const env = {
-    ASSETS: assets(),
-    RESEND_API_KEY: "re_live-token",
-    CONTACT_FROM_EMAIL: "website@example.com",
-    REPORT_RELAY_TOKEN: relayToken,
-    REPORT_RELAY_RECIPIENT: "operator@example.com"
-  };
-  const headers = { Authorization: `Bearer ${relayToken}`, "Content-Type": "application/json", "Idempotency-Key": "report:test:2" };
-  try {
-    const malformed = await worker.fetch(requestFor("/api/report-email", {
-      method: "POST", headers, body: JSON.stringify({ to: ["operator@example.com"], subject: "Report", html: "<p>x</p>", attachments: [] })
-    }), env, context());
-    assert.equal(malformed.status, 422);
-
-    globalThis.fetch = async () => new Response(JSON.stringify({ error: "rejected" }), { status: 401 });
-    const failed = await worker.fetch(requestFor("/api/report-email", {
-      method: "POST", headers, body: JSON.stringify({ to: ["operator@example.com"], subject: "Report", html: "<p>x</p>", attachments: [{ filename: "report.pdf", content: "JVBERi0xLjQ=" }] })
-    }), env, context());
-    assert.equal(failed.status, 502);
-    assert.deepEqual(await json(failed), { error: "Report delivery failed." });
-  } finally {
-    globalThis.fetch = originalFetch;
+    console.log = originalConsoleLog;
   }
 });
 

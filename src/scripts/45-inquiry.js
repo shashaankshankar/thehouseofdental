@@ -84,6 +84,10 @@
   let returnFocus = null;
   let inerted = [];
   let completed = false;
+  const trackFormStep = (step) => window.thodAnalytics?.track("form_step", {
+    ctaLocation: "appointment_form",
+    formStep: step
+  });
 
   const checked = (name) => form.querySelector(`input[name="${name}"]:checked`);
   const choiceLabel = (name) => checked(name)?.parentElement?.querySelector("strong")?.textContent?.trim() || "";
@@ -162,8 +166,10 @@
       hint.hidden = hint.dataset.inquiryOptional === "phone" ? phoneRequired : emailRequired;
     });
   };
-  const showStep = (index, { focus = true } = {}) => {
-    current = Math.min(Math.max(index, 1), total);
+  const showStep = (index, { focus = true, track = false } = {}) => {
+    const next = Math.min(Math.max(index, 1), total);
+    const changed = next !== current;
+    current = next;
     steps.forEach((step, position) => {
       const active = position + 1 === current;
       step.hidden = !active;
@@ -184,6 +190,7 @@
       focusFirst(steps[current - 1]);
       panel.scrollTo?.({ top: 0, behavior: "auto" });
     }
+    if (track && changed) trackFormStep(current);
   };
   const validateStep = (index) => {
     const step = steps[index - 1];
@@ -254,7 +261,7 @@
     const preset = treatment ? form.querySelector(`input[name="treatment"][value="${CSS.escape(treatment)}"]`) : null;
     if (preset) preset.checked = true;
     if (inline) {
-      showStep(preset ? 2 : 1, { focus: false });
+      showStep(preset ? 2 : 1, { focus: false, track: true });
       drawer.scrollIntoView({ block: "start", behavior: reducedMotion() ? "auto" : "smooth" });
       window.setTimeout(() => {
         if (preset) focusFirst(steps[1]);
@@ -265,7 +272,7 @@
     drawer.classList.add("is-open");
     document.body.classList.add("inquiry-open");
     inertBackground();
-    showStep(preset ? 2 : 1, { focus: false });
+    showStep(preset ? 2 : 1, { focus: false, track: true });
     window.setTimeout(() => {
       if (!drawer.classList.contains("is-open")) return;
       if (preset) focusFirst(steps[1]);
@@ -291,9 +298,9 @@
   };
 
   nextButton.addEventListener("click", () => {
-    if (validateStep(current)) showStep(current + 1);
+    if (validateStep(current)) showStep(current + 1, { track: true });
   });
-  backButton.addEventListener("click", () => showStep(current - 1));
+  backButton.addEventListener("click", () => showStep(current - 1, { track: true }));
   form.addEventListener("submit", (event) => {
     if (current !== total || !validateStep(total)) {
       event.preventDefault();

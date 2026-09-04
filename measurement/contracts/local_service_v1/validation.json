@@ -11,8 +11,9 @@
     "Property timezone matches the reporting assignment.",
     "Healthcare analytics eligibility and consent language are approved.",
     "Only approved routes use analytics_status approved.",
-    "GA4 DebugView shows each implemented event exactly once after consent.",
-    "No prohibited parameter, query string, form value, or patient-related data reaches GA4.",
+    "GA4 DebugView shows each implemented event exactly once after consent, including file_download and numeric form_step.",
+    "Only the five approved UTM keys may appear in page_location, and unapproved query strings or fragments fail closed.",
+    "No prohibited parameter, page title, referrer, query value, fragment, form value, or patient-related data reaches GA4.",
     "The appointment endpoint and privacy policy describe the same production behavior."
   ]
 }

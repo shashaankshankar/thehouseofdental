@@ -38,8 +38,19 @@ requireEqual(config.preview_urls, true, "wrangler.jsonc preview_urls");
 const customDomain = (config.routes || []).find((route) => route.pattern === "thehouseofdentalwp.com");
 if (!customDomain || customDomain.custom_domain !== true) errors.push("wrangler.jsonc: missing thehouseofdentalwp.com custom domain target");
 if (config.compatibility_flags?.includes("nodejs_compat")) errors.push("wrangler.jsonc: nodejs_compat is unnecessary for this Worker");
-for (const key of ["kv_namespaces", "d1_databases", "r2_buckets", "durable_objects", "queues", "services", "hyperdrive", "ai", "vectorize"]) {
+for (const key of ["kv_namespaces", "r2_buckets", "durable_objects", "queues", "services", "hyperdrive", "ai", "vectorize"]) {
   if (config[key] !== undefined) errors.push(`wrangler.jsonc: unnecessary binding ${key} is configured`);
+}
+if (config.d1_databases !== undefined) {
+  if (!Array.isArray(config.d1_databases) || config.d1_databases.length !== 1) {
+    errors.push("wrangler.jsonc: optional D1 configuration must contain one DELIVERY_DB binding");
+  } else {
+    const deliveryDb = config.d1_databases[0];
+    if (deliveryDb.binding !== "DELIVERY_DB") errors.push("wrangler.jsonc: optional D1 binding must be named DELIVERY_DB");
+    if (deliveryDb.database_name !== "thehouseofdental-delivery") errors.push("wrangler.jsonc: optional D1 database_name must be thehouseofdental-delivery");
+    if (typeof deliveryDb.database_id !== "string" || !deliveryDb.database_id.trim() || /^<.*>$/.test(deliveryDb.database_id.trim())) errors.push("wrangler.jsonc: optional D1 database_id must be the real provisioned ID");
+    if (deliveryDb.migrations_dir !== "./migrations") errors.push("wrangler.jsonc: optional D1 migrations_dir must be ./migrations");
+  }
 }
 
 requireEqual(config.assets?.directory, "./dist", "wrangler.jsonc assets.directory");
@@ -79,7 +90,7 @@ const devVarsExample = await read(".dev.vars.example");
 for (const key of requiredEnvKeys) if (!new RegExp(`^${key}=\\s*$`, "m").test(devVarsExample)) errors.push(`.dev.vars.example: missing empty ${key} entry`);
 
 const worker = await read("worker/index.mjs");
-for (const marker of ["/api/google-reputation", "/api/contact", "/api/resend-webhook", "env.ASSETS.fetch", "GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "RESEND_API_KEY", "RESEND_WEBHOOK_SECRET", "CONTACT_FROM_EMAIL", "CONTACT_RECIPIENT_EMAIL", "CONTACT_ALLOWED_ORIGINS"]) {
+for (const marker of ["/api/google-reputation", "/api/contact", "/api/resend-webhook", "env.ASSETS.fetch", "GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "RESEND_API_KEY", "RESEND_WEBHOOK_SECRET", "CONTACT_FROM_EMAIL", "CONTACT_RECIPIENT_EMAIL", "CONTACT_ALLOWED_ORIGINS", "Idempotency-Key", "DELIVERY_DB", "delivery_webhook_events"]) {
   if (!worker.includes(marker)) errors.push(`worker/index.mjs: missing ${marker}`);
 }
 const structuredLogCalls = worker.match(/structuredLog\([\s\S]*?\n\s*\}\);/g) || [];
@@ -97,7 +108,8 @@ const sourcePaths = [
   "dist/_headers",
   "dist/main.js",
   "dist/contact.html",
-  "worker/index.mjs"
+  "worker/index.mjs",
+  "migrations/0001_delivery_correlation.sql"
 ];
 for (const path of sourcePaths) {
   if (!(await exists(path))) {

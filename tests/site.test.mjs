@@ -61,11 +61,14 @@ test("GA4 integration is configurable and enabled for the approved production ro
   assert.equal(siteMeasurement.ga4.enabled, true);
   assert.equal(siteMeasurement.ga4.collectionStatus, "live");
   assert.equal(siteMeasurement.ga4.measurementId, "G-TC66MQQ0T7");
+  assert.deepEqual(siteMeasurement.attribution.allowedQueryParameters, ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"]);
+  assert.equal(siteMeasurement.attribution.unapprovedQueryBehavior, "fail_closed");
+  assert.equal(siteMeasurement.attribution.fragmentBehavior, "never_forwarded");
   assert.equal(routes.default, "prohibited");
   assert.equal(routes.routes["/contact"], "approved");
   assert.ok(routes.fragments["/contact"].includes("request"));
   assert.ok(routes.fragments["/contact"].includes("book"), "legacy #book arrivals stay measurable");
-  assert.deepEqual(contract.events.map((event) => event.name), ["form_start", "form_submit", "generate_lead", "phone_click", "email_click", "appointment_request", "cta_click"]);
+  assert.deepEqual(contract.events.map((event) => event.name), ["form_start", "form_submit", "generate_lead", "phone_click", "email_click", "appointment_request", "cta_click", "file_download", "form_step"]);
   assert.match(script, /const __SITE_ANALYTICS = \{"provider":"gtag","enabled":true,"measurementId":"G-TC66MQQ0T7","consent":\{"mode":"advanced","version":2,"storageKey":"thod-analytics-consent","waitForUpdate":500\},"contractVersion":"local_service_v1"/);
   assert.doesNotMatch(script, /"propertyId"|"webStreamId"|"connection"/);
   assert.ok(script.includes("https://www.googletagmanager.com/gtag/js?id="));
@@ -87,34 +90,48 @@ test("GA4 integration is configurable and enabled for the approved production ro
 test("GA4 conversion events are consent-gated and privacy-safe", async () => {
   const analyticsScript = await readFile("src/scripts/80-analytics.js", "utf8");
   const formScript = await readFile("src/scripts/60-forms.js", "utf8");
+  const inquiryScript = await readFile("src/scripts/45-inquiry.js", "utf8");
   const handoff = await readFile("docs/ANALYTICS-HANDOFF.md", "utf8");
-  for (const eventName of ["form_start", "form_submit", "generate_lead", "phone_click", "email_click", "appointment_request", "cta_click"]) {
+  for (const eventName of ["form_start", "form_step", "form_submit", "generate_lead", "phone_click", "email_click", "appointment_request", "cta_click", "file_download"]) {
     assert.match(handoff, new RegExp(`\\x60${eventName}\\x60`), eventName);
   }
   assert.match(analyticsScript, /if \(!analyticsStorageGranted \|\| !allowedEvents\.has\(eventName\)\) return;/);
   assert.match(analyticsScript, /eligibilityFor\(pagePath\(\)\) !== "approved"/);
   assert.match(analyticsScript, /const payload = \{ page_path: pagePath\(\) \};/);
   assert.match(analyticsScript, /page_location: pageLocation/);
+  assert.match(analyticsScript, /page_title: ""/);
   assert.match(analyticsScript, /page_referrer: ""/);
   assert.match(analyticsScript, /allowedLocations\.has\(metadata\.ctaLocation\)/);
   assert.match(analyticsScript, /allowedCtaTypes\.has\(metadata\.ctaType\)/);
   assert.match(analyticsScript, /allowedServiceCategories\.has\(metadata\.serviceCategory\)/);
   assert.match(analyticsScript, /analyticsStorageGranted = choice === "granted"/);
   assert.match(formScript, /result\.ok !== true/);
+  assert.match(formScript, /result\.accepted !== true/);
+  assert.match(formScript, /headers\["Idempotency-Key"\]/);
   assert.match(formScript, /window\.thodAnalytics\?\.track\("form_submit"/);
   assert.match(formScript, /window\.thodAnalytics\?\.track\("generate_lead"/);
   assert.match(formScript, /window\.thodAnalytics\?\.track\("appointment_request"/);
   assert.equal((formScript.match(/appointment_request/g) || []).length, 1);
+  assert.match(inquiryScript, /trackFormStep/);
+  assert.match(inquiryScript, /formStep: step/);
   assert.doesNotMatch(analyticsScript, /FormData|name:|email:|phone:|message:|health/i);
-  assert.match(handoff, /Form values, patient information, query strings, titles/);
+  assert.match(handoff, /Page title, referrer, file name, treatment name, form values/);
+  assert.match(handoff, /`page_location` contains only the origin, pathname, and validated/);
+  assert.match(handoff, /fragments are never forwarded/);
 });
 
 test("generated CTAs carry contract analytics attributes", async () => {
   const contact = await readFile("dist/contact.html", "utf8");
   const home = await readFile("dist/index.html", "utf8");
+  const newPatients = await readFile("dist/new-patients.html", "utf8");
+  const care = await readFile("dist/pre-post-op.html", "utf8");
   assert.match(contact, /data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:/);
   assert.match(contact, /data-analytics-event="cta_click" data-analytics-location="directions_link" data-analytics-cta-type="directions" href="https:\/\/goo\.gl\/maps/);
   assert.match(home, /data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="\/contact#request"/);
+  assert.match(home, /data-analytics-event="cta_click" data-analytics-location="review_link" data-analytics-cta-type="proof" href="\/reviews"/);
+  assert.match(newPatients, /data-analytics-event="cta_click" data-analytics-location="financing_link" data-analytics-cta-type="content" href="\/new-patients#insurance"/);
+  assert.match(newPatients, /data-analytics-event="cta_click" data-analytics-location="financing_link" data-analytics-cta-type="content" href="https?:\/\//);
+  assert.match(care, /data-analytics-event="file_download" data-analytics-file-category="care_guide" data-analytics-download-category="care_guide"[^>]+href="assets\/care-pdfs\/complete-care-guide\.pdf"/);
   assert.match(contact, /data-analytics-form="appointment_request"/);
   assert.doesNotMatch(home, /href="\/contact#book"/);
 });
@@ -313,6 +330,7 @@ test("successful contact response emits the three consented post-success events 
     }
   };
   const stored = new Map();
+  const requests = [];
   const window = { location: { pathname: "/contact", origin: "https://thehouseofdentalwp.com", search: "", hash: "#request" } };
   class TestFormData {
     constructor(target) { this.values = target.fields; }
@@ -338,14 +356,18 @@ test("successful contact response emits the three consented post-success events 
     window,
     document,
     localStorage: { getItem: (key) => stored.get(key) || null, setItem: (key, value) => stored.set(key, value) },
-    fetch: async () => ({ ok: true, status: 200, json: async () => ({ ok: true, message: "Your request was sent. We'll get back to you soon." }) }),
+    fetch: async (url, options) => {
+      requests.push({ url, options });
+      return { ok: true, status: 200, json: async () => ({ ok: true, accepted: true, message: "Your request was sent. We'll get back to you soon." }) };
+    },
     FormData: TestFormData,
     CustomEvent: TestCustomEvent,
     URLSearchParams,
     Set,
     Number,
     Date,
-    encodeURIComponent
+    encodeURIComponent,
+    crypto: { randomUUID: () => "123e4567-e89b-42d3-a456-426614174000" }
   };
   vm.runInNewContext(analyticsScript, context);
   vm.runInNewContext(formScript, context);
@@ -355,6 +377,7 @@ test("successful contact response emits the three consented post-success events 
   await allow.dispatch("click");
   await form.dispatch("focusin");
   await form.dispatch("submit", { preventDefault() {} });
+  assert.equal(requests[0].options.headers["Idempotency-Key"], "123e4567-e89b-42d3-a456-426614174000");
 
   const events = JSON.parse(JSON.stringify(window.dataLayer
     .filter((entry) => entry[0] === "event")
@@ -533,6 +556,87 @@ test("unsafe URL data fails closed before GA4 initializes", async () => {
     });
     assert.equal(window.dataLayer, undefined);
   }
+});
+
+test("approved UTM location and event payloads stay privacy-safe", async () => {
+  const analyticsScript = await readFile("src/scripts/80-analytics.js", "utf8");
+  const created = [];
+  const makeElement = () => ({
+    children: [],
+    dataset: {},
+    hidden: false,
+    listeners: new Map(),
+    addEventListener(type, handler) { this.listeners.set(type, handler); },
+    append(...children) { for (const child of children) { child.parentNode = this; this.children.push(child); } },
+    appendChild(child) { child.parentNode = this; this.children.push(child); },
+    setAttribute() {},
+    focus() {}
+  });
+  const document = {
+    head: makeElement(),
+    body: makeElement(),
+    createElement() { const element = makeElement(); created.push(element); return element; },
+    querySelectorAll() { return []; }
+  };
+  const window = { location: {
+    origin: "https://example.test",
+    pathname: "/contact/",
+    search: "?utm_source=google&utm_campaign=summer-sale",
+    hash: "#request"
+  } };
+  vm.runInNewContext(analyticsScript, {
+    __SITE_ANALYTICS: {
+      provider: "gtag", enabled: true, measurementId: "G-TEST123",
+      consent: { mode: "advanced", version: 2, storageKey: "test-consent" },
+      routeEligibility: { default: "prohibited", routes: { "/contact": "approved" }, fragments: { "/contact": ["request"] } },
+      attribution: { mode: "utm_only", allowedQueryParameters: ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"] },
+      eventPolicy: {
+        allowedEvents: ["cta_click", "file_download", "form_step"],
+        allowedLocations: ["review_link", "financing_link"],
+        allowedCtaTypes: ["content"],
+        allowedServiceCategories: ["dental"],
+        allowedFileCategories: ["care_guide"],
+        allowedDownloadCategories: ["care_guide"]
+      }
+    },
+    window,
+    document,
+    localStorage: { getItem: () => null, setItem() {}, removeItem() {} },
+    sessionStorage: { getItem: () => null, setItem() {}, removeItem() {} },
+    URLSearchParams,
+    Set,
+    Number,
+    Date,
+    encodeURIComponent
+  });
+
+  const configCall = window.dataLayer.find((entry) => entry[0] === "config");
+  assert.deepEqual(JSON.parse(JSON.stringify(configCall[2])), {
+    page_location: "https://example.test/contact?utm_source=google&utm_campaign=summer-sale",
+    page_path: "/contact",
+    page_title: "",
+    page_referrer: "",
+    send_page_view: true
+  });
+  created.find((element) => element.textContent === "Allow analytics").listeners.get("click")();
+  window.thodAnalytics.track("file_download", { fileCategory: "care_guide", fileName: "implants-care.pdf" });
+  window.thodAnalytics.track("file_download", { fileCategory: "implants" });
+  window.thodAnalytics.track("file_download", { downloadCategory: "care_guide" });
+  window.thodAnalytics.track("form_step", { formStep: 2, treatment: "implants" });
+  window.thodAnalytics.track("form_step", { stepNumber: 3 });
+  window.thodAnalytics.track("form_step", { formStep: 2.5 });
+  window.thodAnalytics.track("cta_click", { ctaLocation: "financing_link", ctaType: "content", serviceCategory: "dental", treatment: "implants" });
+
+  const events = window.dataLayer
+    .filter((entry) => entry[0] === "event")
+    .map((entry) => ({ name: entry[1], payload: entry[2] }));
+  assert.deepEqual(JSON.parse(JSON.stringify(events)), [
+    { name: "file_download", payload: { page_path: "/contact", file_category: "care_guide", download_category: "care_guide" } },
+    { name: "file_download", payload: { page_path: "/contact", file_category: "care_guide", download_category: "care_guide" } },
+    { name: "form_step", payload: { page_path: "/contact", form_step: 2, step_number: 2 } },
+    { name: "form_step", payload: { page_path: "/contact", form_step: 3, step_number: 3 } },
+    { name: "cta_click", payload: { page_path: "/contact", cta_location: "financing_link", cta_type: "content", service_category: "dental" } }
+  ]);
 });
 
 test("measurement evidence separates governance approval from observed DebugView proof", async () => {

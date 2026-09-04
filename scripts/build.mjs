@@ -34,11 +34,17 @@ const analytics = {
   consent: siteMeasurement.consent,
   contractVersion: contract.version,
   routeEligibility,
+  attribution: {
+    mode: siteMeasurement.attribution?.mode || "utm_only",
+    allowedQueryParameters: siteMeasurement.attribution?.allowedQueryParameters || ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"]
+  },
   eventPolicy: {
     allowedEvents: contractEvents.events.map((event) => event.name),
     allowedLocations: contractParameters.allowed.cta_location,
     allowedCtaTypes: contractParameters.allowed.cta_type,
-    allowedServiceCategories: contractParameters.allowed.service_category
+    allowedServiceCategories: contractParameters.allowed.service_category,
+    allowedFileCategories: contractParameters.allowed.file_category,
+    allowedDownloadCategories: contractParameters.allowed.download_category
   }
 };
 const reputation = site.reputation ?? {
@@ -61,11 +67,22 @@ const templates = {
   },
   none: { header: "", footer: "" }
 };
-const decorateAnalyticsAttributes = (markup) => markup
-  .replaceAll('href="tel:', 'data-analytics-event="phone_click" data-analytics-location="phone_link" href="tel:')
-  .replaceAll('href="mailto:', 'data-analytics-event="email_click" data-analytics-location="email_link" href="mailto:')
-  .replaceAll('href="/contact#request"', 'data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="/contact#request"')
-  .replaceAll('href="https://goo.gl/maps', 'data-analytics-event="cta_click" data-analytics-location="directions_link" data-analytics-cta-type="directions" href="https://goo.gl/maps');
+const addAnalyticsAttributes = (tag, attributes) => {
+  const href = tag.match(/\s(href="[^"]*")/);
+  return href ? tag.replace(href[0], ` ${attributes}${href[0]}`) : tag;
+};
+const decorateAnalyticsAttributes = (markup) => markup.replace(/<a\b[^>]*>/g, (tag) => {
+  if (/\bdata-analytics-event=/.test(tag)) return tag;
+  const href = tag.match(/\shref="([^"]*)"/)?.[1] || "";
+  if (href.startsWith("tel:")) return addAnalyticsAttributes(tag, 'data-analytics-event="phone_click" data-analytics-location="phone_link"');
+  if (href.startsWith("mailto:")) return addAnalyticsAttributes(tag, 'data-analytics-event="email_click" data-analytics-location="email_link"');
+  if (href === "/contact#request") return addAnalyticsAttributes(tag, 'data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment"');
+  if (href.startsWith("https://goo.gl/maps")) return addAnalyticsAttributes(tag, 'data-analytics-event="cta_click" data-analytics-location="directions_link" data-analytics-cta-type="directions"');
+  if (href === "/reviews") return addAnalyticsAttributes(tag, 'data-analytics-event="cta_click" data-analytics-location="review_link" data-analytics-cta-type="proof"');
+  if (href === "/new-patients#insurance") return addAnalyticsAttributes(tag, 'data-analytics-event="cta_click" data-analytics-location="financing_link" data-analytics-cta-type="content"');
+  if (/\.pdf(?:[?#]|$)/i.test(href) && /\sdownload(?:\s|=|>)/i.test(tag)) return addAnalyticsAttributes(tag, 'data-analytics-event="file_download" data-analytics-file-category="care_guide" data-analytics-download-category="care_guide"');
+  return tag;
+});
 
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
@@ -136,7 +153,7 @@ const alignCareCopy = (content) => {
 };
 const reviewCards = reviews.map((review) => `<div class="review-card rv ${review.delay}"><p class="stars">★★★★★<span class="review-source">Google review</span></p><p>&ldquo;${escapeText(review.text)}&rdquo;</p><p class="who" data-initial="${escapeAttribute(review.author.trim().charAt(0))}">${escapeText(review.author)}</p></div>`).join("");
 const money = (value) => `$${Math.round(value).toLocaleString("en-US")}`;
-const financingCalculator = `<div class="cherry-box rv"><p class="eyebrow u-inline-001">${escapeText(financing.provider)}</p><h3>${escapeText(financing.heading)}</h3><p class="cherry-sub">${escapeText(financing.description)}</p><div class="cherry-amount"><span id="chr-amt">${money(financing.initial)}</span></div><input type="range" id="chr-range" min="${financing.minimum}" max="${financing.maximum}" step="${financing.step}" value="${financing.initial}" aria-label="Estimated treatment cost"><div class="cherry-plans"><div class="cherry-plan"><span class="val" id="chr-bi">${money(financing.initial / 4)} <i>&times;4</i></span><span class="lbl">Every 2 Weeks*</span></div><div class="cherry-plan"><span class="val" id="chr-24">${money(financing.initial / 24)}<i>/mo</i></span><span class="lbl">24 Months</span></div><div class="cherry-plan"><span class="val" id="chr-60">${money(financing.initial / 60)}<i>/mo</i></span><span class="lbl">60 Months</span></div></div><a class="btn btn-solid" href="${escapeAttribute(financing.applyUrl)}" id="chr-apply" target="_blank" rel="noopener">Apply With Cherry</a><p class="cherry-note">${escapeText(financing.disclosure)}</p></div>`;
+const financingCalculator = `<div class="cherry-box rv"><p class="eyebrow u-inline-001">${escapeText(financing.provider)}</p><h3>${escapeText(financing.heading)}</h3><p class="cherry-sub">${escapeText(financing.description)}</p><div class="cherry-amount"><span id="chr-amt">${money(financing.initial)}</span></div><input type="range" id="chr-range" min="${financing.minimum}" max="${financing.maximum}" step="${financing.step}" value="${financing.initial}" aria-label="Estimated treatment cost"><div class="cherry-plans"><div class="cherry-plan"><span class="val" id="chr-bi">${money(financing.initial / 4)} <i>&times;4</i></span><span class="lbl">Every 2 Weeks*</span></div><div class="cherry-plan"><span class="val" id="chr-24">${money(financing.initial / 24)}<i>/mo</i></span><span class="lbl">24 Months</span></div><div class="cherry-plan"><span class="val" id="chr-60">${money(financing.initial / 60)}<i>/mo</i></span><span class="lbl">60 Months</span></div></div><a class="btn btn-solid" data-analytics-event="cta_click" data-analytics-location="financing_link" data-analytics-cta-type="content" href="${escapeAttribute(financing.applyUrl)}" id="chr-apply" target="_blank" rel="noopener">Apply With Cherry</a><p class="cherry-note">${escapeText(financing.disclosure)}</p></div>`;
 const blogArticlePath = (article) => `/blog/${article.slug}`;
 const blogArticleFile = (article) => `blog/${article.slug}.html`;
 const blogImagePath = (article, size) => `/assets/blog/${article.slug}-${size}.jpg`;

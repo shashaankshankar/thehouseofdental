@@ -10,5 +10,12 @@
     "Do not send form fields, user identifiers, appointment identifiers, treatment details, URLs with query values, or page metadata containing prohibited data.",
     "Unknown or unapproved routes must not load GA4."
   ],
+  "attributionPolicy": {
+    "mode": "utm_only",
+    "allowedQueryParameters": ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"],
+    "unapprovedQueryBehavior": "fail_closed",
+    "fragmentBehavior": "never_forwarded",
+    "pageMetadata": "page_path is the clean pathname; page title and referrer are never forwarded"
+  },
   "leadDefinition": "A generate_lead event fires only after the Worker validates the appointment request and the approved Resend handoff accepts it for delivery to the dental office. It is a received lead/request, never a booked or confirmed appointment."
 }

@@ -36,5 +36,17 @@
     "version": 2,
     "storageKey": "thod-analytics-consent",
     "waitForUpdate": 500
+  },
+  "attribution": {
+    "mode": "utm_only",
+    "allowedQueryParameters": [
+      "utm_source",
+      "utm_medium",
+      "utm_campaign",
+      "utm_content",
+      "utm_term"
+    ],
+    "unapprovedQueryBehavior": "fail_closed",
+    "fragmentBehavior": "never_forwarded"
   }
 }

@@ -1,5 +1,5 @@
 const __SITE_DETAIL_DATA = {"services":{"implants":{"cat":"Restorative","title":"Dental Implants","img":"assets/service-implants.jpg","paras":["Transformative dental implants that look, feel, and function like natural teeth. From single implants to full arch implant-supported dentures, The House of Dental offers tooth replacement solutions that are long-lasting, luminous, and made especially for you.","Dr. Patel focuses on computer-assisted dentistry and minimally invasive guided surgeries, and is a fellow of the International Congress of Oral Implantologists. Implant Special for patients without insurance: from $2,998 — implant, abutment, and crown included."],"items":["Single tooth implants","Implant-supported bridges","Full arch implant-supported dentures","Guided, minimally invasive placement"]},"restorative":{"cat":"Restorative","title":"Full Mouth Restoration","img":"assets/service-restoration.jpg","paras":["Comprehensive restorations that rebuild the health, function, and natural beauty of your smile. Materials and technologies are selected for your treatment plan, with customized care tailored to your needs at every step."],"items":["Precision-crafted restorations","Specialty porcelain work","Comprehensive treatment planning"]},"crowns":{"cat":"CEREC® Technology","title":"Same-Day Dental Crowns","img":"assets/service-crowns.jpg","paras":["The CEREC system allows us to craft crowns right here in our dental office, in a single visit. Depending on your treatment plan, this can avoid a temporary restoration and a separate lab visit — with a precision-crafted crown delivered the same day."],"items":[]},"dentures":{"cat":"Restorative","title":"Dentures","img":"assets/service-dentures.jpg","paras":["From removable dentures to full arch implant-supported dentures, we design comfortable, natural-looking tooth replacement that restores your ability to eat, speak, and smile with total confidence."],"items":[]},"root-canals":{"cat":"Restorative","title":"Root Canals","img":"assets/service-root-canals.jpg","paras":["Gentle, modern root canal therapy that relieves pain and saves your natural tooth. With fully digital imaging and a calm, patient-first approach, the experience is far more comfortable than its reputation."],"items":[]},"cosmetic":{"cat":"Cosmetic","title":"Cosmetic Dentistry","img":"assets/service-cosmetic.jpg","paras":["Want a more confident smile? Learn how porcelain veneers, dental crowns, or a complete smile makeover could give you a glowing smile designed around your features."],"items":[]},"veneers":{"cat":"Cosmetic","title":"Porcelain Veneers","img":"assets/service-veneers.jpg","paras":["Specialty porcelain restorations, individually crafted to reshape, brighten, and perfect your smile — with results that photograph beautifully and last for years."],"items":[]},"preventive":{"cat":"Preventive","title":"Preventive Care & Cleanings","img":"assets/service-preventive.jpg","paras":["Customized preventive care and oral health education. Our hygienists never rush — every cleaning is thorough, comfortable, and tailored to keeping your teeth and gums healthy for life."],"items":[]},"invisalign":{"cat":"Orthodontic","title":"Invisalign®","img":"assets/service-invisalign.jpg","paras":["Invisalign clear braces for teens and adults. Straighten your teeth discreetly with removable, nearly invisible aligners — no brackets, no wires, no interruptions to your life."],"items":[]},"oral-surgery":{"cat":"Surgical","title":"Oral Surgery","img":"assets/service-oral-surgery.jpg","paras":["From extractions to surgical implant placement, oral surgery at The House of Dental is performed with precision, advanced imaging, and genuine care for your comfort."],"items":[]},"sedation":{"cat":"Comfort","title":"Sedation Dentistry","img":"assets/service-sedation.jpg","paras":["Dental anxiety should never stand between you and a healthy smile. Our sedation options keep you calm and comfortable through any procedure — many patients barely remember their visit."],"items":[]},"tmj":{"cat":"Therapeutic","title":"TMJ Treatment","img":"assets/service-tmj.jpg","paras":["Jaw pain, clicking, and tension headaches often trace back to the temporomandibular joint. We diagnose and treat TMJ disorders to relieve pain and restore comfortable function."],"items":[]},"srp":{"cat":"Periodontal","title":"Scaling &amp; Root Planing","img":"assets/service-srp.jpg","paras":["Also called a deep cleaning, scaling and root planing treats gum disease below the gumline — removing hardened plaque and tartar from the tooth roots, then smoothing those root surfaces so the gum tissue can reattach and heal.","Left untreated, periodontal disease is the leading cause of adult tooth loss. Caught and managed early, it's highly controllable. Treatment is typically done by quadrant with local anesthetic for comfort, followed by periodontal maintenance visits to keep it stable."],"items":["Deep cleaning below the gumline","Root surface smoothing for tissue reattachment","Reduced pocket depths","Ongoing periodontal maintenance"]},"quietnite":{"cat":"Oral Appliance","title":"QuietNite Sleep","img":"assets/service-quietnite.jpg","paras":["The QuietNite is a custom mandibular advancement device for snoring and mild to moderate obstructive sleep apnea in adults. Two thermally formed trays fit over the upper and lower arches, joined by lateral connectors that gently hold the lower jaw forward during sleep.","Advancing the jaw increases the three-dimensional space in the airway, reducing air velocity and the soft-tissue vibration that causes snoring. The connectors are patient-adjustable at home, so comfort and effectiveness can be dialed in over time.","For many patients an oral appliance is far easier to live with than CPAP — no mask, no hose, no power source. If you've been diagnosed with severe sleep apnea, we coordinate with your physician rather than replacing prescribed therapy."],"items":["Custom fabricated from digital scans","Patient-adjustable jaw advancement","Treats snoring and mild to moderate OSA","A comfortable alternative to CPAP for many patients"]}},"technology":{"cerec":{"cat":"Chairside Milling","title":"CEREC® Same-Day Crowns","img":"assets/technology-cerec.jpg","paras":["CEREC lets us design, mill, and place a permanent ceramic crown in a single appointment. A digital scan of your tooth becomes a 3D model on screen, and our in-office milling unit carves the restoration from a solid block of ceramic while you wait.","The result: no impression putty, no temporary crown to fall off, and no second appointment weeks later. You walk in with a damaged tooth and walk out with a finished, color-matched restoration."],"soon":false},"ct-scan":{"cat":"3D Imaging","title":"CT Scan (Cone Beam)","img":"assets/technology-ct-scan-v2.jpg","paras":["Our cone beam CT scanner captures a complete three-dimensional view of your teeth, jaw, nerves, and sinuses in a single rotation — detail a traditional two-dimensional X-ray simply cannot show.","This is what makes guided implant surgery possible. Dr. Patel can measure bone density and volume, map the exact position of nerves, and plan the precise angle and depth of an implant before ever beginning the procedure. It means fewer surprises, less invasive surgery, and more predictable outcomes."],"soon":false},"digital-scans":{"cat":"Fully Digital","title":"Digital Scans & X-Rays","img":"assets/technology-digital-scans.jpg","paras":["We replaced messy impression trays with a handheld intraoral scanner that builds a precise digital model of your mouth in minutes — more comfortable, more accurate, and instantly viewable on screen.","Our digital radiographs use significantly less radiation than traditional film X-rays and appear immediately, so Dr. Patel can show you exactly what he's seeing and explain it in real time."],"soon":false},"guided-surgery":{"cat":"Implantology","title":"Computer-Guided Surgery","img":"assets/technology-guided-surgery.jpg","paras":["Using CT data, implant placement is planned digitally down to the millimeter, then executed with a custom surgical guide that directs the placement exactly as planned.","Because the position is determined before surgery begins, the procedure is more precise and far less invasive — often meaning smaller incisions, less discomfort, and a faster recovery than freehand placement."],"soon":false},"deka":{"cat":"Laser Aesthetics","title":"DEKA CO2 Facial Resurfacing Laser","img":"assets/technology-deka-co2-v2.jpg","paras":["DEKA is a leading name in medical laser technology, used for skin resurfacing and rejuvenation treatments that address fine lines, uneven texture, sun damage, pigmentation, and scarring.","The laser works by delivering precisely controlled energy to the skin, stimulating the body's natural collagen production and encouraging fresh, healthy tissue to replace damaged surface layers — with treatment intensity tailored to each patient's skin and goals."],"soon":false},"emage":{"cat":"Diagnostic Imaging","title":"Emage 3D Skin Scanner","img":"assets/technology-emage-3d-v2.jpg","paras":["The Emage scanner captures a detailed three-dimensional analysis of your skin — revealing sun damage, pigmentation, pore condition, wrinkles, and texture beneath the surface that the naked eye cannot detect.","It turns aesthetic treatment into something measurable. We can establish an objective baseline before treatment begins, build a plan around what your skin actually needs, and show you side-by-side progress over time rather than asking you to guess at the results."],"soon":false},"hydroderm":{"cat":"Signature Treatment","title":"Custom HydroDerm Facials","img":"assets/hydroderm-facial.jpg","paras":["A multi-step hydrating facial treatment that cleanses, gently exfoliates, extracts impurities, and infuses the skin with hydrating serums — all in one session, with no downtime.","Each facial is customized rather than one-size-fits-all: the serums and intensity are selected based on your skin's needs, which is where the Emage scanner comes in. Results are immediate — smoother texture, refined pores, and a visible glow."],"soon":false},"microneedling":{"cat":"Collagen Induction","title":"Microneedling","img":"assets/technology-microneedling-v2.jpg","paras":["Microneedling &mdash; collagen induction therapy &mdash; uses a precision device to create thousands of microscopic channels in the skin, triggering the body's natural wound-healing cascade.","As the skin repairs those channels it produces fresh collagen and elastin, softening acne scars, refining texture, tightening pores, and firming skin from within. Because it works without heat, it's safe across all skin types."],"soon":false}}};
-const __SITE_ANALYTICS = {"provider":"gtag","enabled":true,"measurementId":"G-TC66MQQ0T7","consent":{"mode":"advanced","version":2,"storageKey":"thod-analytics-consent","waitForUpdate":500},"contractVersion":"local_service_v1","routeEligibility":{"version":"local_service_v1","default":"prohibited","routes":{"/":"approved","/about":"approved","/accessibility":"approved","/blog":"approved","/blog/dental-implants-process-benefits-recovery":"approved","/blog/same-day-crowns-vs-traditional-crowns":"approved","/blog/veneers-vs-bonding-vs-whitening":"approved","/blog/clear-aligners-how-they-work":"approved","/blog/gum-disease-signs-treatment-prevention":"approved","/blog/root-canal-what-to-expect":"approved","/blog/sedation-dentistry-types-safety":"approved","/blog/tmj-disorders-symptoms-treatment":"approved","/blog/co2-laser-resurfacing-benefits-recovery":"approved","/blog/microneedling-benefits-process-aftercare":"approved","/contact":"approved","/facial-aesthetics":"approved","/new-patients":"approved","/pre-post-op":"approved","/privacy":"approved","/reviews":"approved","/services":"approved","/terms":"approved"},"fragments":{"/":["main-content"],"/about":["main-content","dr-patel","team","technologies"],"/accessibility":["main-content"],"/blog":["main-content"],"/blog/dental-implants-process-benefits-recovery":["main-content"],"/blog/same-day-crowns-vs-traditional-crowns":["main-content"],"/blog/veneers-vs-bonding-vs-whitening":["main-content"],"/blog/clear-aligners-how-they-work":["main-content"],"/blog/gum-disease-signs-treatment-prevention":["main-content"],"/blog/root-canal-what-to-expect":["main-content"],"/blog/sedation-dentistry-types-safety":["main-content"],"/blog/tmj-disorders-symptoms-treatment":["main-content"],"/blog/co2-laser-resurfacing-benefits-recovery":["main-content"],"/blog/microneedling-benefits-process-aftercare":["main-content"],"/contact":["main-content","request","book"],"/facial-aesthetics":["main-content","deka-laser","microneedling","emage-scan","hydroderm-facial"],"/new-patients":["main-content","insurance","offers","savings-plan"],"/pre-post-op":["main-content","implants","extractions","crowns","root-canals","srp","veneers","dentures","quietnite","sedation","deka-co2","microneedling","emage-scan","hydroderm"],"/privacy":["main-content"],"/reviews":["main-content"],"/services":["main-content","facial-aesthetics-services","dental-services","implants","crowns","restorative","dentures","root-canals","cosmetic","veneers","preventive","invisalign","oral-surgery","sedation","tmj","srp","quietnite"],"/terms":["main-content"]}},"eventPolicy":{"allowedEvents":["form_start","form_submit","generate_lead","phone_click","email_click","appointment_request","cta_click"],"allowedLocations":["phone_link","email_link","appointment_link","appointment_form","directions_link","hero_scroll","hero_offer","proof_rating","proof_reviews","proof_cerec","proof_doctor","care_selection","comparison","review_link","doctor_link","implant_offer"],"allowedCtaTypes":["appointment","directions","content","proof","service","pricing"],"allowedServiceCategories":["dental","facial_aesthetics"]}};
+const __SITE_ANALYTICS = {"provider":"gtag","enabled":true,"measurementId":"G-TC66MQQ0T7","consent":{"mode":"advanced","version":2,"storageKey":"thod-analytics-consent","waitForUpdate":500},"contractVersion":"local_service_v1","routeEligibility":{"version":"local_service_v1","default":"prohibited","routes":{"/":"approved","/about":"approved","/accessibility":"approved","/blog":"approved","/blog/dental-implants-process-benefits-recovery":"approved","/blog/same-day-crowns-vs-traditional-crowns":"approved","/blog/veneers-vs-bonding-vs-whitening":"approved","/blog/clear-aligners-how-they-work":"approved","/blog/gum-disease-signs-treatment-prevention":"approved","/blog/root-canal-what-to-expect":"approved","/blog/sedation-dentistry-types-safety":"approved","/blog/tmj-disorders-symptoms-treatment":"approved","/blog/co2-laser-resurfacing-benefits-recovery":"approved","/blog/microneedling-benefits-process-aftercare":"approved","/contact":"approved","/facial-aesthetics":"approved","/new-patients":"approved","/pre-post-op":"approved","/privacy":"approved","/reviews":"approved","/services":"approved","/terms":"approved"},"fragments":{"/":["main-content"],"/about":["main-content","dr-patel","team","technologies"],"/accessibility":["main-content"],"/blog":["main-content"],"/blog/dental-implants-process-benefits-recovery":["main-content"],"/blog/same-day-crowns-vs-traditional-crowns":["main-content"],"/blog/veneers-vs-bonding-vs-whitening":["main-content"],"/blog/clear-aligners-how-they-work":["main-content"],"/blog/gum-disease-signs-treatment-prevention":["main-content"],"/blog/root-canal-what-to-expect":["main-content"],"/blog/sedation-dentistry-types-safety":["main-content"],"/blog/tmj-disorders-symptoms-treatment":["main-content"],"/blog/co2-laser-resurfacing-benefits-recovery":["main-content"],"/blog/microneedling-benefits-process-aftercare":["main-content"],"/contact":["main-content","request","book"],"/facial-aesthetics":["main-content","deka-laser","microneedling","emage-scan","hydroderm-facial"],"/new-patients":["main-content","insurance","offers","savings-plan"],"/pre-post-op":["main-content","implants","extractions","crowns","root-canals","srp","veneers","dentures","quietnite","sedation","deka-co2","microneedling","emage-scan","hydroderm"],"/privacy":["main-content"],"/reviews":["main-content"],"/services":["main-content","facial-aesthetics-services","dental-services","implants","crowns","restorative","dentures","root-canals","cosmetic","veneers","preventive","invisalign","oral-surgery","sedation","tmj","srp","quietnite"],"/terms":["main-content"]}},"attribution":{"mode":"utm_only","allowedQueryParameters":["utm_source","utm_medium","utm_campaign","utm_content","utm_term"]},"eventPolicy":{"allowedEvents":["form_start","form_submit","generate_lead","phone_click","email_click","appointment_request","cta_click","file_download","form_step"],"allowedLocations":["phone_link","email_link","appointment_link","appointment_form","directions_link","hero_scroll","hero_offer","proof_rating","proof_reviews","proof_cerec","proof_doctor","care_selection","care_scroll","offer_scroll","comparison","review_link","financing_link","doctor_link","implant_offer"],"allowedCtaTypes":["appointment","directions","content","proof","service","pricing"],"allowedServiceCategories":["dental","facial_aesthetics"],"allowedFileCategories":["care_guide"],"allowedDownloadCategories":["care_guide"]}};
 const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rating":4.9,"review_count":337}};
 
 (() => {
@@ -860,6 +860,10 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   let returnFocus = null;
   let inerted = [];
   let completed = false;
+  const trackFormStep = (step) => window.thodAnalytics?.track("form_step", {
+    ctaLocation: "appointment_form",
+    formStep: step
+  });
 
   const checked = (name) => form.querySelector(`input[name="${name}"]:checked`);
   const choiceLabel = (name) => checked(name)?.parentElement?.querySelector("strong")?.textContent?.trim() || "";
@@ -938,8 +942,10 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       hint.hidden = hint.dataset.inquiryOptional === "phone" ? phoneRequired : emailRequired;
     });
   };
-  const showStep = (index, { focus = true } = {}) => {
-    current = Math.min(Math.max(index, 1), total);
+  const showStep = (index, { focus = true, track = false } = {}) => {
+    const next = Math.min(Math.max(index, 1), total);
+    const changed = next !== current;
+    current = next;
     steps.forEach((step, position) => {
       const active = position + 1 === current;
       step.hidden = !active;
@@ -960,6 +966,7 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       focusFirst(steps[current - 1]);
       panel.scrollTo?.({ top: 0, behavior: "auto" });
     }
+    if (track && changed) trackFormStep(current);
   };
   const validateStep = (index) => {
     const step = steps[index - 1];
@@ -1030,7 +1037,7 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     const preset = treatment ? form.querySelector(`input[name="treatment"][value="${CSS.escape(treatment)}"]`) : null;
     if (preset) preset.checked = true;
     if (inline) {
-      showStep(preset ? 2 : 1, { focus: false });
+      showStep(preset ? 2 : 1, { focus: false, track: true });
       drawer.scrollIntoView({ block: "start", behavior: reducedMotion() ? "auto" : "smooth" });
       window.setTimeout(() => {
         if (preset) focusFirst(steps[1]);
@@ -1041,7 +1048,7 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     drawer.classList.add("is-open");
     document.body.classList.add("inquiry-open");
     inertBackground();
-    showStep(preset ? 2 : 1, { focus: false });
+    showStep(preset ? 2 : 1, { focus: false, track: true });
     window.setTimeout(() => {
       if (!drawer.classList.contains("is-open")) return;
       if (preset) focusFirst(steps[1]);
@@ -1067,9 +1074,9 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   };
 
   nextButton.addEventListener("click", () => {
-    if (validateStep(current)) showStep(current + 1);
+    if (validateStep(current)) showStep(current + 1, { track: true });
   });
-  backButton.addEventListener("click", () => showStep(current - 1));
+  backButton.addEventListener("click", () => showStep(current - 1, { track: true }));
   form.addEventListener("submit", (event) => {
     if (current !== total || !validateStep(total)) {
       event.preventDefault();
@@ -1194,7 +1201,24 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   const forms = document.querySelectorAll("form[data-contact-form]");
   if (!forms.length) return;
 
+  const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  const secureAttemptId = () => {
+    const random = window.crypto || (typeof crypto !== "undefined" ? crypto : null);
+    if (typeof random?.randomUUID === "function") {
+      const value = random.randomUUID();
+      return uuidPattern.test(value) ? value.toLowerCase() : "";
+    }
+    if (typeof random?.getRandomValues !== "function" || typeof Uint8Array === "undefined") return "";
+    const bytes = new Uint8Array(16);
+    random.getRandomValues(bytes);
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+    const hex = [...bytes].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+    return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+  };
+
   forms.forEach((form) => {
+    let attemptId = "";
     const button = form.querySelector("button[type='submit']");
     const status = form.querySelector("[data-form-status]") || document.querySelector("#contact-status");
     const setStatus = (message, state) => {
@@ -1211,14 +1235,17 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       setStatus("Sending your request…", "pending");
 
       try {
+        if (!attemptId) attemptId = secureAttemptId();
+        const headers = { Accept: "application/json", "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" };
+        if (attemptId) headers["Idempotency-Key"] = attemptId;
         const response = await fetch(form.action, {
           method: "POST",
-          headers: { Accept: "application/json", "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+          headers,
           body: new URLSearchParams(new FormData(form))
         });
         const result = await response.json().catch(() => ({}));
         // A 202 is the Worker honeypot response, not a sent message.
-        if (response.status !== 200 || result.ok !== true) {
+        if (response.status !== 200 || result.ok !== true || result.accepted !== true) {
           const error = new Error(result.error || "Request failed");
           error.status = response.status;
           error.result = result;
@@ -1226,6 +1253,7 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
         }
         const message = result.message || "Your request was sent. We'll get back to you soon.";
         form.reset();
+        attemptId = "";
         setStatus(message, "success");
         window.thodAnalytics?.track("form_submit", { ctaLocation: "contact_form" });
         window.thodAnalytics?.track("generate_lead", { ctaLocation: "contact_form" });
@@ -1282,7 +1310,7 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     const fragment = (window.location?.hash || "").replace(/^#/, "");
     const allowedFragments = new Set(routeEligibility?.fragments?.[pagePath()] || []);
     if (fragment && !allowedFragments.has(fragment)) return null;
-    const allowedKeys = new Set(["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"]);
+    const allowedKeys = new Set(config.attribution?.allowedQueryParameters || ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"]);
     const params = new URLSearchParams(window.location?.search || "");
     const sanitized = new URLSearchParams();
     const seen = new Set();
@@ -1362,6 +1390,8 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   const allowedLocations = new Set(config.eventPolicy?.allowedLocations || []);
   const allowedCtaTypes = new Set(config.eventPolicy?.allowedCtaTypes || []);
   const allowedServiceCategories = new Set(config.eventPolicy?.allowedServiceCategories || []);
+  const allowedFileCategories = new Set(config.eventPolicy?.allowedFileCategories || ["care_guide"]);
+  const allowedDownloadCategories = new Set(config.eventPolicy?.allowedDownloadCategories || config.eventPolicy?.allowedFileCategories || ["care_guide"]);
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = function gtag() {
@@ -1377,6 +1407,7 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   window.gtag("config", config.measurementId, {
     page_location: pageLocation,
     page_path: pagePath(),
+    page_title: "",
     page_referrer: "",
     send_page_view: true
   });
@@ -1387,6 +1418,18 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     if (allowedLocations.has(metadata.ctaLocation)) payload.cta_location = metadata.ctaLocation;
     if (allowedCtaTypes.has(metadata.ctaType)) payload.cta_type = metadata.ctaType;
     if (allowedServiceCategories.has(metadata.serviceCategory)) payload.service_category = metadata.serviceCategory;
+    if (eventName === "file_download") {
+      const downloadCategory = metadata.downloadCategory || metadata.fileCategory || "care_guide";
+      if (!allowedFileCategories.has(downloadCategory) && !allowedDownloadCategories.has(downloadCategory)) return;
+      payload.file_category = downloadCategory;
+      payload.download_category = downloadCategory;
+    }
+    if (eventName === "form_step") {
+      const formStep = Number(metadata.stepNumber ?? metadata.formStep);
+      if (!Number.isInteger(formStep) || formStep < 1 || formStep > 3) return;
+      payload.form_step = formStep;
+      payload.step_number = formStep;
+    }
     window.gtag("event", eventName, payload);
   };
   window.thodAnalytics = { track };
@@ -1394,7 +1437,10 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   document.querySelectorAll("[data-analytics-event]").forEach((element) => {
     element.addEventListener("click", () => track(element.dataset.analyticsEvent, {
       ctaLocation: element.dataset.analyticsLocation,
-      ctaType: element.dataset.analyticsCtaType
+      ctaType: element.dataset.analyticsCtaType,
+      serviceCategory: element.dataset.analyticsServiceCategory,
+      fileCategory: element.dataset.analyticsFileCategory,
+      downloadCategory: element.dataset.analyticsDownloadCategory
     }));
   });
   document.querySelectorAll("form[data-analytics-form]").forEach((form) => {

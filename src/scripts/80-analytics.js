@@ -22,7 +22,7 @@
     const fragment = (window.location?.hash || "").replace(/^#/, "");
     const allowedFragments = new Set(routeEligibility?.fragments?.[pagePath()] || []);
     if (fragment && !allowedFragments.has(fragment)) return null;
-    const allowedKeys = new Set(["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"]);
+    const allowedKeys = new Set(config.attribution?.allowedQueryParameters || ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"]);
     const params = new URLSearchParams(window.location?.search || "");
     const sanitized = new URLSearchParams();
     const seen = new Set();
@@ -102,6 +102,8 @@
   const allowedLocations = new Set(config.eventPolicy?.allowedLocations || []);
   const allowedCtaTypes = new Set(config.eventPolicy?.allowedCtaTypes || []);
   const allowedServiceCategories = new Set(config.eventPolicy?.allowedServiceCategories || []);
+  const allowedFileCategories = new Set(config.eventPolicy?.allowedFileCategories || ["care_guide"]);
+  const allowedDownloadCategories = new Set(config.eventPolicy?.allowedDownloadCategories || config.eventPolicy?.allowedFileCategories || ["care_guide"]);
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = function gtag() {
@@ -117,6 +119,7 @@
   window.gtag("config", config.measurementId, {
     page_location: pageLocation,
     page_path: pagePath(),
+    page_title: "",
     page_referrer: "",
     send_page_view: true
   });
@@ -127,6 +130,18 @@
     if (allowedLocations.has(metadata.ctaLocation)) payload.cta_location = metadata.ctaLocation;
     if (allowedCtaTypes.has(metadata.ctaType)) payload.cta_type = metadata.ctaType;
     if (allowedServiceCategories.has(metadata.serviceCategory)) payload.service_category = metadata.serviceCategory;
+    if (eventName === "file_download") {
+      const downloadCategory = metadata.downloadCategory || metadata.fileCategory || "care_guide";
+      if (!allowedFileCategories.has(downloadCategory) && !allowedDownloadCategories.has(downloadCategory)) return;
+      payload.file_category = downloadCategory;
+      payload.download_category = downloadCategory;
+    }
+    if (eventName === "form_step") {
+      const formStep = Number(metadata.stepNumber ?? metadata.formStep);
+      if (!Number.isInteger(formStep) || formStep < 1 || formStep > 3) return;
+      payload.form_step = formStep;
+      payload.step_number = formStep;
+    }
     window.gtag("event", eventName, payload);
   };
   window.thodAnalytics = { track };
@@ -134,7 +149,10 @@
   document.querySelectorAll("[data-analytics-event]").forEach((element) => {
     element.addEventListener("click", () => track(element.dataset.analyticsEvent, {
       ctaLocation: element.dataset.analyticsLocation,
-      ctaType: element.dataset.analyticsCtaType
+      ctaType: element.dataset.analyticsCtaType,
+      serviceCategory: element.dataset.analyticsServiceCategory,
+      fileCategory: element.dataset.analyticsFileCategory,
+      downloadCategory: element.dataset.analyticsDownloadCategory
     }));
   });
   document.querySelectorAll("form[data-analytics-form]").forEach((form) => {

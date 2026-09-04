@@ -74,7 +74,7 @@ Encrypted secrets:
 - `RESEND_API_KEY` — store the real key as an encrypted Worker secret. Replace `re_xxxxxxxxx` with the real API key when configuring it; never commit it.
 - `RESEND_WEBHOOK_SECRET` — signing secret for the Resend webhook at `/api/resend-webhook`; store it as an encrypted Worker secret and verify signatures against the raw request body.
 
-The Google reputation endpoint reads the Place ID and API key only from Worker bindings, validates the upstream rating/count, and caches successful public data for five minutes. Failures are never cached. The contact endpoint validates the exact origin, body size, fields, and honeypot, then sends a server-generated email through Resend. It never creates or confirms an appointment and never logs request bodies, personal information, or secrets.
+The Google reputation endpoint reads the Place ID and API key only from Worker bindings, validates the upstream rating/count, and caches successful public data for five minutes. Failures are never cached. The contact endpoint validates the exact origin, body size, fields, and honeypot, then sends a server-generated email through Resend. Each submission attempt uses a cryptographically secure retry key scoped to the website's Resend request. It never creates or confirms an appointment and never logs request bodies, personal information, or secrets.
 
 The appointment request drawer (`src/templates/inquiry.html`, rendered into every full-shell page and opened by any `/contact#request` link) posts to `/api/contact` using URL-encoded form data. The Worker maps it to the Resend API payload with the office as `to` and, when the visitor supplied an email address, the visitor as `reply_to`. A successful delivery means the office received a request email; it does not create or confirm an appointment.
 
@@ -97,7 +97,7 @@ The appointment request drawer (`src/templates/inquiry.html`, rendered into ever
 
 Optional preference fields are validated against those allowlists and rendered as "Not provided" in the office email when absent.
 
-A successful adapter response means the message was accepted for notification; it is not a booked appointment or confirmed lead.
+A successful adapter response means Resend accepted the message for notification; it is not a booked appointment or confirmed lead. An optional `DELIVERY_DB` binding and `migrations/0001_delivery_correlation.sql` provide privacy-safe technical delivery correlation and idempotent webhook receipt when the client provisions them. The Worker remains safe and functional without that binding; see `docs/CLOUDFLARE-HANDOFF.md` for the exact manual setup.
 
 ## Clean routes and redirects
 
@@ -111,7 +111,7 @@ The generated `_redirects` file sends every former public `.html` URL directly t
 
 ## GA4 production controls
 
-The live export uses direct `gtag.js` with Consent Mode v2 and Measurement ID `G-TC66MQQ0T7`. The route policy defaults to prohibited, and the approved list contains only the clean paths declared in the site metadata. Business events require analytics consent and allowlist only page path, approved CTA location/type, and service category; appointment form values, query strings, and other direct identifiers are not sent. See `measurement/site.md` and `docs/ANALYTICS-HANDOFF.md` for the reporting-connection and remaining governance sequence.
+The live export uses direct `gtag.js` with advanced Consent Mode v2 and Measurement ID `G-TC66MQQ0T7`. The route policy defaults to prohibited, and the approved list contains only the clean paths declared in the site metadata. Business events require analytics consent and allowlist only page path, approved CTA location/type, service category, generic care-guide category, and numeric inquiry step. `page_location` is limited to the five approved UTM keys; fragments, unapproved query parameters, titles, referrers, file names, appointment form values, and other direct identifiers are not sent. See `measurement/site.md` and `docs/ANALYTICS-HANDOFF.md` for the reporting-connection and remaining governance sequence.
 
 Cloudflare Web Analytics is not part of the approved repository design. A live browser audit on August 12, 2026 found an account-injected Cloudflare beacon that is blocked by the site's Content Security Policy. Disable that account-level injection unless it receives its own privacy approval; do not weaken the policy merely to silence the console error.
 

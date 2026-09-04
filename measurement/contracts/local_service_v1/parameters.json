@@ -7,9 +7,19 @@
       "phone_click",
       "email_click",
       "appointment_request",
-      "cta_click"
+      "cta_click",
+      "file_download",
+      "form_step"
     ],
     "page_path": "pathname only; never query string, fragment, title, or referrer",
+    "page_location": "origin plus pathname and validated UTM query parameters only; never a fragment, title, referrer, or unapproved query parameter",
+    "attribution_query_parameter": [
+      "utm_source",
+      "utm_medium",
+      "utm_campaign",
+      "utm_content",
+      "utm_term"
+    ],
     "cta_location": [
       "phone_link",
       "email_link",
@@ -23,8 +33,11 @@
       "proof_cerec",
       "proof_doctor",
       "care_selection",
+      "care_scroll",
+      "offer_scroll",
       "comparison",
       "review_link",
+      "financing_link",
       "doctor_link",
       "implant_offer"
     ],
@@ -39,7 +52,23 @@
     "service_category": [
       "dental",
       "facial_aesthetics"
-    ]
+    ],
+    "file_category": [
+      "care_guide"
+    ],
+    "download_category": [
+      "care_guide"
+    ],
+    "form_step": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3
+    },
+    "step_number": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3
+    }
   },
   "prohibited": [
     "name",
@@ -50,7 +79,10 @@
     "appointment identifier",
     "treatment or condition details",
     "URL query parameters",
+    "URL fragments",
     "page titles",
+    "referrers",
+    "PDF filenames",
     "site-search terms"
   ]
 }

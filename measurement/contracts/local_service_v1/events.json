@@ -41,6 +41,18 @@
       "status": "implemented",
       "firesWhen": "A visitor activates an annotated approved call to action.",
       "businessInterpretation": "Top-of-funnel CTA engagement."
+    },
+    {
+      "name": "file_download",
+      "status": "implemented",
+      "firesWhen": "A visitor activates an approved pre/post-care PDF download link.",
+      "businessInterpretation": "Care-information engagement; the file name and treatment are not sent."
+    },
+    {
+      "name": "form_step",
+      "status": "implemented",
+      "firesWhen": "A visitor changes step in the eligible multi-step appointment request flow.",
+      "businessInterpretation": "Progress through the request flow; only the numeric step is sent."
     }
   ]
 }

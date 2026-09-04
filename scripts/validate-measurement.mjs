@@ -2,7 +2,8 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 
 const readJson = async (path) => JSON.parse(await readFile(path, "utf8"));
 const errors = [];
-const expectedEvents = ["form_start", "form_submit", "generate_lead", "phone_click", "email_click", "appointment_request", "cta_click"];
+const expectedEvents = ["form_start", "form_submit", "generate_lead", "phone_click", "email_click", "appointment_request", "cta_click", "file_download", "form_step"];
+const expectedAttributionParameters = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
 const validStatuses = new Set(["approved", "requires_review", "prohibited"]);
 
 const siteMeasurement = await readJson("measurement/site.json");
@@ -57,14 +58,33 @@ if (!mappings.mappings?.some((item) => item.event === "generate_lead")) errors.p
 if (!validation.requiredChecks?.length) errors.push("measurement validation checks are required");
 
 const allowedEvents = new Set(parameters.allowed.event);
-check("allowed_event_matrix", expectedEvents.every((event) => allowedEvents.has(event)), "all seven contract events are allowlisted");
+check("allowed_event_matrix", expectedEvents.every((event) => allowedEvents.has(event)), "all nine contract events are allowlisted");
 check("unknown_event_rejected", !allowedEvents.has("unknown_event"), "unknown events are absent from the allowlist");
 check("consent_default_denied", siteMeasurement.consent.mode === "advanced" && siteMeasurement.consent.version === 2, "advanced Consent Mode v2 is configured");
 check("unknown_route_fail_closed", routes.default === "prohibited", "unknown routes resolve to prohibited");
 check("approved_routes_allowlisted", Object.values(routes.routes).every((status) => status === "approved"), "all configured production site routes are approved");
 check("approved_route_coverage", Object.values(routes.routes).some((status) => status === "approved"), "the production site has at least one approved route");
 check("query_string_not_allowed", parameters.prohibited.includes("URL query parameters"), "query parameters are prohibited payload sources");
-check("fragment_not_allowed", parameters.prohibited.includes("URL query parameters"), "fragment/query URL data is not an analytics payload");
+check("fragment_not_allowed", parameters.prohibited.includes("URL fragments"), "fragment URL data is not an analytics payload");
+check("utm_only_attribution", siteMeasurement.attribution?.mode === "utm_only"
+  && JSON.stringify(siteMeasurement.attribution?.allowedQueryParameters) === JSON.stringify(expectedAttributionParameters)
+  && JSON.stringify(parameters.allowed?.attribution_query_parameter) === JSON.stringify(expectedAttributionParameters)
+  && siteMeasurement.attribution?.unapprovedQueryBehavior === "fail_closed"
+  && siteMeasurement.attribution?.fragmentBehavior === "never_forwarded", "page_location allows only the five approved UTM keys and fails closed otherwise");
+check("page_metadata_not_allowed", ["page titles", "referrers", "URL fragments"].every((item) => parameters.prohibited.includes(item)), "page title, referrer, and fragment data are prohibited");
+check("file_download_payload_safe", events.events?.find((event) => event.name === "file_download")?.status === "implemented"
+  && parameters.allowed?.file_category?.length === 1
+  && parameters.allowed.file_category[0] === "care_guide"
+  && parameters.allowed?.download_category?.length === 1
+  && parameters.allowed.download_category[0] === "care_guide", "file_download uses approved category parameters");
+check("form_step_numeric", events.events?.find((event) => event.name === "form_step")?.status === "implemented"
+  && parameters.allowed?.form_step?.type === "integer"
+  && parameters.allowed.form_step.minimum === 1
+  && parameters.allowed.form_step.maximum === 3
+  && parameters.allowed?.step_number?.type === "integer"
+  && parameters.allowed.step_number.minimum === 1
+  && parameters.allowed.step_number.maximum === 3, "form_step and step_number are limited to numeric steps one through three");
+check("approved_cta_locations", ["care_scroll", "offer_scroll", "review_link", "financing_link"].every((item) => parameters.allowed?.cta_location?.includes(item)), "review, financing, care, and offer CTA locations are allowlisted");
 check("direct_identifiers_not_allowed", ["name", "email", "personal phone number", "form contents"].every((item) => parameters.prohibited.includes(item)), "direct identifiers and form contents are prohibited");
 check("lead_boundary", events.events.find((event) => event.name === "generate_lead")?.status === "implemented" && mappings.mappings.some((item) => item.event === "generate_lead"), "generate_lead fires only after the approved validated request handoff");
 
@@ -77,7 +97,7 @@ const evidence = {
   measurementIdStatus: siteMeasurement.ga4.measurementId ? "provided" : "not_provided",
   ga4RuntimeStatus: siteMeasurement.ga4.enabled ? "enabled_on_live_approved_routes" : "disabled",
   checks: evidenceChecks,
-  manualChecksRemaining: ["GA4 DebugView event receipt for each applicable event", "production appointment inbox delivery"],
+  manualChecksRemaining: ["GA4 DebugView event receipt for each applicable event, including file_download and form_step", "production appointment inbox delivery"],
   notes: "Governance was approved by the workspace owner. This record proves local policy and build validation; DebugView receipt and production inbox delivery remain independently observable evidence."
 };
 

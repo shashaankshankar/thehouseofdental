@@ -1,6 +1,6 @@
 {
   "evidenceVersion": 1,
-  "capturedAt": "2026-08-28T05:53:15.347Z",
+  "capturedAt": "2026-09-04T14:12:59.881Z",
   "status": "validated_locally",
   "approvalStatus": "approved",
   "deploymentStatus": "live",
@@ -15,7 +15,7 @@
     {
       "name": "allowed_event_matrix",
       "passed": true,
-      "detail": "all seven contract events are allowlisted"
+      "detail": "all nine contract events are allowlisted"
     },
     {
       "name": "unknown_event_rejected",
@@ -50,7 +50,32 @@
     {
       "name": "fragment_not_allowed",
       "passed": true,
-      "detail": "fragment/query URL data is not an analytics payload"
+      "detail": "fragment URL data is not an analytics payload"
+    },
+    {
+      "name": "utm_only_attribution",
+      "passed": true,
+      "detail": "page_location allows only the five approved UTM keys and fails closed otherwise"
+    },
+    {
+      "name": "page_metadata_not_allowed",
+      "passed": true,
+      "detail": "page title, referrer, and fragment data are prohibited"
+    },
+    {
+      "name": "file_download_payload_safe",
+      "passed": true,
+      "detail": "file_download uses approved category parameters"
+    },
+    {
+      "name": "form_step_numeric",
+      "passed": true,
+      "detail": "form_step and step_number are limited to numeric steps one through three"
+    },
+    {
+      "name": "approved_cta_locations",
+      "passed": true,
+      "detail": "review, financing, care, and offer CTA locations are allowlisted"
     },
     {
       "name": "direct_identifiers_not_allowed",
@@ -64,7 +89,7 @@
     }
   ],
   "manualChecksRemaining": [
-    "GA4 DebugView event receipt for each applicable event",
+    "GA4 DebugView event receipt for each applicable event, including file_download and form_step",
     "production appointment inbox delivery"
   ],
   "notes": "Governance was approved by the workspace owner. This record proves local policy and build validation; DebugView receipt and production inbox delivery remain independently observable evidence."

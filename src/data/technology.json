@@ -5,7 +5,7 @@
     "img": "assets/technology-cerec.jpg",
     "paras": [
       "CEREC lets us design, mill, and place a permanent ceramic crown in a single appointment. A digital scan of your tooth becomes a 3D model on screen, and our in-office milling unit carves the restoration from a solid block of ceramic while you wait.",
-      "The result: no impression putty, no temporary crown to fall off, and no second appointment weeks later. You walk in with a damaged tooth and walk out with a finished, color-matched restoration."
+      "For suitable teeth, this can avoid a temporary crown and a separate laboratory visit. The tooth condition and treatment plan determine whether a same-day restoration is appropriate."
     ],
     "soon": false
   },
@@ -35,7 +35,7 @@
     "img": "assets/technology-guided-surgery.jpg",
     "paras": [
       "Using CT data, implant placement is planned digitally down to the millimeter, then executed with a custom surgical guide that directs the placement exactly as planned.",
-      "Because the position is determined before surgery begins, the procedure is more precise and far less invasive — often meaning smaller incisions, less discomfort, and a faster recovery than freehand placement."
+      "A surgical guide supports the planned placement. Suitability, the extent of surgery, and healing vary by site; guided treatment does not remove surgical risks."
     ],
     "soon": false
   },
@@ -44,8 +44,8 @@
     "title": "DEKA CO2 Facial Resurfacing Laser",
     "img": "assets/technology-deka-co2-v2.jpg",
     "paras": [
-      "DEKA is a leading name in medical laser technology, used for skin resurfacing and rejuvenation treatments that address fine lines, uneven texture, sun damage, pigmentation, and scarring.",
-      "The laser works by delivering precisely controlled energy to the skin, stimulating the body's natural collagen production and encouraging fresh, healthy tissue to replace damaged surface layers — with treatment intensity tailored to each patient's skin and goals."
+      "The House of Dental offers DEKA CO2 facial resurfacing in Winter Park. A consultation considers the skin changes you want to address, your health history, and the recovery involved before recommending treatment.",
+      "Redness, swelling, and a period of skin healing are expected considerations. Pigment changes, infection, and scarring are possible risks. Obtain a personal aftercare plan and recovery estimate before scheduling; there is no universal downtime or guaranteed result."
     ],
     "soon": false
   },
@@ -54,8 +54,8 @@
     "title": "Emage 3D Skin Scanner",
     "img": "assets/technology-emage-3d-v2.jpg",
     "paras": [
-      "The Emage scanner captures a detailed three-dimensional analysis of your skin — revealing sun damage, pigmentation, pore condition, wrinkles, and texture beneath the surface that the naked eye cannot detect.",
-      "It turns aesthetic treatment into something measurable. We can establish an objective baseline before treatment begins, build a plan around what your skin actually needs, and show you side-by-side progress over time rather than asking you to guess at the results."
+      "Emage 3D skin analysis provides images for a conversation about your skin at The House of Dental. It supports aesthetic planning and comparison over time rather than replacing a clinical examination.",
+      "The scan may support a discussion of HydroDerm facials, microneedling, or CO2 resurfacing. It does not mean that any particular treatment is required. Repeat imaging can support comparison, but changes should be interpreted alongside your clinical response."
     ],
     "soon": false
   },
@@ -64,8 +64,8 @@
     "title": "Custom HydroDerm Facials",
     "img": "assets/hydroderm-facial.jpg",
     "paras": [
-      "A multi-step hydrating facial treatment that cleanses, gently exfoliates, extracts impurities, and infuses the skin with hydrating serums — all in one session, with no downtime.",
-      "Each facial is customized rather than one-size-fits-all: the serums and intensity are selected based on your skin's needs, which is where the Emage scanner comes in. Results are immediate — smoother texture, refined pores, and a visible glow."
+      "Custom HydroDerm facials at The House of Dental combine cleansing, exfoliation, and hydration. The consultation focuses on your skin concerns, sensitivities, and the products already in your routine.",
+      "Skin response varies, and flushing or irritation can occur. Follow the team’s instructions about home products and sun protection. Schedule a first treatment with enough flexibility to see how your skin responds before an important event."
     ],
     "soon": false
   },
@@ -74,8 +74,8 @@
     "title": "Microneedling",
     "img": "assets/technology-microneedling-v2.jpg",
     "paras": [
-      "Microneedling &mdash; collagen induction therapy &mdash; uses a precision device to create thousands of microscopic channels in the skin, triggering the body's natural wound-healing cascade.",
-      "As the skin repairs those channels it produces fresh collagen and elastin, softening acne scars, refining texture, tightening pores, and firming skin from within. Because it works without heat, it's safe across all skin types."
+      "Microneedling creates small punctures in the skin as part of a controlled treatment. At The House of Dental, a skin consultation helps establish whether it is an appropriate option for your concerns.",
+      "Temporary redness, irritation, or bleeding may occur; infection and pigment changes are also possible. Suitability requires an individual assessment, including for darker skin tones. Follow your provider’s product and sun-protection instructions rather than adding treatments yourself."
     ],
     "soon": false
   }

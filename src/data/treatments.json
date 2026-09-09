@@ -1,0 +1,816 @@
+[
+  {
+    "id": "implants",
+    "path": "/services/dental-implants",
+    "title": "Dental Implants",
+    "description": "Replace missing teeth with dental implants in Winter Park, FL. Explore guided placement, restoration options, and consultation at The House of Dental.",
+    "category": "Dental Care",
+    "image": "/assets/service-implants.jpg",
+    "imageAlt": "Dental Implants",
+    "intro": "Dental implants support a replacement crown, bridge, or denture. At The House of Dental in Winter Park, Dr. Mainak Patel plans implant care around the missing teeth, surrounding bone and gums, and the way your teeth meet.",
+    "sections": [
+      {
+        "heading": "Planning Your Replacement Teeth",
+        "body": "A consultation includes an examination and the imaging needed to assess the site. The practice uses cone beam CT and computer-guided planning for implant treatment. Ask whether a single implant, an implant-supported bridge, or an implant-supported denture would fit your needs. Some patients need additional treatment before placement."
+      },
+      {
+        "heading": "Placement, Healing, and Restoration",
+        "body": "The implant and the visible replacement tooth are different parts of treatment. Healing occurs between stages, and the schedule depends on the site and any additional procedures. The final restoration is designed for your bite as well as appearance. A same-day replacement is not suitable for every case."
+      },
+      {
+        "heading": "Keeping an Implant Healthy",
+        "body": "Implants still require daily cleaning and professional follow-up. Gum inflammation, infection, implant failure, or wear of the restoration can occur. Review your health history and maintenance needs before deciding. Follow the individual instructions provided after surgery."
+      }
+    ],
+    "questions": [
+      {
+        "question": "Is an implant my only option?",
+        "answer": "No. A bridge or removable denture may also replace missing teeth. The consultation compares maintenance, treatment time, and the condition of nearby teeth."
+      },
+      {
+        "question": "What is included in an estimate?",
+        "answer": "Ask for an itemized plan covering the implant, abutment, crown, and any extra procedures. Current offers and eligibility conditions are listed on the new-patient page."
+      }
+    ],
+    "careAnchor": "implants",
+    "related": [
+      "crowns",
+      "dentures",
+      "restorative"
+    ],
+    "sources": [
+      {
+        "label": "American Dental Association: Implants",
+        "url": "https://www.mouthhealthy.org/all-topics-a-z/implants"
+      },
+      {
+        "label": "American Academy of Periodontology: Dental Implant Procedures",
+        "url": "https://www.perio.org/for-patients/periodontal-treatments-and-procedures/dental-implant-procedures/"
+      }
+    ]
+  },
+  {
+    "id": "crowns",
+    "path": "/services/same-day-crowns",
+    "title": "Same-Day Dental Crowns",
+    "description": "Same-day CEREC crowns in Winter Park, FL. Learn how digital scans and in-office milling restore a damaged tooth at The House of Dental.",
+    "category": "Dental Care",
+    "image": "/assets/service-crowns.jpg",
+    "imageAlt": "Same-Day Dental Crowns",
+    "intro": "A crown covers a tooth that needs more support than a filling can provide. The House of Dental uses CEREC scanning and in-office milling to make ceramic crowns in Winter Park, with a single-visit option when the tooth and treatment plan allow it.",
+    "sections": [
+      {
+        "heading": "When a Crown May Help",
+        "body": "A weakened, fractured, heavily restored, or root-canal-treated tooth may benefit from a crown. Dr. Patel examines the tooth and bite before recommending coverage. A filling, a different restoration, or other treatment may be more appropriate when the remaining tooth cannot support a crown."
+      },
+      {
+        "heading": "How CEREC Treatment Works",
+        "body": "After preparation, a digital scan records the tooth. The crown is designed and milled in the office, then checked for fit, contact, color, and bite before it is bonded or cemented. Some situations still call for laboratory work or more than one appointment."
+      },
+      {
+        "heading": "After Your Crown",
+        "body": "Temporary sensitivity can occur. Tell the office if the bite feels uneven or discomfort persists. Brush and clean between the teeth as instructed; a crowned tooth can still develop decay around its margin. Avoid treating a crown as indestructible."
+      }
+    ],
+    "questions": [
+      {
+        "question": "Can every crown be finished in one day?",
+        "answer": "No. The condition of the tooth, restorative material, and other needed treatment determine whether a one-visit crown is appropriate."
+      },
+      {
+        "question": "Is CEREC only for cosmetic treatment?",
+        "answer": "No. Crowns primarily restore tooth structure and function, while their shape and shade also affect the appearance of your smile."
+      }
+    ],
+    "careAnchor": "crowns",
+    "related": [
+      "implants",
+      "root-canals",
+      "restorative"
+    ],
+    "sources": [
+      {
+        "label": "American Dental Association: Crowns",
+        "url": "https://www.mouthhealthy.org/all-topics-a-z/crowns/"
+      },
+      {
+        "label": "American College of Prosthodontists: Caps and Crowns",
+        "url": "https://www.gotoapro.org/caps-and-crowns/"
+      }
+    ]
+  },
+  {
+    "id": "veneers",
+    "path": "/services/porcelain-veneers",
+    "title": "Porcelain Veneers",
+    "description": "Explore porcelain veneers in Winter Park, FL, including smile planning, alternatives, and maintenance at The House of Dental.",
+    "category": "Dental Care",
+    "image": "/assets/service-veneers.jpg",
+    "imageAlt": "Porcelain Veneers",
+    "intro": "Porcelain veneers cover the front surface of selected teeth to change their shape, proportions, or color. Planning at The House of Dental begins with the health of your teeth and gums and the changes you want to make.",
+    "sections": [
+      {
+        "heading": "Planning a Balanced Smile",
+        "body": "Bring the concerns you notice most, such as a chipped edge, uneven shape, or a gap. Dr. Patel evaluates your bite and enamel before discussing veneers. Whitening, bonding, or orthodontic treatment may address some concerns with less alteration to the teeth."
+      },
+      {
+        "heading": "Preparation and Placement",
+        "body": "Many veneer plans require removing some enamel, so treatment is usually not reversible. The number of visits and any temporary restorations depend on the plan. Final veneers are checked for fit and appearance before placement."
+      },
+      {
+        "heading": "Care and Limitations",
+        "body": "Veneers can chip or debond and may need replacement over time. Gum health, cleaning around the edges, and managing grinding or clenching matter. Veneers do not prevent decay and are not a substitute for treating active disease."
+      }
+    ],
+    "questions": [
+      {
+        "question": "Will I need a veneer on every tooth?",
+        "answer": "Not necessarily. The number depends on the teeth visible when you smile, your goals, and the condition of each tooth."
+      },
+      {
+        "question": "Can veneers straighten teeth?",
+        "answer": "They can change the appearance of some minor irregularities. Moving teeth with aligners may be a better option for spacing or bite problems."
+      }
+    ],
+    "careAnchor": "veneers",
+    "related": [
+      "cosmetic",
+      "invisalign",
+      "crowns"
+    ]
+  },
+  {
+    "id": "invisalign",
+    "path": "/services/invisalign",
+    "title": "Invisalign Clear Aligners",
+    "description": "Invisalign clear aligners in Winter Park, FL. Discuss tooth alignment, daily wear, and retention with The House of Dental.",
+    "category": "Dental Care",
+    "image": "/assets/service-invisalign.jpg",
+    "imageAlt": "Invisalign®",
+    "intro": "Invisalign uses a sequence of removable clear aligners to move teeth gradually. The House of Dental offers aligner consultations for teens and adults in Winter Park, with suitability determined by an examination.",
+    "sections": [
+      {
+        "heading": "Assessing Your Alignment",
+        "body": "Crowding, spacing, and some bite concerns can be treated with aligners. The team examines tooth and gum health and discusses whether aligners can achieve the needed movements. Some cases require another approach or a specialist referral."
+      },
+      {
+        "heading": "Wearing and Changing Aligners",
+        "body": "A planned series of trays applies controlled pressure to the teeth. You remove them for meals and cleaning and follow the prescribed wear schedule. Attachments or other adjustments may be part of treatment. Progress checks help determine when to move to the next stage."
+      },
+      {
+        "heading": "Protecting the Result",
+        "body": "Cleaning the teeth and aligners is important throughout treatment. Pressure or soreness can occur as teeth move. Once alignment is complete, retainers help maintain the result; teeth can shift again without appropriate retention."
+      }
+    ],
+    "questions": [
+      {
+        "question": "How long does treatment take?",
+        "answer": "Treatment time depends on the required movements, your response, and consistent wear. A personal estimate follows assessment rather than a standard online timeline."
+      },
+      {
+        "question": "Can I eat with the trays in?",
+        "answer": "Remove aligners for meals and follow the instructions provided for drinks, cleaning, and reinserting them."
+      }
+    ],
+    "careAnchor": null,
+    "related": [
+      "veneers",
+      "preventive",
+      "cosmetic"
+    ],
+    "sources": [
+      {
+        "label": "American Association of Orthodontists: Clear Aligners",
+        "url": "https://aaoinfo.org/treatments/aligners/"
+      },
+      {
+        "label": "American Association of Orthodontists: Clear Aligner Therapy",
+        "url": "https://aaoinfo.org/whats-trending/clear-aligner-therapy/"
+      }
+    ]
+  },
+  {
+    "id": "deka",
+    "path": "/facial-aesthetics/co2-laser-resurfacing",
+    "title": "CO2 Laser Resurfacing",
+    "description": "DEKA CO2 laser resurfacing in Winter Park, FL. Explore skin consultation, treatment planning, recovery, and alternatives at The House of Dental.",
+    "category": "Facial Aesthetics",
+    "image": "/assets/technology-deka-co2-v2.jpg",
+    "imageAlt": "DEKA CO2 Facial Resurfacing Laser",
+    "intro": "The House of Dental offers DEKA CO2 facial resurfacing in Winter Park. A consultation considers the skin changes you want to address, your health history, and the recovery involved before recommending treatment.",
+    "sections": [
+      {
+        "heading": "Choosing a Resurfacing Approach",
+        "body": "CO2 resurfacing may improve selected texture changes, lines, or scars. Skin tone, previous treatments, and healing history affect suitability. The consultation should also address alternatives and who will perform your procedure."
+      },
+      {
+        "heading": "What Treatment Involves",
+        "body": "Laser energy treats selected areas of the skin. Settings and the extent of treatment influence both the result and healing time. Discuss preparation, comfort measures, and the expected number of visits with your treating provider."
+      },
+      {
+        "heading": "Recovery and Limitations",
+        "body": "Redness, swelling, and a period of skin healing are expected considerations. Pigment changes, infection, and scarring are possible risks. Obtain a personal aftercare plan and recovery estimate before scheduling; there is no universal downtime or guaranteed result."
+      }
+    ],
+    "questions": [
+      {
+        "question": "Is CO2 resurfacing right for every skin tone?",
+        "answer": "No single laser plan is suitable for everyone. Ask how your skin tone and history of pigmentation affect the risks and alternatives."
+      },
+      {
+        "question": "Can I schedule treatment just before an event?",
+        "answer": "Allow time for the recovery advised by your provider. Healing and redness may last longer than anticipated."
+      }
+    ],
+    "careAnchor": "deka-co2",
+    "related": [
+      "microneedling",
+      "emage",
+      "hydroderm"
+    ],
+    "sources": [
+      {
+        "label": "American Society for Dermatologic Surgery: Laser Resurfacing",
+        "url": "https://www.asds.net/skin-experts/skin-treatments/laser-resurfacing"
+      },
+      {
+        "label": "American Academy of Dermatology: Questions Before Cosmetic Treatment",
+        "url": "https://www.aad.org/public/cosmetic/safety/ask-questions"
+      }
+    ]
+  },
+  {
+    "id": "microneedling",
+    "path": "/facial-aesthetics/microneedling",
+    "title": "Microneedling",
+    "description": "Microneedling consultations in Winter Park, FL. Learn about skin texture treatment, suitability, and aftercare at The House of Dental.",
+    "category": "Facial Aesthetics",
+    "image": "/assets/technology-microneedling-v2.jpg",
+    "imageAlt": "Microneedling",
+    "intro": "Microneedling creates small punctures in the skin as part of a controlled treatment. At The House of Dental, a skin consultation helps establish whether it is an appropriate option for your concerns.",
+    "sections": [
+      {
+        "heading": "Goals and Suitability",
+        "body": "Discuss the texture or scarring you want to improve and your previous skin treatments. Results vary, and more than one visit may be recommended. Ask which device will be used and about the experience of the treating provider."
+      },
+      {
+        "heading": "Preparing for a Visit",
+        "body": "Bring your medication and skin-care history. The team should explain preparation, comfort measures, and the planned treatment area. Do not assume that a product is safe to apply immediately after treatment simply because it is part of your normal routine."
+      },
+      {
+        "heading": "Aftercare and Risks",
+        "body": "Temporary redness, irritation, or bleeding may occur; infection and pigment changes are also possible. Suitability requires an individual assessment, including for darker skin tones. Follow your provider’s product and sun-protection instructions rather than adding treatments yourself."
+      }
+    ],
+    "questions": [
+      {
+        "question": "Is microneedling the same as laser resurfacing?",
+        "answer": "No. They use different methods to treat skin. A consultation can compare their aims, limitations, and recovery requirements."
+      },
+      {
+        "question": "Are the results permanent?",
+        "answer": "Improvements and maintenance needs vary. Ask what change is realistic for your concern and when the result should be reassessed."
+      }
+    ],
+    "careAnchor": "microneedling",
+    "related": [
+      "deka",
+      "emage",
+      "hydroderm"
+    ],
+    "sources": [
+      {
+        "label": "FDA: Microneedling Devices",
+        "url": "https://www.fda.gov/medical-devices/aesthetic-cosmetic-devices/microneedling-devices"
+      }
+    ]
+  },
+  {
+    "id": "hydroderm",
+    "path": "/facial-aesthetics/hydroderm-facials",
+    "title": "HydroDerm Facials",
+    "description": "Custom HydroDerm facials in Winter Park, FL. Explore cleansing, exfoliation, hydration, and a consultation at The House of Dental.",
+    "category": "Facial Aesthetics",
+    "image": "/assets/hydroderm-facial.jpg",
+    "imageAlt": "Custom HydroDerm Facials",
+    "intro": "Custom HydroDerm facials at The House of Dental combine cleansing, exfoliation, and hydration. The consultation focuses on your skin concerns, sensitivities, and the products already in your routine.",
+    "sections": [
+      {
+        "heading": "What the Facial Is Designed to Do",
+        "body": "This service focuses on surface cleansing and hydration. Discuss dullness, dryness, or congestion with the team so that the steps and products can be selected appropriately. A facial is not a substitute for assessment of a persistent rash or changing skin lesion."
+      },
+      {
+        "heading": "Customizing the Visit",
+        "body": "Tell the team about allergies, sensitive skin, recent procedures, and any active irritation. Product selection and exfoliation intensity should reflect that information. Ask how the proposed facial differs from the other options available."
+      },
+      {
+        "heading": "After Your Facial",
+        "body": "Skin response varies, and flushing or irritation can occur. Follow the team’s instructions about home products and sun protection. Schedule a first treatment with enough flexibility to see how your skin responds before an important event."
+      }
+    ],
+    "questions": [
+      {
+        "question": "Is HydroDerm the same as a laser treatment?",
+        "answer": "No. HydroDerm focuses on facial cleansing, exfoliation, and hydration; laser resurfacing has a different treatment process and recovery profile."
+      },
+      {
+        "question": "How often should I have a facial?",
+        "answer": "Frequency should reflect your skin’s response and goals. Discuss a maintenance schedule after assessing the initial result."
+      }
+    ],
+    "careAnchor": "hydroderm",
+    "related": [
+      "emage",
+      "microneedling",
+      "deka"
+    ]
+  },
+  {
+    "id": "emage",
+    "path": "/facial-aesthetics/3d-skin-analysis",
+    "title": "Emage 3D Skin Analysis",
+    "description": "Emage 3D skin analysis in Winter Park, FL. Review facial images and discuss aesthetic treatment options at The House of Dental.",
+    "category": "Facial Aesthetics",
+    "image": "/assets/technology-emage-3d-v2.jpg",
+    "imageAlt": "Emage 3D Skin Scanner",
+    "intro": "Emage 3D skin analysis provides images for a conversation about your skin at The House of Dental. It supports aesthetic planning and comparison over time rather than replacing a clinical examination.",
+    "sections": [
+      {
+        "heading": "Start With Your Concerns",
+        "body": "Tell the team which changes you have noticed and what you want to understand. Your skin-care routine, past procedures, and sensitivities add context that images alone cannot provide."
+      },
+      {
+        "heading": "Reviewing the Images",
+        "body": "The team reviews the captured images with you and explains how they inform treatment options. Ask which findings are relevant to your goals and what the imaging system can and cannot establish. A score or image is not itself a diagnosis."
+      },
+      {
+        "heading": "Planning and Follow-Up",
+        "body": "The scan may support a discussion of HydroDerm facials, microneedling, or CO2 resurfacing. It does not mean that any particular treatment is required. Repeat imaging can support comparison, but changes should be interpreted alongside your clinical response."
+      }
+    ],
+    "questions": [
+      {
+        "question": "Does a scan treat the skin?",
+        "answer": "No. Skin analysis is an assessment step. Any proposed treatment is discussed separately."
+      },
+      {
+        "question": "Can this check a concerning mole or skin lesion?",
+        "answer": "Do not rely on aesthetic imaging for that purpose. Ask an appropriate medical professional to evaluate a new, changing, or otherwise concerning lesion."
+      }
+    ],
+    "careAnchor": "emage-scan",
+    "related": [
+      "hydroderm",
+      "microneedling",
+      "deka"
+    ]
+  },
+  {
+    "id": "restorative",
+    "path": "/services/full-mouth-restoration",
+    "title": "Full Mouth Restoration",
+    "description": "Full mouth restoration in Winter Park, FL. Discuss a coordinated plan for damaged or missing teeth at The House of Dental.",
+    "category": "Dental Care",
+    "image": "/assets/service-restoration.jpg",
+    "imageAlt": "Full Mouth Restoration",
+    "intro": "When several teeth need attention, full mouth restoration brings the separate problems into one treatment plan. The House of Dental considers tooth health, gum support, missing teeth, and bite function together.",
+    "sections": [
+      {
+        "heading": "Understanding the Priorities",
+        "body": "Dr. Patel evaluates the causes of damage and identifies urgent needs before planning the final restorations. Active decay or gum disease may need treatment first. Your goals and ability to maintain the result are part of the discussion."
+      },
+      {
+        "heading": "A Plan With Several Stages",
+        "body": "Care may combine crowns, implants, bridges, or dentures rather than one procedure for every tooth. The sequence depends on healing and the relationships between treatments. Ask for a written outline of the stages, alternatives, and expected costs."
+      },
+      {
+        "heading": "Maintenance and Expectations",
+        "body": "Restorations require cleaning and regular checks, and components may need repair or replacement. Addressing grinding, clenching, or other contributing factors can be part of the longer-term plan. The result and timeline are individual."
+      }
+    ],
+    "questions": [
+      {
+        "question": "Does restoration mean replacing all my teeth?",
+        "answer": "No. The aim is to assess what can be preserved and how different treatments can work together."
+      },
+      {
+        "question": "Can care be completed in stages?",
+        "answer": "Often a staged plan is needed. Discuss which steps depend on each other and what can reasonably be scheduled separately."
+      }
+    ],
+    "careAnchor": null,
+    "related": [
+      "crowns",
+      "implants",
+      "dentures"
+    ]
+  },
+  {
+    "id": "dentures",
+    "path": "/services/dentures",
+    "title": "Dentures",
+    "description": "Dentures and implant-supported denture options in Winter Park, FL. Explore tooth replacement at The House of Dental.",
+    "category": "Dental Care",
+    "image": "/assets/service-dentures.jpg",
+    "imageAlt": "Dentures",
+    "intro": "Dentures replace several or all missing teeth. The House of Dental offers a consultation to compare removable dentures and implant-supported options for your mouth and daily needs.",
+    "sections": [
+      {
+        "heading": "Comparing the Options",
+        "body": "The number of missing teeth, remaining tooth support, and condition of the gums influence the design. Implant support may improve stability for suitable patients, but involves additional planning and may involve surgery."
+      },
+      {
+        "heading": "Fitting and Adjustment",
+        "body": "Records of your mouth and bite help guide the design. Fit, tooth position, and appearance are assessed during the process. New dentures can take time to get used to, and adjustments may be needed as tissues settle or change."
+      },
+      {
+        "heading": "Living With Dentures",
+        "body": "Follow instructions for cleaning, removal, and care of the gums and remaining teeth. Report persistent sore spots or movement instead of trying to reshape the denture yourself. Fit can change over time and should be reviewed."
+      }
+    ],
+    "questions": [
+      {
+        "question": "Will implants be necessary?",
+        "answer": "Not for every denture. The consultation compares conventional and implant-supported options and their maintenance requirements."
+      },
+      {
+        "question": "Why does my existing denture feel loose?",
+        "answer": "Changes in the mouth or wear may affect fit. An examination can establish whether adjustment, relining, or replacement is appropriate."
+      }
+    ],
+    "careAnchor": "dentures",
+    "related": [
+      "implants",
+      "restorative",
+      "preventive"
+    ],
+    "sources": [
+      {
+        "label": "American Dental Association: Dentures",
+        "url": "https://www.mouthhealthy.org/all-topics-a-z/dentures"
+      }
+    ]
+  },
+  {
+    "id": "root-canals",
+    "path": "/services/root-canal-treatment",
+    "title": "Root Canal Treatment",
+    "description": "Root canal treatment in Winter Park, FL. Learn about assessing an affected tooth and restoring it at The House of Dental.",
+    "category": "Dental Care",
+    "image": "/assets/service-root-canals.jpg",
+    "imageAlt": "Root Canals",
+    "intro": "Root canal treatment addresses damaged or infected tissue inside a tooth. The aim is to preserve a tooth that can still be restored, after an examination determines the cause of the problem.",
+    "sections": [
+      {
+        "heading": "Evaluating the Tooth",
+        "body": "Pain, lingering sensitivity, swelling, or a damaged tooth may lead to an assessment, but symptoms alone do not establish a diagnosis. Dr. Patel considers the tooth, surrounding tissues, and imaging before discussing treatment or referral."
+      },
+      {
+        "heading": "Treatment and Restoration",
+        "body": "The affected internal tissue is removed, and the canals are cleaned and sealed. A final filling or crown protects the remaining tooth structure. The appropriate restoration and number of appointments depend on the tooth."
+      },
+      {
+        "heading": "Follow-Up Matters",
+        "body": "Tenderness can occur after treatment. Follow the office’s instructions and complete the recommended restoration. Persistent or worsening symptoms need reassessment. A treated tooth still needs cleaning and can develop new problems."
+      }
+    ],
+    "questions": [
+      {
+        "question": "Will I need a crown afterward?",
+        "answer": "It depends on the tooth and how much structure remains. Back teeth often need additional protection; your dentist will explain the recommendation."
+      },
+      {
+        "question": "What if the tooth cannot be saved?",
+        "answer": "The consultation can address extraction and replacement choices, including a bridge, denture, or implant where suitable."
+      }
+    ],
+    "careAnchor": "root-canals",
+    "related": [
+      "crowns",
+      "oral-surgery",
+      "implants"
+    ],
+    "sources": [
+      {
+        "label": "American Association of Endodontists: What Is a Root Canal?",
+        "url": "https://www.aae.org/patients/root-canal-treatment/what-is-a-root-canal/"
+      },
+      {
+        "label": "American Association of Endodontists: Root Canal Explained",
+        "url": "https://www.aae.org/patients/root-canal-treatment/what-is-a-root-canal/root-canal-explained/"
+      }
+    ]
+  },
+  {
+    "id": "cosmetic",
+    "path": "/services/cosmetic-dentistry",
+    "title": "Cosmetic Dentistry",
+    "description": "Cosmetic dentistry in Winter Park, FL. Compare veneers, crowns, and aligners with a personal smile consultation at The House of Dental.",
+    "category": "Dental Care",
+    "image": "/assets/service-cosmetic.jpg",
+    "imageAlt": "Cosmetic Dentistry",
+    "intro": "Cosmetic dentistry starts with understanding what you want to change about your smile. The House of Dental considers appearance together with the health of your teeth, gums, and bite.",
+    "sections": [
+      {
+        "heading": "Defining the Change",
+        "body": "Bring specific concerns about shape, color, spacing, or worn edges. A healthy foundation comes first. Treating decay or gum disease may be necessary before elective cosmetic work."
+      },
+      {
+        "heading": "Comparing Treatments",
+        "body": "Porcelain veneers, crowns, and Invisalign address different problems. A veneer changes a tooth’s visible surface, a crown restores more of its structure, and aligners move teeth. Ask which approach preserves healthy tooth structure while addressing your concern."
+      },
+      {
+        "heading": "A Result You Can Maintain",
+        "body": "Discuss the limitations, permanence, repair needs, and cost of each option. Cosmetic restorations are not lifetime guarantees and still need daily cleaning and professional review. Treatment should be selected for your situation rather than a standard package."
+      }
+    ],
+    "questions": [
+      {
+        "question": "Do I need several treatments for a smile makeover?",
+        "answer": "Not always. Some concerns can be addressed with a focused change; others require a staged plan."
+      },
+      {
+        "question": "Can I discuss options without choosing a treatment?",
+        "answer": "Yes. A consultation is a chance to understand the alternatives and ask about their tradeoffs before deciding."
+      }
+    ],
+    "careAnchor": null,
+    "related": [
+      "veneers",
+      "invisalign",
+      "crowns"
+    ],
+    "sources": [
+      {
+        "label": "American Dental Association: Veneers",
+        "url": "https://www.mouthhealthy.org/all-topics-a-z/veneers"
+      },
+      {
+        "label": "American Dental Association: Teeth Whitening",
+        "url": "https://www.mouthhealthy.org/all-topics-a-z/teeth-whitening"
+      }
+    ]
+  },
+  {
+    "id": "preventive",
+    "path": "/services/preventive-dentistry",
+    "title": "Preventive Dentistry & Cleanings",
+    "description": "Dental exams and cleanings in Winter Park, FL. Plan preventive care and gum-health follow-up at The House of Dental.",
+    "category": "Dental Care",
+    "image": "/assets/service-preventive.jpg",
+    "imageAlt": "Preventive Care & Cleanings",
+    "intro": "Preventive visits help you understand the condition of your teeth and gums and address concerns early. The House of Dental provides exams, cleanings, and advice for daily oral care in Winter Park.",
+    "sections": [
+      {
+        "heading": "Your Examination and Cleaning",
+        "body": "The team reviews your concerns and health history and examines the mouth. Imaging is recommended according to your needs. A cleaning removes deposits that home care cannot fully remove, with recommendations based on gum health."
+      },
+      {
+        "heading": "Care Between Visits",
+        "body": "Ask the team to demonstrate cleaning around crowded teeth, restorations, implants, or appliances. Daily brushing and cleaning between teeth work alongside professional care. Sensitivity, bleeding, or other changes are useful to discuss rather than simply working around them."
+      },
+      {
+        "heading": "A Schedule Based on Your Needs",
+        "body": "Recall frequency depends on factors such as gum health, decay risk, and previous treatment. A routine cleaning is different from treatment for established periodontal disease. The examination determines whether further care is needed."
+      }
+    ],
+    "questions": [
+      {
+        "question": "Is a cleaning enough for bleeding gums?",
+        "answer": "An assessment is needed to identify the cause. Gum disease may require treatment beyond a routine cleaning."
+      },
+      {
+        "question": "What should I bring to a first visit?",
+        "answer": "Bring your questions and current health and medication information. The new-patient page explains insurance and payment options."
+      }
+    ],
+    "careAnchor": null,
+    "related": [
+      "srp",
+      "crowns",
+      "invisalign"
+    ]
+  },
+  {
+    "id": "oral-surgery",
+    "path": "/services/oral-surgery",
+    "title": "Oral Surgery",
+    "description": "Oral surgery consultations in Winter Park, FL. Discuss tooth extraction, treatment planning, and follow-up at The House of Dental.",
+    "category": "Dental Care",
+    "image": "/assets/service-oral-surgery.jpg",
+    "imageAlt": "Oral Surgery",
+    "intro": "An oral surgery consultation assesses whether a surgical procedure is appropriate and how it fits into your dental care. The House of Dental evaluates the tooth or area involved and discusses care or referral according to the case.",
+    "sections": [
+      {
+        "heading": "Planning Before a Procedure",
+        "body": "The examination and required imaging help identify the problem and nearby structures. Review medications, health conditions, and prior experiences with the team. Ask about alternatives and how a planned extraction could affect future tooth replacement."
+      },
+      {
+        "heading": "Comfort and Preparation",
+        "body": "The provider explains the planned procedure, available comfort measures, and any preparation instructions. Transportation or eating restrictions depend on the procedure and sedation plan; follow the instructions issued for your appointment."
+      },
+      {
+        "heading": "Healing and Follow-Up",
+        "body": "Recovery varies by procedure. Follow the written care instructions and contact the office about unexpected or worsening symptoms. Bleeding, infection, delayed healing, and other site-specific risks should be discussed before treatment."
+      }
+    ],
+    "questions": [
+      {
+        "question": "Will every procedure be performed in this office?",
+        "answer": "The examination determines what care is appropriate here and whether referral to a specialist is needed."
+      },
+      {
+        "question": "When should I plan a replacement after extraction?",
+        "answer": "Discuss that before the extraction where possible, because replacement choices can influence treatment planning."
+      }
+    ],
+    "careAnchor": "extractions",
+    "related": [
+      "implants",
+      "sedation",
+      "root-canals"
+    ]
+  },
+  {
+    "id": "sedation",
+    "path": "/services/sedation-dentistry",
+    "title": "Sedation Dentistry",
+    "description": "Sedation dentistry consultations in Winter Park, FL. Discuss dental anxiety, medical suitability, and visit preparation at The House of Dental.",
+    "category": "Dental Care",
+    "image": "/assets/service-sedation.jpg",
+    "imageAlt": "Sedation Dentistry",
+    "intro": "If anxiety makes dental visits difficult, discuss it before your appointment. The House of Dental can review comfort options and whether sedation is appropriate for your health history and planned treatment.",
+    "sections": [
+      {
+        "heading": "A Personal Safety Assessment",
+        "body": "Tell the team about medications, allergies, breathing or sleep concerns, and previous reactions to sedation. The specific method, monitoring, and provider involved should be explained before you decide."
+      },
+      {
+        "heading": "Preparing for the Appointment",
+        "body": "Follow the written instructions for your prescribed plan, including medications, food and drink, and transport. Do not use another person’s medication or assume that preparation for one form of sedation applies to another."
+      },
+      {
+        "heading": "After the Visit",
+        "body": "Sedation can affect alertness and coordination. Arrange the assistance required by the office and follow instructions about driving, work, and recovery. Sedation does not remove all risks or replace the discussion of the dental procedure itself."
+      }
+    ],
+    "questions": [
+      {
+        "question": "Will I be completely asleep?",
+        "answer": "Different methods produce different levels of sedation. Ask what is available and what you should expect for your own plan."
+      },
+      {
+        "question": "Can I drive myself home?",
+        "answer": "Follow your provider’s specific instructions. A responsible adult may be required to bring you, stay, and take you home."
+      }
+    ],
+    "careAnchor": "sedation",
+    "related": [
+      "oral-surgery",
+      "implants",
+      "preventive"
+    ],
+    "sources": [
+      {
+        "label": "American Dental Association: Anesthesia and Sedation",
+        "url": "https://www.mouthhealthy.org/all-topics-a-z/anesthesia-and-sedation"
+      },
+      {
+        "label": "American Dental Association: Sedation and Anesthesia Guidelines",
+        "url": "https://www.ada.org/resources/ada-library/oral-health-topics/anesthesia-and-sedation"
+      }
+    ]
+  },
+  {
+    "id": "tmj",
+    "path": "/services/tmj-treatment",
+    "title": "TMJ & Jaw Pain Assessment",
+    "description": "TMJ and jaw pain assessment in Winter Park, FL. Discuss jaw discomfort, bite concerns, and treatment options at The House of Dental.",
+    "category": "Dental Care",
+    "image": "/assets/service-tmj.jpg",
+    "imageAlt": "TMJ Treatment",
+    "intro": "Pain or difficulty around the jaw joint can have more than one cause. The House of Dental offers an assessment of jaw symptoms and bite concerns to discuss suitable next steps.",
+    "sections": [
+      {
+        "heading": "Understanding Your Symptoms",
+        "body": "Describe where the discomfort occurs, when it started, and whether chewing or jaw movement affects it. The examination considers the joints, muscles, and teeth. A click alone does not establish a condition that needs treatment."
+      },
+      {
+        "heading": "Choosing an Approach",
+        "body": "Management depends on the findings and may involve advice, monitoring, or an appliance when appropriate. Some symptoms need assessment by another professional. An appliance is not the right treatment for every cause of jaw pain."
+      },
+      {
+        "heading": "Reviewing Progress",
+        "body": "Keep track of changes in comfort and function and follow the review schedule. Report worsening pain, locking, or difficulty opening. Avoid assuming that a permanent bite change is necessary without understanding the diagnosis and alternatives."
+      }
+    ],
+    "questions": [
+      {
+        "question": "Is all jaw pain caused by the TMJ?",
+        "answer": "No. Teeth, muscles, and other conditions can also cause pain in the area. An examination helps decide the next step."
+      },
+      {
+        "question": "Will a night guard solve it?",
+        "answer": "A guard may be useful in selected cases, but suitability depends on the cause of your symptoms."
+      }
+    ],
+    "careAnchor": null,
+    "related": [
+      "preventive",
+      "quietnite",
+      "restorative"
+    ],
+    "sources": [
+      {
+        "label": "NIDCR: Temporomandibular Disorders",
+        "url": "https://www.nidcr.nih.gov/health-info/tmd"
+      }
+    ]
+  },
+  {
+    "id": "srp",
+    "path": "/services/scaling-root-planing",
+    "title": "Scaling & Root Planing",
+    "description": "Scaling and root planing in Winter Park, FL. Understand periodontal assessment, treatment, and maintenance at The House of Dental.",
+    "category": "Dental Care",
+    "image": "/assets/service-srp.jpg",
+    "imageAlt": "Scaling & Root Planing",
+    "intro": "Scaling and root planing is a treatment for selected cases of gum disease. The House of Dental assesses the gums and supporting tissues before recommending this care rather than a routine cleaning.",
+    "sections": [
+      {
+        "heading": "Assessing Gum Health",
+        "body": "The team measures gum pockets and considers bleeding, deposits, and bone support. Imaging may contribute to the assessment. These findings help establish whether non-surgical periodontal treatment or other care is appropriate."
+      },
+      {
+        "heading": "What Treatment Involves",
+        "body": "Deposits are removed from tooth surfaces below the gumline and the roots are cleaned. The number of visits and comfort measures depend on the areas being treated. Ask which sites need care and what improvement the team will look for."
+      },
+      {
+        "heading": "Reassessment and Maintenance",
+        "body": "Gum response needs review after treatment. Daily cleaning, managing relevant risk factors, and ongoing periodontal maintenance support the result. Some areas may need further treatment or specialist assessment. Sensitivity or tenderness can occur after cleaning."
+      }
+    ],
+    "questions": [
+      {
+        "question": "Is this just a deeper routine cleaning?",
+        "answer": "It is prescribed for periodontal findings identified during assessment. It has a different purpose from cleaning healthy teeth and gums."
+      },
+      {
+        "question": "Will one treatment cure gum disease permanently?",
+        "answer": "Gum health requires ongoing care. Follow-up assesses response and establishes a maintenance plan."
+      }
+    ],
+    "careAnchor": "srp",
+    "related": [
+      "preventive",
+      "implants",
+      "restorative"
+    ],
+    "sources": [
+      {
+        "label": "American Dental Association: Scaling and Root Planing",
+        "url": "https://www.mouthhealthy.org/all-topics-a-z/scaling-and-root-planing/"
+      }
+    ]
+  },
+  {
+    "id": "quietnite",
+    "path": "/services/quietnite-sleep-appliance",
+    "title": "QuietNite Sleep Appliance",
+    "description": "QuietNite oral appliance consultations in Winter Park, FL. Discuss snoring, sleep-related concerns, and dental suitability at The House of Dental.",
+    "category": "Dental Care",
+    "image": "/assets/service-quietnite.jpg",
+    "imageAlt": "QuietNite Sleep",
+    "intro": "The House of Dental offers consultations about QuietNite oral appliance care. Discuss snoring or sleep-related concerns with the team so that dental assessment can be coordinated with appropriate medical evaluation.",
+    "sections": [
+      {
+        "heading": "Assessment Before an Appliance",
+        "body": "Snoring alone does not establish whether sleep apnea is present. A qualified medical professional assesses suspected sleep apnea. Dental findings, jaw comfort, and the medical treatment plan help determine whether an oral appliance is appropriate."
+      },
+      {
+        "heading": "Fit and Adjustment",
+        "body": "An appliance is fitted and adjusted to the individual plan. Ask how it should be worn, cleaned, and reviewed. Jaw or tooth discomfort and bite changes are among the concerns to discuss before starting."
+      },
+      {
+        "heading": "Checking the Response",
+        "body": "Feeling that snoring has improved is not enough to establish that sleep apnea is controlled. Follow the recommended dental and medical review process. Do not stop prescribed sleep treatment without discussing it with your treating clinician."
+      }
+    ],
+    "questions": [
+      {
+        "question": "Is an appliance an alternative to CPAP for everyone?",
+        "answer": "No. Treatment choice depends on the diagnosis, severity, suitability, and advice of the clinicians managing your care."
+      },
+      {
+        "question": "Can I start with a dental consultation?",
+        "answer": "Yes. The team can discuss dental suitability and what medical assessment or records may be needed before treatment."
+      }
+    ],
+    "careAnchor": "quietnite",
+    "related": [
+      "tmj",
+      "preventive",
+      "restorative"
+    ]
+  }
+]

@@ -1,4 +1,5 @@
 (() => {
+  document.documentElement.classList.add("reveal-enabled");
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const header = document.querySelector("header.site");
   const setHeaderHeight = () => header && document.documentElement.style.setProperty("--head-h", `${header.offsetHeight}px`);

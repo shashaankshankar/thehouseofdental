@@ -111,10 +111,11 @@ section { position: relative; z-index: 2; }
 
 /* ---------- Reveal animations ---------- */
 .rv {
-  opacity: 0;
-  transform: translateY(38px);
+  opacity: 1;
+  transform: none;
   transition: opacity 1s var(--ease), transform 1s var(--ease);
 }
+.reveal-enabled .rv:not(.in) { opacity: 0; transform: translateY(38px); }
 .rv.in { opacity: 1; transform: none; }
 .rv-d1 { transition-delay: 0.12s; }
 .rv-d2 { transition-delay: 0.24s; }
@@ -140,6 +141,48 @@ section { position: relative; z-index: 2; }
 }
 
 /* ---------- Header ---------- */
+
+/* Self-hosted Latin font subsets. Licenses are in assets/fonts/. */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/assets/fonts/e48e58027030df56.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Jost';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(/assets/fonts/7726a5cd6f3c0e87.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Jost';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/assets/fonts/7726a5cd6f3c0e87.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Jost';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(/assets/fonts/7726a5cd6f3c0e87.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Marcellus';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/assets/fonts/8a539799d12e3a14.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 .topbar {
   background: var(--noir);
@@ -3472,7 +3515,7 @@ header.site .minimal-nav .btn,
   height: 100%;
   aspect-ratio: 1.5 / 1;
   background-color: var(--ivory);
-  background-image: url("/assets/hero-smile.png");
+  background-image: image-set(url("/assets/optimized/hero-smile-d1c248d3e0d2-960.webp") 1x, url("/assets/optimized/hero-smile-d1c248d3e0d2-1440.webp") 2x);
   background-position: right center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -4618,6 +4661,26 @@ body.inquiry-open .mobile-actions { display: none; }
   .home-result-prompt .context-actions { display: grid; }
 }
 
+/* Treatment pages use the established article, button, and color system. */
+a.svc-card { display: block; text-decoration: none; }
+.treatment-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+.treatment-page .crumb { display: flex; flex-wrap: wrap; align-items: baseline; }
+.treatment-page .crumb span { overflow-wrap: anywhere; }
+.treatment-page .article-hero h1 { max-width: 23ch; font-size: clamp(2.25rem, 5vw, 4rem); text-wrap: balance; }
+.treatment-image { margin: 0 0 3rem; }
+.treatment-image img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
+.treatment-page .article-body h3 { font-size: 1.3rem; margin: 1.6rem 0 0.6rem; }
+.treatment-page .article-body ul { padding-left: 1.3rem; }
+.treatment-page .article-body a { text-decoration: underline; text-underline-offset: 0.2em; color: var(--gold-deep); }
+.treatment-aside a { display: block; font-size: 0.82rem; line-height: 1.6; letter-spacing: 0.06em; }
+.treatment-aside h2:not(:first-child) { margin-top: 2.5rem; }
+.treatment-aside p + p { margin-top: 0.8rem; }
+.treatment-page a:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+.article-meta a { color: inherit; text-underline-offset: 0.2em; }
+
+/* Keep original image layout when a modern-format source is available. */
+picture { display: contents; }
+
 PRINT STYLESHEET — clean output, nothing cut off
    ============================================================ */
 @media print {
@@ -5067,7 +5130,7 @@ PRINT STYLESHEET — clean output, nothing cut off
 .u-inline-011{font-size:0.74rem;color:var(--mist);margin-top:1rem;text-align:center}
 .u-inline-012{margin-top:2rem}
 .u-inline-013{margin-top:2.4rem}
-.u-inline-014{background-image:url('assets/office-exterior.jpg')}
+.u-inline-014{background-image:image-set(url("/assets/optimized/office-exterior-e090337940ca-960.webp") 1x, url("/assets/optimized/office-exterior-e090337940ca-1440.webp") 2x)}
 .u-inline-015{margin-top:2.2rem}
 .u-inline-016{padding:0}
 .u-inline-017{padding:4.5rem 0}

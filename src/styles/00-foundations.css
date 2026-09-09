@@ -111,10 +111,11 @@ section { position: relative; z-index: 2; }
 
 /* ---------- Reveal animations ---------- */
 .rv {
-  opacity: 0;
-  transform: translateY(38px);
+  opacity: 1;
+  transform: none;
   transition: opacity 1s var(--ease), transform 1s var(--ease);
 }
+.reveal-enabled .rv:not(.in) { opacity: 0; transform: translateY(38px); }
 .rv.in { opacity: 1; transform: none; }
 .rv-d1 { transition-delay: 0.12s; }
 .rv-d2 { transition-delay: 0.24s; }

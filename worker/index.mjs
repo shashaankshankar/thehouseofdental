@@ -1,3 +1,5 @@
+import { publicPaths, routeAliases } from "./site-routes.mjs";
+
 const MAX_BODY_BYTES = 12000;
 const WEBHOOK_TOLERANCE_SECONDS = 300;
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -43,8 +45,21 @@ const SECURITY_HEADERS = {
 
 const redirectToCanonicalHost = (request) => {
   const url = new URL(request.url);
-  if (url.hostname !== "www.thehouseofdentalwp.com") return null;
-  url.hostname = "thehouseofdentalwp.com";
+  const original = url.toString();
+  const production = ["thehouseofdentalwp.com", "www.thehouseofdentalwp.com"].includes(url.hostname);
+  if (production) {
+    url.hostname = "thehouseofdentalwp.com";
+    url.protocol = "https:";
+    url.port = "";
+  }
+  // Normalize only known public pages. API methods, assets and unknown paths
+  // retain their existing routing semantics and status codes.
+  if (request.method === "GET" || request.method === "HEAD") {
+    const candidate = url.pathname === "/" ? "/" : url.pathname.replace(/\/+$/, "");
+    if (Object.hasOwn(routeAliases, candidate)) url.pathname = routeAliases[candidate];
+    else if (publicPaths.has(candidate)) url.pathname = candidate;
+  }
+  if (url.toString() === original) return null;
   return new Response(null, {
     status: 301,
     headers: {

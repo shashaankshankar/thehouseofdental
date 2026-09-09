@@ -12,6 +12,7 @@ const requireEqual = (actual, expected, label) => {
 const config = JSON.parse(await read("wrangler.jsonc"));
 const site = JSON.parse(await read("src/data/site.json"));
 const blog = JSON.parse(await read("src/data/blog.json"));
+const treatments = JSON.parse(await read("src/data/treatments.json"));
 const pages = Object.entries(site.pages);
 const contentPages = pages.filter(([, page]) => page.path);
 const expectedPaths = [
@@ -27,7 +28,7 @@ const expectedPaths = [
   "/reviews",
   "/services",
   "/terms",
-  ...blog.articles.map((article) => `/blog/${article.slug}`)
+  ...blog.articles.map((article) => `/blog/${article.slug}`), ...treatments.map((item) => item.path)
 ];
 
 requireEqual(config.name, "thehouseofdental", "wrangler.jsonc name");
@@ -59,7 +60,7 @@ requireEqual(config.assets?.html_handling, "drop-trailing-slash", "wrangler.json
 requireEqual(config.assets?.not_found_handling, "404-page", "wrangler.jsonc assets.not_found_handling");
 if (JSON.stringify(config.assets?.run_worker_first) !== JSON.stringify(["/*"])) errors.push("wrangler.jsonc assets.run_worker_first must include /* so host redirects run before Static Assets");
 
-const metadataPaths = [...contentPages.map(([, page]) => page.path), ...blog.articles.map((article) => `/blog/${article.slug}`)];
+const metadataPaths = [...contentPages.map(([, page]) => page.path), ...blog.articles.map((article) => `/blog/${article.slug}`), ...treatments.map((item) => item.path)];
 if (metadataPaths.length !== expectedPaths.length || !expectedPaths.every((path) => metadataPaths.includes(path))) errors.push("site metadata clean paths do not match the approved route inventory");
 if (new Set(metadataPaths).size !== metadataPaths.length) errors.push("site metadata contains duplicate clean paths");
 if (pages.find(([file, page]) => file === "404.html" && page.path !== null)) errors.push("404.html must not have a public clean path");
@@ -143,7 +144,7 @@ const countHtml = async (directory) => {
   const entries = await readdir(directory, { withFileTypes: true });
   return (await Promise.all(entries.map((entry) => entry.isDirectory() ? countHtml(resolve(directory, entry.name)) : Number(entry.name.endsWith(".html"))))).reduce((sum, count) => sum + count, 0);
 };
-if (await countHtml(resolve(repo, "dist")) !== 23) errors.push("dist: expected 23 generated HTML pages");
+if (await countHtml(resolve(repo, "dist")) !== pages.length + blog.articles.length + treatments.length) errors.push("dist: generated HTML count does not match content inventory");
 if (/\/_vercel\/|@vercel\/analytics/i.test(await read("dist/main.js"))) errors.push("dist/main.js: contains Vercel runtime code");
 
 if (errors.length) {

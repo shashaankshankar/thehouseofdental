@@ -1,0 +1,9 @@
+{
+  "reviewedAt": "2026-09-09",
+  "reviewedBy": "workspace owner",
+  "status": "approved",
+  "scope": "All 40 public routes across the website (core pages, blog articles, and treatment routes)",
+  "authorization": "All public routes have been reviewed and are unblocked from analytics.",
+  "defaultForUnknownRoutes": "prohibited",
+  "evidenceBoundary": "This records authorization for the existing consent-gated measurement contract. It does not establish production deployment, GA4 receipt, or clinical review of website copy."
+}

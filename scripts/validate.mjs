@@ -12,13 +12,16 @@ const errors = [];
 const htmlByFile = new Map(await Promise.all(files.map(async (file) => [file, await readFile(resolve(root, file), "utf8")])));
 const site = JSON.parse(await readFile("src/data/site.json", "utf8"));
 const blog = JSON.parse(await readFile("src/data/blog.json", "utf8"));
+const treatments = JSON.parse(await readFile("src/data/treatments.json", "utf8"));
 const pageByPath = new Map([
   ...Object.entries(site.pages).filter(([, page]) => page.path).map(([file, page]) => [page.path, file]),
-  ...blog.articles.map((article) => [`/blog/${article.slug}`, `blog/${article.slug}.html`])
+  ...blog.articles.map((article) => [`/blog/${article.slug}`, `blog/${article.slug}.html`]),
+  ...treatments.map((item) => [item.path, `${item.path.slice(1)}.html`])
 ]);
 const exists = async (path) => { try { await access(path); return true; } catch { return false; } };
 
-if (files.length !== 23) errors.push(`expected 23 HTML pages, found ${files.length}`);
+const expectedPages = Object.keys(site.pages).length + blog.articles.length + treatments.length;
+if (files.length !== expectedPages) errors.push(`expected ${expectedPages} HTML pages, found ${files.length}`);
 for (const [file, html] of htmlByFile) {
   const count = (pattern) => (html.match(pattern) || []).length;
   for (const [label, pattern, expected] of [

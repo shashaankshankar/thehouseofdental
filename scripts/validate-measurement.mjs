@@ -10,6 +10,7 @@ const siteMeasurement = await readJson("measurement/site.json");
 const routes = await readJson("measurement/eligibility/routes.json");
 const site = await readJson("src/data/site.json");
 const blog = await readJson("src/data/blog.json");
+const treatments = await readJson("src/data/treatments.json");
 const contract = await readJson("measurement/contracts/local_service_v1/contract.json");
 const events = await readJson("measurement/contracts/local_service_v1/events.json");
 const parameters = await readJson("measurement/contracts/local_service_v1/parameters.json");
@@ -34,7 +35,8 @@ for (const [path, status] of Object.entries(routes.routes || {})) {
 }
 const expectedSiteRoutes = [
   ...Object.values(site.pages).filter((page) => page.path).map((page) => page.path),
-  ...blog.articles.map((article) => `/blog/${article.slug}`)
+  ...blog.articles.map((article) => `/blog/${article.slug}`),
+  ...treatments.map((item) => item.path)
 ];
 const configuredSiteRoutes = Object.keys(routes.routes || {});
 if (new Set(expectedSiteRoutes).size !== expectedSiteRoutes.length) errors.push("site metadata contains duplicate clean page paths");
@@ -44,8 +46,8 @@ if (expectedSiteRoutes.some((path) => path.includes(".html")) || configuredSiteR
 }
 const routeSetsMatch = expectedSiteRoutes.length === configuredSiteRoutes.length
   && expectedSiteRoutes.every((path) => configuredSiteRoutes.includes(path));
-check("route_metadata_sync", routeSetsMatch, "approved route policy matches the clean paths declared in src/data/site.json");
-for (const path of expectedSiteRoutes) if (routes.routes[path] !== "approved") errors.push(`site route must be approved: ${path}`);
+check("route_metadata_sync", routeSetsMatch, "explicit route policy matches all generated clean page paths");
+for (const path of expectedSiteRoutes) if (!validStatuses.has(routes.routes[path])) errors.push(`site route needs an explicit eligibility status: ${path}`);
 for (const event of expectedEvents) {
   if (!events.events?.some((item) => item.name === event)) errors.push(`missing contract event: ${event}`);
   if (!parameters.allowed?.event?.includes(event)) errors.push(`event is not allowed by parameters: ${event}`);
@@ -62,7 +64,7 @@ check("allowed_event_matrix", expectedEvents.every((event) => allowedEvents.has(
 check("unknown_event_rejected", !allowedEvents.has("unknown_event"), "unknown events are absent from the allowlist");
 check("consent_default_denied", siteMeasurement.consent.mode === "advanced" && siteMeasurement.consent.version === 2, "advanced Consent Mode v2 is configured");
 check("unknown_route_fail_closed", routes.default === "prohibited", "unknown routes resolve to prohibited");
-check("approved_routes_allowlisted", Object.values(routes.routes).every((status) => status === "approved"), "all configured production site routes are approved");
+check("routes_explicitly_classified", Object.values(routes.routes).every((status) => validStatuses.has(status)), "only individually approved routes may collect analytics; review and prohibited routes remain blocked");
 check("approved_route_coverage", Object.values(routes.routes).some((status) => status === "approved"), "the production site has at least one approved route");
 check("query_string_not_allowed", parameters.prohibited.includes("URL query parameters"), "query parameters are prohibited payload sources");
 check("fragment_not_allowed", parameters.prohibited.includes("URL fragments"), "fragment URL data is not an analytics payload");
@@ -98,7 +100,7 @@ const evidence = {
   ga4RuntimeStatus: siteMeasurement.ga4.enabled ? "enabled_on_live_approved_routes" : "disabled",
   checks: evidenceChecks,
   manualChecksRemaining: ["GA4 DebugView event receipt for each applicable event, including file_download and form_step", "production appointment inbox delivery"],
-  notes: "Governance was approved by the workspace owner. This record proves local policy and build validation; DebugView receipt and production inbox delivery remain independently observable evidence."
+  notes: "Existing measurement governance was approved by the workspace owner. The workspace owner reviewed and approved all public routes on 2026-09-09. This record proves local policy and build validation; DebugView receipt and production inbox delivery remain independently observable evidence."
 };
 
 let previousEvidence = null;

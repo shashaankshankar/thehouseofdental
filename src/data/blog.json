@@ -1,5 +1,4 @@
 {
-  "publishedAt": "2026-08-25",
   "disclaimer": "This article is for general educational purposes and is not a substitute for an examination, diagnosis, or treatment plan from a qualified health professional.",
   "articles": [
     {
@@ -8,7 +7,7 @@
       "title": "Dental Implants: Process, Benefits, and Recovery",
       "description": "Learn how dental implants replace missing teeth, what the treatment stages involve, and what can affect healing and long-term care.",
       "imageAlt": "Dental implant model and ceramic crown on a neutral consultation table",
-      "serviceHref": "/services#implants",
+      "serviceHref": "/services/dental-implants",
       "serviceLabel": "Explore dental implant care",
       "sections": [
         {
@@ -50,10 +49,22 @@
         }
       ],
       "sources": [
-        {"label": "American Dental Association: Implants", "url": "https://www.mouthhealthy.org/all-topics-a-z/implants"},
-        {"label": "American Academy of Periodontology: Dental Implant Procedures", "url": "https://www.perio.org/for-patients/periodontal-treatments-and-procedures/dental-implant-procedures/"}
+        {
+          "label": "American Dental Association: Implants",
+          "url": "https://www.mouthhealthy.org/all-topics-a-z/implants"
+        },
+        {
+          "label": "American Academy of Periodontology: Dental Implant Procedures",
+          "url": "https://www.perio.org/for-patients/periodontal-treatments-and-procedures/dental-implant-procedures/"
+        }
       ],
-      "related": ["same-day-crowns-vs-traditional-crowns", "gum-disease-signs-treatment-prevention", "root-canal-what-to-expect"]
+      "related": [
+        "same-day-crowns-vs-traditional-crowns",
+        "gum-disease-signs-treatment-prevention",
+        "root-canal-what-to-expect"
+      ],
+      "publishedAt": "2026-08-25",
+      "modifiedAt": "2026-09-09"
     },
     {
       "slug": "same-day-crowns-vs-traditional-crowns",
@@ -61,7 +72,7 @@
       "title": "Same-Day Crowns vs. Traditional Crowns",
       "description": "Compare same-day and laboratory-made dental crowns, including timing, materials, fit, temporary crowns, and factors that guide the choice.",
       "imageAlt": "Ceramic crown, dental model, impression, and digital scanner on a work surface",
-      "serviceHref": "/services#crowns",
+      "serviceHref": "/services/same-day-crowns",
       "serviceLabel": "Explore crown treatment",
       "sections": [
         {
@@ -102,10 +113,22 @@
         }
       ],
       "sources": [
-        {"label": "American Dental Association: Crowns", "url": "https://www.mouthhealthy.org/all-topics-a-z/crowns/"},
-        {"label": "American College of Prosthodontists: Caps and Crowns", "url": "https://www.gotoapro.org/caps-and-crowns/"}
+        {
+          "label": "American Dental Association: Crowns",
+          "url": "https://www.mouthhealthy.org/all-topics-a-z/crowns/"
+        },
+        {
+          "label": "American College of Prosthodontists: Caps and Crowns",
+          "url": "https://www.gotoapro.org/caps-and-crowns/"
+        }
       ],
-      "related": ["dental-implants-process-benefits-recovery", "root-canal-what-to-expect", "veneers-vs-bonding-vs-whitening"]
+      "related": [
+        "dental-implants-process-benefits-recovery",
+        "root-canal-what-to-expect",
+        "veneers-vs-bonding-vs-whitening"
+      ],
+      "publishedAt": "2026-08-25",
+      "modifiedAt": "2026-09-09"
     },
     {
       "slug": "veneers-vs-bonding-vs-whitening",
@@ -113,7 +136,7 @@
       "title": "Veneers vs. Bonding vs. Teeth Whitening",
       "description": "See how veneers, composite bonding, and teeth whitening address different cosmetic concerns, and why tooth health should be assessed first.",
       "imageAlt": "Dental shade guide and ceramic samples arranged on an ivory surface",
-      "serviceHref": "/services#cosmetic",
+      "serviceHref": "/services/cosmetic-dentistry",
       "serviceLabel": "Explore cosmetic dentistry",
       "sections": [
         {
@@ -154,10 +177,22 @@
         }
       ],
       "sources": [
-        {"label": "American Dental Association: Veneers", "url": "https://www.mouthhealthy.org/all-topics-a-z/veneers"},
-        {"label": "American Dental Association: Teeth Whitening", "url": "https://www.mouthhealthy.org/all-topics-a-z/teeth-whitening"}
+        {
+          "label": "American Dental Association: Veneers",
+          "url": "https://www.mouthhealthy.org/all-topics-a-z/veneers"
+        },
+        {
+          "label": "American Dental Association: Teeth Whitening",
+          "url": "https://www.mouthhealthy.org/all-topics-a-z/teeth-whitening"
+        }
       ],
-      "related": ["same-day-crowns-vs-traditional-crowns", "clear-aligners-how-they-work", "gum-disease-signs-treatment-prevention"]
+      "related": [
+        "same-day-crowns-vs-traditional-crowns",
+        "clear-aligners-how-they-work",
+        "gum-disease-signs-treatment-prevention"
+      ],
+      "publishedAt": "2026-08-25",
+      "modifiedAt": "2026-09-09"
     },
     {
       "slug": "clear-aligners-how-they-work",
@@ -165,7 +200,7 @@
       "title": "Clear Aligners: How They Work and What to Expect",
       "description": "Learn how clear aligners move teeth, what daily wear involves, and why an examination and professional monitoring remain essential.",
       "imageAlt": "Clear dental aligners in an open case beside a dental model",
-      "serviceHref": "/services#invisalign",
+      "serviceHref": "/services/invisalign",
       "serviceLabel": "Explore clear aligner care",
       "sections": [
         {
@@ -206,10 +241,22 @@
         }
       ],
       "sources": [
-        {"label": "American Association of Orthodontists: Clear Aligners", "url": "https://aaoinfo.org/treatments/aligners/"},
-        {"label": "American Association of Orthodontists: Clear Aligner Therapy", "url": "https://aaoinfo.org/whats-trending/clear-aligner-therapy/"}
+        {
+          "label": "American Association of Orthodontists: Clear Aligners",
+          "url": "https://aaoinfo.org/treatments/aligners/"
+        },
+        {
+          "label": "American Association of Orthodontists: Clear Aligner Therapy",
+          "url": "https://aaoinfo.org/whats-trending/clear-aligner-therapy/"
+        }
       ],
-      "related": ["veneers-vs-bonding-vs-whitening", "gum-disease-signs-treatment-prevention", "same-day-crowns-vs-traditional-crowns"]
+      "related": [
+        "veneers-vs-bonding-vs-whitening",
+        "gum-disease-signs-treatment-prevention",
+        "same-day-crowns-vs-traditional-crowns"
+      ],
+      "publishedAt": "2026-08-25",
+      "modifiedAt": "2026-09-09"
     },
     {
       "slug": "gum-disease-signs-treatment-prevention",
@@ -217,7 +264,7 @@
       "title": "Gum Disease: Early Signs, Treatment, and Prevention",
       "description": "Learn how gum disease develops, which signs deserve attention, and how daily care and professional treatment help protect supporting tissues.",
       "imageAlt": "Toothbrush, floss, interdental brush, and water on a natural stone counter",
-      "serviceHref": "/services#srp",
+      "serviceHref": "/services/scaling-root-planing",
       "serviceLabel": "Explore periodontal care",
       "sections": [
         {
@@ -258,10 +305,22 @@
         }
       ],
       "sources": [
-        {"label": "National Institute of Dental and Craniofacial Research: Gum Disease", "url": "https://www.nidcr.nih.gov/health-info/gum-disease"},
-        {"label": "Centers for Disease Control and Prevention: About Periodontal Disease", "url": "https://www.cdc.gov/oral-health/about/gum-periodontal-disease.html"}
+        {
+          "label": "National Institute of Dental and Craniofacial Research: Gum Disease",
+          "url": "https://www.nidcr.nih.gov/health-info/gum-disease"
+        },
+        {
+          "label": "Centers for Disease Control and Prevention: About Periodontal Disease",
+          "url": "https://www.cdc.gov/oral-health/about/gum-periodontal-disease.html"
+        }
       ],
-      "related": ["dental-implants-process-benefits-recovery", "clear-aligners-how-they-work", "root-canal-what-to-expect"]
+      "related": [
+        "dental-implants-process-benefits-recovery",
+        "clear-aligners-how-they-work",
+        "root-canal-what-to-expect"
+      ],
+      "publishedAt": "2026-08-25",
+      "modifiedAt": "2026-09-09"
     },
     {
       "slug": "root-canal-what-to-expect",
@@ -269,7 +328,7 @@
       "title": "Root Canal Treatment: What to Expect",
       "description": "Find out why root canal treatment is recommended, what happens during the procedure, and how the tooth is protected afterward.",
       "imageAlt": "Tooth model and endodontic instruments arranged in a calm dental setting",
-      "serviceHref": "/services#root-canals",
+      "serviceHref": "/services/root-canal-treatment",
       "serviceLabel": "Explore root canal treatment",
       "sections": [
         {
@@ -310,10 +369,22 @@
         }
       ],
       "sources": [
-        {"label": "American Association of Endodontists: What Is a Root Canal?", "url": "https://www.aae.org/patients/root-canal-treatment/what-is-a-root-canal/"},
-        {"label": "American Association of Endodontists: Root Canal Explained", "url": "https://www.aae.org/patients/root-canal-treatment/what-is-a-root-canal/root-canal-explained/"}
+        {
+          "label": "American Association of Endodontists: What Is a Root Canal?",
+          "url": "https://www.aae.org/patients/root-canal-treatment/what-is-a-root-canal/"
+        },
+        {
+          "label": "American Association of Endodontists: Root Canal Explained",
+          "url": "https://www.aae.org/patients/root-canal-treatment/what-is-a-root-canal/root-canal-explained/"
+        }
       ],
-      "related": ["same-day-crowns-vs-traditional-crowns", "gum-disease-signs-treatment-prevention", "dental-implants-process-benefits-recovery"]
+      "related": [
+        "same-day-crowns-vs-traditional-crowns",
+        "gum-disease-signs-treatment-prevention",
+        "dental-implants-process-benefits-recovery"
+      ],
+      "publishedAt": "2026-08-25",
+      "modifiedAt": "2026-09-09"
     },
     {
       "slug": "sedation-dentistry-types-safety",
@@ -321,7 +392,7 @@
       "title": "Sedation Dentistry: Types, Benefits, and Safety",
       "description": "Learn how dental sedation differs from local anesthesia, how sedation levels are selected, and which safety questions to discuss before treatment.",
       "imageAlt": "Empty dental chair with a nasal hood in a softly lit treatment room",
-      "serviceHref": "/services#sedation",
+      "serviceHref": "/services/sedation-dentistry",
       "serviceLabel": "Explore sedation dentistry",
       "sections": [
         {
@@ -363,10 +434,22 @@
         }
       ],
       "sources": [
-        {"label": "American Dental Association: Anesthesia and Sedation", "url": "https://www.mouthhealthy.org/all-topics-a-z/anesthesia-and-sedation"},
-        {"label": "American Dental Association: Sedation and Anesthesia Guidelines", "url": "https://www.ada.org/resources/ada-library/oral-health-topics/anesthesia-and-sedation"}
+        {
+          "label": "American Dental Association: Anesthesia and Sedation",
+          "url": "https://www.mouthhealthy.org/all-topics-a-z/anesthesia-and-sedation"
+        },
+        {
+          "label": "American Dental Association: Sedation and Anesthesia Guidelines",
+          "url": "https://www.ada.org/resources/ada-library/oral-health-topics/anesthesia-and-sedation"
+        }
       ],
-      "related": ["root-canal-what-to-expect", "tmj-disorders-symptoms-treatment", "dental-implants-process-benefits-recovery"]
+      "related": [
+        "root-canal-what-to-expect",
+        "tmj-disorders-symptoms-treatment",
+        "dental-implants-process-benefits-recovery"
+      ],
+      "publishedAt": "2026-08-25",
+      "modifiedAt": "2026-09-09"
     },
     {
       "slug": "tmj-disorders-symptoms-treatment",
@@ -374,7 +457,7 @@
       "title": "TMJ Disorders: Symptoms, Causes, and Treatment Options",
       "description": "Learn the difference between the TMJ and a temporomandibular disorder, which symptoms matter, and why conservative treatment usually comes first.",
       "imageAlt": "Adult resting fingertips near the jaw joint in a quiet home setting",
-      "serviceHref": "/services#tmj",
+      "serviceHref": "/services/tmj-treatment",
       "serviceLabel": "Explore TMJ care",
       "sections": [
         {
@@ -415,10 +498,22 @@
         }
       ],
       "sources": [
-        {"label": "National Institute of Dental and Craniofacial Research: TMD", "url": "https://www.nidcr.nih.gov/health-info/tmd"},
-        {"label": "NIDCR: Summary of Treatment for Temporomandibular Disorders", "url": "https://www.nidcr.nih.gov/health-info/tmd/summary-treatment-temporomandibular-disorders-tmds-text-alternative"}
+        {
+          "label": "National Institute of Dental and Craniofacial Research: TMD",
+          "url": "https://www.nidcr.nih.gov/health-info/tmd"
+        },
+        {
+          "label": "NIDCR: Summary of Treatment for Temporomandibular Disorders",
+          "url": "https://www.nidcr.nih.gov/health-info/tmd/summary-treatment-temporomandibular-disorders-tmds-text-alternative"
+        }
       ],
-      "related": ["sedation-dentistry-types-safety", "clear-aligners-how-they-work", "root-canal-what-to-expect"]
+      "related": [
+        "sedation-dentistry-types-safety",
+        "clear-aligners-how-they-work",
+        "root-canal-what-to-expect"
+      ],
+      "publishedAt": "2026-08-25",
+      "modifiedAt": "2026-09-09"
     },
     {
       "slug": "co2-laser-resurfacing-benefits-recovery",
@@ -426,7 +521,7 @@
       "title": "CO2 Laser Skin Resurfacing: Benefits, Risks, and Recovery",
       "description": "Learn how CO2 laser resurfacing works, how treatment depth changes recovery, and which risks and preparation questions deserve attention.",
       "imageAlt": "Professional laser handpiece and protective eyewear in a neutral treatment room",
-      "serviceHref": "/facial-aesthetics#deka-laser",
+      "serviceHref": "/facial-aesthetics/co2-laser-resurfacing",
       "serviceLabel": "Explore facial laser treatment",
       "sections": [
         {
@@ -467,10 +562,22 @@
         }
       ],
       "sources": [
-        {"label": "American Society for Dermatologic Surgery: Laser Resurfacing", "url": "https://www.asds.net/skin-experts/skin-treatments/laser-resurfacing"},
-        {"label": "American Academy of Dermatology: Questions Before Cosmetic Treatment", "url": "https://www.aad.org/public/cosmetic/safety/ask-questions"}
+        {
+          "label": "American Society for Dermatologic Surgery: Laser Resurfacing",
+          "url": "https://www.asds.net/skin-experts/skin-treatments/laser-resurfacing"
+        },
+        {
+          "label": "American Academy of Dermatology: Questions Before Cosmetic Treatment",
+          "url": "https://www.aad.org/public/cosmetic/safety/ask-questions"
+        }
       ],
-      "related": ["microneedling-benefits-process-aftercare", "veneers-vs-bonding-vs-whitening", "tmj-disorders-symptoms-treatment"]
+      "related": [
+        "microneedling-benefits-process-aftercare",
+        "veneers-vs-bonding-vs-whitening",
+        "tmj-disorders-symptoms-treatment"
+      ],
+      "publishedAt": "2026-08-25",
+      "modifiedAt": "2026-09-09"
     },
     {
       "slug": "microneedling-benefits-process-aftercare",
@@ -478,7 +585,7 @@
       "title": "Microneedling: Benefits, Process, and Aftercare",
       "description": "Learn what professional microneedling is designed to treat, what the procedure feels like, and which safety and recovery details matter.",
       "imageAlt": "Professional microneedling pen and sealed cartridge beside a tabletop mirror",
-      "serviceHref": "/facial-aesthetics#microneedling",
+      "serviceHref": "/facial-aesthetics/microneedling",
       "serviceLabel": "Explore microneedling treatment",
       "sections": [
         {
@@ -520,11 +627,26 @@
         }
       ],
       "sources": [
-        {"label": "U.S. Food and Drug Administration: Microneedling Devices", "url": "https://www.fda.gov/medical-devices/aesthetic-cosmetic-devices/microneedling-devices"},
-        {"label": "American Academy of Dermatology: Microneedling", "url": "https://www.aad.org/public/cosmetic/scars-stretch-marks/microneedling-fade-scars"},
-        {"label": "FDA: Potential Risks with Certain Uses of RF Microneedling", "url": "https://www.fda.gov/medical-devices/safety-communications/potential-risks-certain-uses-radiofrequency-rf-microneedling-fda-safety-communication"}
+        {
+          "label": "U.S. Food and Drug Administration: Microneedling Devices",
+          "url": "https://www.fda.gov/medical-devices/aesthetic-cosmetic-devices/microneedling-devices"
+        },
+        {
+          "label": "American Academy of Dermatology: Microneedling",
+          "url": "https://www.aad.org/public/cosmetic/scars-stretch-marks/microneedling-fade-scars"
+        },
+        {
+          "label": "FDA: Potential Risks with Certain Uses of RF Microneedling",
+          "url": "https://www.fda.gov/medical-devices/safety-communications/potential-risks-certain-uses-radiofrequency-rf-microneedling-fda-safety-communication"
+        }
       ],
-      "related": ["co2-laser-resurfacing-benefits-recovery", "veneers-vs-bonding-vs-whitening", "gum-disease-signs-treatment-prevention"]
+      "related": [
+        "co2-laser-resurfacing-benefits-recovery",
+        "veneers-vs-bonding-vs-whitening",
+        "gum-disease-signs-treatment-prevention"
+      ],
+      "publishedAt": "2026-08-25",
+      "modifiedAt": "2026-09-09"
     }
   ]
 }

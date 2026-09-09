@@ -1,0 +1,19 @@
+/* Treatment pages use the established article, button, and color system. */
+a.svc-card { display: block; text-decoration: none; }
+.treatment-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+.treatment-page .crumb { display: flex; flex-wrap: wrap; align-items: baseline; }
+.treatment-page .crumb span { overflow-wrap: anywhere; }
+.treatment-page .article-hero h1 { max-width: 23ch; font-size: clamp(2.25rem, 5vw, 4rem); text-wrap: balance; }
+.treatment-image { margin: 0 0 3rem; }
+.treatment-image img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
+.treatment-page .article-body h3 { font-size: 1.3rem; margin: 1.6rem 0 0.6rem; }
+.treatment-page .article-body ul { padding-left: 1.3rem; }
+.treatment-page .article-body a { text-decoration: underline; text-underline-offset: 0.2em; color: var(--gold-deep); }
+.treatment-aside a { display: block; font-size: 0.82rem; line-height: 1.6; letter-spacing: 0.06em; }
+.treatment-aside h2:not(:first-child) { margin-top: 2.5rem; }
+.treatment-aside p + p { margin-top: 0.8rem; }
+.treatment-page a:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+.article-meta a { color: inherit; text-underline-offset: 0.2em; }
+
+/* Keep original image layout when a modern-format source is available. */
+picture { display: contents; }

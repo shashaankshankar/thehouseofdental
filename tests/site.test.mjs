@@ -13,8 +13,8 @@ const pages = (await listHtml("dist")).sort();
 const sourceScripts = (await readdir("src/scripts")).filter((name) => name.endsWith(".js"));
 const sourceStyles = (await readdir("src/styles")).filter((name) => name.endsWith(".css"));
 
-test("site contains the core pages, blog index, and ten articles", () => {
-  assert.equal(pages.length, 23);
+test("site contains the core pages, ten articles, and eighteen treatment pages", () => {
+  assert.equal(pages.length, 41);
   assert.ok(pages.includes("blog.html"));
   assert.equal(pages.filter((page) => page.startsWith("blog/")).length, 10);
   for (const page of ["404.html", "about.html", "accessibility.html", "contact.html", "facial-aesthetics.html", "index.html", "new-patients.html", "pre-post-op.html", "privacy.html", "reviews.html", "services.html", "terms.html"]) assert.ok(pages.includes(page), page);
@@ -515,25 +515,21 @@ test("office status resolves against the Eastern-time Monday to Thursday schedul
 
 test("unapproved and unknown routes do not initialize analytics", async () => {
   const analyticsScript = await readFile("src/scripts/80-analytics.js", "utf8");
-  const window = { location: { pathname: "/unknown" } };
-  const document = new Proxy({}, {
-    get() {
-      throw new Error("unapproved routes must not access the document");
-    }
-  });
-  vm.runInNewContext(analyticsScript, {
-    __SITE_ANALYTICS: {
-      provider: "gtag",
-      enabled: true,
-      measurementId: "G-TEST123",
-      consent: { mode: "advanced", version: 2 },
-      routeEligibility: { default: "prohibited", routes: { "/contact": "requires_review" } },
-      eventPolicy: { allowedEvents: [], allowedLocations: [], allowedCtaTypes: [], allowedServiceCategories: [] }
-    },
-    window,
-    document
-  });
-  assert.equal(window.dataLayer, undefined);
+  for (const pathname of ["/unknown", "/review-needed"]) {
+    const window = { location: { pathname } };
+    const document = new Proxy({}, {
+      get() { throw new Error("unapproved routes must not access the document"); }
+    });
+    vm.runInNewContext(analyticsScript, {
+      __SITE_ANALYTICS: {
+        provider: "gtag", enabled: true, measurementId: "G-TEST123",
+        consent: { mode: "advanced", version: 2 },
+        routeEligibility: { default: "prohibited", routes: { "/review-needed": "requires_review" } },
+        eventPolicy: { allowedEvents: [], allowedLocations: [], allowedCtaTypes: [], allowedServiceCategories: [] }
+      }, window, document
+    });
+    assert.equal(window.dataLayer, undefined);
+  }
 });
 
 test("unsafe URL data fails closed before GA4 initializes", async () => {
@@ -752,38 +748,38 @@ test("Cloudflare config pins the Worker, Static Assets, routes, and safe variabl
   }
 });
 
-test("service and technology details are embedded in the export", async () => {
+test("treatment cards link to pages while technology details remain embedded", async () => {
   const services = await readFile("dist/services.html", "utf8");
   const about = await readFile("dist/about.html", "utf8");
   const script = await readFile("dist/main.js", "utf8");
   assert.doesNotMatch(services, /Select a Service to Explore/);
   assert.equal((services.match(/class="center-head services-collection-head"/g) || []).length, 2);
-  assert.match(services, /id="implants"[^>]*data-svc="implants"/);
+  assert.match(services, /id="implants"[^>]*data-treatment="implants"/);
   assert.match(services, /id="facial-aesthetics-services"/);
   assert.match(services, /id="dental-services"/);
   for (const id of ["deka", "microneedling", "emage", "hydroderm", "quietnite"]) {
-    assert.match(services, new RegExp(`data-svc="${id}"`), id);
+    assert.match(services, new RegExp(`data-treatment="${id}"`), id);
   }
-  const serviceOrder = [...services.matchAll(/data-svc="([^"]+)"/g)].map((match) => match[1]);
+  const serviceOrder = [...services.matchAll(/data-treatment="([^"]+)"/g)].map((match) => match[1]);
   assert.deepEqual(serviceOrder, [
     "deka", "microneedling", "emage", "hydroderm",
     "implants", "crowns", "restorative", "dentures", "root-canals",
     "cosmetic", "veneers", "preventive", "invisalign", "oral-surgery",
     "sedation", "tmj", "srp", "quietnite"
   ]);
-  assert.match(services, /data-modal-prev/);
-  assert.match(services, /data-modal-next/);
+  assert.doesNotMatch(services, /id="svcmodal"/);
+
   assert.match(about, /data-tech="cerec"/);
   assert.match(script, /const __SITE_DETAIL_DATA =/);
-  assert.match(script, /"services"/);
+  assert.doesNotMatch(script, /const __SITE_DETAIL_DATA = \{"services"/);
   assert.match(script, /"technology"/);
   assert.doesNotMatch(script, /fetch\(.*(?:services|technology)\.json/);
   assert.match(script, /history\.pushState/);
 });
 
-test("service cards keep modal triggers and expose matching treatment care links", async () => {
+test("service cards expose crawlable pages and matching treatment care links", async () => {
   const html = await readFile("dist/services.html", "utf8");
-  const serviceIds = [...html.matchAll(/<button id="[^"]+" class="svc-card" data-svc="([^"]+)"/g)].map((match) => match[1]);
+  const serviceIds = [...html.matchAll(/<a id="[^"]+" class="svc-card" data-treatment="([^"]+)"/g)].map((match) => match[1]);
   assert.deepEqual(serviceIds, [
     "deka", "microneedling", "emage", "hydroderm", "implants", "crowns", "restorative",
     "dentures", "root-canals", "cosmetic", "veneers", "preventive", "invisalign", "oral-surgery",
@@ -857,7 +853,7 @@ test("back-to-top control is scoped to the care page", async () => {
 test("care page keeps Services selected in the shared navigation", async () => {
   const html = await readFile("dist/pre-post-op.html", "utf8");
   const navigation = html.match(/<ul class="menu" id="primary-navigation">([\s\S]*?)<\/header>/)?.[1] || "";
-  assert.match(navigation, /<a data-primary-link data-active-paths="\/pre-post-op" href="\/services">Services<\/a>/);
+  assert.match(navigation, /<a data-primary-link data-active-paths="\/pre-post-op" data-active-prefix="\/services" href="\/services">Services<\/a>/);
   const script = await readFile("dist/main.js", "utf8");
   assert.match(script, /link\.dataset\.activePaths/);
   assert.match(script, /link\.setAttribute\("aria-current", "page"\)/);

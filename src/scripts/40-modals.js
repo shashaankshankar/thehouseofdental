@@ -16,7 +16,6 @@
   });
 
   const definitions = [
-    { dialog: "svcmodal", trigger: ".svc-card", key: "svc", kind: "service", prefix: "svcm" },
     { dialog: "techmodal", trigger: ".tech-card", key: "tech", kind: "technology", prefix: "techm" }
   ];
 
@@ -40,9 +39,7 @@
     let touchStart = null;
     let inerted = [];
 
-    const detailData = definition.kind === "service"
-      ? { ...(__SITE_DETAIL_DATA?.services || {}), ...(__SITE_DETAIL_DATA?.technology || {}) }
-      : __SITE_DETAIL_DATA?.technology || {};
+    const detailData = __SITE_DETAIL_DATA?.technology || {};
     const decode = (value = "") => {
       return new DOMParser().parseFromString(value, "text/html").body.textContent || "";
     };

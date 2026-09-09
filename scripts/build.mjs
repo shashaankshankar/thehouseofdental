@@ -1,8 +1,11 @@
+import { imageOptimizer } from "./optimize-images.mjs";
+import { renderTreatment } from "./render-treatments.mjs";
 import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
 const source = "src";
 const output = "dist";
+const optimize = imageOptimizer(output);
 const read = (path) => readFile(path, "utf8");
 const escapeAttribute = (value = "") => value.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;");
 const copyPublicTree = async (sourceDirectory, outputDirectory) => {
@@ -15,11 +18,11 @@ const copyPublicTree = async (sourceDirectory, outputDirectory) => {
     else await cp(sourcePath, outputPath);
   }
 };
+const treatments = JSON.parse(await read(join(source, "data/treatments.json")));
 const site = JSON.parse(await read(join(source, "data/site.json")));
 const canonicalFor = (page) => page.path ? new URL(page.path, `${site.baseUrl}/`).toString() : "";
 const reviews = JSON.parse(await read(join(source, "data/reviews.json")));
 const financing = JSON.parse(await read(join(source, "data/financing.json")));
-const services = JSON.parse(await read(join(source, "data/services.json")));
 const technology = JSON.parse(await read(join(source, "data/technology.json")));
 const blog = JSON.parse(await read(join(source, "data/blog.json")));
 const siteMeasurement = JSON.parse(await read("measurement/site.json"));
@@ -52,10 +55,7 @@ const reputation = site.reputation ?? {
   fallback: { rating: 5.0, review_count: 332 }
 };
 const structuredData = JSON.parse(JSON.stringify(site.structuredData));
-if (structuredData.aggregateRating && reputation.fallback) {
-  structuredData.aggregateRating.ratingValue = Number(reputation.fallback.rating).toFixed(1);
-  structuredData.aggregateRating.reviewCount = String(reputation.fallback.review_count);
-}
+
 const templates = {
   full: {
     header: await read(join(source, "templates/header-full.html")),
@@ -84,17 +84,20 @@ const decorateAnalyticsAttributes = (markup) => markup.replace(/<a\b[^>]*>/g, (t
   return tag;
 });
 
-await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
+for (const entry of await readdir(output)) {
+  await rm(join(output, entry), { recursive: true, force: true });
+}
+await mkdir(join(output, "assets/optimized"), { recursive: true });
 await copyPublicTree(join(source, "assets"), join(output, "assets"));
 for (const file of await readdir(join(source, "static"))) await cp(join(source, "static", file), join(output, file));
 
 const styles = (await readdir(join(source, "styles"))).filter((file) => file.endsWith(".css")).sort();
 const styleSources = await Promise.all(styles.map(async (file) => (await read(join(source, "styles", file))).trimEnd()));
-await writeFile(join(output, "styles.css"), `${styleSources.join("\n\n")}\n`);
+await writeFile(join(output, "styles.css"), await optimize.css(`${styleSources.join("\n\n")}\n`));
 const scripts = (await readdir(join(source, "scripts"))).filter((file) => file.endsWith(".js")).sort();
 const scriptSources = await Promise.all(scripts.map(async (file) => (await read(join(source, "scripts", file))).trimEnd()));
-await writeFile(join(output, "main.js"), `const __SITE_DETAIL_DATA = ${JSON.stringify({ services, technology })};\nconst __SITE_ANALYTICS = ${JSON.stringify(analytics)};\nconst __SITE_REPUTATION = ${JSON.stringify(reputation)};\n\n${scriptSources.join("\n\n")}\n`);
+await writeFile(join(output, "main.js"), `const __SITE_DETAIL_DATA = ${JSON.stringify({ technology })};\nconst __SITE_ANALYTICS = ${JSON.stringify(analytics)};\nconst __SITE_REPUTATION = ${JSON.stringify(reputation)};\n\n${scriptSources.join("\n\n")}\n`);
 
 const mobileActions = decorateAnalyticsAttributes('<nav class="mobile-actions" aria-label="Quick contact"><a href="tel:+14076781400">Call (407) 678-1400</a><a href="/contact#request">Request Visit</a></nav>');
 // The appointment request drawer ships with every full-shell page so contextual
@@ -164,7 +167,7 @@ const formattedDate = (date) => new Intl.DateTimeFormat("en-US", { month: "long"
 const articleBySlug = new Map(blog.articles.map((article) => [article.slug, article]));
 const renderBlogCard = (article, index = 1) => `<article class="blog-card"><a class="blog-card-media" href="${blogArticlePath(article)}"><img src="${blogImagePath(article, "card")}" width="720" height="480" alt="${escapeAttribute(article.imageAlt)}" decoding="async"${index === 0 ? ' loading="eager" fetchpriority="high"' : ' loading="lazy"'}></a><div class="blog-card-body"><div class="blog-card-meta"><span>${escapeText(article.category)}</span><span>${readingMinutes(article)} min read</span></div><h2><a href="${blogArticlePath(article)}">${escapeText(article.title)}</a></h2><p>${escapeText(article.description)}</p><span class="blog-read" aria-hidden="true">Read article</span></div></article>`;
 const blogCards = blog.articles.map(renderBlogCard).join("\n");
-const organization = { "@type": "Organization", name: site.name, url: site.baseUrl, logo: absoluteUrl("/assets/logo.svg") };
+const organization = { "@type": "Organization", "@id": absoluteUrl("/#practice"), name: site.name, url: site.baseUrl, logo: absoluteUrl("/assets/logo.svg") };
 const collectionSchema = {
   "@context": "https://schema.org",
   "@graph": [
@@ -180,9 +183,9 @@ const articleSchema = (article) => ({
       headline: article.title,
       description: article.description,
       image: absoluteUrl(blogImagePath(article, "hero")),
-      datePublished: blog.publishedAt,
-      dateModified: blog.publishedAt,
-      author: organization,
+      datePublished: article.publishedAt,
+      dateModified: article.modifiedAt || article.publishedAt,
+      author: article.author ? { "@type": "Person", name: article.author.name, url: absoluteUrl(article.author.path) } : organization,
       publisher: organization,
       mainEntityOfPage: absoluteUrl(blogArticlePath(article)),
       articleSection: article.category,
@@ -210,13 +213,15 @@ const renderDocument = (page, content, options = {}) => {
   const geo = page.geoPlacename ? `<meta name="geo.region" content="US-FL"><meta name="geo.placename" content="${escapeAttribute(page.geoPlacename)}">` : "";
   const socialTitle = page.socialTitle || page.title;
   const socialDescription = page.socialDescription || page.description;
-  const socialImage = options.socialImage ? `<meta property="og:image" content="${escapeAttribute(options.socialImage)}"><meta property="og:image:width" content="1440"><meta property="og:image:height" content="960"><meta property="og:image:alt" content="${escapeAttribute(options.socialImageAlt || "")}"><meta name="twitter:image" content="${escapeAttribute(options.socialImage)}">` : "";
+  options.socialImage ||= absoluteUrl("/assets/office-exterior.jpg");
+  options.socialImageAlt ||= "The House of Dental office in Winter Park, Florida";
+  const socialImage = options.socialImage ? `<meta property="og:image" content="${escapeAttribute(options.socialImage)}"><meta property="og:image:alt" content="${escapeAttribute(options.socialImageAlt || "")}"><meta name="twitter:image" content="${escapeAttribute(options.socialImage)}">` : "";
   const articleSocial = options.publishedAt ? `<meta property="article:published_time" content="${escapeAttribute(options.publishedAt)}"><meta property="article:modified_time" content="${escapeAttribute(options.modifiedAt || options.publishedAt)}"><meta property="article:section" content="${escapeAttribute(options.articleSection || "")}">` : "";
   const social = canonicalUrl ? `<meta property="og:title" content="${escapeAttribute(socialTitle)}"><meta property="og:description" content="${escapeAttribute(socialDescription)}"><meta property="og:type" content="${escapeAttribute(options.socialType || "website")}"><meta property="og:site_name" content="${escapeAttribute(site.name)}"><meta property="og:locale" content="en_US"><meta property="og:url" content="${escapeAttribute(canonicalUrl)}">${socialImage}${articleSocial}<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${escapeAttribute(socialTitle)}"><meta name="twitter:description" content="${escapeAttribute(socialDescription)}">` : "";
   const author = page.author ? `<meta name="author" content="${escapeAttribute(page.author)}">` : "";
-  const schemaData = options.schemaData ?? (page.schema === false ? null : page.shell === "full" ? structuredData : null);
-  const schema = schemaData ? `<script type="application/ld+json">${JSON.stringify(schemaData)}</script>` : "";
-  const fonts = page.shell === "full" ? '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital@1&display=swap" rel="stylesheet">' : "";
+  const schemaData = options.schemaData ?? (page.schema === false ? null : page.shell === "full" ? { "@context": "https://schema.org", "@graph": [structuredData, { "@type": "WebPage", "@id": `${canonicalUrl}#webpage`, url: canonicalUrl, name: page.title, description: page.description, about: { "@id": structuredData["@id"] } }] } : null);
+  const schema = schemaData ? `<script type="application/ld+json">${JSON.stringify(schemaData).replaceAll("<", "\\u003c")}</script>` : "";
+  const fonts = "";
   const drawer = page.shell === "full" && !options.inlineInquiry ? inquiryDrawer : "";
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0a0a0b"><title>${escapeText(page.title)}</title>${keywords}${social}${geo}${description}<meta name="robots" content="${escapeAttribute(page.robots)}">${canonical}${author}${schema}${fonts}<link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16"><link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180"><link rel="stylesheet" href="/styles.css"></head><body><a class="skip-link" href="#main-content">Skip to main content</a>${shell.header}${content}${shell.footer}${mobileActions}${drawer}<script src="/main.js" defer></script></body></html>`;
@@ -228,7 +233,7 @@ for (const [file, page] of Object.entries(site.pages)) {
   if (file === "pre-post-op.html") content = alignCareCopy(reorderCareSections(content));
   content = decorateAnalyticsAttributes(content);
   const html = renderDocument(page, content, { schemaData: page.schemaType === "blog-index" ? collectionSchema : undefined, inlineInquiry });
-  await writeFile(join(output, file), `${html}\n`);
+  await writeFile(join(output, file), `${await optimize.html(html)}\n`);
 }
 
 await mkdir(join(output, "blog"), { recursive: true });
@@ -244,7 +249,7 @@ const articlePages = blog.articles.map((article) => {
     shell: "full",
     changefreq: "monthly",
     priority: "0.7",
-    lastmod: blog.publishedAt
+    lastmod: article.modifiedAt || article.publishedAt
   };
   const relatedCards = article.related.map((slug, index) => renderBlogCard(articleBySlug.get(slug), index + 1)).join("\n");
   const sections = article.sections.map((section) => `<section><h2>${escapeText(section.heading)}</h2>${section.paragraphs.map((paragraph) => `<p>${escapeText(paragraph)}</p>`).join("")}</section>`).join("\n");
@@ -257,7 +262,7 @@ const articlePages = blog.articles.map((article) => {
         <p class="eyebrow u-inline-001">${escapeText(article.category)}</p>
         <h1>${escapeText(article.title)}</h1>
         <p class="article-dek">${escapeText(article.description)}</p>
-        <div class="article-meta"><span>${formattedDate(blog.publishedAt)}</span><span>${readingMinutes(article)} min read</span><span>Published by ${escapeText(site.name)}</span></div>
+        <div class="article-meta"><span>${formattedDate(article.publishedAt)}</span><span>${readingMinutes(article)} min read</span>${article.modifiedAt && article.modifiedAt !== article.publishedAt ? `<span>Updated ${formattedDate(article.modifiedAt)}</span>` : ""}<span>Published by <a href="/about">${escapeText(site.name)}</a></span>${article.author ? `<span>Written by <a href="${escapeAttribute(article.author.path)}">${escapeText(article.author.name)}</a></span>` : ""}${article.reviewer ? `<span>Reviewed by <a href="${escapeAttribute(article.reviewer.path)}">${escapeText(article.reviewer.name)}</a> on ${formattedDate(article.reviewer.reviewedAt)}</span>` : ""}</div>
       </div>
     </header>
     <div class="sec sec-ivory article-shell">
@@ -279,18 +284,31 @@ const articlePages = blog.articles.map((article) => {
     socialType: "article",
     socialImage: absoluteUrl(blogImagePath(article, "hero")),
     socialImageAlt: article.imageAlt,
-    publishedAt: blog.publishedAt,
-    modifiedAt: blog.publishedAt,
+    publishedAt: article.publishedAt,
+    modifiedAt: article.modifiedAt || article.publishedAt,
     articleSection: article.category
   });
   return { file: blogArticleFile(article), page, html };
 });
-for (const articlePage of articlePages) await writeFile(join(output, articlePage.file), `${articlePage.html}\n`);
+for (const articlePage of articlePages) await writeFile(join(output, articlePage.file), `${await optimize.html(articlePage.html)}\n`);
 
-const allPages = [...Object.entries(site.pages).map(([file, page]) => ({ file, page })), ...articlePages.map(({ file, page }) => ({ file, page }))];
+const treatmentPages = [];
+for (const treatment of treatments) {
+  const rendered = renderTreatment(treatment, { treatments, articles: blog.articles, site, escapeText, escapeAttribute });
+  const file = `${treatment.path.slice(1)}.html`;
+  await mkdir(join(output, treatment.path.split("/")[1]), { recursive: true });
+  const html = renderDocument(rendered.page, decorateAnalyticsAttributes(rendered.html), { schemaData: rendered.schema, socialImage: absoluteUrl(treatment.image), socialImageAlt: treatment.imageAlt });
+  await writeFile(join(output, file), `${await optimize.html(html)}\n`);
+  treatmentPages.push({ file, page: rendered.page });
+}
+
+const allPages = [...Object.entries(site.pages).map(([file, page]) => ({ file, page })), ...articlePages.map(({ file, page }) => ({ file, page })), ...treatmentPages];
 const sitemapPages = allPages.filter(({ page }) => page.path && page.sitemap !== false && !page.robots.includes("noindex"));
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapPages.map(({ page }) => `  <url><loc>${canonicalFor(page)}</loc>${page.lastmod || page.path === "/blog" ? `<lastmod>${page.lastmod || blog.publishedAt}</lastmod>` : ""}<changefreq>${page.changefreq || "monthly"}</changefreq><priority>${page.priority || "0.8"}</priority></url>`).join("\n")}\n</urlset>\n`;
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapPages.map(({ page }) => `  <url><loc>${canonicalFor(page)}</loc>${page.lastmod ? `<lastmod>${page.lastmod}</lastmod>` : ""}</url>`).join("\n")}\n</urlset>\n`;
 await writeFile(join(output, "sitemap.xml"), sitemap);
+const routeAliases = Object.fromEntries(allPages.filter(({page}) => page.path).map(({file,page}) => [`/${file}`,page.path]));
+Object.assign(routeAliases, site.redirects || {});
+await writeFile("worker/site-routes.mjs", `// Generated by scripts/build.mjs; edit site metadata instead.\nexport const publicPaths = new Set(${JSON.stringify(allPages.filter(({page})=>page.path).map(({page})=>page.path))});\nexport const routeAliases = ${JSON.stringify(routeAliases)};\n`);
 const pageRedirects = allPages.filter(({ page }) => page.path).map(({ file, page }) => `/${file} ${page.path} 301`);
 const aliasRedirects = Object.entries(site.redirects || {}).map(([from, to]) => `${from} ${to} 301`);
 await writeFile(join(output, "_redirects"), `# Generated from src/data/site.json clean paths and legacy aliases.\n${[...pageRedirects, ...aliasRedirects].join("\n")}\n`);

@@ -511,3 +511,33 @@ test("reputation endpoint validates configuration, upstream data, and caches suc
     else globalThis.caches = originalCaches;
   }
 });
+
+test("known URL variants use one permanent redirect and preserve queries", async () => {
+  for (const [path, host, target] of [
+    ["/services/", origin, "/services"],
+    ["/services/dental-implants.html", origin, "/services/dental-implants"],
+    ["/facial-aesthetics/microneedling/", origin, "/facial-aesthetics/microneedling"],
+    ["/about-us/", origin, "/about"],
+    ["/index.html", "http://www.thehouseofdentalwp.com", "/"],
+    ["/services.html?utm_source=google", "https://www.thehouseofdentalwp.com", "/services?utm_source=google"]
+  ]) {
+    const response = await worker.fetch(requestFor(path, {}, host), {ASSETS: assets()}, context());
+    assert.equal(response.status, 301, path);
+    assert.equal(response.headers.get("location"), `${origin}${target}`, path);
+    const canonical = await worker.fetch(new Request(response.headers.get("location")), {ASSETS: assets()}, context());
+    assert.equal(canonical.status, 200);
+    assert.equal(canonical.headers.get("location"), null);
+  }
+});
+
+test("unknown and API paths do not acquire page redirects", async () => {
+  for (const path of ["/not-real/", "/not-real.html", "/constructor/", "/__proto__/", "/assets/missing.jpg"]) {
+    const response=await worker.fetch(requestFor(path), {ASSETS:assets(async()=>new Response('missing',{status:404}))},context());
+    assert.equal(response.status,404,path);
+    assert.equal(response.headers.get('location'),null);
+  }
+  const response=await worker.fetch(requestFor('/api/contact/',{method:'POST'}),{ASSETS:assets()},context());
+  assert.equal(response.status,404);
+  const head=await worker.fetch(requestFor('/services/',{method:'HEAD'}),{ASSETS:assets()},context());
+  assert.equal(head.status,301);
+});

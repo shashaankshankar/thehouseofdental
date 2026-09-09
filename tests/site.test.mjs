@@ -73,8 +73,11 @@ test("GA4 integration is configurable and enabled for the approved production ro
   assert.doesNotMatch(script, /"propertyId"|"webStreamId"|"connection"/);
   assert.ok(script.includes("https://www.googletagmanager.com/gtag/js?id="));
   assert.ok(headers.includes("script-src 'self' https://www.googletagmanager.com"));
+  assert.ok(headers.includes("https://static.cloudflareinsights.com"));
+  assert.ok(headers.includes("https://challenges.cloudflare.com"));
   assert.match(headers, /img-src[^;]*https:\/\/www\.googletagmanager\.com/);
   assert.ok(headers.includes("connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com"));
+  assert.ok(headers.includes("https://cloudflareinsights.com"));
   assert.match(headers, /style-src[^;]*'unsafe-inline'/);
   assert.doesNotMatch(headers, /vercel|_vercel/i);
   assert.doesNotMatch(headers, /script-src[^;]*'unsafe-inline'/);

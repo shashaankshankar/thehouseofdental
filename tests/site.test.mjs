@@ -434,7 +434,7 @@ test("appointment request drawer ships on full-shell pages and opens from every 
   assert.match(home, /class="hero-cta[^"]*"><a class="btn btn-solid"[^>]*href="\/contact#request">Request an Appointment<\/a><a class="btn"[^>]*href="tel:\+14076781400">Call \(407\) 678-1400<\/a>/);
   assert.match(home, /class="office-status" data-office-status/);
   assert.doesNotMatch(home, /hero-proof-inline/);
-  assert.match(home, /<div class="hero-bg"><picture><source type="image\/webp" srcset="[^"]*office-exterior-2800\.webp 2800w" sizes="100vw"><img class="hero-bg-img" src="assets\/office-exterior\.jpg" srcset="[^"]*office-exterior-2800\.jpg 2800w" sizes="100vw"[^>]*fetchpriority="high"[^>]*><\/picture><\/div>/);
+  assert.match(home, /<div class="hero-bg"><picture><source type="image\/webp" srcset="[^"]*office-exterior-2560\.webp 2560w" sizes="100vw"><img class="hero-bg-img" src="assets\/office-exterior-1600\.jpg" srcset="[^"]*office-exterior-2560\.jpg 2560w" sizes="100vw"[^>]*fetchpriority="high"[^>]*><\/picture><\/div>/);
   assert.doesNotMatch(home, /optimized\/office-exterior[^"]*\.webp[^>]*>\s*<img class="hero-bg-img"/);
   assert.match(script, /data-inquiry-inline/);
   for (const treatment of ["implants", "cerec-crowns", "facial-aesthetics", "smile-makeover", "checkup"]) {

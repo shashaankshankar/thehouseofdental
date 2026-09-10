@@ -1919,8 +1919,10 @@ body.modal-open { overflow: hidden; }
     inset: auto;
     z-index: 0;
     width: 100%;
-    aspect-ratio: 16 / 9;
-    background-position: center top;
+    aspect-ratio: 4 / 3;
+    max-height: 480px;
+    min-height: 270px;
+    background-position: center 48%;
     background-size: cover;
     background-repeat: no-repeat;
     transform: none !important;
@@ -1949,7 +1951,7 @@ body.modal-open { overflow: hidden; }
   .hero-bg {
     aspect-ratio: auto;
     height: clamp(260px, 56vh, 420px);
-    background-position: center 56%;
+    background-position: center 50%;
   }
 }
 
@@ -3030,6 +3032,7 @@ header.site .minimal-nav .btn,
   height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+  object-position: center 48%;
   margin-top: 1.6rem;
   border: 1px solid var(--line-dark);
 }
@@ -3463,6 +3466,12 @@ header.site .minimal-nav .btn,
   }
 }
 
+@media (min-width: 1800px) and (min-height: 900px) {
+  .home-hero .hero-bg {
+    background-position: center 48%;
+  }
+}
+
 .home-philosophy {
   min-height: clamp(380px, 28vw, 460px);
   overflow: hidden;
@@ -3510,7 +3519,7 @@ header.site .minimal-nav .btn,
   justify-self: end;
   align-self: center;
   margin-block: clamp(2.5rem, 3vw, 3.5rem);
-  background-image: image-set(url("/assets/optimized/hero-smile-d1c248d3e0d2-960.webp") 1x, url("/assets/optimized/hero-smile-d1c248d3e0d2-1440.webp") 2x);
+  background-image: image-set(url("/assets/optimized/hero-smile-d1c248d3e0d2-960.webp") 1x, url("/assets/optimized/hero-smile-d1c248d3e0d2-1536.webp") 2x);
   background-position: right bottom;
   background-repeat: no-repeat;
   background-size: contain;
@@ -3785,7 +3794,7 @@ header.site .minimal-nav .btn,
 .home-visit-grid > div:first-child > p:not(.eyebrow) { max-width: 48ch; margin-top: 1.25rem; color: rgba(28, 27, 24, .72); }
 .home-visit-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
 .home-hours { padding-left: clamp(2rem, 5vw, 4rem); border-left: 1px solid var(--line-light); }
-.home-hours-photo { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; margin-bottom: 1.4rem; border: 1px solid var(--line-light); }
+.home-hours-photo { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: center 48%; margin-bottom: 1.4rem; border: 1px solid var(--line-light); }
 .home-hours h3 { font-size: 1.6rem; }
 .home-hours > p { margin: .8rem 0 1.2rem; color: rgba(28, 27, 24, .72); }
 .home-hours dl > div { display: flex; justify-content: space-between; gap: 1rem; padding: .65rem 0; border-top: 1px solid var(--line-light); }
@@ -3970,7 +3979,7 @@ header.site .minimal-nav .btn,
     width: 100%;
     height: var(--home-short-hero-h);
     aspect-ratio: auto;
-    background-position: center 58%;
+    background-position: center 50%;
     background-size: cover;
   }
   .home-hero .hero-bg-img { object-position: center 58%; }

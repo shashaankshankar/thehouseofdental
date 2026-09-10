@@ -5,5 +5,12 @@
   X-Frame-Options: SAMEORIGIN
   Content-Security-Policy: default-src 'self'; img-src 'self' data: blob: https://winterparkdental.com https://images.unsplash.com https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://www.googletagmanager.com https://static.cloudflareinsights.com https://challenges.cloudflare.com 'sha256-L/SUCvsV4b9hLxjLaiqc0t8t2saAS/DT94upNrWLetQ='; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://cloudflareinsights.com; frame-src 'self' https://challenges.cloudflare.com https://www.google.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'
 
-/assets/*
+# Only content-addressed images are immutable. Named photos use Cloudflare's
+# default revalidation policy so replacements at the same URL can be refreshed.
+/assets/optimized/*
   Cache-Control: public, max-age=31536000, immutable
+
+# This former homepage photo URL is still represented by an old Google thumbnail.
+# Allow crawling so Google can read the exclusion; do not disallow it in robots.txt.
+/assets/hero-smile.jpg
+  X-Robots-Tag: noindex

@@ -360,7 +360,7 @@ footer.site .logo-img { height: 80px; }
   background-size: cover;
   background-position: center bottom;
   /* The photo reads as bright daylight; the copy-side gradient carries legibility. */
-  filter: sepia(0.06) brightness(1.06) contrast(1.02) saturate(1.06);
+  filter: sepia(0.06) brightness(1.03) contrast(1.02) saturate(1.06);
   will-change: transform;
 }
 /* Responsive hero photo: the browser picks the sharpest size for the viewport and pixel density. */
@@ -379,7 +379,7 @@ footer.site .logo-img { height: 80px; }
   inset: 52% 0 0;
   z-index: -1;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(10, 10, 11, 0.16), rgba(10, 10, 11, 0.03) 66%, transparent);
+  background: linear-gradient(to top, rgba(10, 10, 11, 0.22), rgba(10, 10, 11, 0.04) 66%, transparent);
 }
 .hero-inner {
   position: absolute;

@@ -547,7 +547,7 @@ footer.site .logo-img { height: 80px; }
   background-size: cover;
   background-position: center bottom;
   /* The photo reads as bright daylight; the copy-side gradient carries legibility. */
-  filter: sepia(0.06) brightness(1.06) contrast(1.02) saturate(1.06);
+  filter: sepia(0.06) brightness(1.03) contrast(1.02) saturate(1.06);
   will-change: transform;
 }
 /* Responsive hero photo: the browser picks the sharpest size for the viewport and pixel density. */
@@ -566,7 +566,7 @@ footer.site .logo-img { height: 80px; }
   inset: 52% 0 0;
   z-index: -1;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(10, 10, 11, 0.16), rgba(10, 10, 11, 0.03) 66%, transparent);
+  background: linear-gradient(to top, rgba(10, 10, 11, 0.22), rgba(10, 10, 11, 0.04) 66%, transparent);
 }
 .hero-inner {
   position: absolute;
@@ -3329,7 +3329,7 @@ header.site .minimal-nav .btn,
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(90deg, rgba(22,15,6,.42) 0%, rgba(22,15,6,.24) 34%, rgba(22,15,6,.06) 60%, transparent 76%);
+  background: linear-gradient(90deg, rgba(22,15,6,.48) 0%, rgba(22,15,6,.3) 34%, rgba(22,15,6,.08) 60%, transparent 76%);
   pointer-events: none;
 }
 .hero-offer-cue {
@@ -3431,8 +3431,10 @@ header.site .minimal-nav .btn,
 }
 
 @media (min-width: 901px) and (min-height: 621px) {
+  /* A fixed 2:1 frame keeps the same crop of the office photo at every desktop width. */
   .home-hero {
-    min-height: clamp(700px, calc(88svh - var(--head-h, 120px)), 820px);
+    min-height: 0;
+    height: max(640px, 50vw);
   }
   .home-hero .hero-bg { background-position: center 45%; }
   .home-hero .hero-bg-img { object-position: center 45%; }
@@ -3508,18 +3510,19 @@ header.site .minimal-nav .btn,
   justify-self: end;
   align-self: center;
   margin-block: clamp(2.5rem, 3vw, 3.5rem);
-  background-color: var(--ivory);
   background-image: image-set(url("/assets/optimized/hero-smile-d1c248d3e0d2-960.webp") 1x, url("/assets/optimized/hero-smile-d1c248d3e0d2-1440.webp") 2x);
-  background-position: 68% 42%;
+  background-position: right bottom;
   background-repeat: no-repeat;
-  background-size: cover;
-  border: 1px solid var(--line-light);
+  background-size: contain;
+  /* The cut-out fades into the ivory ground at its edges instead of reading as a framed photo. */
+  -webkit-mask-image: radial-gradient(ellipse 88% 92% at 62% 52%, #000 58%, transparent 100%);
+  mask-image: radial-gradient(ellipse 88% 92% at 62% 52%, #000 58%, transparent 100%);
 }
 
-.home-reassurance { border-top: 1px solid var(--line-dark); color: var(--ivory); }
-.home-reassurance .eyebrow { color: var(--gold-pale); }
-.home-reassurance .eyebrow::before,
-.home-reassurance .eyebrow::after { background: var(--gold-pale); }
+.home-reassurance { border-top: 1px solid var(--line-light); color: var(--ink); }
+.home-reassurance .home-doctor-actions { border-color: var(--line-light); background: rgba(255, 255, 255, .5); }
+.home-reassurance .home-doctor-actions p { color: rgba(28, 27, 24, .72); }
+.home-reassurance .home-reviews-panel > .home-text-link { color: var(--gold-deep); }
 .home-reassurance-heading { display: block; margin-bottom: 2rem; }
 .home-reassurance-heading h2 { max-width: none; font-size: clamp(2.35rem, 4vw, 4rem); }
 .home-reassurance-layout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(2rem, 6vw, 5.5rem); align-items: stretch; }
@@ -3533,15 +3536,15 @@ header.site .minimal-nav .btn,
 .home-doctor-feature em { margin-top: .3rem; color: var(--mist); font-size: .82rem; font-style: normal; }
 .home-doctor-feature em b { margin-left: .35rem; color: var(--gold-pale); font-weight: 400; }
 .home-doctor-feature:hover img { transform: scale(1.02); }
-.home-reviews-panel { display: flex; height: clamp(380px, 30vw, 440px); min-height: 0; flex-direction: column; justify-content: space-between; padding: clamp(1.75rem, 4vw, 3.25rem); border: 1px solid var(--line-dark); background: rgba(255,255,255,.025); }
-.home-review-kicker { display: flex; justify-content: space-between; gap: 1rem; color: var(--gold-pale); font-size: .7rem; letter-spacing: .17em; text-transform: uppercase; }
+.home-reviews-panel { display: flex; height: clamp(380px, 30vw, 440px); min-height: 0; flex-direction: column; justify-content: space-between; padding: clamp(1.75rem, 4vw, 3.25rem); border: 1px solid var(--line-light); background: rgba(255,255,255,.55); }
+.home-review-kicker { display: flex; justify-content: space-between; gap: 1rem; color: var(--gold-deep); font-size: .7rem; letter-spacing: .17em; text-transform: uppercase; }
 .home-review-stars { letter-spacing: .22em; }
 .home-review-stage { display: grid; align-items: center; min-height: 0; padding-block: 1.4rem; }
 .home-quote {
   animation: home-review-in .45s ease both;
 }
 .home-quote blockquote {
-  color: var(--ivory);
+  color: var(--ink);
   font-family: var(--serif);
   font-size: clamp(1.35rem, 2vw, 1.8rem);
   line-height: 1.48;
@@ -3551,7 +3554,7 @@ header.site .minimal-nav .btn,
   align-items: center;
   gap: 0.75rem;
   margin-top: 0.9rem;
-  color: var(--gold-pale);
+  color: var(--gold-deep);
   font-size: 0.72rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -3564,8 +3567,8 @@ header.site .minimal-nav .btn,
   width: 2.2rem;
   height: 2.2rem;
   border-radius: 50%;
-  border: 1px solid var(--gold);
-  color: var(--gold);
+  border: 1px solid var(--gold-deep);
+  color: var(--gold-deep);
   font-family: var(--serif);
   font-size: 1rem;
   letter-spacing: 0;
@@ -3574,15 +3577,22 @@ header.site .minimal-nav .btn,
 .home-review-controls { display: grid; grid-template-columns: 44px 1fr 44px; gap: .9rem; align-items: center; margin-bottom: 1rem; }
 .home-review-controls .quote-nav { display: grid; grid-template-columns: repeat(4, 1fr); gap: .7rem; margin: 0; }
 .home-review-tab { width: 100%; min-height: 44px; height: 44px; padding: 21px 0; border: 0; }
-.home-review-tab::after { display: block; width: 100%; height: 1px; background: var(--line-dark); transition: height .2s ease, background .2s ease; }
-.home-review-tab.on::after { height: 2px; background: var(--gold-pale); }
-.home-review-arrow { width: 44px; min-height: 44px; border: 0; background: transparent; color: var(--gold-pale); cursor: pointer; font-size: 1rem; transition: transform .2s ease; }
+.home-review-tab::after { display: block; width: 100%; height: 1px; background: var(--line-light); transition: height .2s ease, background .2s ease; }
+.home-review-tab.on::after { height: 2px; background: var(--gold-deep); }
+.home-review-arrow { width: 44px; min-height: 44px; border: 0; background: transparent; color: var(--gold-deep); cursor: pointer; font-size: 1rem; transition: transform .2s ease; }
 .home-review-arrow:hover { transform: translateX(-2px); }
 .home-review-arrow[data-review-next]:hover { transform: translateX(2px); }
-.home-reviews-panel > .home-text-link { align-self: flex-start; margin-top: .25rem; color: var(--gold-pale); }
+.home-reviews-panel > .home-text-link { align-self: flex-start; margin-top: .25rem; }
 @keyframes home-review-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-.home-care { padding-top: clamp(4rem, 8vh, 6.5rem); }
+.home-care { padding-top: clamp(4rem, 8vh, 6.5rem); color: var(--ivory); }
+.home-care .home-section-head p:last-child { color: var(--mist); }
+.home-care .ask-row { border-top-color: var(--line-dark); }
+.home-care .ask-row-label { color: rgba(247, 244, 238, .62); }
+.home-care .ask-chip { border-color: var(--line-dark); background: rgba(255, 255, 255, .04); color: var(--ivory); }
+.home-care .ask-chip::after { color: var(--gold-pale); }
+.home-care .ask-chip:hover,
+.home-care .ask-chip:focus-visible { border-color: var(--gold); background: rgba(198, 161, 91, .14); }
 .home-section-head p:last-child { max-width: 58ch; margin-inline: auto; }
 .home-intent-grid {
   display: grid;
@@ -3805,7 +3815,7 @@ header.site .minimal-nav .btn,
     aspect-ratio: 1.8 / 1;
     justify-self: center;
     margin: 0 auto 3rem;
-    background-position: 62% 38%;
+    background-position: center bottom;
   }
 }
 
@@ -3893,7 +3903,7 @@ header.site .minimal-nav .btn,
   .home-philosophy-copy { display: block; width: var(--wrap-w); max-width: 680px; margin-inline: auto; padding: 4.5rem 0 2.5rem; }
   .home-philosophy h2 { max-width: 14ch; margin-bottom: 1.5rem; }
   .home-philosophy-detail { padding-top: 0; }
-  .home-smile-portrait { max-width: 680px; aspect-ratio: 1.6 / 1; margin-bottom: 2.5rem; background-position: 62% 36%; }
+  .home-smile-portrait { max-width: 680px; aspect-ratio: 1.6 / 1; margin-bottom: 2.5rem; background-position: center bottom; }
   .home-reassurance-layout { grid-template-columns: 1fr; }
   .home-doctor-feature { height: 380px; }
   .home-doctor-feature img { object-position: 50% 0; }
@@ -3923,7 +3933,7 @@ header.site .minimal-nav .btn,
   .home-proof a > span { font-size: .66rem; letter-spacing: .1em; }
   .home-philosophy-copy { width: var(--wrap-w); padding-top: 3rem; }
   .home-philosophy h2 { font-size: clamp(2.05rem, 10vw, 3rem); }
-  .home-smile-portrait { aspect-ratio: 1.35 / 1; margin-bottom: 2rem; background-position: 62% 36%; }
+  .home-smile-portrait { aspect-ratio: 1.5 / 1; margin-bottom: 2rem; background-position: center bottom; }
   .home-reassurance { padding-block: 3rem; }
   .home-featured-ba { aspect-ratio: 1.45 / 1; }
   .home-doctor-feature { height: 320px; }

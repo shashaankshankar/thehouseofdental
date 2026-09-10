@@ -947,8 +947,8 @@ test("homepage follows the approved needs-led conversion journey", async () => {
   assert.match(careCards[0], /href="\/facial-aesthetics"/);
   assert.match(html, /assets\/blog\/same-day-crowns-vs-traditional-crowns-card\.jpg/);
   assert.match(html, /assets\/blog\/sedation-dentistry-types-safety-card\.jpg/);
-  assert.match(html, /class="home-next rv" href="#results"/);
-  assert.match(html, /class="home-next home-next-on-dark rv" href="#offers"/);
+  assert.match(html, /class="home-next home-next-on-dark rv" href="#results"/);
+  assert.match(html, /class="home-next rv" href="#offers"/);
   assert.match(html, /class="home-next home-next-on-dark rv" href="#technology"/);
   assert.doesNotMatch(html, /Fewer visits, more precise planning, and a more comfortable experience\./);
   assert.equal((html.match(/class="home-tech-card tech-card/g) || []).length, 8);

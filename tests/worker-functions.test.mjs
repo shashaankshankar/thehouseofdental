@@ -52,6 +52,111 @@ test("unknown API paths return JSON 404 and endpoint methods return 405 with All
   const webhookMethod = await worker.fetch(requestFor("/api/resend-webhook"), env, context());
   assert.equal(webhookMethod.status, 405);
   assert.equal(webhookMethod.headers.get("allow"), "POST");
+
+  const metricsMethod = await worker.fetch(requestFor("/api/inquiry-metrics", { method: "POST" }), env, context());
+  assert.equal(metricsMethod.status, 405);
+  assert.equal(metricsMethod.headers.get("allow"), "GET");
+});
+
+test("inquiry metrics endpoint requires configuration, a bearer token, and a provisioned delivery log", async () => {
+  const token = "metrics-token-for-tests";
+  const authorized = { Authorization: `Bearer ${token}` };
+  const path = "/api/inquiry-metrics?start=2026-08-12&end=2026-09-08&timezone=America%2FNew_York";
+
+  const unconfigured = await worker.fetch(requestFor(path, { headers: authorized }), { ASSETS: assets() }, context());
+  assert.equal(unconfigured.status, 503);
+
+  const env = { ASSETS: assets(), INQUIRY_METRICS_TOKEN: token };
+  const missingAuth = await worker.fetch(requestFor(path), env, context());
+  assert.equal(missingAuth.status, 401);
+  const wrongToken = await worker.fetch(requestFor(path, { headers: { Authorization: "Bearer nope" } }), env, context());
+  assert.equal(wrongToken.status, 401);
+
+  const noDatabase = await worker.fetch(requestFor(path, { headers: authorized }), env, context());
+  assert.equal(noDatabase.status, 503);
+  assert.deepEqual(await json(noDatabase), { error: "Delivery log is not provisioned." });
+
+  const database = { prepare() { return { bind() { return { async all() { return { results: [] }; } }; } }; } };
+  const withDatabase = { ...env, DELIVERY_DB: database };
+  for (const bad of [
+    "/api/inquiry-metrics",
+    "/api/inquiry-metrics?start=2026-08-12",
+    "/api/inquiry-metrics?start=2026-09-08&end=2026-08-12",
+    "/api/inquiry-metrics?start=2026-02-30&end=2026-03-01",
+    "/api/inquiry-metrics?start=2026-08-12&end=2026-09-08&timezone=Mars%2FOlympus",
+    "/api/inquiry-metrics?start=2020-01-01&end=2026-09-08"
+  ]) {
+    const response = await worker.fetch(requestFor(bad, { headers: authorized }), withDatabase, context());
+    assert.equal(response.status, 400, bad);
+  }
+
+  const otherClient = await worker.fetch(requestFor(`${path}&client_id=someone-else`, { headers: authorized }), withDatabase, context());
+  assert.equal(otherClient.status, 403);
+});
+
+test("inquiry metrics endpoint aggregates the delivery log by local-day window without personal data", async () => {
+  const token = "metrics-token-for-tests";
+  const calls = [];
+  const database = {
+    prepare(sql) {
+      return {
+        bind(...args) {
+          calls.push({ sql: sql.replace(/\s+/g, " ").trim(), args });
+          return {
+            async all() {
+              return { results: [
+                { provider_status: "accepted", has_message_id: 1, total: 2 },
+                { provider_status: "email.sent", has_message_id: 1, total: 1 },
+                { provider_status: "email.delivered", has_message_id: 1, total: 7 },
+                { provider_status: "email.complained", has_message_id: 1, total: 1 },
+                { provider_status: "email.bounced", has_message_id: 1, total: 1 },
+                { provider_status: "rejected", has_message_id: 0, total: 1 },
+                { provider_status: "timeout", has_message_id: 0, total: 1 }
+              ] };
+            }
+          };
+        }
+      };
+    }
+  };
+  const env = { ASSETS: assets(), INQUIRY_METRICS_TOKEN: token, DELIVERY_DB: database };
+  const response = await worker.fetch(requestFor(
+    "/api/inquiry-metrics?start=2026-08-12&end=2026-09-08&timezone=America%2FNew_York&client_id=thehouseofdental",
+    { headers: { Authorization: `Bearer ${token}` } }
+  ), env, context());
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get("cache-control"), "no-store");
+
+  assert.equal(calls.length, 1);
+  assert.match(calls[0].sql, /FROM delivery_correlations WHERE client_id = \? AND created_at >= \? AND created_at < \?/);
+  assert.deepEqual(calls[0].args, ["thehouseofdental", "2026-08-12T04:00:00.000Z", "2026-09-09T04:00:00.000Z"]);
+
+  const body = await json(response);
+  assert.equal(body.client_id, "thehouseofdental");
+  assert.equal(body.start_date, "2026-08-12");
+  assert.equal(body.end_date, "2026-09-08");
+  assert.equal(body.timezone, "America/New_York");
+  assert.equal(body.status, "available");
+  assert.equal(body.current_inquiries, 14);
+  assert.deepEqual(body.inquiry_events, {
+    handed_to_email_provider: 12,
+    delivered_to_office: 8,
+    awaiting_delivery_confirmation: 3,
+    not_delivered: 1,
+    failed_before_send: 2
+  });
+  assert.doesNotMatch(JSON.stringify(body), /request_id|resend_message_id|submission_hash|@/);
+
+  const emptyDatabase = { prepare() { return { bind() { return { async all() { return { results: [] }; } }; } }; } };
+  const empty = await worker.fetch(requestFor(
+    "/api/inquiry-metrics?start=2026-01-01&end=2026-01-31",
+    { headers: { Authorization: `Bearer ${token}` } }
+  ), { ...env, DELIVERY_DB: emptyDatabase }, context());
+  const emptyBody = await json(empty);
+  assert.equal(empty.status, 200);
+  assert.equal(emptyBody.status, "empty");
+  assert.equal(emptyBody.timezone, "UTC");
+  assert.equal(emptyBody.current_inquiries, 0);
 });
 
 test("clean page routes resolve through the Static Assets binding", async () => {

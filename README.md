@@ -99,6 +99,8 @@ Optional preference fields are validated against those allowlists and rendered a
 
 A successful adapter response means Resend accepted the message for notification; it is not a booked appointment or confirmed lead. An optional `DELIVERY_DB` binding and `migrations/0001_delivery_correlation.sql` provide privacy-safe technical delivery correlation and idempotent webhook receipt when the client provisions them. The Worker remains safe and functional without that binding; see `docs/CLOUDFLARE-HANDOFF.md` for the exact manual setup.
 
+When `DELIVERY_DB` and the `INQUIRY_METRICS_TOKEN` secret are both configured, `GET /api/inquiry-metrics` returns bearer-token-protected aggregate counts from that log for the agency's Email Reports service. It returns counts only and never personal data.
+
 ## Clean routes and redirects
 
 The `path` field in `src/data/site.json` defines core clean routes. Blog article routes come from the slugs in `src/data/blog.json`. Together these sources drive canonical URLs, social metadata, sitemap entries, measurement eligibility, and generated legacy redirects.

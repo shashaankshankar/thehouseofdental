@@ -121,6 +121,20 @@ npx wrangler deploy
 
 Record the D1 binding, migration result, deployment version, webhook acceptance, and delivery evidence as separate production evidence. D1 provisioning and migration are not required for the Worker to serve the website.
 
+### Inquiry metrics endpoint for agency reporting
+
+`GET /api/inquiry-metrics?start=YYYY-MM-DD&end=YYYY-MM-DD&timezone=<IANA zone>` returns aggregate counts from the delivery log for the Email Reports service: appointment requests received, handed to the email provider, delivered to the office inbox, awaiting delivery confirmation, not delivered, and failed before sending. It returns counts only, never names, contact details, messages, or provider message IDs. Dates are interpreted as calendar days in the supplied time zone.
+
+Requirements:
+
+- The encrypted Worker secret `INQUIRY_METRICS_TOKEN` must be set. Generate a long random value, store it as the Worker secret, and store the same value in the reporting platform's Secret Manager as `thehouseofdental-inquiry-metrics-token`. Never reuse the Resend key or any other provider credential as this token.
+- The request must carry `Authorization: Bearer <token>`. A missing or wrong token returns `401`; a missing secret returns `503`.
+- The `DELIVERY_DB` binding must be provisioned and migrated as described above. Without it the endpoint returns `503` and the reporting service shows inquiry metrics as unavailable. Counts begin from the date the binding goes live; earlier requests were never logged.
+
+```bash
+npx wrangler secret put INQUIRY_METRICS_TOKEN --config ./wrangler.jsonc
+```
+
 ## 6. Google review/reputation setup
 
 The website can load the practice rating and review count through the server-side endpoint `/api/google-reputation`. The browser never receives the Google Places API key.

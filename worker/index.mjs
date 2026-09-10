@@ -561,11 +561,175 @@ const handleReputation = async (request, env, ctx) => {
   }
 };
 
+// ---------------------------------------------------------------------------
+// Inquiry metrics: read-only aggregate counts for the agency reporting service.
+// Returns only counts derived from the technical delivery log. It never returns
+// names, phone numbers, email addresses, messages, or provider message IDs.
+// ---------------------------------------------------------------------------
+
+const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+const MAX_METRICS_WINDOW_DAYS = 400;
+const FAILED_BEFORE_SEND_STATUSES = new Set(["rejected", "invalid_acceptance", "timeout", "transport_failure"]);
+const NOT_DELIVERED_STATUSES = new Set(["email.bounced", "email.failed", "email.suppressed"]);
+const DELIVERED_STATUSES = new Set(["email.delivered", "email.complained"]);
+
+const constantTimeEqual = async (left, right) => {
+  const encoder = new TextEncoder();
+  const [leftDigest, rightDigest] = await Promise.all([
+    crypto.subtle.digest("SHA-256", encoder.encode(left)),
+    crypto.subtle.digest("SHA-256", encoder.encode(right))
+  ]);
+  const leftBytes = new Uint8Array(leftDigest);
+  const rightBytes = new Uint8Array(rightDigest);
+  let difference = left.length === right.length ? 0 : 1;
+  for (let index = 0; index < leftBytes.length; index += 1) difference |= leftBytes[index] ^ rightBytes[index];
+  return difference === 0;
+};
+
+const validTimeZone = (value) => {
+  if (typeof value !== "string" || !value.trim() || value.length > 64) return "";
+  try {
+    new Intl.DateTimeFormat("en-US", { timeZone: value });
+    return value;
+  } catch {
+    return "";
+  }
+};
+
+const timeZoneOffsetMs = (utcMs, timeZone) => {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    hourCycle: "h23",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  }).formatToParts(new Date(utcMs));
+  const value = (type) => Number(parts.find((part) => part.type === type)?.value);
+  const asUtc = Date.UTC(value("year"), value("month") - 1, value("day"), value("hour"), value("minute"), value("second"));
+  return asUtc - utcMs;
+};
+
+// Start of the given calendar day in the given time zone, as a UTC instant.
+const zonedDayStartUtc = (isoDate, timeZone) => {
+  const [year, month, day] = isoDate.split("-").map(Number);
+  const guess = Date.UTC(year, month - 1, day, 0, 0, 0);
+  let instant = guess - timeZoneOffsetMs(guess, timeZone);
+  instant = guess - timeZoneOffsetMs(instant, timeZone);
+  return instant;
+};
+
+const validIsoDate = (value) => {
+  if (typeof value !== "string" || !ISO_DATE_PATTERN.test(value)) return "";
+  const [year, month, day] = value.split("-").map(Number);
+  const parsed = new Date(Date.UTC(year, month - 1, day));
+  if (parsed.getUTCFullYear() !== year || parsed.getUTCMonth() !== month - 1 || parsed.getUTCDate() !== day) return "";
+  return value;
+};
+
+const handleInquiryMetrics = async (request, env) => {
+  if (request.method !== "GET") return jsonResponse(405, { error: "Method not allowed." }, { allow: "GET" });
+
+  const expectedToken = String(env.INQUIRY_METRICS_TOKEN || "").trim();
+  if (!expectedToken) return jsonResponse(503, { error: "Inquiry metrics are not configured." });
+  const authorization = request.headers.get("authorization") || "";
+  const presentedToken = authorization.startsWith("Bearer ") ? authorization.slice(7).trim() : "";
+  if (!presentedToken || !await constantTimeEqual(presentedToken, expectedToken)) {
+    return jsonResponse(401, { error: "Unauthorized." });
+  }
+
+  const url = new URL(request.url);
+  const clientId = (env && env.CLIENT_ID) || "thehouseofdental";
+  const requestedClient = textValue(url.searchParams.get("client_id"));
+  if (requestedClient && requestedClient.toLowerCase() !== clientId) {
+    return jsonResponse(403, { error: "Inquiry metrics are scoped to another client." });
+  }
+  const startDate = validIsoDate(url.searchParams.get("start"));
+  const endDate = validIsoDate(url.searchParams.get("end"));
+  const timeZone = validTimeZone(url.searchParams.get("timezone") || "UTC");
+  if (!startDate || !endDate || !timeZone || startDate > endDate) {
+    return jsonResponse(400, { error: "Provide start and end as YYYY-MM-DD dates and a valid IANA timezone." });
+  }
+
+  const database = deliveryDatabase(env);
+  if (!database) return jsonResponse(503, { error: "Delivery log is not provisioned." });
+
+  const windowStart = zonedDayStartUtc(startDate, timeZone);
+  const [endYear, endMonth, endDay] = endDate.split("-").map(Number);
+  const dayAfterEnd = new Date(Date.UTC(endYear, endMonth - 1, endDay + 1)).toISOString().slice(0, 10);
+  const windowEnd = zonedDayStartUtc(dayAfterEnd, timeZone);
+  if ((windowEnd - windowStart) / 86400000 > MAX_METRICS_WINDOW_DAYS) {
+    return jsonResponse(400, { error: "The requested window is too large." });
+  }
+
+  let rows;
+  try {
+    const result = await database.prepare(`
+      SELECT provider_status,
+             CASE WHEN resend_message_id IS NULL THEN 0 ELSE 1 END AS has_message_id,
+             COUNT(*) AS total
+      FROM delivery_correlations
+      WHERE client_id = ? AND created_at >= ? AND created_at < ?
+      GROUP BY provider_status, has_message_id
+    `).bind(clientId, new Date(windowStart).toISOString(), new Date(windowEnd).toISOString()).all();
+    rows = Array.isArray(result?.results) ? result.results : [];
+  } catch {
+    structuredLog("warn", { event: "inquiry_metrics_query_failed" });
+    return jsonResponse(502, { error: "Delivery log is unavailable." });
+  }
+
+  const counts = {
+    appointment_requests_received: 0,
+    handed_to_email_provider: 0,
+    delivered_to_office: 0,
+    not_delivered: 0,
+    awaiting_delivery_confirmation: 0,
+    failed_before_send: 0
+  };
+  for (const row of rows) {
+    const total = Number(row?.total);
+    if (!Number.isInteger(total) || total < 0) continue;
+    const status = String(row?.provider_status || "");
+    const accepted = Number(row?.has_message_id) === 1;
+    counts.appointment_requests_received += total;
+    if (!accepted || FAILED_BEFORE_SEND_STATUSES.has(status)) {
+      counts.failed_before_send += total;
+      continue;
+    }
+    counts.handed_to_email_provider += total;
+    if (DELIVERED_STATUSES.has(status)) counts.delivered_to_office += total;
+    else if (NOT_DELIVERED_STATUSES.has(status)) counts.not_delivered += total;
+    else counts.awaiting_delivery_confirmation += total;
+  }
+
+  return jsonResponse(200, {
+    client_id: clientId,
+    start_date: startDate,
+    end_date: endDate,
+    timezone: timeZone,
+    status: counts.appointment_requests_received > 0 ? "available" : "empty",
+    source: "worker_inquiry_metrics",
+    current_inquiries: counts.appointment_requests_received,
+    inquiry_events: {
+      handed_to_email_provider: counts.handed_to_email_provider,
+      delivered_to_office: counts.delivered_to_office,
+      awaiting_delivery_confirmation: counts.awaiting_delivery_confirmation,
+      not_delivered: counts.not_delivered,
+      failed_before_send: counts.failed_before_send
+    },
+    delivery_metrics: counts,
+    note: "Counts describe website appointment-request notifications, not booked appointments."
+  });
+};
+
 const handleApi = (request, env, ctx) => {
   const path = new URL(request.url).pathname;
   if (path === "/api/google-reputation") return handleReputation(request, env, ctx);
   if (path === "/api/contact") return handleContact(request, env, ctx);
   if (path === "/api/resend-webhook") return handleResendWebhook(request, env);
+  if (path === "/api/inquiry-metrics") return handleInquiryMetrics(request, env);
   return Promise.resolve(jsonResponse(404, { error: "Not found." }));
 };
 

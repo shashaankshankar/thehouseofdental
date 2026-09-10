@@ -86,12 +86,12 @@ for (const [from, to] of Object.entries(site.redirects || {})) {
 }
 if ((await read("dist/_redirects")).includes("/* /404.html 404")) errors.push("dist/_redirects: unsupported wildcard 404 redirect remains");
 
-const requiredEnvKeys = ["GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "RESEND_API_KEY", "RESEND_WEBHOOK_SECRET", "CONTACT_FROM_EMAIL", "CONTACT_RECIPIENT_EMAIL", "CONTACT_ALLOWED_ORIGINS"];
+const requiredEnvKeys = ["GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "RESEND_API_KEY", "RESEND_WEBHOOK_SECRET", "CONTACT_FROM_EMAIL", "CONTACT_RECIPIENT_EMAIL", "CONTACT_ALLOWED_ORIGINS", "INQUIRY_METRICS_TOKEN"];
 const devVarsExample = await read(".dev.vars.example");
 for (const key of requiredEnvKeys) if (!new RegExp(`^${key}=\\s*$`, "m").test(devVarsExample)) errors.push(`.dev.vars.example: missing empty ${key} entry`);
 
 const worker = await read("worker/index.mjs");
-for (const marker of ["/api/google-reputation", "/api/contact", "/api/resend-webhook", "env.ASSETS.fetch", "GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "RESEND_API_KEY", "RESEND_WEBHOOK_SECRET", "CONTACT_FROM_EMAIL", "CONTACT_RECIPIENT_EMAIL", "CONTACT_ALLOWED_ORIGINS", "Idempotency-Key", "DELIVERY_DB", "delivery_webhook_events"]) {
+for (const marker of ["/api/google-reputation", "/api/contact", "/api/resend-webhook", "env.ASSETS.fetch", "GOOGLE_PLACE_ID", "GOOGLE_PLACES_API_KEY", "RESEND_API_KEY", "RESEND_WEBHOOK_SECRET", "CONTACT_FROM_EMAIL", "CONTACT_RECIPIENT_EMAIL", "CONTACT_ALLOWED_ORIGINS", "Idempotency-Key", "DELIVERY_DB", "delivery_webhook_events", "/api/inquiry-metrics", "INQUIRY_METRICS_TOKEN"]) {
   if (!worker.includes(marker)) errors.push(`worker/index.mjs: missing ${marker}`);
 }
 const structuredLogCalls = worker.match(/structuredLog\([\s\S]*?\n\s*\}\);/g) || [];

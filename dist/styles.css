@@ -21,6 +21,7 @@
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --content-wide: 1200px;
   --content-narrow: 820px;
+  --wrap-w: min(var(--content-wide), 90vw); /* one shared page width: header, sections and footer align to it */
   --space-section: clamp(3.5rem, 7vh, 5.5rem); /* Polish 04: same sections, tighter vertical budget */
   --space-mobile: clamp(3.5rem, 8vh, 6rem);
 }
@@ -92,8 +93,8 @@ h1, h2, h3, .display {
 .serif-i { font-style: italic; font-family: "Cormorant Garamond", var(--serif); }
 
 /* ---------- Layout primitives ---------- */
-.wrap { width: min(var(--content-wide), 90vw); margin-inline: auto; }
-.wrap-narrow { width: min(var(--content-narrow), 90vw); margin-inline: auto; }
+.wrap { width: var(--wrap-w); margin-inline: auto; }
+.wrap-narrow { width: min(var(--content-narrow), var(--wrap-w)); margin-inline: auto; }
 
 section { position: relative; z-index: 2; }
 
@@ -222,18 +223,10 @@ header.site {
 }
 header.site .nav,
 header.site .emergency-utility .wrap {
-  width: calc(100% - 4rem);
+  width: var(--wrap-w);
   max-width: none;
-  padding-left: max(0px, calc((100vw - min(var(--content-wide), 90vw)) / 2 - 2rem));
-}
-@media (min-width: 1800px) {
-  header.site .nav,
-  header.site .emergency-utility .wrap {
-    width: min(1600px, calc(100vw - 4rem));
-    max-width: 1600px;
-    margin-inline: auto;
-    padding-left: 0;
-  }
+  margin-inline: auto;
+  padding-left: 0;
 }
 .nav .brand { flex: none; }
 .menu > li { white-space: nowrap; }
@@ -553,9 +546,19 @@ footer.site .logo-img { height: 80px; }
   z-index: -2;
   background-size: cover;
   background-position: center bottom;
-  /* Polish 03: the photo reads as daylight; the copy-side gradient carries legibility. */
-  filter: sepia(0.08) brightness(0.98) contrast(1.02) saturate(1.06);
+  /* The photo reads as bright daylight; the copy-side gradient carries legibility. */
+  filter: sepia(0.06) brightness(1.06) contrast(1.02) saturate(1.06);
   will-change: transform;
+}
+/* Responsive hero photo: the browser picks the sharpest size for the viewport and pixel density. */
+.hero-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  display: block;
 }
 .hero::after {
   content: "";
@@ -563,7 +566,7 @@ footer.site .logo-img { height: 80px; }
   inset: 52% 0 0;
   z-index: -1;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(10, 10, 11, 0.28), rgba(10, 10, 11, 0.05) 66%, transparent);
+  background: linear-gradient(to top, rgba(10, 10, 11, 0.16), rgba(10, 10, 11, 0.03) 66%, transparent);
 }
 .hero-inner {
   position: absolute;
@@ -610,6 +613,8 @@ footer.site .logo-img { height: 80px; }
   text-shadow: 0 1px 5px rgba(10, 10, 11, 0.55);
 }
 .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+/* The outline button keeps its contrast where the photo is bright behind it. */
+.hero-cta .btn:not(.btn-solid) { background: rgba(10, 10, 11, 0.32); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
 .hero-cta.rv { opacity: 1; transform: none; transition: none; }
 
 .hero-strip {
@@ -1861,12 +1866,7 @@ body.modal-open { overflow: hidden; }
 
 /* ---- Large tablet & small laptop: 1024px and below ---- */
 @media (max-width: 1024px) {
-  header.site .nav,
-  header.site .emergency-utility .wrap {
-    width: 92vw;
-    padding-left: 0;
-  }
-  .wrap, .wrap-narrow { width: min(1200px, 92vw); }
+  :root { --wrap-w: min(var(--content-wide), 92vw); }
   .logo-img { height: 54px; }
   .tech-grid { grid-template-columns: repeat(2, 1fr); }
   #facial-aesthetics .tech-grid.dark { grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
@@ -1919,10 +1919,8 @@ body.modal-open { overflow: hidden; }
     inset: auto;
     z-index: 0;
     width: 100%;
-    aspect-ratio: 4 / 3;
-    max-height: 480px;
-    min-height: 270px;
-    background-position: center 48%;
+    aspect-ratio: 16 / 9;
+    background-position: center top;
     background-size: cover;
     background-repeat: no-repeat;
     transform: none !important;
@@ -1951,7 +1949,7 @@ body.modal-open { overflow: hidden; }
   .hero-bg {
     aspect-ratio: auto;
     height: clamp(260px, 56vh, 420px);
-    background-position: center 50%;
+    background-position: center 56%;
   }
 }
 
@@ -1968,8 +1966,7 @@ body.modal-open { overflow: hidden; }
 
 /* ---- Phone portrait: 560px and below ---- */
 @media (max-width: 560px) {
-  header.site .nav { width: 90vw; }
-  .wrap, .wrap-narrow { width: 90vw; }
+  :root { --wrap-w: 90vw; }
   header.site.minimal-header .nav {
     flex-wrap: wrap;
     gap: 0.75rem 1rem;
@@ -3019,12 +3016,20 @@ header.site .minimal-nav .btn,
 }
 .contact-details a:hover span,
 .contact-details a:focus-visible span { color: var(--gold-pale); }
+.contact-map {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin-top: 1.6rem;
+  border: 1px solid var(--line-dark);
+  overflow: hidden;
+  background: var(--noir);
+}
+.contact-map iframe { display: block; width: 100%; height: 100%; border: 0; }
 .contact-photo {
   width: 100%;
   height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  object-position: center 48%;
   margin-top: 1.6rem;
   border: 1px solid var(--line-dark);
 }
@@ -3324,12 +3329,12 @@ header.site .minimal-nav .btn,
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(90deg, rgba(8, 8, 9, 0.88) 0%, rgba(8, 8, 9, 0.72) 35%, rgba(8, 8, 9, 0.38) 60%, rgba(8, 8, 9, 0.1) 80%, transparent 92%);
+  background: linear-gradient(90deg, rgba(22,15,6,.42) 0%, rgba(22,15,6,.24) 34%, rgba(22,15,6,.06) 60%, transparent 76%);
   pointer-events: none;
 }
 .hero-offer-cue {
   position: absolute;
-  right: max(5vw, calc((100vw - var(--content-wide)) / 2));
+  right: calc((100vw - var(--wrap-w)) / 2);
   bottom: calc(var(--hero-strip-h, 6.7rem) + 1.15rem);
   z-index: 2;
   display: inline-flex;
@@ -3368,23 +3373,6 @@ header.site .minimal-nav .btn,
 .hero-offer-cue:hover b, .hero-offer-cue:focus-visible b { border-color: rgba(225, 197, 139, .9); background: rgba(198, 161, 91, .1); }
 .hero-offer-cue:hover b, .hero-offer-cue:focus-visible b { transform: translateX(.25rem); }
 .hero-offer-cue--responsive { display: none; }
-
-/* Polish 03: the 4.9-star line sits beside the CTAs so trust lands before the first scroll. */
-.hero-proof-inline {
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.6rem;
-  margin-top: 1.1rem;
-  color: rgba(247, 244, 238, 0.88);
-  font-size: 0.92rem;
-  text-shadow: 0 1px 5px rgba(10, 10, 11, 0.55);
-}
-.hero-proof-inline .stars { color: var(--gold); font-size: 0.82rem; letter-spacing: 0.14em; }
-.hero-proof-inline b { font-weight: 500; color: var(--ivory); }
-.hero-proof-inline a { color: var(--gold-pale); border-bottom: 1px solid rgba(230, 211, 171, 0.4); }
-.hero-proof-inline a:hover,
-.hero-proof-inline a:focus-visible { color: var(--gold); border-color: var(--gold); }
 
 .home-proof {
   margin-bottom: 0;
@@ -3444,15 +3432,16 @@ header.site .minimal-nav .btn,
 
 @media (min-width: 901px) and (min-height: 621px) {
   .home-hero {
-    min-height: max(720px, calc(100svh - var(--head-h, 120px)));
+    min-height: clamp(700px, calc(88svh - var(--head-h, 120px)), 820px);
   }
   .home-hero .hero-bg { background-position: center 45%; }
+  .home-hero .hero-bg-img { object-position: center 45%; }
   /* Copy anchors to the bottom of its box so the offer cue always clears the proof strip. */
   .home-hero .hero-inner {
     display: grid;
     inset: 20% 0 calc(var(--hero-strip-h, 6.7rem) + 1rem);
     grid-template-columns: minmax(0, 720px) minmax(20rem, 1fr);
-    grid-template-rows: repeat(5, auto);
+    grid-template-rows: repeat(4, auto);
     column-gap: clamp(2rem, 4vw, 5rem);
     align-content: end;
     align-items: start;
@@ -3462,44 +3451,37 @@ header.site .minimal-nav .btn,
   .home-hero .hero-copy > h1 { grid-column: 1; grid-row: 2; }
   .home-hero .hero-copy > .lede { grid-column: 1; grid-row: 3; margin-bottom: 1.2rem; }
   .home-hero .hero-copy > .hero-cta { grid-column: 1; grid-row: 4; }
-  .home-hero .hero-copy > .hero-proof-inline { grid-column: 1; grid-row: 5; margin-top: 0.8rem; }
   .home-hero .hero-offer-cue {
     position: static;
     grid-column: 2;
-    grid-row: 4 / 6;
+    grid-row: 4;
     align-self: center;
     justify-self: end;
     margin-top: 0;
   }
 }
 
-@media (min-width: 1800px) and (min-height: 900px) {
-  .home-hero .hero-bg {
-    background-position: center 48%;
-  }
-}
-
 .home-philosophy {
-  min-height: clamp(420px, 34vw, 540px);
+  min-height: clamp(380px, 28vw, 460px);
   overflow: hidden;
 }
 .home-philosophy-grid {
   position: relative;
   display: grid;
   min-height: inherit;
-  grid-template-columns: minmax(0, 0.84fr) minmax(0, 1.16fr);
-  column-gap: clamp(2rem, 3vw, 3rem);
-  align-items: stretch;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  column-gap: clamp(2.5rem, 5vw, 6rem);
+  align-items: center;
 }
 .home-philosophy-copy {
   position: relative;
   z-index: 2;
   display: flex;
   width: 100%;
-  max-width: 400px;
+  max-width: 460px;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(2.5rem, 3vw, 3.5rem) clamp(0rem, 2.5vw, 2.5rem) clamp(2.5rem, 3vw, 3.5rem) 0;
+  padding: clamp(2.5rem, 3vw, 3.5rem) 0;
 }
 .home-philosophy-lead,
 .home-philosophy-detail { display: contents; }
@@ -3517,17 +3499,21 @@ header.site .minimal-nav .btn,
 .home-philosophy-copy p:not(.eyebrow) { max-width: 49ch; }
 .home-philosophy-copy p + p { margin-top: 1rem; }
 .home-philosophy-copy .home-text-link { margin-top: 1.15rem; }
+/* The portrait sits inside the content frame at a modest size rather than bleeding to the viewport edge. */
 .home-smile-portrait {
-  position: absolute;
-  inset: 0 calc((100% - 100vw) / 2) 0 auto;
-  width: auto;
-  height: 100%;
-  aspect-ratio: 1.5 / 1;
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 1.4 / 1;
+  justify-self: end;
+  align-self: center;
+  margin-block: clamp(2.5rem, 3vw, 3.5rem);
   background-color: var(--ivory);
-  background-image: image-set(url("/assets/optimized/hero-smile-d1c248d3e0d2-960.webp") 1x, url("/assets/optimized/hero-smile-d1c248d3e0d2-1536.webp") 2x);
-  background-position: right center;
+  background-image: image-set(url("/assets/optimized/hero-smile-d1c248d3e0d2-960.webp") 1x, url("/assets/optimized/hero-smile-d1c248d3e0d2-1440.webp") 2x);
+  background-position: 68% 42%;
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
+  border: 1px solid var(--line-light);
 }
 
 .home-reassurance { border-top: 1px solid var(--line-dark); color: var(--ivory); }
@@ -3729,20 +3715,22 @@ header.site .minimal-nav .btn,
 .home-tech-card:focus-visible img { transform: scale(1.035); filter: grayscale(0) saturate(.95); }
 .home-tech-card > span { z-index: 2; color: var(--ivory); }
 .home-results-later { border-top: 1px solid var(--line-dark); color: var(--ivory); }
-.home-results-later-grid { display: grid; grid-template-columns: .72fr 1.28fr; gap: clamp(3rem, 8vw, 8rem); align-items: center; max-width: 1240px; }
-.home-results-later .home-result-intro { grid-area: auto; }
-.home-results-later h2 { max-width: 12ch; font-size: clamp(2.2rem, 4vw, 3.8rem); }
-.home-results-later .home-result-intro > p:not(.eyebrow):not(.home-compare-note) { color: var(--mist); }
+.home-results-head { margin-bottom: clamp(2rem, 4vw, 3rem); }
+.home-results-head h2 { max-width: none; font-size: clamp(2.2rem, 4vw, 3.8rem); }
+.home-results-head > p:not(.eyebrow):not(.home-compare-note) { color: var(--mist); }
 .home-compare-note { margin-top: 1rem; color: var(--gold-pale); font-size: .76rem !important; letter-spacing: .13em; text-transform: uppercase; }
+.home-results-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.6rem); }
+.home-result-prompt-wrap { display: flex; justify-content: center; margin-top: clamp(2rem, 4vw, 3rem); text-align: center; }
+.home-result-prompt-wrap .home-result-prompt { max-width: 56ch; }
+.home-result-prompt-wrap .context-actions { justify-content: center; }
 .home-offers { border-top: 1px solid var(--line-dark); }
 .home-offers-heading { margin-bottom: 2.5rem; }
 .home-offers-heading p:last-child { color: var(--mist); }
 .home-offers-grid {
   display: grid;
-  max-width: 1180px;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.16fr) minmax(0, 1fr);
   gap: 1rem;
-  margin-inline: auto;
+  align-items: stretch;
 }
 /* Polish 04: the offer card takes its height from its content, so Visit arrives one screen sooner. */
 .home-offer-card {
@@ -3751,8 +3739,8 @@ header.site .minimal-nav .btn,
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: clamp(2.5rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3.5rem);
-  border: 1px solid var(--gold);
+  padding: clamp(2.5rem, 4vw, 3.5rem) clamp(1.5rem, 3vw, 2.75rem);
+  border: 1px solid rgba(198, 161, 91, .45);
   background: rgba(255,255,255,.018);
   color: var(--ivory);
   text-align: center;
@@ -3766,6 +3754,19 @@ header.site .minimal-nav .btn,
 .home-offer-fine-print { max-width: 58ch; margin: 2rem 0 0; color: rgba(180, 176, 169, .82); font-size: .88rem !important; line-height: 1.7; }
 .home-offer-card .btn { min-width: 210px; margin-top: 1.5rem; }
 .home-implant-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: 1.5rem; }
+.home-offer-card--featured { border-color: var(--gold); background: linear-gradient(180deg, rgba(198,161,91,.1), rgba(255,255,255,.02) 55%); box-shadow: 0 30px 60px -40px rgba(198,161,91,.55); }
+.home-offer-card--side h3 { font-size: clamp(1.5rem, 2vw, 1.9rem); }
+.home-offer-card--side .home-offer-price strong { font-size: clamp(2.3rem, 3.6vw, 3.2rem); }
+.home-offer-card--side .home-offer-price span { font-size: clamp(1rem, 1.4vw, 1.2rem); }
+.home-offer-card--side .home-offer-description { font-size: .95rem; }
+.home-offer-card--side .home-offer-fine-print { margin-top: 1.25rem; font-size: .8rem !important; }
+@media (max-width: 1024px) {
+  .home-offers-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .home-offer-card--featured { order: -1; grid-column: 1 / -1; }
+}
+@media (max-width: 700px) {
+  .home-offers-grid { grid-template-columns: minmax(0, 1fr); }
+}
 
 .home-visit { background: radial-gradient(circle at 14% 50%, rgba(198,161,91,.1), transparent 38%), var(--ivory); color: var(--ink); }
 /* Polish 07: the office photo becomes the wayfinding image beside the hours. */
@@ -3774,7 +3775,7 @@ header.site .minimal-nav .btn,
 .home-visit-grid > div:first-child > p:not(.eyebrow) { max-width: 48ch; margin-top: 1.25rem; color: rgba(28, 27, 24, .72); }
 .home-visit-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
 .home-hours { padding-left: clamp(2rem, 5vw, 4rem); border-left: 1px solid var(--line-light); }
-.home-hours-photo { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: center 48%; margin-bottom: 1.4rem; border: 1px solid var(--line-light); }
+.home-hours-photo { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; margin-bottom: 1.4rem; border: 1px solid var(--line-light); }
 .home-hours h3 { font-size: 1.6rem; }
 .home-hours > p { margin: .8rem 0 1.2rem; color: rgba(28, 27, 24, .72); }
 .home-hours dl > div { display: flex; justify-content: space-between; gap: 1rem; padding: .65rem 0; border-top: 1px solid var(--line-light); }
@@ -3786,7 +3787,7 @@ header.site .minimal-nav .btn,
   .home-philosophy-grid { width: 100%; grid-template-columns: 1fr; }
   .home-philosophy-copy {
     display: grid;
-    width: 90vw;
+    width: var(--wrap-w);
     max-width: 1180px;
     grid-template-columns: minmax(0, .92fr) minmax(0, 1fr);
     gap: clamp(3rem, 7vw, 6.5rem);
@@ -3799,15 +3800,12 @@ header.site .minimal-nav .btn,
   .home-philosophy h2 { max-width: 14ch; margin-bottom: 0; }
   .home-philosophy-detail { padding-top: 1.5rem; }
   .home-smile-portrait {
-    position: relative;
-    inset: auto;
-    width: 100%;
-    height: clamp(360px, 40vw, 500px);
-    min-height: 0;
-    aspect-ratio: auto;
-    margin-left: 0;
-    background-position: 62% 36%;
-    background-size: cover;
+    width: var(--wrap-w);
+    max-width: 720px;
+    aspect-ratio: 1.8 / 1;
+    justify-self: center;
+    margin: 0 auto 3rem;
+    background-position: 62% 38%;
   }
 }
 
@@ -3892,17 +3890,18 @@ header.site .minimal-nav .btn,
   .home-proof a:nth-child(4) { border-top: 1px solid var(--line-dark); }
   .home-philosophy { min-height: 0; }
   .home-philosophy-grid { width: 100%; grid-template-columns: 1fr; }
-  .home-philosophy-copy { display: block; width: 90vw; max-width: 680px; margin-inline: auto; padding: 4.5rem 0 2.5rem; }
+  .home-philosophy-copy { display: block; width: var(--wrap-w); max-width: 680px; margin-inline: auto; padding: 4.5rem 0 2.5rem; }
   .home-philosophy h2 { max-width: 14ch; margin-bottom: 1.5rem; }
   .home-philosophy-detail { padding-top: 0; }
-  .home-smile-portrait { position: relative; inset: auto; width: 100%; height: auto; min-height: 380px; aspect-ratio: auto; margin-left: 0; background-position: 62% 34%; background-size: cover; }
+  .home-smile-portrait { max-width: 680px; aspect-ratio: 1.6 / 1; margin-bottom: 2.5rem; background-position: 62% 36%; }
   .home-reassurance-layout { grid-template-columns: 1fr; }
   .home-doctor-feature { height: 380px; }
   .home-doctor-feature img { object-position: 50% 0; }
   .home-reviews-panel { height: auto; min-height: 0; }
   .home-intent-grid { grid-template-columns: repeat(2, 1fr); }
   .home-intent-card { height: 260px; }
-  .home-results-later-grid, .home-visit-grid { grid-template-columns: 1fr; }
+  .home-visit-grid { grid-template-columns: 1fr; }
+  .home-results-grid { grid-template-columns: minmax(0, 1fr); max-width: 640px; margin-inline: auto; }
   .home-tech-heading h2 { white-space: normal; }
   .home-tech-grid { grid-template-columns: repeat(2, 1fr); }
   .home-tech-card.tech-card { min-height: 250px; }
@@ -3922,9 +3921,9 @@ header.site .minimal-nav .btn,
   .home-proof a { min-height: 78px; padding: .8rem .5rem; }
   .home-proof strong { font-size: 1.16rem; }
   .home-proof a > span { font-size: .66rem; letter-spacing: .1em; }
-  .home-philosophy-copy { width: 90vw; padding-top: 3rem; }
+  .home-philosophy-copy { width: var(--wrap-w); padding-top: 3rem; }
   .home-philosophy h2 { font-size: clamp(2.05rem, 10vw, 3rem); }
-  .home-smile-portrait { min-height: 300px; background-position: 62% 34%; }
+  .home-smile-portrait { aspect-ratio: 1.35 / 1; margin-bottom: 2rem; background-position: 62% 36%; }
   .home-reassurance { padding-block: 3rem; }
   .home-featured-ba { aspect-ratio: 1.45 / 1; }
   .home-doctor-feature { height: 320px; }
@@ -3961,9 +3960,10 @@ header.site .minimal-nav .btn,
     width: 100%;
     height: var(--home-short-hero-h);
     aspect-ratio: auto;
-    background-position: center 50%;
+    background-position: center 58%;
     background-size: cover;
   }
+  .home-hero .hero-bg-img { object-position: center 58%; }
   .home-hero .hero-inner {
     position: relative;
     inset: auto;
@@ -4011,34 +4011,6 @@ header.site .minimal-nav .btn,
   body:has(.home-hero) .mobile-actions { display: none; }
 }
 
-/* One bounded frame keeps the wide header, hero, proof band, and homepage
-   sections on the same x-axis at extra-wide sizes. */
-@media (min-width: 1800px) {
-  .home-page > section > .wrap,
-  .home-page > .home-hero .home-proof .wrap {
-    width: min(1600px, calc(100vw - 4rem));
-  }
-  .home-philosophy-grid {
-    grid-template-columns: minmax(34rem, .78fr) minmax(0, 1.22fr);
-    column-gap: clamp(2.5rem, 3vw, 4rem);
-    min-height: clamp(620px, 36vw, 760px);
-  }
-  .home-philosophy-copy {
-    max-width: 600px;
-    padding: clamp(3.5rem, 4vw, 5rem) clamp(0rem, 2vw, 2.5rem) clamp(3.5rem, 4vw, 5rem) 0;
-  }
-  .home-philosophy h2 {
-    max-width: 15ch;
-    font-size: clamp(2.6rem, 3.2vw, 3.8rem);
-  }
-  .home-philosophy-copy p:not(.eyebrow) { max-width: 42ch; }
-  .home-smile-portrait {
-    inset: 0 clamp(-12rem, -5.5vw, -4rem) 0 auto;
-    background-position: right center;
-    background-size: 100% 100%;
-  }
-  .home-results-later-grid { max-width: none; }
-}
 
 @media (min-width: 901px) {
   .home-reassurance-heading h2 { white-space: nowrap; }
@@ -4585,6 +4557,8 @@ body.inquiry-open .mobile-actions { display: none; }
 .home-offer-card .home-implant-actions { justify-content: center; margin-top: 2.2rem; }
 .home-offer-card .home-implant-actions .btn { margin-top: 0; min-width: 0; }
 .home-offer-card .home-implant-actions .home-text-link { color: var(--gold-pale); flex-basis: 100%; justify-content: center; }
+.home-offer-card--side .home-implant-actions { flex-direction: column; flex-wrap: nowrap; align-items: stretch; width: 100%; }
+.home-offer-card--side .home-implant-actions .btn { text-align: center; }
 
 /* Technology: one consultation line per group instead of a button per card. */
 .home-tech-action {
@@ -5139,7 +5113,6 @@ PRINT STYLESHEET — clean output, nothing cut off
 .u-inline-011{font-size:0.74rem;color:var(--mist);margin-top:1rem;text-align:center}
 .u-inline-012{margin-top:2rem}
 .u-inline-013{margin-top:2.4rem}
-.u-inline-014{background-image:image-set(url("/assets/optimized/office-exterior-f1da0e7e8587-960.webp") 1x, url("/assets/optimized/office-exterior-f1da0e7e8587-2560.webp") 2x)}
 .u-inline-015{margin-top:2.2rem}
 .u-inline-016{padding:0}
 .u-inline-017{padding:4.5rem 0}

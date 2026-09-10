@@ -21,6 +21,7 @@
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --content-wide: 1200px;
   --content-narrow: 820px;
+  --wrap-w: min(var(--content-wide), 90vw); /* one shared page width: header, sections and footer align to it */
   --space-section: clamp(3.5rem, 7vh, 5.5rem); /* Polish 04: same sections, tighter vertical budget */
   --space-mobile: clamp(3.5rem, 8vh, 6rem);
 }
@@ -92,8 +93,8 @@ h1, h2, h3, .display {
 .serif-i { font-style: italic; font-family: "Cormorant Garamond", var(--serif); }
 
 /* ---------- Layout primitives ---------- */
-.wrap { width: min(var(--content-wide), 90vw); margin-inline: auto; }
-.wrap-narrow { width: min(var(--content-narrow), 90vw); margin-inline: auto; }
+.wrap { width: var(--wrap-w); margin-inline: auto; }
+.wrap-narrow { width: min(var(--content-narrow), var(--wrap-w)); margin-inline: auto; }
 
 section { position: relative; z-index: 2; }
 

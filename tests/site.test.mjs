@@ -433,7 +433,9 @@ test("appointment request drawer ships on full-shell pages and opens from every 
   assert.match(privacy, /href="\/contact#request">Request an Appointment</);
   assert.match(home, /class="hero-cta[^"]*"><a class="btn btn-solid"[^>]*href="\/contact#request">Request an Appointment<\/a><a class="btn"[^>]*href="tel:\+14076781400">Call \(407\) 678-1400<\/a>/);
   assert.match(home, /class="office-status" data-office-status/);
-  assert.match(home, /class="hero-proof-inline[^"]*"><span class="stars" aria-hidden="true">★★★★★<\/span>/);
+  assert.doesNotMatch(home, /hero-proof-inline/);
+  assert.match(home, /<div class="hero-bg"><picture><source type="image\/webp" srcset="[^"]*office-exterior-2800\.webp 2800w" sizes="100vw"><img class="hero-bg-img" src="assets\/office-exterior\.jpg" srcset="[^"]*office-exterior-2800\.jpg 2800w" sizes="100vw"[^>]*fetchpriority="high"[^>]*><\/picture><\/div>/);
+  assert.doesNotMatch(home, /optimized\/office-exterior[^"]*\.webp[^>]*>\s*<img class="hero-bg-img"/);
   assert.match(script, /data-inquiry-inline/);
   for (const treatment of ["implants", "cerec-crowns", "facial-aesthetics", "smile-makeover", "checkup"]) {
     assert.match(home, new RegExp(`class="ask-chip" data-analytics-event="cta_click" data-analytics-location="appointment_link" data-analytics-cta-type="appointment" href="/contact#request" data-inquiry-treatment="${treatment}"`), treatment);
@@ -458,10 +460,14 @@ test("appointment request drawer ships on full-shell pages and opens from every 
 
 test("header utility anchors share the navigation frame", async () => {
   const styles = await readFile("dist/styles.css", "utf8");
-  assert.match(styles, /header\.site \.nav,\s*header\.site \.emergency-utility \.wrap \{\s*width: calc\(100% - 4rem\);\s*max-width: none;\s*padding-left: max\(0px, calc\(\(100vw - min\(var\(--content-wide\), 90vw\)\) \/ 2 - 2rem\)\);\s*\}/);
-  assert.match(styles, /@media \(min-width: 1800px\) \{\s*header\.site \.nav,\s*header\.site \.emergency-utility \.wrap \{[\s\S]*?width: min\(1600px, calc\(100vw - 4rem\)\);[\s\S]*?max-width: 1600px;[\s\S]*?padding-left: 0;/);
+  // Header, sections and footer share one page width so every left and right margin lines up.
+  assert.match(styles, /--wrap-w: min\(var\(--content-wide\), 90vw\);/);
+  assert.match(styles, /\.wrap \{ width: var\(--wrap-w\); margin-inline: auto; \}/);
+  assert.match(styles, /header\.site \.nav,\s*header\.site \.emergency-utility \.wrap \{\s*width: var\(--wrap-w\);\s*max-width: none;\s*margin-inline: auto;\s*padding-left: 0;\s*\}/);
+  assert.doesNotMatch(styles, /width: min\(1600px, calc\(100vw - 4rem\)\)/);
   assert.match(styles, /@media \(min-width: 1025px\) and \(max-width: 1074px\) \{\s*header\.site \.nav \{ gap: 1rem; \}\s*header\.site \.menu \{ gap: 0\.8rem; \}/);
-  assert.match(styles, /@media \(max-width: 1024px\) \{\s*header\.site \.nav,\s*header\.site \.emergency-utility \.wrap \{\s*width: 92vw;\s*padding-left: 0;/);
+  assert.match(styles, /@media \(max-width: 1024px\) \{\s*:root \{ --wrap-w: min\(var\(--content-wide\), 92vw\); \}/);
+  assert.match(styles, /@media \(max-width: 560px\) \{\s*:root \{ --wrap-w: 90vw; \}/);
 });
 
 test("appointment request contact fields follow the selected response channel", async () => {
@@ -894,8 +900,8 @@ test("homepage follows the approved needs-led conversion journey", async () => {
   const styles = await readFile("dist/styles.css", "utf8");
   const sections = [
     "Precision-Crafted Restorations",
-    "Care You Can Trust",
     "What Can We Help You With?",
+    "Care You Can Trust",
     'id="offers"',
     'id="technology"',
     "Restorative Results",
@@ -925,9 +931,12 @@ test("homepage follows the approved needs-led conversion journey", async () => {
   assert.match(styles, /@media \(max-width: 900px\), \(max-height: 620px\) and \(orientation: landscape\)[\s\S]*?\.hero-offer-cue--desktop\s*\{\s*display:\s*none;\s*\}[\s\S]*?\.hero-offer-cue--responsive\s*\{\s*display:\s*grid;\s*\}/);
   assert.match(styles, /@media \(max-width: 560px\)[\s\S]*?\.hero-offer-cue\s*\{[^}]*padding:\s*\.95rem 5vw;/);
   assert.match(styles, /@media \(min-width: 901px\) and \(min-height: 621px\)[\s\S]*?\.home-hero \.hero-bg\s*\{\s*background-position:\s*center 45%;\s*\}/);
-  assert.match(styles, /\.home-hero \.hero-copy > \.hero-cta\s*\{[^}]*grid-row:\s*4;[^}]*\}[\s\S]*?\.home-hero \.hero-copy > \.hero-proof-inline\s*\{[^}]*grid-row:\s*5;[^}]*\}[\s\S]*?\.home-hero \.hero-offer-cue\s*\{[^}]*grid-column:\s*2;[^}]*grid-row:\s*4\s*\/\s*6;/);
-  assert.equal((html.match(/class="home-offer-card/g) || []).length, 1);
-  assert.match(styles, /\.home-offers-grid[^}]*repeat\(auto-fit, minmax\(min\(100%, 300px\), 1fr\)\)/);
+  assert.match(styles, /\.home-hero \.hero-copy > \.hero-cta\s*\{[^}]*grid-row:\s*4;[^}]*\}[\s\S]*?\.home-hero \.hero-offer-cue\s*\{[^}]*grid-column:\s*2;[^}]*grid-row:\s*4;/);
+  assert.equal((html.match(/class="home-offer-card/g) || []).length, 3);
+  assert.match(html, /home-offer-card--side[\s\S]*Problem Focus Special[\s\S]*home-offer-card--featured[\s\S]*Implant Special[\s\S]*home-offer-card--side[\s\S]*New Patient Special/);
+  assert.match(styles, /\.home-offers-grid\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1fr\) minmax\(0, 1\.16fr\) minmax\(0, 1fr\)/);
+  assert.equal((html.match(/class="ba home-featured-ba/g) || []).length, 3);
+  assert.match(html, /class="center-head home-results-head rv"[\s\S]*?<h2 id="results-title">Crafted to Look Natural<\/h2>/);
   assert.match(html, /assets\/dr-patel-home-cutout\.png/);
   assert.equal((html.match(/data-quote/g) || []).length, 4);
   assert.equal((html.match(/class="quote-dot home-review-tab/g) || []).length, 4);
@@ -938,7 +947,8 @@ test("homepage follows the approved needs-led conversion journey", async () => {
   assert.match(careCards[0], /href="\/facial-aesthetics"/);
   assert.match(html, /assets\/blog\/same-day-crowns-vs-traditional-crowns-card\.jpg/);
   assert.match(html, /assets\/blog\/sedation-dentistry-types-safety-card\.jpg/);
-  assert.match(html, /class="home-next rv" href="#offers"/);
+  assert.match(html, /class="home-next rv" href="#results"/);
+  assert.match(html, /class="home-next home-next-on-dark rv" href="#offers"/);
   assert.match(html, /class="home-next home-next-on-dark rv" href="#technology"/);
   assert.doesNotMatch(html, /Fewer visits, more precise planning, and a more comfortable experience\./);
   assert.equal((html.match(/class="home-tech-card tech-card/g) || []).length, 8);

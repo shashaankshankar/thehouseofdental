@@ -690,12 +690,7 @@ body.modal-open { overflow: hidden; }
 
 /* ---- Large tablet & small laptop: 1024px and below ---- */
 @media (max-width: 1024px) {
-  header.site .nav,
-  header.site .emergency-utility .wrap {
-    width: 92vw;
-    padding-left: 0;
-  }
-  .wrap, .wrap-narrow { width: min(1200px, 92vw); }
+  :root { --wrap-w: min(var(--content-wide), 92vw); }
   .logo-img { height: 54px; }
   .tech-grid { grid-template-columns: repeat(2, 1fr); }
   #facial-aesthetics .tech-grid.dark { grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
@@ -797,8 +792,7 @@ body.modal-open { overflow: hidden; }
 
 /* ---- Phone portrait: 560px and below ---- */
 @media (max-width: 560px) {
-  header.site .nav { width: 90vw; }
-  .wrap, .wrap-narrow { width: 90vw; }
+  :root { --wrap-w: 90vw; }
   header.site.minimal-header .nav {
     flex-wrap: wrap;
     gap: 0.75rem 1rem;

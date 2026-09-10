@@ -43,6 +43,9 @@ export function imageOptimizer(output) {
     for (const tag of tags) {
       const src = tag.match(/\ssrc="([^"]+)"/)?.[1];
       if (!src) continue;
+      // data-responsive marks an author-managed <picture>; the generated variants top out at
+      // 1440px, which is too small for full-bleed images on large screens.
+      if (/\sdata-responsive\b/.test(tag)) { markup = markup.replaceAll(tag, tag.replace(/\sdata-responsive\b/, "")); continue; }
       const data = await variants(src);
       if (!data) continue;
       let fallback = tag;

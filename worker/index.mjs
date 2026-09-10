@@ -40,7 +40,7 @@ const SECURITY_HEADERS = {
   "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
   "X-Frame-Options": "SAMEORIGIN",
   "X-Content-Type-Options": "nosniff",
-  "Content-Security-Policy": "default-src 'self'; img-src 'self' data: blob: https://winterparkdental.com https://images.unsplash.com https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://www.googletagmanager.com https://static.cloudflareinsights.com https://challenges.cloudflare.com 'sha256-L/SUCvsV4b9hLxjLaiqc0t8t2saAS/DT94upNrWLetQ='; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://cloudflareinsights.com; frame-src 'self' https://challenges.cloudflare.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"
+  "Content-Security-Policy": "default-src 'self'; img-src 'self' data: blob: https://winterparkdental.com https://images.unsplash.com https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; script-src 'self' https://www.googletagmanager.com https://static.cloudflareinsights.com https://challenges.cloudflare.com 'sha256-L/SUCvsV4b9hLxjLaiqc0t8t2saAS/DT94upNrWLetQ='; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://cloudflareinsights.com; frame-src 'self' https://challenges.cloudflare.com https://www.google.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"
 };
 
 const redirectToCanonicalHost = (request) => {

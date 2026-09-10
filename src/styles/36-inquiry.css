@@ -526,6 +526,8 @@ body.inquiry-open .mobile-actions { display: none; }
 .home-offer-card .home-implant-actions { justify-content: center; margin-top: 2.2rem; }
 .home-offer-card .home-implant-actions .btn { margin-top: 0; min-width: 0; }
 .home-offer-card .home-implant-actions .home-text-link { color: var(--gold-pale); flex-basis: 100%; justify-content: center; }
+.home-offer-card--side .home-implant-actions { flex-direction: column; flex-wrap: nowrap; align-items: stretch; width: 100%; }
+.home-offer-card--side .home-implant-actions .btn { text-align: center; }
 
 /* Technology: one consultation line per group instead of a button per card. */
 .home-tech-action {

@@ -36,18 +36,10 @@ header.site {
 }
 header.site .nav,
 header.site .emergency-utility .wrap {
-  width: calc(100% - 4rem);
+  width: var(--wrap-w);
   max-width: none;
-  padding-left: max(0px, calc((100vw - min(var(--content-wide), 90vw)) / 2 - 2rem));
-}
-@media (min-width: 1800px) {
-  header.site .nav,
-  header.site .emergency-utility .wrap {
-    width: min(1600px, calc(100vw - 4rem));
-    max-width: 1600px;
-    margin-inline: auto;
-    padding-left: 0;
-  }
+  margin-inline: auto;
+  padding-left: 0;
 }
 .nav .brand { flex: none; }
 .menu > li { white-space: nowrap; }
@@ -367,9 +359,19 @@ footer.site .logo-img { height: 80px; }
   z-index: -2;
   background-size: cover;
   background-position: center bottom;
-  /* Polish 03: the photo reads as daylight; the copy-side gradient carries legibility. */
-  filter: sepia(0.08) brightness(0.98) contrast(1.02) saturate(1.06);
+  /* The photo reads as bright daylight; the copy-side gradient carries legibility. */
+  filter: sepia(0.06) brightness(1.06) contrast(1.02) saturate(1.06);
   will-change: transform;
+}
+/* Responsive hero photo: the browser picks the sharpest size for the viewport and pixel density. */
+.hero-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  display: block;
 }
 .hero::after {
   content: "";
@@ -377,7 +379,7 @@ footer.site .logo-img { height: 80px; }
   inset: 52% 0 0;
   z-index: -1;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(10, 10, 11, 0.28), rgba(10, 10, 11, 0.05) 66%, transparent);
+  background: linear-gradient(to top, rgba(10, 10, 11, 0.16), rgba(10, 10, 11, 0.03) 66%, transparent);
 }
 .hero-inner {
   position: absolute;
@@ -424,6 +426,8 @@ footer.site .logo-img { height: 80px; }
   text-shadow: 0 1px 5px rgba(10, 10, 11, 0.55);
 }
 .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+/* The outline button keeps its contrast where the photo is bright behind it. */
+.hero-cta .btn:not(.btn-solid) { background: rgba(10, 10, 11, 0.32); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
 .hero-cta.rv { opacity: 1; transform: none; transition: none; }
 
 .hero-strip {

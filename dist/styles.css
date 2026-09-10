@@ -1919,8 +1919,10 @@ body.modal-open { overflow: hidden; }
     inset: auto;
     z-index: 0;
     width: 100%;
-    aspect-ratio: 16 / 9;
-    background-position: center top;
+    aspect-ratio: 4 / 3;
+    max-height: 480px;
+    min-height: 270px;
+    background-position: center 48%;
     background-size: cover;
     background-repeat: no-repeat;
     transform: none !important;
@@ -1949,7 +1951,7 @@ body.modal-open { overflow: hidden; }
   .hero-bg {
     aspect-ratio: auto;
     height: clamp(260px, 56vh, 420px);
-    background-position: center 56%;
+    background-position: center 50%;
   }
 }
 
@@ -3022,6 +3024,7 @@ header.site .minimal-nav .btn,
   height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+  object-position: center 48%;
   margin-top: 1.6rem;
   border: 1px solid var(--line-dark);
 }
@@ -3321,7 +3324,7 @@ header.site .minimal-nav .btn,
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: linear-gradient(90deg, rgba(22,15,6,.5) 0%, rgba(22,15,6,.3) 34%, rgba(22,15,6,.08) 60%, transparent 76%);
+  background: linear-gradient(90deg, rgba(8, 8, 9, 0.88) 0%, rgba(8, 8, 9, 0.72) 35%, rgba(8, 8, 9, 0.38) 60%, rgba(8, 8, 9, 0.1) 80%, transparent 92%);
   pointer-events: none;
 }
 .hero-offer-cue {
@@ -3441,7 +3444,7 @@ header.site .minimal-nav .btn,
 
 @media (min-width: 901px) and (min-height: 621px) {
   .home-hero {
-    min-height: clamp(700px, calc(88svh - var(--head-h, 120px)), 820px);
+    min-height: max(720px, calc(100svh - var(--head-h, 120px)));
   }
   .home-hero .hero-bg { background-position: center 45%; }
   /* Copy anchors to the bottom of its box so the offer cue always clears the proof strip. */
@@ -3467,6 +3470,12 @@ header.site .minimal-nav .btn,
     align-self: center;
     justify-self: end;
     margin-top: 0;
+  }
+}
+
+@media (min-width: 1800px) and (min-height: 900px) {
+  .home-hero .hero-bg {
+    background-position: center 48%;
   }
 }
 
@@ -3515,7 +3524,7 @@ header.site .minimal-nav .btn,
   height: 100%;
   aspect-ratio: 1.5 / 1;
   background-color: var(--ivory);
-  background-image: image-set(url("/assets/optimized/hero-smile-d1c248d3e0d2-960.webp") 1x, url("/assets/optimized/hero-smile-d1c248d3e0d2-1440.webp") 2x);
+  background-image: image-set(url("/assets/optimized/hero-smile-d1c248d3e0d2-960.webp") 1x, url("/assets/optimized/hero-smile-d1c248d3e0d2-1536.webp") 2x);
   background-position: right center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -3765,7 +3774,7 @@ header.site .minimal-nav .btn,
 .home-visit-grid > div:first-child > p:not(.eyebrow) { max-width: 48ch; margin-top: 1.25rem; color: rgba(28, 27, 24, .72); }
 .home-visit-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
 .home-hours { padding-left: clamp(2rem, 5vw, 4rem); border-left: 1px solid var(--line-light); }
-.home-hours-photo { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; margin-bottom: 1.4rem; border: 1px solid var(--line-light); }
+.home-hours-photo { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: center 48%; margin-bottom: 1.4rem; border: 1px solid var(--line-light); }
 .home-hours h3 { font-size: 1.6rem; }
 .home-hours > p { margin: .8rem 0 1.2rem; color: rgba(28, 27, 24, .72); }
 .home-hours dl > div { display: flex; justify-content: space-between; gap: 1rem; padding: .65rem 0; border-top: 1px solid var(--line-light); }
@@ -3952,7 +3961,7 @@ header.site .minimal-nav .btn,
     width: 100%;
     height: var(--home-short-hero-h);
     aspect-ratio: auto;
-    background-position: center 58%;
+    background-position: center 50%;
     background-size: cover;
   }
   .home-hero .hero-inner {
@@ -5130,7 +5139,7 @@ PRINT STYLESHEET — clean output, nothing cut off
 .u-inline-011{font-size:0.74rem;color:var(--mist);margin-top:1rem;text-align:center}
 .u-inline-012{margin-top:2rem}
 .u-inline-013{margin-top:2.4rem}
-.u-inline-014{background-image:image-set(url("/assets/optimized/office-exterior-e090337940ca-960.webp") 1x, url("/assets/optimized/office-exterior-e090337940ca-1440.webp") 2x)}
+.u-inline-014{background-image:image-set(url("/assets/optimized/office-exterior-f1da0e7e8587-960.webp") 1x, url("/assets/optimized/office-exterior-f1da0e7e8587-2560.webp") 2x)}
 .u-inline-015{margin-top:2.2rem}
 .u-inline-016{padding:0}
 .u-inline-017{padding:4.5rem 0}

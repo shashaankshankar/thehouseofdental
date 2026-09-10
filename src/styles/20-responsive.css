@@ -748,8 +748,10 @@ body.modal-open { overflow: hidden; }
     inset: auto;
     z-index: 0;
     width: 100%;
-    aspect-ratio: 16 / 9;
-    background-position: center top;
+    aspect-ratio: 4 / 3;
+    max-height: 480px;
+    min-height: 270px;
+    background-position: center 48%;
     background-size: cover;
     background-repeat: no-repeat;
     transform: none !important;
@@ -778,7 +780,7 @@ body.modal-open { overflow: hidden; }
   .hero-bg {
     aspect-ratio: auto;
     height: clamp(260px, 56vh, 420px);
-    background-position: center 56%;
+    background-position: center 50%;
   }
 }
 

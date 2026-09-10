@@ -14,7 +14,7 @@ export function imageOptimizer(output) {
       const metadata = await sharp(input).metadata();
       const hash = createHash("sha256").update(input).update("webp-v1-q82").digest("hex").slice(0, 12);
       const stem = basename(normalized).replace(/\.[^.]+$/, "");
-      const widths = [...new Set([480, 960, Math.min(1440, metadata.width)].filter((w) => w <= metadata.width))].sort((a,b) => a-b);
+      const widths = [...new Set([480, 960, 1440, Math.min(2560, metadata.width)].filter((w) => w <= metadata.width))].sort((a,b) => a-b);
       if (!widths.length) widths.push(metadata.width);
       const sources = [];
       for (const width of widths) {

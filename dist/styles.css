@@ -3,7 +3,6 @@
    Palette: Noir / Ivory / Champagne Gold
    Type: Marcellus (display) · Jost (body)
    ============================================================ */
-
 :root {
   --noir: #0a0a0b;
   --noir-soft: #121214;
@@ -24,26 +23,22 @@
   --wrap-w: min(var(--content-wide), 90vw); /* one shared page width: header, sections and footer align to it */
   --space-section: clamp(3.5rem, 7vh, 5.5rem); /* Polish 04: same sections, tighter vertical budget */
   --space-mobile: clamp(3.5rem, 8vh, 6rem);
+  --head-h: 144px;
 }
-
+body:has(header.site.minimal-header) { --head-h: 86px; }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
 html, body { max-width: 100%; overflow-x: clip; }
 body { padding-top: var(--head-h, 86px); }
 @supports not (overflow-x: clip) {
   html { overflow-x: hidden; }
 }
-
 img, svg, video, iframe, table { max-width: 100%; }
-
 /* Prevent long words/emails breaking layout on narrow screens */
 h1, h2, h3, p, a, li, td { overflow-wrap: break-word; }
-
 /* Keep initial and scripted fragment arrivals stationary; navigation.js opts
    into smooth movement only for deliberate same-document user jumps. */
 html { scroll-behavior: auto; }
 :where([id]) { scroll-margin-top: calc(var(--head-h, 86px) + 1rem); }
-
 body {
   font-family: var(--sans);
   font-weight: 400; /* Polish 01: heavier body for legibility on noir */
@@ -55,13 +50,9 @@ body {
 }
 body.menu-open { overflow: hidden; }
 body.menu-open .mobile-actions { display: none; }
-
 ::selection { background: var(--gold); color: var(--noir); }
-
 img { max-width: 100%; display: block; }
-
 a { color: inherit; text-decoration: none; }
-
 /* ---------- Typography ---------- */
 h1, h2, h3, .display {
   font-family: var(--serif);
@@ -69,7 +60,6 @@ h1, h2, h3, .display {
   line-height: 1.15;
   letter-spacing: 0.01em;
 }
-
 .eyebrow {
   font-family: var(--sans);
   font-size: 0.7rem; /* Polish 01: tighter tracking on labels */
@@ -89,17 +79,12 @@ h1, h2, h3, .display {
   background: var(--gold);
   display: inline-block;
 }
-
 .serif-i { font-style: italic; font-family: "Cormorant Garamond", var(--serif); }
-
 /* ---------- Layout primitives ---------- */
 .wrap { width: var(--wrap-w); margin-inline: auto; }
 .wrap-narrow { width: min(var(--content-narrow), var(--wrap-w)); margin-inline: auto; }
-
 section { position: relative; z-index: 2; }
-
 .sec { padding: var(--space-section) 0; }
-
 .sec-ivory {
   background: var(--ivory);
   color: var(--ink);
@@ -107,9 +92,7 @@ section { position: relative; z-index: 2; }
 .sec-ivory .eyebrow { color: var(--gold-deep); }
 .sec-ivory .eyebrow::before,
 .sec-ivory .eyebrow::after { background: var(--gold-deep); }
-
 .sec-noir { background: var(--noir); }
-
 /* ---------- Reveal animations ---------- */
 .rv {
   opacity: 1;
@@ -121,28 +104,23 @@ section { position: relative; z-index: 2; }
 .rv-d1 { transition-delay: 0.12s; }
 .rv-d2 { transition-delay: 0.24s; }
 .rv-d3 { transition-delay: 0.36s; }
-
 .rv-img {
   /* Images remain visible if the reveal observer is delayed or unavailable. */
   clip-path: inset(0 0 0 0);
   transition: clip-path 1.3s var(--ease);
 }
 .rv-img.in { clip-path: inset(0 0 0 0); }
-
 .rv-line {
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 1.2s var(--ease);
 }
 .rv-line.in { transform: scaleX(1); }
-
 @media (prefers-reduced-motion: reduce) {
   .rv, .rv-img, .rv-line { opacity: 1 !important; transform: none !important; clip-path: none !important; transition: none !important; }
   html { scroll-behavior: auto; }
 }
-
 /* ---------- Header ---------- */
-
 /* Self-hosted Latin font subsets. Licenses are in assets/fonts/. */
 @font-face {
   font-family: 'Cormorant Garamond';
@@ -184,7 +162,6 @@ section { position: relative; z-index: 2; }
   src: url(/assets/fonts/8a539799d12e3a14.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-
 .topbar {
   background: var(--noir);
   border-bottom: 1px solid var(--line-dark);
@@ -201,7 +178,6 @@ section { position: relative; z-index: 2; }
   color: var(--mist);
 }
 .topbar a:hover { color: var(--gold); }
-
 header.site {
   position: fixed;
   top: 0;
@@ -213,7 +189,6 @@ header.site {
   border-bottom: 1px solid var(--line-dark);
   transition: transform 0.5s var(--ease);
 }
-
 .nav {
   display: flex;
   align-items: center;
@@ -231,7 +206,6 @@ header.site .emergency-utility .wrap {
 .nav .brand { flex: none; }
 .menu > li { white-space: nowrap; }
 .nav-more { display: contents; }
-
 .brand { display: flex; align-items: center; gap: 0.9rem; }
 .logo-img {
   height: 64px;
@@ -260,7 +234,6 @@ footer.site .logo-img { height: 80px; }
   letter-spacing: 0.5em;
   color: var(--gold);
 }
-
 .menu {
   display: flex;
   margin-left: auto;
@@ -325,7 +298,6 @@ footer.site .logo-img { height: 80px; }
   align-items: center;
   justify-content: center;
 }
-
 .drop {
   position: absolute;
   top: calc(100% + 0.75rem);
@@ -426,7 +398,6 @@ footer.site .logo-img { height: 80px; }
   letter-spacing: 0.02em;
   line-height: 1.45;
 }
-
 /* Services uses the same quiet row treatment as the other dropdowns. */
 .service-drop {
   display: block;
@@ -453,7 +424,6 @@ footer.site .logo-img { height: 80px; }
 @media (max-width: 1100px) and (min-width: 1025px) {
   #nav-services { width: min(370px, calc(100vw - 2rem)); }
 }
-
 /* Buttons (Polish 01: tracking .32em → .16em, solid buttons weight 500) */
 .btn {
   display: inline-block;
@@ -483,17 +453,14 @@ footer.site .logo-img { height: 80px; }
 }
 .btn:hover { color: var(--noir); }
 .btn:hover::before { transform: scaleX(1); }
-
 .btn-solid { background: var(--gold); color: var(--noir); font-weight: 500; }
 .btn-solid::before { background: var(--ivory); }
 .btn-solid:hover { color: var(--noir); }
-
 .btn-lg { padding: 1rem 2.4rem; font-size: 0.74rem; }
 .btn-outline { background: transparent; color: var(--gold); }
 .btn-text { border-color: transparent; padding-inline: 0; color: var(--gold); }
 .btn-text::before { display: none; }
 .btn-text:hover { color: var(--ivory); }
-
 .sec-ivory .btn { border-color: var(--gold-deep); color: var(--gold-deep); }
 .sec-ivory .btn::before { background: var(--gold-deep); }
 .sec-ivory .btn:hover { color: var(--ivory); }
@@ -502,7 +469,6 @@ footer.site .logo-img { height: 80px; }
 .sec-ivory .btn-solid:focus-visible { color: var(--noir); }
 .sec-ivory .btn-text { border-color: transparent; color: var(--gold-deep); }
 .sec-ivory .btn-text:hover { color: var(--gold-deep); }
-
 /* Mobile nav */
 .burger {
   display: none;
@@ -529,7 +495,6 @@ footer.site .logo-img { height: 80px; }
 .burger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
 .burger.open span:nth-child(2) { opacity: 0; }
 .burger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-
 /* ---------- Hero ---------- */
 .hero {
   min-height: 92vh;
@@ -616,7 +581,6 @@ footer.site .logo-img { height: 80px; }
 /* The outline button keeps its contrast where the photo is bright behind it. */
 .hero-cta .btn:not(.btn-solid) { background: rgba(10, 10, 11, 0.32); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
 .hero-cta.rv { opacity: 1; transform: none; transition: none; }
-
 .hero-strip {
   position: absolute;
   bottom: 0; left: 0; right: 0;
@@ -637,7 +601,6 @@ footer.site .logo-img { height: 80px; }
 }
 .hero-strip b { color: var(--gold); font-weight: 400; }
 .reputation-value { display: inline-block; min-width: 3ch; text-align: center; }
-
 /* Page hero (interior pages) */
 .page-hero {
   padding: clamp(6rem, 14vh, 9rem) 0 clamp(3rem, 7vh, 5rem);
@@ -655,7 +618,6 @@ footer.site .logo-img { height: 80px; }
 }
 .page-hero .crumb a:hover { color: var(--gold); }
 .page-hero .crumb span { color: var(--gold); margin: 0 0.7rem; }
-
 /* ---------- Split sections ---------- */
 .split {
   display: grid;
@@ -683,7 +645,6 @@ footer.site .logo-img { height: 80px; }
   opacity: 0.55;
 }
 .split .media.frame-left::after { inset: 1.4rem 1.4rem -1.4rem -1.4rem; }
-
 /* ---------- Stats counters ---------- */
 .stats {
   display: grid;
@@ -715,7 +676,6 @@ footer.site .logo-img { height: 80px; }
 .sec-ivory .stats { border-color: var(--line-light); }
 .sec-ivory .stat .lab { color: rgba(28,27,24,0.55); }
 .sec-ivory .stat .num { color: var(--gold-deep); }
-
 /* ---------- Service cards ---------- */
 .svc-grid {
   display: grid;
@@ -756,7 +716,6 @@ footer.site .logo-img { height: 80px; }
   margin-bottom: 1.6rem;
   opacity: 0.75;
 }
-
 /* ---------- Marquee ---------- */
 .marquee {
   overflow: hidden;
@@ -784,7 +743,6 @@ footer.site .logo-img { height: 80px; }
 }
 @keyframes marquee { to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }
-
 /* ---------- Offers ---------- */
 .offers {
   display: grid;
@@ -816,7 +774,6 @@ footer.site .logo-img { height: 80px; }
   margin-bottom: 1.2rem;
 }
 .offer a { align-self: flex-start; }
-
 /* ---------- Testimonials ---------- */
 .quote-block { text-align: center; }
 .quote-mark {
@@ -858,7 +815,6 @@ footer.site .logo-img { height: 80px; }
 .quote-dot::after { content: ""; display: block; width: 28px; height: 2px; background: var(--line-dark); }
 .quote-dot.on::after { background: var(--gold); }
 .quote-dot:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
-
 .review-card {
   border: 1px solid var(--line-light);
   padding: 2.6rem 2.4rem;
@@ -897,7 +853,6 @@ footer.site .logo-img { height: 80px; }
   grid-template-columns: 1fr 1fr;
   gap: 1.6rem;
 }
-
 /* ---------- Before / After ---------- */
 .ba-grid {
   display: grid;
@@ -976,7 +931,6 @@ footer.site .logo-img { height: 80px; }
 }
 .ba .lab.before { left: 0.8rem; }
 .ba .lab.after { right: 0.8rem; color: var(--gold); }
-
 /* ---------- Contact / form ---------- */
 .form-grid {
   display: grid;
@@ -1008,13 +962,11 @@ footer.site .logo-img { height: 80px; }
 }
 .field select option { background: var(--noir); }
 .field textarea { resize: vertical; min-height: 120px; }
-
 .sec-ivory .field input, .sec-ivory .field textarea, .sec-ivory .field select {
   color: var(--ink);
   border-bottom-color: var(--line-light);
 }
 .sec-ivory .field label { color: var(--gold-deep); }
-
 .hours-table { width: 100%; border-collapse: collapse; }
 .hours-table td {
   padding: 0.85rem 0;
@@ -1025,7 +977,6 @@ footer.site .logo-img { height: 80px; }
 .hours-table td:last-child { text-align: right; color: var(--gold); }
 .sec-ivory .hours-table td { border-color: var(--line-light); }
 .sec-ivory .hours-table td:last-child { color: var(--gold-deep); }
-
 .map-frame {
   max-width: 100%;
   border: 1px solid var(--line-dark);
@@ -1033,7 +984,6 @@ footer.site .logo-img { height: 80px; }
   width: 100%;
   height: 380px;
 }
-
 /* ---------- Service detail rows ---------- */
 .svc-row {
   display: grid;
@@ -1072,7 +1022,6 @@ footer.site .logo-img { height: 80px; }
   left: 0;
   color: var(--gold-deep);
 }
-
 /* ---------- Footer ---------- */
 footer.site {
   background: var(--noir);
@@ -1141,7 +1090,6 @@ footer.site {
   color: var(--mist);
 }
 .foot-legal a:hover { color: var(--gold); }
-
 /* ---------- Center head ---------- */
 .center-head,
 .section-head { text-align: center; width: min(720px, 100%); margin: 0 auto clamp(2rem, 4vh, 3rem); }
@@ -1152,7 +1100,6 @@ footer.site {
 .section-head h2 { font-size: clamp(2rem, 3.8vw, 3.2rem); }
 .center-head p,
 .section-head p { margin-top: 1.2rem; color: inherit; opacity: 0.75; }
-
 /* ---------- Emergency band ---------- */
 .band {
   background: linear-gradient(120deg, var(--gold-deep), var(--gold));
@@ -1171,9 +1118,7 @@ footer.site {
 .band .btn { border-color: var(--noir); color: var(--noir); }
 .band .btn::before { background: var(--noir); }
 .band .btn:hover { color: var(--gold); }
-
 /* ---------- Responsive ---------- */
-
 @media (max-width: 1000px) {
   .svc-grid { grid-template-columns: 1fr 1fr; }
   .offers { grid-template-columns: 1fr; }
@@ -1183,7 +1128,6 @@ footer.site {
   .stat { border-top: 1px solid var(--line-dark); }
   .stat:nth-child(-n+2) { border-top: none; }
 }
-
 @media (max-width: 1024px) {
   header.site:has(.menu.open) { backdrop-filter: none; background: transparent; border-bottom-color: transparent; }
   .burger { display: block; }
@@ -1256,19 +1200,15 @@ footer.site {
   .topbar .wrap { justify-content: center; }
   .topbar .addr { display: none; }
 }
-
 @media (min-width: 1195px) {
   .menu > li.has-submenu { display: flex; align-items: center; }
   .menu > li.has-submenu > .drop { top: calc(100% + 0.35rem); }
 }
-
 @media (max-width: 560px) {
   .svc-grid { grid-template-columns: 1fr; }
   .stats { grid-template-columns: 1fr 1fr; }
   .brand .word { font-size: 0.85rem; letter-spacing: 0.22em; }
 }
-
-
 /* ---------- Insurance carriers ---------- */
 .carriers {
   display: flex;
@@ -1285,7 +1225,6 @@ footer.site {
   color: rgba(28,27,24,0.7);
 }
 .sec-noir .carriers span { border-color: var(--line-dark); color: var(--mist); }
-
 /* ---------- Cherry estimator ---------- */
 .cherry-box {
   border: 1px solid var(--gold);
@@ -1350,7 +1289,6 @@ footer.site {
   color: var(--gold);
 }
 .cherry-note { font-size: 0.78rem; color: var(--mist); margin-top: 1.4rem; }
-
 /* ---------- Service cards + modal ---------- */
 .svc-cards {
   display: grid;
@@ -1405,7 +1343,6 @@ footer.site {
 }
 @media (max-width: 1000px) { .svc-cards { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 620px) { .svc-cards { grid-template-columns: 1fr; } }
-
 .svcmodal {
   position: fixed;
   inset: 0;
@@ -1566,7 +1503,6 @@ footer.site {
   }
   .svcmodal .modal-actions .btn { min-height: 44px; padding-inline: 1rem; }
 }
-
 @media (max-width: 760px) {
   .svcmodal .panel {
     max-height: 92vh;
@@ -1598,13 +1534,10 @@ footer.site {
   transform: translateX(0);
 }
 body.modal-open { overflow: hidden; }
-
 @media (prefers-reduced-motion: reduce) {
   .svcmodal .panel { transition: none; }
   .svcmodal .panel.is-switching { opacity: 1; transform: none; }
 }
-
-
 /* ---------- Meet the Team ---------- */
 .team-grid {
   display: grid;
@@ -1651,7 +1584,6 @@ body.modal-open { overflow: hidden; }
   margin: 0.5rem 0 0.8rem;
 }
 .member .bio { font-size: 0.9rem; color: rgba(28,27,24,0.72); line-height: 1.65; }
-
 @media (max-width: 1000px) {
   .team-grid { grid-template-columns: repeat(2, 1fr); }
   .member.lead { grid-column: span 2; }
@@ -1660,7 +1592,6 @@ body.modal-open { overflow: hidden; }
   .team-grid { grid-template-columns: 1fr; }
   .member.lead { grid-column: span 1; }
 }
-
 /* ---------- Technology cards ---------- */
 .tech-grid {
   display: grid;
@@ -1731,7 +1662,6 @@ body.modal-open { overflow: hidden; }
 .tech-grid.dark .tech-card .more { color: var(--gold); border-color: var(--gold); }
 @media (max-width: 1000px) { .tech-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .tech-grid { grid-template-columns: 1fr; } }
-
 .soon-note {
   margin-top: 1.4rem;
   padding: 1rem 1.2rem;
@@ -1740,8 +1670,6 @@ body.modal-open { overflow: hidden; }
   font-size: 0.88rem !important;
 }
 .soon-note a { color: var(--gold-deep); border-bottom: 1px solid var(--gold-deep); }
-
-
 /* ---------- Facial Aesthetics: distinct, centered ---------- */
 #facial-aesthetics {
   border-top: 1px solid var(--line-dark);
@@ -1774,7 +1702,6 @@ body.modal-open { overflow: hidden; }
 /* ============================================================
    RESPONSIVE NORMALIZATION — phone / tablet / desktop
    ============================================================ */
-
 /* ---- Laptop: 1400px and below (7 nav items need tighter spacing) ---- */
 @media (max-width: 1400px) {
   .menu { gap: 1.5rem; }
@@ -1784,7 +1711,6 @@ body.modal-open { overflow: hidden; }
   .logo-img { height: 56px; }
   .menu > li:last-child .btn { padding: 0.68rem 1.1rem; }
 }
-
 /* ---- Full desktop navigation: expose every destination inline ---- */
 @media (min-width: 1366px) {
   .menu > li.nav-more::before { display: none; }
@@ -1847,7 +1773,6 @@ body.modal-open { overflow: hidden; }
   .nav-more-panel > li > a:focus-visible::after,
   .nav-more-panel > li > a.active::after { transform: scaleX(1); }
 }
-
 /* ---- Hybrid navigation: preserve core content links while secondary links live in More.
    The inline set with the appointment CTA needs roughly 1330px, so More stays
    in place through common laptop widths rather than clipping the menu. ---- */
@@ -1856,14 +1781,12 @@ body.modal-open { overflow: hidden; }
   .menu > li + li::before { left: -0.55rem; }
   .nav-more { display: list-item; }
 }
-
 /* ---- Narrow desktop: keep the visible CTA inside the shared header frame ---- */
 @media (min-width: 1025px) and (max-width: 1074px) {
   header.site .nav { gap: 1rem; }
   header.site .menu { gap: 0.8rem; }
   header.site .menu > li + li::before { left: -0.4rem; }
 }
-
 /* ---- Large tablet & small laptop: 1024px and below ---- */
 @media (max-width: 1024px) {
   :root { --wrap-w: min(var(--content-wide), 92vw); }
@@ -1875,7 +1798,6 @@ body.modal-open { overflow: hidden; }
   .member.lead { grid-column: span 3; }
   .hero h1 { max-width: 18ch; }
 }
-
 /* ---- Tablet portrait: 900px and below ---- */
 @media (max-width: 900px) {
   .sec { padding: var(--space-mobile) 0; }
@@ -1887,7 +1809,6 @@ body.modal-open { overflow: hidden; }
   .cherry-plan .val { font-size: 1.2rem; }
   #facial-aesthetics .tech-grid.dark { grid-template-columns: repeat(2, 1fr); }
 }
-
 /* ---- Flow hero: stack before width or height makes the overlay cramped ---- */
 @media (max-width: 900px), (max-height: 620px) and (orientation: landscape) {
   .hero {
@@ -1945,7 +1866,6 @@ body.modal-open { overflow: hidden; }
   }
   .hero-strip span { display: block; }
 }
-
 /* Wide short-landscape screens keep the image compact while content flows below it. */
 @media (min-width: 901px) and (max-height: 620px) and (orientation: landscape) {
   .hero-bg {
@@ -1954,7 +1874,6 @@ body.modal-open { overflow: hidden; }
     background-position: center 50%;
   }
 }
-
 /* ---- Phone landscape & small tablet: 720px and below ---- */
 @media (max-width: 720px) {
   .cherry-plans { grid-template-columns: 1fr; }
@@ -1965,7 +1884,6 @@ body.modal-open { overflow: hidden; }
   .svcmodal .panel img { max-height: 190px; min-height: 0; }
   .drop { min-width: 0; width: 100%; }
 }
-
 /* ---- Phone portrait: 560px and below ---- */
 @media (max-width: 560px) {
   :root { --wrap-w: 90vw; }
@@ -2008,7 +1926,6 @@ body.modal-open { overflow: hidden; }
   .ba .handle::before { left: 31px; width: 1px; }
   .ba .handle::after { width: 40px; height: 40px; font-size: 0.82rem; }
 }
-
 /* ---- Very small phones: 380px and below ---- */
 @media (max-width: 380px) {
   .logo-img { height: 38px; }
@@ -2017,14 +1934,12 @@ body.modal-open { overflow: hidden; }
   .stat { border-left: none; border-top: 1px solid var(--line-dark); }
   .stat:first-child { border-top: none; }
 }
-
 /* ---- Touch devices: no hover-dependent behavior ---- */
 @media (hover: none) {
   .svc-card:hover, .tech-card:hover, .offer:hover, .member:hover .portrait img {
     transform: none;
   }
 }
-
 /* ---- Short landscape screens: reclaim vertical space without overlay collisions ---- */
 @media (max-width: 1024px) and (max-height: 620px) and (orientation: landscape) {
   .menu { gap: 0.9rem; overflow-y: auto; padding: calc(1.5rem + env(safe-area-inset-top)) 0 calc(1.5rem + env(safe-area-inset-bottom)); }
@@ -2032,20 +1947,15 @@ body.modal-open { overflow: hidden; }
   .hero-cta .btn { padding-block: .7rem; }
   .svcmodal .panel { max-height: 96vh; max-height: 96svh; }
 }
-
 @media (max-width: 760px) {
   .foot-grid { grid-template-columns: 1fr; gap: 2.4rem; }
   .svcmodal .close { min-width: 44px; min-height: 44px; }
 }
-
-
 /* ---------- Image failure fallback (scoped to images ONLY) ---------- */
-
 .svcmodal .panel img,
 .split .media img {
   background: linear-gradient(150deg, rgba(198,161,91,0.18), rgba(28,27,24,0.85));
 }
-
 /* Accessible hit areas: keep the existing visual treatment while giving
    recurring navigation and contact controls a dependable 44px target. */
 header.site .emergency-utility .wrap { min-height: 44px; }
@@ -2084,7 +1994,6 @@ header.site .minimal-nav .btn,
   min-height: 44px;
 }
 .home-reviews-panel .home-review-tab { min-width: 44px; min-height: 44px; }
-
 /* Progressive enhancement: the built-in detail sections are the fallback. */
 .inline-details {
   margin-top: clamp(3rem, 7vw, 6rem);
@@ -2141,12 +2050,10 @@ header.site .minimal-nav .btn,
   .inline-detail,
   .technology-details .inline-detail { grid-template-columns: 1fr; gap: 1.8rem; }
 }
-
 /* Homepage: focused service and practice overview */
 .home-svc-grid {
   grid-template-columns: repeat(3, 1fr);
 }
-
 .service-groups {
   display: grid;
   gap: clamp(3.5rem, 7vw, 5.5rem);
@@ -2172,7 +2079,6 @@ header.site .minimal-nav .btn,
   margin: 0;
   color: rgba(28, 27, 24, 0.68);
 }
-
 /* Services page: separate the facial collection from the dental collection. */
 .services-page-groups {
   gap: clamp(2rem, 4vw, 3.25rem);
@@ -2274,7 +2180,6 @@ header.site .minimal-nav .btn,
 }
 .services-page-groups .treatment-care-link:hover::after,
 .services-page-groups .treatment-care-link:focus-visible::after { background: var(--gold-deep); }
-
 @media (max-width: 760px) {
   .services-page-groups #dental-services .services-dental-description {
     white-space: normal;
@@ -2284,12 +2189,10 @@ header.site .minimal-nav .btn,
     gap: 0.7rem;
   }
 }
-
 .practice-points {
   margin-top: 2rem;
   border-top: 1px solid rgba(255, 255, 255, 0.16);
 }
-
 .practice-point {
   display: grid;
   grid-template-columns: 2.25rem 1fr;
@@ -2297,41 +2200,33 @@ header.site .minimal-nav .btn,
   padding: 1.15rem 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.16);
 }
-
 .practice-point > span {
   color: var(--gold);
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   padding-top: 0.25rem;
 }
-
 .practice-point h3 {
   color: var(--ivory);
   font-size: 1.05rem;
   margin-bottom: 0.25rem;
 }
-
 .practice-point p {
   color: var(--mist);
   font-size: 0.9rem;
   line-height: 1.6;
 }
-
 @media (max-width: 980px) {
   .home-svc-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-
 @media (max-width: 760px) {
   .home-svc-grid {
     grid-template-columns: 1fr;
   }
 }
 .hero-bg { background-color: #0a0a0b; }
-
-
-/* ---------- Facial service cards on noir ---------- */
 .facial-cards .svc-card {
   background: transparent;
   border-color: var(--line-dark);
@@ -2342,9 +2237,6 @@ header.site .minimal-nav .btn,
 .facial-cards .svc-card h3 { color: var(--ivory); }
 .facial-cards .svc-card .cat,
 .facial-cards .svc-card .more { color: var(--gold); border-color: var(--gold); }
-
-
-/* ---------- Facial Aesthetics: headline feature section ---------- */
 .facial-feature {
   background:
     radial-gradient(ellipse at 50% -10%, rgba(198,161,91,0.18), transparent 60%),
@@ -2374,11 +2266,6 @@ header.site .minimal-nav .btn,
   background: rgba(198,161,91,0.09);
   border-color: var(--gold);
 }
-
-
-/* ============================================================
-   FACIAL AESTHETICS PAGE
-   ============================================================ */
 .aesthetic-hero {
   position: relative;
   padding: clamp(6rem, 15vh, 10rem) 0 clamp(4rem, 9vh, 6rem);
@@ -2413,8 +2300,6 @@ header.site .minimal-nav .btn,
   flex-wrap: wrap;
   margin-top: 2.6rem;
 }
-
-/* jump nav */
 .aesthetic-nav {
   border-bottom: 1px solid var(--line-dark);
   position: sticky;
@@ -2449,7 +2334,6 @@ header.site .minimal-nav .btn,
   letter-spacing: 0;
 }
 .aesthetic-nav a:hover { color: var(--gold); }
-
 @media (min-width: 1100px) and (max-width: 1500px) {
   .aesthetic-nav .wrap {
     gap: 0.65rem;
@@ -2462,14 +2346,11 @@ header.site .minimal-nav .btn,
     gap: 0.45rem;
   }
 }
-
-/* detail sections */
 .aesthetic-detail {
   border-bottom: 1px solid var(--line-dark);
   scroll-margin-top: 150px;
 }
 .aesthetic-detail:nth-of-type(even) { background: #0d0c0b; }
-
 .aesthetic-head {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2513,7 +2394,6 @@ header.site .minimal-nav .btn,
   line-height: 1.75;
   opacity: 0.9;
 }
-
 .aesthetic-body {
   display: grid;
   grid-template-columns: 1.5fr 1fr;
@@ -2541,7 +2421,6 @@ header.site .minimal-nav .btn,
   font-size: 0.92rem;
   color: var(--mist);
 }
-
 .aesthetic-expect { padding-top: clamp(2rem, 5vh, 3rem); }
 .aesthetic-expect > h3 {
   font-size: 0.68rem;
@@ -2573,7 +2452,6 @@ header.site .minimal-nav .btn,
   margin-bottom: 0.8rem;
 }
 .expect-row p { font-size: 0.88rem; color: var(--mist); line-height: 1.65; }
-
 @media (max-width: 1000px) {
   .aesthetic-head { gap: clamp(1.5rem, 3vw, 2.5rem); }
   .aesthetic-media img { max-height: 340px; }
@@ -2604,21 +2482,16 @@ header.site .minimal-nav .btn,
     max-height: 220px;
   }
 }
-
-
-/* ---------- Homepage combined tech + aesthetics ---------- */
 .home-proof-band {
   padding: 0;
   overflow: hidden;
 }
-
 .center-head .home-care-title {
   white-space: normal;
   overflow-wrap: normal;
   text-wrap: balance;
   font-size: clamp(1.35rem, 3.2vw, 2.75rem);
 }
-
 @media (max-width: 560px) {
   .center-head .home-care-title { font-size: clamp(1.2rem, 6.8vw, 2.2rem); }
 }
@@ -2630,14 +2503,11 @@ header.site .minimal-nav .btn,
   padding-block: 1rem;
   background: rgba(255, 255, 255, 0.018);
 }
-
-/* Reviews KPI strip: keep the two primary counts balanced, with the
-   supporting star proof point centered beneath them when space is limited. */
 .sec-noir.review-kpi-section {
   padding-top: 0;
 }
 .review-kpi-section .stats {
-  grid-template-columns: repeat(3, minmax(0, 1fr)); /* Polish 06: three tiles, no filler */
+  grid-template-columns: repeat(3, minmax(0, 1fr)); 
   border-top: 0;
   border-bottom: 0;
 }
@@ -2663,13 +2533,11 @@ header.site .minimal-nav .btn,
   .review-kpi-section .stat { padding-inline: 0.15rem; }
   .review-kpi-section .stat .lab { font-size: 0.54rem; letter-spacing: 0.12em; }
 }
-
 @media (max-width: 560px) {
   .home-proof-inner { padding-block: 1.25rem 0.85rem; }
   .home-proof-band .stat { padding-block: 1.35rem; }
   .home-proof-band .marquee { padding-block: 0.85rem; }
 }
-
 .tech-group-label {
   font-size: 0.74rem;
   letter-spacing: 0.36em;
@@ -2691,7 +2559,6 @@ header.site .minimal-nav .btn,
 .tech-grid-3 { grid-template-columns: repeat(3, 1fr) !important; }
 @media (max-width: 1000px) { .tech-grid-3 { grid-template-columns: repeat(2, 1fr) !important; } }
 @media (max-width: 560px) { .tech-grid-3 { grid-template-columns: 1fr !important; } }
-
 .home-section-divider {
   display: flex;
   align-items: center;
@@ -2720,12 +2587,9 @@ header.site .minimal-nav .btn,
 @media (max-width: 560px) {
   .home-section-divider { padding: 0.7rem 0; }
 }
-
-
-/* ---------- Centered page heroes (matches Facial Aesthetics) ---------- */
 .page-hero-center {
   text-align: center;
-  padding: clamp(4.5rem, 10vh, 6.5rem) 0 clamp(2rem, 5vh, 3rem); /* Polish 10: first content shows without scrolling */
+  padding: clamp(4.5rem, 10vh, 6.5rem) 0 clamp(2rem, 5vh, 3rem); 
   position: relative;
   overflow: hidden;
 }
@@ -2738,8 +2602,6 @@ header.site .minimal-nav .btn,
 }
 .page-hero-center > .wrap { position: relative; }
 .page-hero-center .crumb { justify-content: center; }
-
-/* ---------- Polish 10: "On this page" index under interior heroes ---------- */
 .page-subnav { background: var(--noir); border-bottom: 1px solid var(--line-dark); }
 .page-subnav .wrap {
   display: flex;
@@ -2765,8 +2627,6 @@ header.site .minimal-nav .btn,
 }
 .page-subnav a:hover,
 .page-subnav a:focus-visible { color: var(--gold); border-color: var(--gold); }
-
-/* ---------- Single featured offer ---------- */
 .offer-single {
   display: flex;
   justify-content: center;
@@ -2789,8 +2649,6 @@ header.site .minimal-nav .btn,
 .offer-light p { color: rgba(28,27,24,0.75); }
 .offer-light .tag { color: var(--gold-deep); }
 .offer-light:hover { border-color: var(--gold-deep); }
-
-/* ---------- Cherry: centered, on-theme, readable ---------- */
 .payment-block .cherry-box {
   max-width: 620px;
   margin: 0 auto;
@@ -2837,8 +2695,6 @@ header.site .minimal-nav .btn,
   margin-inline: auto;
   display: block;
 }
-
-/* ---------- About technologies on noir ---------- */
 .tech-section .tech-card {
   background: rgba(255,255,255,0.02);
   border-color: var(--line-dark);
@@ -2848,9 +2704,6 @@ header.site .minimal-nav .btn,
 .tech-section .tech-card .more { color: var(--gold); border-color: var(--gold); }
 .tech-section .tech-card::before { background: var(--gold); }
 .tech-section .tech-card:hover { background: rgba(198,161,91,0.07); border-color: var(--gold); }
-
-
-/* ---------- Pre-Op / Post-Op Care page ---------- */
 .care-nav {
   border-bottom: 1px solid var(--line-dark);
   position: sticky;
@@ -2873,7 +2726,6 @@ header.site .minimal-nav .btn,
 }
 .care-nav a:hover { color: var(--gold); }
 .care-nav a:focus-visible { outline: 2px solid var(--gold); outline-offset: -3px; }
-
 .care-back-to-top {
   position: fixed;
   right: clamp(1rem, 3vw, 2rem);
@@ -2899,7 +2751,6 @@ header.site .minimal-nav .btn,
 .care-back-to-top span { transform: translateY(-0.08em); }
 .care-back-to-top:hover { background: var(--gold-pale); transform: translateY(-3px); }
 .care-back-to-top:focus-visible { outline: 2px solid var(--ivory); outline-offset: 4px; }
-
 .care-block {
   border-bottom: 1px solid var(--line-light);
   scroll-margin-top: 150px;
@@ -2907,7 +2758,6 @@ header.site .minimal-nav .btn,
 #book { scroll-margin-top: calc(var(--head-h, 86px) + 1rem); }
 .care-block:nth-of-type(even) { background: var(--ivory-deep); }
 .care-block .center-head { margin-bottom: 2.6rem; }
-
 .care-pre {
   max-width: 780px;
   margin: 0 auto 3rem;
@@ -2935,7 +2785,6 @@ header.site .minimal-nav .btn,
 }
 .care-pre li:last-child { border-bottom: none; }
 .care-pre li::before { content: "—"; position: absolute; left: 0; color: var(--gold-deep); }
-
 .care-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -2970,8 +2819,6 @@ header.site .minimal-nav .btn,
     height: 2.85rem;
   }
 }
-
-/* ---------- New Patients: finance + offer side by side ---------- */
 .finance-pair {
   display: grid;
   grid-template-columns: 1.35fr 1fr;
@@ -2990,11 +2837,8 @@ header.site .minimal-nav .btn,
 @media (max-width: 900px) {
   .finance-pair { grid-template-columns: 1fr; }
 }
-
 .payment-block { padding-bottom: clamp(2.5rem, 6vh, 4rem); }
 .insurance-block { border-top: 1px solid var(--line-dark); padding-top: clamp(3.5rem, 8vh, 5.5rem) !important; }
-
-/* ---------- Contact page (Polish 08: practical details beside the inline form) ---------- */
 .contact-details {
   display: grid;
   gap: 0.9rem;
@@ -3036,28 +2880,17 @@ header.site .minimal-nav .btn,
   margin-top: 1.6rem;
   border: 1px solid var(--line-dark);
 }
-
-/* ---------- About: accolade contrast fix ---------- */
 .accolades .stat .lab { color: rgba(28,27,24,0.78); }
 .accolades .stat .num { color: var(--gold-deep); }
-
-/* ---------- About: Polish 09, the homepage portrait next to the name ---------- */
 #dr-patel .split .media img {
   height: auto;
   object-position: 50% 0;
   filter: none;
   background: linear-gradient(180deg, #f4eddf 0%, #c9ad78 100%);
 }
-
-
-/* care page final note + offer section spacing */
 .care-final { border-top: none; }
 .offer-section { border-top: 1px solid var(--line-light); }
-
 .accolades > p { color: rgba(28,27,24,0.78) !important; }
-
-
-/* ---------- Download bar on care page ---------- */
 .download-bar {
   border-block: 1px solid rgba(198,161,91,0.38);
   background:
@@ -3091,8 +2924,6 @@ header.site .minimal-nav .btn,
   .download-bar .wrap { flex-direction: column; text-align: center; }
   .dl-sub { margin-inline: auto; }
 }
-
-/* ---------- Blog index + articles ---------- */
 .blog-index-hero .blog-index-intro {
   width: min(680px, 100%);
   margin: 2rem auto 0;
@@ -3160,7 +2991,6 @@ header.site .minimal-nav .btn,
 }
 .blog-card .blog-read::after { content: "→"; font-size: 1rem; transition: transform 0.3s var(--ease); }
 .blog-card:hover .blog-read::after { transform: translateX(4px); }
-
 .article-hero { padding-bottom: clamp(2.8rem, 6vw, 4.5rem); text-align: left; }
 .article-hero .wrap { width: min(960px, 90vw); }
 .article-hero h1 { max-width: 17ch; margin-top: 0.8rem; font-size: clamp(2.35rem, 6vw, 4.7rem); }
@@ -3211,7 +3041,6 @@ header.site .minimal-nav .btn,
 .article-related .blog-card-body { padding: 1.35rem; }
 .article-related .blog-card h2 { font-size: 1.25rem; }
 .article-related .blog-card p { display: none; }
-
 @media (max-width: 900px) {
   .article-layout { grid-template-columns: minmax(0, 720px); }
   .article-aside { position: static; }
@@ -3229,10 +3058,6 @@ header.site .minimal-nav .btn,
   .article-figure img { border-inline: 0; }
   .article-body { font-size: 1rem; }
 }
-
-/* ============================================================
-
-/* Homepage conversion refinement: preserve the Maison system, clarify the journey. */
 .home-section-eyebrow {
   display: grid;
   width: min(720px, 100%);
@@ -3252,12 +3077,10 @@ header.site .minimal-nav .btn,
   hyphens: none;
   text-wrap: balance;
 }
-
 .emergency-utility {
   border-bottom: 1px solid var(--line-dark);
   background: rgba(10, 10, 11, 0.96);
 }
-/* Polish 02: welcome first (live hours + address), emergency + phone second. */
 .emergency-utility .wrap {
   display: flex;
   min-height: 36px;
@@ -3292,7 +3115,6 @@ header.site .minimal-nav .btn,
   .util-left { display: none; }
   .emergency-utility .wrap { justify-content: center; }
 }
-
 @media (min-width: 1128px) {
   header.site .menu { gap: clamp(0.7rem, 1.1vw, 1.35rem); }
   header.site .menu > li + li::before,
@@ -3308,7 +3130,6 @@ header.site .minimal-nav .btn,
     padding-inline: 0.95rem;
   }
 }
-
 .home-page p { font-size: 1.0625rem; line-height: 1.65; }
 .home-page .home-text-link {
   display: inline-flex;
@@ -3325,7 +3146,6 @@ header.site .minimal-nav .btn,
 .home-page .home-text-link span { transition: transform 0.25s var(--ease); }
 .home-page .home-text-link:hover span,
 .home-page .home-text-link:focus-visible span { transform: translateX(0.25rem); }
-
 .home-hero .hero-copy { position: relative; z-index: 1; max-width: 850px; }
 .home-hero .hero-bg::after {
   content: "";
@@ -3386,7 +3206,6 @@ header.site .minimal-nav .btn,
 .hero-offer-cue:hover b, .hero-offer-cue:focus-visible b { border-color: rgba(225, 197, 139, .9); background: rgba(198, 161, 91, .1); }
 .hero-offer-cue:hover b, .hero-offer-cue:focus-visible b { transform: translateX(.25rem); }
 .hero-offer-cue--responsive { display: none; }
-
 .home-proof {
   margin-bottom: 0;
   background: rgba(10, 10, 11, 0.88);
@@ -3442,16 +3261,13 @@ header.site .minimal-nav .btn,
   line-height: 1.35;
   text-transform: uppercase;
 }
-
 @media (min-width: 901px) and (min-height: 621px) {
-  /* A fixed 2:1 frame keeps the same crop of the office photo at every desktop width. */
   .home-hero {
     min-height: 0;
     height: max(640px, 50vw);
   }
   .home-hero .hero-bg { background-position: center 45%; }
   .home-hero .hero-bg-img { object-position: center 45%; }
-  /* Copy anchors to the bottom of its box so the offer cue always clears the proof strip. */
   .home-hero .hero-inner {
     display: grid;
     inset: 20% 0 calc(var(--hero-strip-h, 6.7rem) + 1rem);
@@ -3480,13 +3296,11 @@ header.site .minimal-nav .btn,
     padding: .52rem .85rem .52rem 1.15rem;
   }
 }
-
 @media (min-width: 1800px) and (min-height: 900px) {
   .home-hero .hero-bg {
     background-position: center 48%;
   }
 }
-
 .home-philosophy {
   min-height: clamp(380px, 28vw, 460px);
   overflow: hidden;
@@ -3525,7 +3339,6 @@ header.site .minimal-nav .btn,
 .home-philosophy-copy p:not(.eyebrow) { max-width: 49ch; }
 .home-philosophy-copy p + p { margin-top: 1rem; }
 .home-philosophy-copy .home-text-link { margin-top: 1.15rem; }
-/* The portrait sits inside the content frame at a modest size rather than bleeding to the viewport edge. */
 .home-smile-portrait {
   position: relative;
   width: 100%;
@@ -3534,15 +3347,13 @@ header.site .minimal-nav .btn,
   justify-self: end;
   align-self: center;
   margin-block: clamp(2.5rem, 3vw, 3.5rem);
-  background-image: image-set(url("/assets/optimized/hero-smile-d1c248d3e0d2-960.webp") 1x, url("/assets/optimized/hero-smile-d1c248d3e0d2-1536.webp") 2x);
+  background-image: image-set(url("/assets/optimized/hero-smile-99b698d949f1-720.webp") 1x, url("/assets/optimized/hero-smile-99b698d949f1-960.webp") 2x);
   background-position: right bottom;
   background-repeat: no-repeat;
   background-size: contain;
-  /* The cut-out fades into the ivory ground at its edges instead of reading as a framed photo. */
   -webkit-mask-image: radial-gradient(ellipse 88% 92% at 62% 52%, #000 58%, transparent 100%);
   mask-image: radial-gradient(ellipse 88% 92% at 62% 52%, #000 58%, transparent 100%);
 }
-
 .home-reassurance { border-top: 1px solid var(--line-light); color: var(--ink); }
 .home-reassurance .home-doctor-actions { border-color: var(--line-light); background: rgba(255, 255, 255, .5); }
 .home-reassurance .home-doctor-actions p { color: rgba(28, 27, 24, .72); }
@@ -3551,7 +3362,6 @@ header.site .minimal-nav .btn,
 .home-reassurance-heading h2 { max-width: none; font-size: clamp(2.35rem, 4vw, 4rem); }
 .home-reassurance-layout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(2rem, 6vw, 5.5rem); align-items: stretch; }
 .home-featured-ba { width: 100%; aspect-ratio: 1.8 / 1; }
-/* Polish 06: the doctor card gradient softens toward ivory; panels size to their content. */
 .home-doctor-feature { position: relative; display: grid; height: clamp(380px, 30vw, 440px); min-height: 0; overflow: hidden; isolation: isolate; color: var(--ivory); background: linear-gradient(180deg, #f4eddf 0%, #c9ad78 100%); }
 .home-doctor-feature img { width: 100%; height: 100%; min-height: 0; object-fit: cover; object-position: 50% 0; transition: transform .7s ease; }
 .home-doctor-feature > span { position: absolute; right: 0; bottom: 0; left: 0; display: flex; flex-direction: column; padding: 1.4rem 1.6rem; background: rgba(10,10,10,.94); }
@@ -3608,7 +3418,6 @@ header.site .minimal-nav .btn,
 .home-review-arrow[data-review-next]:hover { transform: translateX(2px); }
 .home-reviews-panel > .home-text-link { align-self: flex-start; margin-top: .25rem; }
 @keyframes home-review-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
 .home-care { padding-top: clamp(4rem, 8vh, 6.5rem); color: var(--ivory); }
 .home-care .home-section-head p:last-child { color: var(--mist); }
 .home-care .ask-row { border-top-color: var(--line-dark); }
@@ -3623,7 +3432,6 @@ header.site .minimal-nav .btn,
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
 }
-/* Polish 05: cards read as photographs; the overlay starts at 40% and a hairline frame lifts on hover. */
 .home-intent-card {
   position: relative;
   height: clamp(230px, 19vw, 270px);
@@ -3688,7 +3496,6 @@ header.site .minimal-nav .btn,
 .home-intent-card:focus-visible img { transform: scale(1.035); filter: saturate(.95) contrast(1.04); }
 .home-intent-card:hover::after,
 .home-intent-card:focus-visible::after { background: linear-gradient(180deg, rgba(10,10,11,0) 40%, rgba(10,10,11,.8) 100%); }
-
 .home-next {
   display: inline-flex;
   min-height: 44px;
@@ -3766,7 +3573,6 @@ header.site .minimal-nav .btn,
   gap: 1rem;
   align-items: stretch;
 }
-/* Polish 04: the offer card takes its height from its content, so Visit arrives one screen sooner. */
 .home-offer-card {
   display: flex;
   min-height: 0;
@@ -3801,9 +3607,7 @@ header.site .minimal-nav .btn,
 @media (max-width: 700px) {
   .home-offers-grid { grid-template-columns: minmax(0, 1fr); }
 }
-
 .home-visit { background: radial-gradient(circle at 14% 50%, rgba(198,161,91,.1), transparent 38%), var(--ivory); color: var(--ink); }
-/* Polish 07: the office photo becomes the wayfinding image beside the hours. */
 .home-visit-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: clamp(3rem, 9vw, 8rem); align-items: start; }
 .home-visit h2 { max-width: 13ch; font-size: clamp(2.4rem, 4.4vw, 4.2rem); }
 .home-visit-grid > div:first-child > p:not(.eyebrow) { max-width: 48ch; margin-top: 1.25rem; color: rgba(28, 27, 24, .72); }
@@ -3815,7 +3619,6 @@ header.site .minimal-nav .btn,
 .home-hours dl > div { display: flex; justify-content: space-between; gap: 1rem; padding: .65rem 0; border-top: 1px solid var(--line-light); }
 .home-hours dt, .home-hours dd { font-size: .92rem; font-weight: 300; }
 .home-hours dd { color: var(--gold-deep); }
-
 @media (max-width: 1127px) {
   .home-philosophy { min-height: 0; }
   .home-philosophy-grid { width: 100%; grid-template-columns: 1fr; }
@@ -3842,14 +3645,12 @@ header.site .minimal-nav .btn,
     background-position: center bottom;
   }
 }
-
 @media (min-width: 1128px) {
   .home-philosophy .home-section-eyebrow > span {
     min-width: max-content;
     white-space: nowrap;
   }
 }
-
 @media (min-width: 1128px) {
   .home-results-later .home-section-eyebrow {
     width: 100%;
@@ -3861,14 +3662,12 @@ header.site .minimal-nav .btn,
     white-space: nowrap;
   }
 }
-
 @media (max-width: 1127px) {
   header.site .menu > li > a,
   header.site .menu > li > .nav-more-toggle { font-size: .9rem; letter-spacing: .1em; }
   .home-reassurance-layout { grid-template-columns: minmax(0, .88fr) minmax(0, 1.12fr); gap: 2rem; }
   .home-tech-grid { grid-template-columns: repeat(2, 1fr); }
 }
-
 @media (max-width: 1024px) {
   header.site .menu > li > a,
   header.site .menu > li > .nav-more-toggle,
@@ -3878,9 +3677,6 @@ header.site .minimal-nav .btn,
     letter-spacing: .1em;
   }
 }
-
-/* Follow the shared hero flow breakpoint: the offer becomes a deliberate bridge
-   whenever the hero itself stops using the desktop overlay composition. */
 @media (max-width: 900px), (max-height: 620px) and (orientation: landscape) {
   .hero-offer-cue {
     position: static;
@@ -3914,7 +3710,6 @@ header.site .minimal-nav .btn,
   }
   .hero-offer-cue b { justify-self: end; }
 }
-
 @media (max-width: 900px) {
   .home-hero { min-height: 0; }
   .home-hero .hero-inner { padding-block: 2.8rem; }
@@ -3941,7 +3736,6 @@ header.site .minimal-nav .btn,
   .home-tech-card.tech-card { min-height: 250px; }
   .home-hours { padding: 0; border-top: 1px solid var(--line-light); border-left: 0; }
 }
-
 @media (max-width: 560px) {
   .emergency-utility .wrap { min-height: 42px; justify-content: center; gap: .55rem; font-size: .68rem; letter-spacing: .08em; }
   .emergency-utility a { min-height: 42px; padding-left: .55rem; }
@@ -3978,9 +3772,6 @@ header.site .minimal-nav .btn,
   .home-visit-actions .btn { width: 100%; text-align: center; }
   .home-hours dl > div { align-items: flex-start; flex-direction: column; gap: .1rem; }
 }
-
-/* Short landscape home hero: use a shallow image-backed panel so the message
-   and appointment actions remain in the first viewport on rotating phones. */
 @media (max-width: 1024px) and (max-height: 620px) and (orientation: landscape) {
   .home-hero {
     --home-short-hero-h: clamp(200px, calc(100svh - var(--head-h, 117px)), 300px);
@@ -4037,38 +3828,24 @@ header.site .minimal-nav .btn,
     padding: .7rem 1.1rem;
   }
 }
-
 @media (max-width: 760px) and (max-height: 620px) and (orientation: landscape) {
-  /* The in-hero CTA replaces the fixed duplicate while the compact hero is
-     visible, leaving the offer and proof rows unobstructed below it. */
   body:has(.home-hero) { padding-bottom: 0; }
   body:has(.home-hero) .mobile-actions { display: none; }
 }
-
-
 @media (min-width: 901px) {
   .home-reassurance-heading h2 { white-space: nowrap; }
 }
-
 @media (hover: none) {
   .home-intent-card:hover,
   .home-tech-card.tech-card:hover { transform: none; box-shadow: none; }
   .home-intent-card:hover img,
   .home-tech-card:hover img { transform: none; }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .home-intent-card img,
   .home-tech-card img,
   .home-page .home-text-link span { transition: none; }
 }
-
-/* ============================================================
-   Appointment request drawer ("Consultation Concierge") and the
-   contextual request entry points that open it.
-   ============================================================ */
-
-/* ---------- Drawer shell ---------- */
 .inquiry {
   position: fixed;
   inset: 0;
@@ -4098,8 +3875,6 @@ header.site .minimal-nav .btn,
 .inquiry-panel:focus { outline: none; }
 @keyframes inquiry-slide { from { transform: translateX(6%); opacity: 0; } }
 @keyframes inquiry-fade { from { opacity: 0; } }
-
-/* Polish 08: on the Contact page the same form renders in place, not as an overlay. */
 .inquiry-inline {
   position: static;
   inset: auto;
@@ -4117,7 +3892,6 @@ header.site .minimal-nav .btn,
   animation: none;
 }
 .inquiry-inline .inquiry-head { padding-right: 0; }
-
 .inquiry-close {
   position: absolute;
   top: 1rem;
@@ -4135,8 +3909,6 @@ header.site .minimal-nav .btn,
 }
 .inquiry-close:hover,
 .inquiry-close:focus-visible { border-color: var(--gold-deep); color: var(--gold-deep); }
-
-/* ---------- Header ---------- */
 .inquiry-head { padding-right: 3rem; margin-bottom: 1.6rem; }
 .inquiry-kicker {
   font-family: var(--serif);
@@ -4148,8 +3920,6 @@ header.site .minimal-nav .btn,
 }
 .inquiry-head h2 { font-size: clamp(1.7rem, 3vw, 2.2rem); margin-bottom: 0.7rem; }
 .inquiry-intro { color: rgba(28, 27, 24, 0.74); font-size: 0.95rem; max-width: 40ch; }
-
-/* Live office status: a small dot that turns gold while the office is open. */
 .inquiry-office,
 .office-status {
   display: inline-flex;
@@ -4179,8 +3949,6 @@ header.site .minimal-nav .btn,
 }
 .sec-noir .office-status { color: rgba(247, 244, 238, 0.72); }
 .sec-noir .office-status[data-office-open="true"]::before { background: var(--gold-pale); border-color: var(--gold-pale); }
-
-/* ---------- Progress ---------- */
 .inquiry-progress {
   display: flex;
   align-items: center;
@@ -4202,8 +3970,6 @@ header.site .minimal-nav .btn,
   transition: background 0.3s var(--ease);
 }
 .inquiry-progress-bars i.is-done { background: var(--gold-deep); }
-
-/* ---------- Selection summary ---------- */
 .inquiry-summary {
   display: flex;
   flex-wrap: wrap;
@@ -4240,8 +4006,6 @@ header.site .minimal-nav .btn,
 }
 .inquiry-summary button:hover,
 .inquiry-summary button:focus-visible { border-color: var(--gold-deep); }
-
-/* ---------- Steps ---------- */
 .inquiry-step { border: 0; padding: 0; margin: 0; min-width: 0; }
 .inquiry-step.is-entering { animation: inquiry-step-in 0.35s var(--ease); }
 @keyframes inquiry-step-in { from { opacity: 0; transform: translateY(8px); } }
@@ -4256,8 +4020,6 @@ header.site .minimal-nav .btn,
 }
 .inquiry-question-secondary { margin-top: 1.6rem; }
 .inquiry-help { color: rgba(28, 27, 24, 0.62); font-size: 0.86rem; margin-bottom: 1rem; }
-
-/* Treatment and preference choices render as tappable chips. */
 .inquiry-choices { display: grid; gap: 0.6rem; }
 .inquiry-choices-pair { grid-template-columns: 1fr 1fr; }
 .inquiry-choices-row { grid-template-columns: repeat(3, 1fr); }
@@ -4307,8 +4069,6 @@ header.site .minimal-nav .btn,
 }
 .inquiry-chip input:checked + span::after { transform: translateY(-65%) rotate(45deg) scale(1); }
 .inquiry-chip input:focus-visible + span { outline: 2px solid var(--gold-deep); outline-offset: 3px; }
-
-/* Yes/No pills reuse the chip mechanics at a smaller scale. */
 .inquiry-pills-field { gap: 0.7rem; }
 .inquiry-pills-label { font-size: 0.66rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold-deep); }
 .inquiry-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
@@ -4326,7 +4086,6 @@ header.site .minimal-nav .btn,
 }
 .inquiry-pill input:checked + span { border-color: var(--gold-deep); background: rgba(198, 161, 91, 0.14); }
 .inquiry-pill input:focus-visible + span { outline: 2px solid var(--gold-deep); outline-offset: 3px; }
-
 .inquiry-grid { gap: 1.1rem 1.2rem; }
 .inquiry .field input,
 .inquiry .field textarea { font-size: 1rem; }
@@ -4337,7 +4096,6 @@ header.site .minimal-nav .btn,
 .inquiry .field textarea { min-height: 96px; }
 .inquiry-label-note,
 .inquiry .field label span { letter-spacing: 0.12em; color: rgba(28, 27, 24, 0.5); }
-
 .inquiry-field-error {
   margin: -0.15rem 0 0;
   color: #9a3b26;
@@ -4359,8 +4117,6 @@ header.site .minimal-nav .btn,
 .inquiry .form-status { margin: 0.6rem 0 0; max-width: none; text-align: left; color: var(--gold-deep); }
 .inquiry .form-status:empty { display: none; }
 .inquiry .form-status[data-state="error"] { color: #9a3b26; }
-
-/* ---------- Actions ---------- */
 .inquiry-actions {
   display: flex;
   align-items: center;
@@ -4378,8 +4134,6 @@ header.site .minimal-nav .btn,
   justify-content: center;
   text-align: center;
 }
-/* The explicit display above would otherwise outrank the hidden attribute the
-   step script toggles, showing Continue and Send Request together. */
 .inquiry-actions .btn[hidden] { display: none; }
 .inquiry-back {
   margin-right: auto;
@@ -4403,21 +4157,14 @@ header.site .minimal-nav .btn,
   color: rgba(28, 27, 24, 0.62);
 }
 .inquiry-alt a { color: var(--gold-deep); border-bottom: 1px solid currentColor; }
-
-/* ---------- Success ---------- */
 .inquiry-success { padding-top: 0.5rem; }
 .inquiry-success:focus { outline: none; }
 .inquiry-success h3 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 0.9rem; }
 .inquiry-success p:not(.inquiry-kicker) { color: rgba(28, 27, 24, 0.74); max-width: 44ch; }
 .inquiry-success-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.8rem; }
-
-/* ---------- Page state while open ---------- */
 body.inquiry-open { overflow: hidden; }
 body.inquiry-open .consent-banner,
 body.inquiry-open .mobile-actions { display: none; }
-
-/* Without JavaScript the fragment link on the contact page still reveals the
-   full form, and the browser posts it directly to the Worker. */
 @media (scripting: none) {
   .inquiry:target { display: block; }
   .inquiry:target .inquiry-step[hidden],
@@ -4433,8 +4180,6 @@ body.inquiry-open .mobile-actions { display: none; }
   body:has(.inquiry:target:not(.inquiry-inline)) { overflow: hidden; }
   body:has(.inquiry:target:not(.inquiry-inline)) .mobile-actions { display: none; }
 }
-
-/* ---------- Responsive ---------- */
 @media (max-width: 760px) {
   .inquiry-panel {
     width: 100%;
@@ -4460,12 +4205,6 @@ body.inquiry-open .mobile-actions { display: none; }
   .inquiry-panel,
   .inquiry-step.is-entering { animation: none; }
 }
-
-/* ============================================================
-   Contextual request entry points
-   ============================================================ */
-
-/* "Ask about" chips: a direct route for visitors who already know what they want. */
 .ask-row {
   display: flex;
   flex-wrap: wrap;
@@ -4504,8 +4243,6 @@ body.inquiry-open .mobile-actions { display: none; }
 .ask-chip:focus-visible { border-color: var(--gold-deep); background: rgba(198, 161, 91, 0.12); }
 .ask-chip:hover::after,
 .ask-chip:focus-visible::after { transform: translateX(0.2rem); }
-
-/* Shared two-button contextual action rows. */
 .context-actions {
   display: flex;
   flex-wrap: wrap;
@@ -4520,8 +4257,6 @@ body.inquiry-open .mobile-actions { display: none; }
   text-align: center;
   white-space: nowrap;
 }
-
-/* Dr. Patel column: the feature card plus a direct line beneath it. */
 .home-doctor-column { display: flex; flex-direction: column; gap: 1rem; }
 .home-doctor-column .home-doctor-feature { flex: none; }
 .home-doctor-actions {
@@ -4535,8 +4270,6 @@ body.inquiry-open .mobile-actions { display: none; }
 .home-doctor-actions .context-actions .btn { flex: 1 1 12rem; }
 .home-reassurance-layout { align-items: stretch; }
 .home-reassurance-layout .home-reviews-panel { height: auto; min-height: 0; }
-
-/* Implant special: codes fold away, the offer leads with a conversation. */
 .home-offer-details {
   width: 100%;
   max-width: 58ch;
@@ -4593,8 +4326,6 @@ body.inquiry-open .mobile-actions { display: none; }
 .home-offer-card .home-implant-actions .home-text-link { color: var(--gold-pale); flex-basis: 100%; justify-content: center; }
 .home-offer-card--side .home-implant-actions { flex-direction: column; flex-wrap: nowrap; align-items: stretch; width: 100%; }
 .home-offer-card--side .home-implant-actions .btn { text-align: center; }
-
-/* Technology: one consultation line per group instead of a button per card. */
 .home-tech-action {
   display: flex;
   flex-wrap: wrap;
@@ -4607,19 +4338,13 @@ body.inquiry-open .mobile-actions { display: none; }
   background: rgba(255, 255, 255, 0.4);
 }
 .home-tech-action p { margin: 0; font-size: 0.95rem !important; color: rgba(28, 27, 24, 0.78); }
-
-/* Before/after: a soft prompt beneath the result. */
 .home-result-prompt {
   margin-top: 1.8rem;
   padding-top: 1.4rem;
   border-top: 1px solid var(--line-dark);
 }
 .home-result-prompt p { color: var(--mist); font-size: 0.95rem !important; margin-bottom: 1rem; }
-
-/* Final homepage CTA hours block gains the live status line. */
 .home-hours .office-status { margin-top: 1rem; color: rgba(28, 27, 24, 0.62); }
-
-/* ---------- Contact page (Polish 08: the form is on the page, beside the practical details) ---------- */
 .contact-concierge .center-head { margin-bottom: 2rem; }
 .contact-concierge .center-head p:last-child { max-width: 56ch; margin-inline: auto; }
 .concierge-panel {
@@ -4657,7 +4382,6 @@ body.inquiry-open .mobile-actions { display: none; }
   color: var(--gold);
 }
 .concierge-note { margin-top: 0.4rem; color: var(--mist); font-size: 0.8rem; line-height: 1.55; }
-
 @media (max-width: 900px) {
   .concierge-panel { grid-template-columns: 1fr; }
   .concierge-panel .inquiry-inline { order: -1; }
@@ -4677,8 +4401,6 @@ body.inquiry-open .mobile-actions { display: none; }
   .home-offer-card .home-implant-actions .home-text-link { flex-basis: auto; width: 100%; }
   .home-result-prompt .context-actions { display: grid; }
 }
-
-/* Treatment pages use the established article, button, and color system. */
 a.svc-card { display: block; text-decoration: none; }
 .treatment-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
 .treatment-page .crumb { display: flex; flex-wrap: wrap; align-items: baseline; }
@@ -4694,28 +4416,20 @@ a.svc-card { display: block; text-decoration: none; }
 .treatment-aside p + p { margin-top: 0.8rem; }
 .treatment-page a:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
 .article-meta a { color: inherit; text-underline-offset: 0.2em; }
-
-/* Keep original image layout when a modern-format source is available. */
 picture { display: contents; }
-
 PRINT STYLESHEET — clean output, nothing cut off
    ============================================================ */
 @media print {
   @page { size: letter portrait; margin: 0.75in 0.7in; }
-
   html, body {
     background: #fff !important;
     color: #000 !important;
     font-size: 11pt;
     overflow: visible !important;
   }
-
-  /* Hide all chrome */
   header.site, footer.site, .care-nav, .aesthetic-nav, .download-bar,
   .care-dl, .burger, .menu, .band, .btn, .svcmodal, .marquee,
   .hero-strip, .quote-nav, form, .inquiry, .mobile-actions { display: none !important; }
-
-  /* Neutralize theme backgrounds */
   section, .sec, .sec-noir, .sec-ivory, .care-block,
   .care-block:nth-of-type(even), .care-row, .care-pre {
     background: #fff !important;
@@ -4723,8 +4437,6 @@ PRINT STYLESHEET — clean output, nothing cut off
     border-color: #bbb !important;
     box-shadow: none !important;
   }
-
-  /* Reveal animations must not hide content when printing */
   .rv, .rv-img, .rv-line, .view {
     opacity: 1 !important;
     transform: none !important;
@@ -4733,17 +4445,13 @@ PRINT STYLESHEET — clean output, nothing cut off
     animation: none !important;
     transition: none !important;
   }
-
   h1, h2, h3, .care-label, .eyebrow, .care-post-title, .care-pre h3 {
     color: #000 !important;
     break-after: avoid;
     page-break-after: avoid;
   }
   .eyebrow::before, .eyebrow::after { background: #999 !important; }
-
   p, li { color: #222 !important; orphans: 3; widows: 3; }
-
-  /* Keep each instruction card intact across page breaks */
   .care-row, .care-pre, .expect-row {
     break-inside: avoid;
     page-break-inside: avoid;
@@ -4755,8 +4463,6 @@ PRINT STYLESHEET — clean output, nothing cut off
     display: block !important;
     border: none !important;
   }
-
-  /* Each procedure starts a fresh page */
   .care-block {
     break-before: page;
     page-break-before: always;
@@ -4764,21 +4470,14 @@ PRINT STYLESHEET — clean output, nothing cut off
     border: none !important;
   }
   .care-block:first-of-type { break-before: avoid; page-break-before: avoid; }
-
   .page-hero, .page-hero-center { padding: 0 0 12pt !important; }
   .page-hero-center::before { display: none !important; }
   .crumb { display: none !important; }
-
   a { color: #000 !important; text-decoration: none !important; }
   a[href^="tel:"]::after { content: " (" attr(href) ")"; font-size: 9pt; }
-
   img { max-width: 100% !important; break-inside: avoid; }
   .wrap, .wrap-narrow { width: 100% !important; max-width: none !important; }
 }
-
-
-/* ---------- Care page: grouped nav + dividers ---------- */
-
 .care-nav { padding-block: 0.7rem; }
 .care-nav .wrap { flex-direction: column; gap: 0.7rem; align-items: center; }
 .care-nav-group {
@@ -4813,9 +4512,6 @@ PRINT STYLESHEET — clean output, nothing cut off
 @media (max-width: 700px) {
   .cng-label { border-right: none; padding-right: 0; width: 100%; }
 }
-
-
-/* ---------- In-Office Savings Plan ---------- */
 .plan-section {
   border-top: 1px solid var(--line-light);
   background: var(--ivory-deep);
@@ -4935,8 +4631,6 @@ PRINT STYLESHEET — clean output, nothing cut off
   .plan-card { padding: 2.6rem 1.8rem 2.2rem; }
   .plan-flag { right: 1.8rem; }
 }
-
-/* Shared card language: one border, lift, and hover accent across the site. */
 .svc-card,
 .tech-card,
 .offer,
@@ -4954,8 +4648,6 @@ PRINT STYLESHEET — clean output, nothing cut off
   transform: translateY(-4px);
   border-color: var(--gold);
 }
-
-/* ---------- Production essentials ---------- */
 .skip-link {
   position: fixed;
   left: 1rem;
@@ -5004,7 +4696,7 @@ PRINT STYLESHEET — clean output, nothing cut off
     text-align: center;
     white-space: nowrap;
   }
-  .mobile-actions a + a { background: var(--gold-deep); color: var(--noir); }
+  .mobile-actions a + a { background: var(--gold); color: var(--noir); font-weight: 500; }
   body.menu-open,
   body.modal-open,
   body.inquiry-open { padding-bottom: 0; }
@@ -5012,15 +4704,12 @@ PRINT STYLESHEET — clean output, nothing cut off
   body.modal-open .mobile-actions,
   body.inquiry-open .mobile-actions { display: none; }
 }
-
 @supports selector(body:has(*)) {
   @media (max-width: 760px) {
     body:has(.menu.open) { padding-bottom: 0; }
     body:has(.menu.open) .mobile-actions { display: none; }
   }
 }
-
-/* ---------- Constrained modal surfaces ---------- */
 .svcmodal .modal-actions {
   align-items: stretch;
 }
@@ -5036,7 +4725,6 @@ PRINT STYLESHEET — clean output, nothing cut off
   text-align: center;
   white-space: normal;
 }
-
 @media (max-width: 1024px) {
   .svcmodal .panel {
     display: block;
@@ -5062,7 +4750,6 @@ PRINT STYLESHEET — clean output, nothing cut off
     border-top: 1px solid var(--line-light);
   }
 }
-
 @media (max-width: 560px) {
   .svcmodal .content { padding: 1.25rem 1.3rem 0; }
   .svcmodal .modal-actions {
@@ -5074,7 +4761,6 @@ PRINT STYLESHEET — clean output, nothing cut off
     width: 100%;
   }
 }
-
 @media (max-width: 1024px) and (max-height: 620px) and (orientation: landscape) {
   .svcmodal .panel {
     max-height: calc(100vh - 1rem);
@@ -5095,8 +4781,6 @@ PRINT STYLESHEET — clean output, nothing cut off
     padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
   }
 }
-
-/* ---------- Recurring control hit areas ---------- */
 .brand,
 .emergency-utility a,
 .page-hero .crumb a,
@@ -5129,12 +4813,10 @@ PRINT STYLESHEET — clean output, nothing cut off
   justify-content: center;
 }
 .consent-settings { padding-block: 0.65rem; }
-
 @media (max-width: 560px) {
   .home-review-controls { grid-template-columns: 44px minmax(0, 1fr) 44px; }
   .home-review-arrow { width: 44px; }
 }
-
 .u-inline-001{justify-content:center}
 .u-inline-002{margin-top:5rem}
 .u-inline-003{text-align:center;margin-top:2rem;color:rgba(28,27,24,0.72);font-size:0.9rem}
@@ -5167,12 +4849,10 @@ PRINT STYLESHEET — clean output, nothing cut off
 .u-inline-032{border-color:var(--gold-deep);color:var(--gold-deep)}
 .u-inline-033{border-color:var(--line-light);color:rgba(28,27,24,0.6)}
 .u-inline-034{padding:0.7rem 1.6rem}
-
 .consent-banner,
 .consent-settings {
   font-family: var(--sans);
 }
-
 .consent-banner {
   position: fixed;
   right: 1rem;
@@ -5187,31 +4867,26 @@ PRINT STYLESHEET — clean output, nothing cut off
   border: 1px solid var(--gold);
   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
 }
-
 .consent-banner[hidden],
 .consent-settings[hidden] {
   display: none;
 }
-
 .consent-banner h2 {
   margin-bottom: 0.4rem;
   color: var(--ivory);
   font-size: 1.15rem;
 }
-
 .consent-banner p {
   color: var(--mist);
   font-size: 0.76rem;
   line-height: 1.45;
 }
-
 .consent-banner__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.7rem;
   margin-top: 0.85rem;
 }
-
 .consent-banner .btn,
 .consent-button {
   font-family: var(--sans);
@@ -5219,11 +4894,9 @@ PRINT STYLESHEET — clean output, nothing cut off
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
-
 .consent-banner .btn {
   padding: 0.65rem 0.85rem;
 }
-
 .consent-button,
 .consent-settings {
   appearance: none;
@@ -5232,11 +4905,9 @@ PRINT STYLESHEET — clean output, nothing cut off
   color: var(--gold);
   cursor: pointer;
 }
-
 .consent-button {
   padding: 0.65rem 0.85rem;
 }
-
 .consent-button:hover,
 .consent-button:focus-visible,
 .consent-settings:hover,
@@ -5244,7 +4915,6 @@ PRINT STYLESHEET — clean output, nothing cut off
   background: var(--gold);
   color: var(--noir);
 }
-
 .consent-settings {
   padding: 0.35rem 0.55rem;
   font-size: 0.58rem;
@@ -5253,7 +4923,6 @@ PRINT STYLESHEET — clean output, nothing cut off
   box-shadow: none;
   white-space: nowrap;
 }
-
 .foot-legal__actions {
   display: flex;
   align-items: center;
@@ -5261,7 +4930,6 @@ PRINT STYLESHEET — clean output, nothing cut off
   gap: 1.5rem;
   margin-left: auto;
 }
-
 @media (max-width: 760px) {
   .consent-banner {
     right: 1rem;
@@ -5280,7 +4948,6 @@ PRINT STYLESHEET — clean output, nothing cut off
     padding-inline: 0.45rem;
     letter-spacing: 0.11em;
   }
-
   .foot-legal__actions {
     width: 100%;
     gap: 0.75rem;

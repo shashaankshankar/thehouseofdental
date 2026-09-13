@@ -12,14 +12,14 @@ export function imageOptimizer(output) {
     if (!cache.has(normalized)) cache.set(normalized, (async () => {
       const input = await readFile(join(output, normalized));
       const metadata = await sharp(input).metadata();
-      const hash = createHash("sha256").update(input).update("webp-v1-q82").digest("hex").slice(0, 12);
+      const hash = createHash("sha256").update(input).update("webp-v2-q80").digest("hex").slice(0, 12);
       const stem = basename(normalized).replace(/\.[^.]+$/, "");
-      const widths = [...new Set([480, 960, 1440, Math.min(2560, metadata.width)].filter((w) => w <= metadata.width))].sort((a,b) => a-b);
+      const widths = [...new Set([480, 720, 960, 1440, Math.min(2560, metadata.width)].filter((w) => w <= metadata.width))].sort((a,b) => a-b);
       if (!widths.length) widths.push(metadata.width);
       const sources = [];
       for (const width of widths) {
         const file = `/assets/optimized/${stem}-${hash}-${width}.webp`;
-        const buffer = await sharp(input).resize({ width, withoutEnlargement: true }).webp({ quality: 82 }).toBuffer();
+        const buffer = await sharp(input).resize({ width, withoutEnlargement: true }).webp({ quality: 80 }).toBuffer();
         const outputPath = join(output, file.slice(1));
         await mkdir(dirname(outputPath), { recursive: true });
         try {
@@ -50,7 +50,14 @@ export function imageOptimizer(output) {
       if (!data) continue;
       let fallback = tag;
       if (!/\swidth=/.test(fallback)) fallback = fallback.replace("<img", `<img width="${data.width}" height="${data.height}"`);
-      const sizes = tag.includes("card.jpg") ? "(max-width: 600px) 90vw, (max-width: 1000px) 45vw, 360px" : "(max-width: 600px) 100vw, (max-width: 1000px) 90vw, 1100px";
+      const existingSizes = tag.match(/\ssizes="([^"]+)"/)?.[1];
+      const isCard = tag.includes("card") || tag.includes("service-") || tag.includes("hydroderm-") || tag.includes("ba-");
+      const isDoctorCutout = src.includes("dr-patel-home-cutout");
+      const sizes = existingSizes || (
+        isDoctorCutout ? "(max-width: 900px) 90vw, 520px" :
+        isCard ? "(max-width: 600px) 90vw, (max-width: 1000px) 45vw, 390px" :
+        "(max-width: 600px) 100vw, (max-width: 1000px) 90vw, 1100px"
+      );
       const srcset = data.sources.map(({file,width}) => `${file} ${width}w`).join(", ");
       markup = markup.replaceAll(tag, `<picture><source type="image/webp" srcset="${srcset}" sizes="${sizes}">${fallback}</picture>`);
     }
@@ -59,7 +66,11 @@ export function imageOptimizer(output) {
   async function css(styles) {
     for (const match of [...styles.matchAll(/url\(["']?(\/?assets\/[^)"']+\.(?:png|jpe?g))["']?\)/g)]) {
       const data = await variants(match[1]);
-      if (data) styles = styles.replaceAll(match[0], `image-set(url("${(data.sources.find((item) => item.width >= 960) || data.sources.at(-1)).file}") 1x, url("${data.sources.at(-1).file}") 2x)`);
+      if (data) {
+        const x1 = (data.sources.find((item) => item.width >= 720) || data.sources[0]).file;
+        const x2 = (data.sources.find((item) => item.width >= 960 && item.width <= 1440) || data.sources.at(-1)).file;
+        styles = styles.replaceAll(match[0], `image-set(url("${x1}") 1x, url("${x2}") 2x)`);
+      }
     }
     return styles;
   }

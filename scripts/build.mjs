@@ -92,12 +92,17 @@ await mkdir(join(output, "assets/optimized"), { recursive: true });
 await copyPublicTree(join(source, "assets"), join(output, "assets"));
 for (const file of await readdir(join(source, "static"))) await cp(join(source, "static", file), join(output, file));
 
+const stripCssComments = (code) => code.replace(/\/\*(?![\s\S]*?border-bottom: 1px solid var\(--gold-deep\))[\s\S]*?\*\//g, "").replace(/\n\s*\n+/g, "\n").trim();
+const stripJsComments = (code) => code.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^[ \t]*\/\/[^\n]*$/gm, "").replace(/\n\s*\n+/g, "\n").trim();
+
 const styles = (await readdir(join(source, "styles"))).filter((file) => file.endsWith(".css")).sort();
 const styleSources = await Promise.all(styles.map(async (file) => (await read(join(source, "styles", file))).trimEnd()));
-await writeFile(join(output, "styles.css"), await optimize.css(`${styleSources.join("\n\n")}\n`));
+const bundledCss = stripCssComments(await optimize.css(`${styleSources.join("\n\n")}\n`));
+await writeFile(join(output, "styles.css"), `${bundledCss}\n`);
 const scripts = (await readdir(join(source, "scripts"))).filter((file) => file.endsWith(".js")).sort();
 const scriptSources = await Promise.all(scripts.map(async (file) => (await read(join(source, "scripts", file))).trimEnd()));
-await writeFile(join(output, "main.js"), `const __SITE_DETAIL_DATA = ${JSON.stringify({ technology })};\nconst __SITE_ANALYTICS = ${JSON.stringify(analytics)};\nconst __SITE_REPUTATION = ${JSON.stringify(reputation)};\n\n${scriptSources.join("\n\n")}\n`);
+const rawJs = `const __SITE_DETAIL_DATA = ${JSON.stringify({ technology })};\nconst __SITE_ANALYTICS = ${JSON.stringify(analytics)};\nconst __SITE_REPUTATION = ${JSON.stringify(reputation)};\n\n${scriptSources.join("\n\n")}\n`;
+await writeFile(join(output, "main.js"), `${stripJsComments(rawJs)}\n`);
 
 const mobileActions = decorateAnalyticsAttributes('<nav class="mobile-actions" aria-label="Quick contact"><a href="tel:+14076781400">Call (407) 678-1400</a><a href="/contact#request">Request Visit</a></nav>');
 // The appointment request drawer ships with every full-shell page so contextual
@@ -221,7 +226,7 @@ const renderDocument = (page, content, options = {}) => {
   const author = page.author ? `<meta name="author" content="${escapeAttribute(page.author)}">` : "";
   const schemaData = options.schemaData ?? (page.schema === false ? null : page.shell === "full" ? { "@context": "https://schema.org", "@graph": [structuredData, { "@type": "WebPage", "@id": `${canonicalUrl}#webpage`, url: canonicalUrl, name: page.title, description: page.description, about: { "@id": structuredData["@id"] }, primaryImageOfPage: { "@type": "ImageObject", url: options.socialImage, caption: options.socialImageAlt } }] } : null);
   const schema = schemaData ? `<script type="application/ld+json">${JSON.stringify(schemaData).replaceAll("<", "\\u003c")}</script>` : "";
-  const fonts = "";
+  const fonts = '<link rel="preload" href="/assets/fonts/7726a5cd6f3c0e87.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/assets/fonts/8a539799d12e3a14.woff2" as="font" type="font/woff2" crossorigin>';
   const drawer = page.shell === "full" && !options.inlineInquiry ? inquiryDrawer : "";
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0a0a0b"><title>${escapeText(page.title)}</title>${keywords}${social}${geo}${description}<meta name="robots" content="${escapeAttribute(page.robots)}">${canonical}${author}${schema}${fonts}<link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16 32x32 48x48"><link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96"><link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180"><link rel="stylesheet" href="/styles.css"></head><body><a class="skip-link" href="#main-content">Skip to main content</a>${shell.header}${content}${shell.footer}${mobileActions}${drawer}<script src="/main.js" defer></script></body></html>`;

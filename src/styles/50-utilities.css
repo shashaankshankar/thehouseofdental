@@ -223,7 +223,7 @@
     text-align: center;
     white-space: nowrap;
   }
-  .mobile-actions a + a { background: var(--gold-deep); color: var(--noir); }
+  .mobile-actions a + a { background: var(--gold); color: var(--noir); font-weight: 500; }
   body.menu-open,
   body.modal-open,
   body.inquiry-open { padding-bottom: 0; }

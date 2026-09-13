@@ -1,16 +1,21 @@
 const __SITE_DETAIL_DATA = {"technology":{"cerec":{"cat":"Chairside Milling","title":"CEREC® Same-Day Crowns","img":"assets/technology-cerec.jpg","paras":["CEREC lets us design, mill, and place a permanent ceramic crown in a single appointment. A digital scan of your tooth becomes a 3D model on screen, and our in-office milling unit carves the restoration from a solid block of ceramic while you wait.","For suitable teeth, this can avoid a temporary crown and a separate laboratory visit. The tooth condition and treatment plan determine whether a same-day restoration is appropriate."],"soon":false},"ct-scan":{"cat":"3D Imaging","title":"CT Scan (Cone Beam)","img":"assets/technology-ct-scan-v2.jpg","paras":["Our cone beam CT scanner captures a complete three-dimensional view of your teeth, jaw, nerves, and sinuses in a single rotation — detail a traditional two-dimensional X-ray simply cannot show.","This is what makes guided implant surgery possible. Dr. Patel can measure bone density and volume, map the exact position of nerves, and plan the precise angle and depth of an implant before ever beginning the procedure. It means fewer surprises, less invasive surgery, and more predictable outcomes."],"soon":false},"digital-scans":{"cat":"Fully Digital","title":"Digital Scans & X-Rays","img":"assets/technology-digital-scans.jpg","paras":["We replaced messy impression trays with a handheld intraoral scanner that builds a precise digital model of your mouth in minutes — more comfortable, more accurate, and instantly viewable on screen.","Our digital radiographs use significantly less radiation than traditional film X-rays and appear immediately, so Dr. Patel can show you exactly what he's seeing and explain it in real time."],"soon":false},"guided-surgery":{"cat":"Implantology","title":"Computer-Guided Surgery","img":"assets/technology-guided-surgery.jpg","paras":["Using CT data, implant placement is planned digitally down to the millimeter, then executed with a custom surgical guide that directs the placement exactly as planned.","A surgical guide supports the planned placement. Suitability, the extent of surgery, and healing vary by site; guided treatment does not remove surgical risks."],"soon":false},"deka":{"cat":"Laser Aesthetics","title":"DEKA CO2 Facial Resurfacing Laser","img":"assets/technology-deka-co2-v2.jpg","paras":["The House of Dental offers DEKA CO2 facial resurfacing in Winter Park. A consultation considers the skin changes you want to address, your health history, and the recovery involved before recommending treatment.","Redness, swelling, and a period of skin healing are expected considerations. Pigment changes, infection, and scarring are possible risks. Obtain a personal aftercare plan and recovery estimate before scheduling; there is no universal downtime or guaranteed result."],"soon":false},"emage":{"cat":"Diagnostic Imaging","title":"Emage 3D Skin Scanner","img":"assets/technology-emage-3d-v2.jpg","paras":["Emage 3D skin analysis provides images for a conversation about your skin at The House of Dental. It supports aesthetic planning and comparison over time rather than replacing a clinical examination.","The scan may support a discussion of HydroDerm facials, microneedling, or CO2 resurfacing. It does not mean that any particular treatment is required. Repeat imaging can support comparison, but changes should be interpreted alongside your clinical response."],"soon":false},"hydroderm":{"cat":"Signature Treatment","title":"Custom HydroDerm Facials","img":"assets/hydroderm-facial.jpg","paras":["Custom HydroDerm facials at The House of Dental combine cleansing, exfoliation, and hydration. The consultation focuses on your skin concerns, sensitivities, and the products already in your routine.","Skin response varies, and flushing or irritation can occur. Follow the team’s instructions about home products and sun protection. Schedule a first treatment with enough flexibility to see how your skin responds before an important event."],"soon":false},"microneedling":{"cat":"Collagen Induction","title":"Microneedling","img":"assets/technology-microneedling-v2.jpg","paras":["Microneedling creates small punctures in the skin as part of a controlled treatment. At The House of Dental, a skin consultation helps establish whether it is an appropriate option for your concerns.","Temporary redness, irritation, or bleeding may occur; infection and pigment changes are also possible. Suitability requires an individual assessment, including for darker skin tones. Follow your provider’s product and sun-protection instructions rather than adding treatments yourself."],"soon":false}}};
 const __SITE_ANALYTICS = {"provider":"gtag","enabled":true,"measurementId":"G-TC66MQQ0T7","consent":{"mode":"advanced","version":2,"storageKey":"thod-analytics-consent","waitForUpdate":500},"contractVersion":"local_service_v1","routeEligibility":{"version":"local_service_v1","default":"prohibited","routes":{"/":"approved","/about":"approved","/accessibility":"approved","/blog":"approved","/blog/dental-implants-process-benefits-recovery":"approved","/blog/same-day-crowns-vs-traditional-crowns":"approved","/blog/veneers-vs-bonding-vs-whitening":"approved","/blog/clear-aligners-how-they-work":"approved","/blog/gum-disease-signs-treatment-prevention":"approved","/blog/root-canal-what-to-expect":"approved","/blog/sedation-dentistry-types-safety":"approved","/blog/tmj-disorders-symptoms-treatment":"approved","/blog/co2-laser-resurfacing-benefits-recovery":"approved","/blog/microneedling-benefits-process-aftercare":"approved","/contact":"approved","/facial-aesthetics":"approved","/new-patients":"approved","/pre-post-op":"approved","/privacy":"approved","/reviews":"approved","/services":"approved","/terms":"approved","/services/dental-implants":"approved","/services/same-day-crowns":"approved","/services/porcelain-veneers":"approved","/services/invisalign":"approved","/facial-aesthetics/co2-laser-resurfacing":"approved","/facial-aesthetics/microneedling":"approved","/facial-aesthetics/hydroderm-facials":"approved","/facial-aesthetics/3d-skin-analysis":"approved","/services/full-mouth-restoration":"approved","/services/dentures":"approved","/services/root-canal-treatment":"approved","/services/cosmetic-dentistry":"approved","/services/preventive-dentistry":"approved","/services/oral-surgery":"approved","/services/sedation-dentistry":"approved","/services/tmj-treatment":"approved","/services/scaling-root-planing":"approved","/services/quietnite-sleep-appliance":"approved"},"fragments":{"/":["main-content"],"/about":["main-content","dr-patel","team","technologies"],"/accessibility":["main-content"],"/blog":["main-content"],"/blog/dental-implants-process-benefits-recovery":["main-content"],"/blog/same-day-crowns-vs-traditional-crowns":["main-content"],"/blog/veneers-vs-bonding-vs-whitening":["main-content"],"/blog/clear-aligners-how-they-work":["main-content"],"/blog/gum-disease-signs-treatment-prevention":["main-content"],"/blog/root-canal-what-to-expect":["main-content"],"/blog/sedation-dentistry-types-safety":["main-content"],"/blog/tmj-disorders-symptoms-treatment":["main-content"],"/blog/co2-laser-resurfacing-benefits-recovery":["main-content"],"/blog/microneedling-benefits-process-aftercare":["main-content"],"/contact":["main-content","request","book"],"/facial-aesthetics":["main-content","deka-laser","microneedling","emage-scan","hydroderm-facial"],"/new-patients":["main-content","insurance","offers","savings-plan"],"/pre-post-op":["main-content","implants","extractions","crowns","root-canals","srp","veneers","dentures","quietnite","sedation","deka-co2","microneedling","emage-scan","hydroderm"],"/privacy":["main-content"],"/reviews":["main-content"],"/services":["main-content","facial-aesthetics-services","dental-services","implants","crowns","restorative","dentures","root-canals","cosmetic","veneers","preventive","invisalign","oral-surgery","sedation","tmj","srp","quietnite"],"/terms":["main-content"],"/services/dental-implants":["main-content","request","book"],"/services/same-day-crowns":["main-content","request","book"],"/services/porcelain-veneers":["main-content","request","book"],"/services/invisalign":["main-content","request","book"],"/facial-aesthetics/co2-laser-resurfacing":["main-content","request","book"],"/facial-aesthetics/microneedling":["main-content","request","book"],"/facial-aesthetics/hydroderm-facials":["main-content","request","book"],"/facial-aesthetics/3d-skin-analysis":["main-content","request","book"],"/services/full-mouth-restoration":["main-content","request","book"],"/services/dentures":["main-content","request","book"],"/services/root-canal-treatment":["main-content","request","book"],"/services/cosmetic-dentistry":["main-content","request","book"],"/services/preventive-dentistry":["main-content","request","book"],"/services/oral-surgery":["main-content","request","book"],"/services/sedation-dentistry":["main-content","request","book"],"/services/tmj-treatment":["main-content","request","book"],"/services/scaling-root-planing":["main-content","request","book"],"/services/quietnite-sleep-appliance":["main-content","request","book"]}},"attribution":{"mode":"utm_only","allowedQueryParameters":["utm_source","utm_medium","utm_campaign","utm_content","utm_term"]},"eventPolicy":{"allowedEvents":["form_start","form_submit","generate_lead","phone_click","email_click","appointment_request","cta_click","file_download","form_step"],"allowedLocations":["phone_link","email_link","appointment_link","appointment_form","directions_link","hero_scroll","hero_offer","proof_rating","proof_reviews","proof_cerec","proof_doctor","care_selection","care_scroll","offer_scroll","comparison","review_link","financing_link","doctor_link","implant_offer"],"allowedCtaTypes":["appointment","directions","content","proof","service","pricing"],"allowedServiceCategories":["dental","facial_aesthetics"],"allowedFileCategories":["care_guide"],"allowedDownloadCategories":["care_guide"]}};
 const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rating":4.9,"review_count":337}};
-
 (() => {
   document.documentElement.classList.add("reveal-enabled");
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const header = document.querySelector("header.site");
-  const setHeaderHeight = () => header && document.documentElement.style.setProperty("--head-h", `${header.offsetHeight}px`);
-  setHeaderHeight();
-  addEventListener("resize", setHeaderHeight);
-  document.fonts?.ready.then(setHeaderHeight);
-
+  if (header && "ResizeObserver" in window) {
+    new ResizeObserver((entries) => {
+      const entry = entries[0];
+      const height = entry?.borderBoxSize?.[0]?.blockSize ?? entry?.contentRect?.height ?? header.offsetHeight;
+      if (height) document.documentElement.style.setProperty("--head-h", `${Math.round(height)}px`);
+    }).observe(header);
+  } else if (header) {
+    const setHeaderHeight = () => document.documentElement.style.setProperty("--head-h", `${header.offsetHeight}px`);
+    addEventListener("resize", setHeaderHeight, { passive: true });
+    requestAnimationFrame(setHeaderHeight);
+  }
   const reveal = "IntersectionObserver" in window ? new IntersectionObserver((entries) => {
     for (const entry of entries) if (entry.isIntersecting) {
       entry.target.classList.add("in");
@@ -18,25 +23,31 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     }
   }, { threshold: 0.16 }) : null;
   document.querySelectorAll(".rv, .rv-img, .rv-line").forEach((element) => reveal ? reveal.observe(element) : element.classList.add("in"));
-
   const hero = document.querySelector(".hero-bg");
   const heroSection = document.querySelector(".hero");
   const heroStrip = document.querySelector(".hero-strip");
   const heroFlowQuery = "(max-width: 900px), (max-height: 620px) and (orientation: landscape)";
   const heroUsesFlowLayout = () => matchMedia(heroFlowQuery).matches;
-  const syncHeroStripHeight = () => {
-    if (!hero || !heroSection || !heroStrip) return;
-    if (heroUsesFlowLayout()) {
-      heroSection.style.removeProperty("--hero-strip-h");
-      return;
+  if (hero && heroSection && heroStrip) {
+    const syncHeroStrip = (height) => {
+      if (heroUsesFlowLayout()) {
+        heroSection.style.removeProperty("--hero-strip-h");
+      } else if (height) {
+        heroSection.style.setProperty("--hero-strip-h", `${Math.round(height)}px`);
+      }
+    };
+    if ("ResizeObserver" in window) {
+      new ResizeObserver((entries) => {
+        const entry = entries[0];
+        const height = entry?.borderBoxSize?.[0]?.blockSize ?? entry?.contentRect?.height ?? heroStrip.getBoundingClientRect().height;
+        syncHeroStrip(height);
+      }).observe(heroStrip);
+    } else {
+      const sync = () => syncHeroStrip(heroStrip.getBoundingClientRect().height);
+      addEventListener("resize", sync, { passive: true });
+      requestAnimationFrame(sync);
     }
-    heroSection.style.setProperty("--hero-strip-h", `${heroStrip.getBoundingClientRect().height}px`);
-  };
-  syncHeroStripHeight();
-  addEventListener("resize", syncHeroStripHeight, { passive: true });
-  document.fonts?.ready.then(syncHeroStripHeight);
-  if (heroStrip && "ResizeObserver" in window) new ResizeObserver(syncHeroStripHeight).observe(heroStrip);
-
+  }
   if (hero && !reduced) {
     const updateHeroPosition = () => {
       hero.style.transform = heroUsesFlowLayout()
@@ -47,7 +58,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     addEventListener("scroll", updateHeroPosition, { passive: true });
     addEventListener("resize", updateHeroPosition, { passive: true });
   }
-
   const animateCounter = (element) => {
     const target = Number.parseFloat(element.dataset.count);
     if (!Number.isFinite(target)) return;
@@ -70,7 +80,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     }
   }, { threshold: 0.6 }) : null;
   document.querySelectorAll("[data-count]").forEach((counter) => counterObserver ? counterObserver.observe(counter) : animateCounter(counter));
-
   const careBack = document.querySelector('.care-back-to-top');
   if (careBack) {
     const updateCareBack = () => {
@@ -82,7 +91,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     updateCareBack();
     addEventListener('scroll', updateCareBack, { passive: true });
   }
-
   const alignCareHash = () => {
     if (!document.querySelector('.care-block')) return;
     const target = document.getElementById(location.hash.slice(1));
@@ -94,7 +102,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     addEventListener('hashchange', alignCareHash);
   }
 })();
-
 (() => {
   const body = document.body;
   const button = document.querySelector(".burger");
@@ -102,7 +109,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   const mobileNavigation = window.matchMedia("(max-width: 1024px)");
   const hybridNavigation = () => window.matchMedia("(min-width: 1025px) and (max-width: 1365px)").matches;
   const reducedMotion = () => window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches === true;
-
   const isAvailable = (element) => {
     if (!element) return false;
     for (let current = element; current && current !== document.body; current = current.parentElement) {
@@ -118,7 +124,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     catch { element.focus(); }
     return true;
   };
-
   let returnFocus;
   let previousBodyOverflow = null;
   let inerted = [];
@@ -133,7 +138,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     inerted.forEach(({ element, inert }) => { element.inert = inert; });
     inerted = [];
   };
-
   const focusable = () => menu ? [...menu.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])')]
     .filter((element) => !element.disabled && isAvailable(element)) : [];
   const syncMenuAttributes = () => {
@@ -154,7 +158,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   const setMenuOpen = (open, { restoreFocus = false, clearFocus = false } = {}) => {
     if (!button || !menu) return;
     if (open && !mobileNavigation.matches) return;
-
     const wasOpen = menu.classList.contains("open");
     if (open) {
       if (!wasOpen) {
@@ -171,7 +174,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       if (!wasOpen) focusWithoutScroll(focusable()[0]);
       return;
     }
-
     const focusTarget = restoreFocus ? returnFocus : null;
     if (clearFocus) clearMenuFocus();
     button.classList.remove("open");
@@ -187,7 +189,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     returnFocus = null;
     if (focusTarget) focusWithoutScroll(focusTarget);
   };
-
   if (button && menu) {
     setMenuOpen(false);
     button.addEventListener("click", () => setMenuOpen(!menu.classList.contains("open"), { restoreFocus: true }));
@@ -215,7 +216,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       }
     });
   }
-
   const more = document.querySelector("[data-nav-more]");
   const moreToggle = more?.querySelector("[data-nav-more-toggle]");
   const moreDrop = more?.querySelector(".nav-more-panel");
@@ -275,7 +275,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       }
     });
   }
-
   const normalizePath = (path) => {
     const pathname = path.split("#")[0].replace(/\/+$/, "");
     return pathname ? (pathname.startsWith("/") ? pathname : `/${pathname}`) : "/";
@@ -291,7 +290,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     if (active) link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");
   });
-
   const clearStaleNavigationFocus = () => {
     const active = document.activeElement;
     if (!active || active === document.body) return;
@@ -318,12 +316,11 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   syncResponsiveNavigation();
   addEventListener("resize", syncResponsiveNavigation, { passive: true });
   mobileNavigation.addEventListener?.("change", syncResponsiveNavigation);
-
   const getHashTarget = (hash = location.hash) => {
     if (!hash || hash === "#") return null;
     let id = hash.slice(1);
     try { id = decodeURIComponent(id); }
-    catch { /* Keep the raw fragment when it is not valid URI encoding. */ }
+    catch {  }
     return id ? document.getElementById(id) : null;
   };
   const alignHashTarget = (target, behavior = "auto") => {
@@ -334,7 +331,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       else target.scrollIntoView({ block: "start" });
     }));
   };
-
   const careSections = [...document.querySelectorAll(".care-block[id]")];
   const mobileCareGuide = window.matchMedia("(max-width: 800px)");
   const scrollToCareSection = () => {
@@ -344,15 +340,12 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     alignHashTarget(target);
     return true;
   };
-  // The appointment request fragment opens the fixed drawer (45-inquiry.js)
-  // instead of scrolling the page.
   const isInquiryHash = (hash = location.hash) => hash === "#request" || hash === "#book";
   const alignPageHash = () => {
     syncResponsiveNavigation();
     if (isInquiryHash() || scrollToCareSection()) return;
     alignHashTarget(getHashTarget());
   };
-
   document.querySelectorAll("a[href]").forEach((link) => link.addEventListener("click", (event) => {
     if (event.defaultPrevented || event.button !== 0 || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
     if (link.hasAttribute("download") || (link.target && link.target.toLowerCase() !== "_self")) return;
@@ -366,14 +359,12 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     }
     alignHashTarget(target, "smooth");
   }));
-
   alignPageHash();
   addEventListener("hashchange", alignPageHash);
   addEventListener("popstate", alignPageHash);
   addEventListener("pageshow", alignPageHash);
   addEventListener("load", alignPageHash);
 })();
-
 (() => {
   const carousel = document.querySelector("[data-review-carousel]") || document;
   const quotes = [...carousel.querySelectorAll("[data-quote]")];
@@ -413,7 +404,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   show(0);
   start();
 })();
-
 (() => {
   document.querySelectorAll(".ba").forEach((comparison, index) => {
     const after = comparison.querySelector(".after-wrap");
@@ -475,7 +465,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     render();
   });
 })();
-
 (() => {
   const syncBodySurfaceState = () => {
     const menuOpen = Boolean(document.querySelector(".menu.open"));
@@ -492,15 +481,12 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   ["hashchange", "popstate", "pageshow"].forEach((eventName) => {
     addEventListener(eventName, syncBodySurfaceState);
   });
-
   const definitions = [
     { dialog: "techmodal", trigger: ".tech-card", key: "tech", kind: "technology", prefix: "techm" }
   ];
-
   definitions.forEach((definition) => {
     const dialog = document.getElementById(definition.dialog);
     if (!dialog) return;
-
     document.body.classList.add("js-enhanced");
     const image = document.getElementById(`${definition.prefix}-img`);
     const category = document.getElementById(`${definition.prefix}-cat`);
@@ -516,7 +502,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     let swipeHintTimer;
     let touchStart = null;
     let inerted = [];
-
     const detailData = __SITE_DETAIL_DATA?.technology || {};
     const decode = (value = "") => {
       return new DOMParser().parseFromString(value, "text/html").body.textContent || "";
@@ -688,7 +673,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
         });
       }, 240);
     };
-
     document.querySelectorAll(definition.trigger).forEach((trigger) => {
       trigger.setAttribute("aria-haspopup", "dialog");
       trigger.addEventListener("click", (event) => {
@@ -761,7 +745,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
         navigate(1);
       }
     });
-
     const openHash = () => {
       const id = location.hash.slice(1).split("/").pop();
       if (getDetail(id)) open(id, getTrigger(id));
@@ -771,7 +754,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     openHash();
   });
 })();
-
 (() => {
   const OFFICE = { timeZone: "America/New_York", days: [1, 2, 3, 4], opens: 8 * 60, closes: 15 * 60 };
   const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -818,12 +800,8 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   renderOfficeStatus();
   window.setInterval(renderOfficeStatus, 60000);
   window.thodInquiry = { officeStatus };
-
   const drawer = document.querySelector("[data-inquiry]");
   if (!drawer) return;
-
-  // The Contact page renders the form in place; the step flow runs the same,
-  // but nothing overlays, traps focus, or needs closing.
   const inline = drawer.hasAttribute("data-inquiry-inline");
   const panel = drawer.querySelector(".inquiry-panel");
   const form = drawer.querySelector("form[data-contact-form]");
@@ -853,7 +831,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   };
   const reducedMotion = () => window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches === true;
   const isInquiryHash = (hash) => hash === "#request" || hash === "#book";
-
   let current = 1;
   let returnFocus = null;
   let inerted = [];
@@ -862,7 +839,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     ctaLocation: "appointment_form",
     formStep: step
   });
-
   const checked = (name) => form.querySelector(`input[name="${name}"]:checked`);
   const choiceLabel = (name) => checked(name)?.parentElement?.querySelector("strong")?.textContent?.trim() || "";
   const fieldsFor = (name) => [...form.querySelectorAll("[name]")].filter((field) => field.name === name);
@@ -903,7 +879,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   };
   const focusable = () => [...panel.querySelectorAll('button, a[href], input, textarea, select, [tabindex]:not([tabindex="-1"])')]
     .filter((element) => element.tabIndex >= 0 && isFocusable(element));
-
   const renderSummary = () => {
     summary.replaceChildren();
     const items = [{ step: 1, label: "Asking about", value: choiceLabel("treatment") }];
@@ -1004,7 +979,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     setError(step, "");
     return true;
   };
-
   const resetFlow = () => {
     form.reset();
     completed = false;
@@ -1055,7 +1029,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   };
   const close = () => {
     if (inline) {
-      // "Done" on the inline form simply readies it for another request.
       if (completed) resetFlow();
       panel.focus({ preventScroll: true });
       return;
@@ -1070,7 +1043,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     returnFocus = null;
     if (target && isFocusable(target)) target.focus({ preventScroll: true });
   };
-
   nextButton.addEventListener("click", () => {
     if (validateStep(current)) showStep(current + 1, { track: true });
   });
@@ -1141,7 +1113,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       first.focus();
     }
   }, true);
-
   const inquiryLink = (link) => {
     let url;
     try {
@@ -1168,7 +1139,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   showStep(1, { focus: false });
   openFromHash();
 })();
-
 (() => {
   const range = document.getElementById("chr-range");
   if (!range) return;
@@ -1194,11 +1164,9 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   range.addEventListener("input", update);
   update();
 })();
-
 (() => {
   const forms = document.querySelectorAll("form[data-contact-form]");
   if (!forms.length) return;
-
   const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
   const secureAttemptId = () => {
     const random = window.crypto || (typeof crypto !== "undefined" ? crypto : null);
@@ -1214,7 +1182,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     const hex = [...bytes].map((byte) => byte.toString(16).padStart(2, "0")).join("");
     return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
   };
-
   forms.forEach((form) => {
     let attemptId = "";
     const button = form.querySelector("button[type='submit']");
@@ -1224,14 +1191,12 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       status.textContent = message;
       status.dataset.state = state;
     };
-
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       if (button?.disabled) return;
       button?.setAttribute("aria-busy", "true");
       if (button) button.disabled = true;
       setStatus("Sending your request…", "pending");
-
       try {
         if (!attemptId) attemptId = secureAttemptId();
         const headers = { Accept: "application/json", "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" };
@@ -1242,7 +1207,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
           body: new URLSearchParams(new FormData(form))
         });
         const result = await response.json().catch(() => ({}));
-        // A 202 is the Worker honeypot response, not a sent message.
         if (response.status !== 200 || result.ok !== true || result.accepted !== true) {
           const error = new Error(result.error || "Request failed");
           error.status = response.status;
@@ -1273,7 +1237,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     });
   });
 })();
-
 (() => {
   document.querySelectorAll("img").forEach((image, index) => {
     image.decoding = "async";
@@ -1283,7 +1246,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     if (image.complete && image.naturalWidth === 0) failed();
   });
 })();
-
 (() => {
   const config = __SITE_ANALYTICS;
   const consentConfig = config?.consent;
@@ -1294,7 +1256,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     || consentConfig.version !== 2
     || !/^G-[A-Z0-9]+$/i.test(config.measurementId)
   ) return;
-
   const pagePath = () => {
     const path = window.location?.pathname || "/";
     const normalized = path.length > 1 ? path.replace(/\/+$/, "") : path;
@@ -1303,7 +1264,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   const routeEligibility = config.routeEligibility;
   const eligibilityFor = (path) => routeEligibility?.routes?.[path] || routeEligibility?.default || routeEligibility?.default_behavior || "prohibited";
   if (eligibilityFor(pagePath()) !== "approved") return;
-
   const safeCampaignLocation = () => {
     const fragment = (window.location?.hash || "").replace(/^#/, "");
     const allowedFragments = new Set(routeEligibility?.fragments?.[pagePath()] || []);
@@ -1323,7 +1283,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   };
   const pageLocation = safeCampaignLocation();
   if (!pageLocation) return;
-
   const storageKey = consentConfig.storageKey || "thod-analytics-consent";
   const readChoice = () => {
     try {
@@ -1334,12 +1293,10 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
         try {
           sessionStorage.setItem(storageKey, "denied");
         } catch {
-          // Legacy denial still applies to this page if session storage is unavailable.
         }
         return choice;
       }
     } catch {
-      // Continue to the session-only denial check.
     }
     try {
       return sessionStorage.getItem(storageKey) === "denied" ? "denied" : null;
@@ -1352,24 +1309,20 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       try {
         localStorage.setItem(storageKey, choice);
       } catch {
-        // Consent still applies to the current page if storage is unavailable.
       }
       try {
         sessionStorage.removeItem(storageKey);
       } catch {
-        // A stale session denial cannot override the in-memory choice on this page.
       }
       return;
     }
     try {
       localStorage.removeItem(storageKey);
     } catch {
-      // The in-memory denial still applies to this page.
     }
     try {
       sessionStorage.setItem(storageKey, "denied");
     } catch {
-      // The in-memory denial still applies to this page if storage is unavailable.
     }
   };
   const defaultConsent = {
@@ -1390,7 +1343,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   const allowedServiceCategories = new Set(config.eventPolicy?.allowedServiceCategories || []);
   const allowedFileCategories = new Set(config.eventPolicy?.allowedFileCategories || ["care_guide"]);
   const allowedDownloadCategories = new Set(config.eventPolicy?.allowedDownloadCategories || config.eventPolicy?.allowedFileCategories || ["care_guide"]);
-
   window.dataLayer = window.dataLayer || [];
   window.gtag = function gtag() {
     window.dataLayer.push(arguments);
@@ -1409,7 +1361,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     page_referrer: "",
     send_page_view: true
   });
-
   const track = (eventName, metadata = {}) => {
     if (!analyticsStorageGranted || !allowedEvents.has(eventName)) return;
     const payload = { page_path: pagePath() };
@@ -1431,7 +1382,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     window.gtag("event", eventName, payload);
   };
   window.thodAnalytics = { track };
-
   document.querySelectorAll("[data-analytics-event]").forEach((element) => {
     element.addEventListener("click", () => track(element.dataset.analyticsEvent, {
       ctaLocation: element.dataset.analyticsLocation,
@@ -1449,19 +1399,17 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       track("form_start", { ctaLocation: "appointment_form" });
     });
   });
-
   const script = document.createElement("script");
   script.async = true;
   script.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(config.measurementId);
   document.head.appendChild(script);
-
   const create = (tag, className, text) => {
     const element = document.createElement(tag);
     if (className) element.className = className;
     if (text) element.textContent = text;
     return element;
   };
-  const banner = create("aside", "consent-banner");
+  const banner = create("div", "consent-banner");
   banner.setAttribute("role", "dialog");
   banner.setAttribute("aria-labelledby", "analytics-consent-title");
   banner.setAttribute("aria-describedby", "analytics-consent-description");
@@ -1481,14 +1429,12 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   decline.type = "button";
   actions.append(accept, decline);
   banner.append(title, description, actions);
-
   const settings = document.querySelectorAll("[data-consent-settings]")[0] || create("button", "consent-settings", "Privacy choices");
   if (!settings.parentNode) document.body.append(settings);
   settings.hidden = !storedChoice;
   settings.type = "button";
   settings.setAttribute("aria-label", "Change privacy choices");
   document.body.append(banner);
-
   const choose = (choice) => {
     saveChoice(choice);
     analyticsStorageGranted = choice === "granted";
@@ -1505,7 +1451,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     accept.focus();
   });
 })();
-
 (() => {
   const config = __SITE_REPUTATION || {};
   const fallback = config.fallback || {};
@@ -1514,7 +1459,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
   const reviewCountTargets = [...document.querySelectorAll("[data-reputation-review-count]")];
   const reputationTargets = [...new Set([...ratingTargets, ...reviewCountTargets])];
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-
   const normalize = (value) => {
     const rating = Number(value?.rating);
     const reviewCount = Number(value?.review_count ?? value?.userRatingCount);
@@ -1522,7 +1466,6 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
     if (!Number.isInteger(reviewCount) || reviewCount < 0) return null;
     return { rating, reviewCount };
   };
-
   const updateSchema = ({ rating, reviewCount }) => {
     for (const element of document.querySelectorAll('script[type="application/ld+json"]')) {
       try {
@@ -1532,18 +1475,12 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
         schema.aggregateRating.reviewCount = String(reviewCount);
         element.textContent = JSON.stringify(schema);
       } catch {
-        // Leave malformed or unrelated structured data unchanged.
       }
     }
   };
-
   const reveal = (value) => {
     const normalized = normalize(value) || normalize(fallback);
     if (!normalized) return;
-
-    // Keep the dash visible until a complete, validated pair is ready. The
-    // commit updates both surfaces in one synchronous turn, so no intermediate
-    // rating or review count can be painted.
     const tick = () => {
       const rating = normalized.rating.toFixed(1);
       const reviewCount = normalized.reviewCount.toLocaleString("en-US");
@@ -1552,16 +1489,13 @@ const __SITE_REPUTATION = {"endpoint":"/api/google-reputation","fallback":{"rati
       updateSchema(normalized);
       for (const element of reputationTargets) element.classList.remove("reputation-value-pending");
     };
-
     if (reduced) tick();
     else requestAnimationFrame(tick);
   };
-
   if (!endpoint) {
     reveal(fallback);
     return;
   }
-
   const url = new URL(endpoint, window.location.origin);
   fetch(url, { headers: { Accept: "application/json" } })
     .then((response) => response.ok ? response.json() : null)

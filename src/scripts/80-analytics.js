@@ -175,7 +175,7 @@
     if (text) element.textContent = text;
     return element;
   };
-  const banner = create("aside", "consent-banner");
+  const banner = create("div", "consent-banner");
   banner.setAttribute("role", "dialog");
   banner.setAttribute("aria-labelledby", "analytics-consent-title");
   banner.setAttribute("aria-describedby", "analytics-consent-description");

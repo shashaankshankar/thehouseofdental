@@ -24,7 +24,9 @@
   --wrap-w: min(var(--content-wide), 90vw); /* one shared page width: header, sections and footer align to it */
   --space-section: clamp(3.5rem, 7vh, 5.5rem); /* Polish 04: same sections, tighter vertical budget */
   --space-mobile: clamp(3.5rem, 8vh, 6rem);
+  --head-h: 144px;
 }
+body:has(header.site.minimal-header) { --head-h: 86px; }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 

@@ -2,10 +2,17 @@
   document.documentElement.classList.add("reveal-enabled");
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const header = document.querySelector("header.site");
-  const setHeaderHeight = () => header && document.documentElement.style.setProperty("--head-h", `${header.offsetHeight}px`);
-  setHeaderHeight();
-  addEventListener("resize", setHeaderHeight);
-  document.fonts?.ready.then(setHeaderHeight);
+  if (header && "ResizeObserver" in window) {
+    new ResizeObserver((entries) => {
+      const entry = entries[0];
+      const height = entry?.borderBoxSize?.[0]?.blockSize ?? entry?.contentRect?.height ?? header.offsetHeight;
+      if (height) document.documentElement.style.setProperty("--head-h", `${Math.round(height)}px`);
+    }).observe(header);
+  } else if (header) {
+    const setHeaderHeight = () => document.documentElement.style.setProperty("--head-h", `${header.offsetHeight}px`);
+    addEventListener("resize", setHeaderHeight, { passive: true });
+    requestAnimationFrame(setHeaderHeight);
+  }
 
   const reveal = "IntersectionObserver" in window ? new IntersectionObserver((entries) => {
     for (const entry of entries) if (entry.isIntersecting) {
@@ -20,18 +27,26 @@
   const heroStrip = document.querySelector(".hero-strip");
   const heroFlowQuery = "(max-width: 900px), (max-height: 620px) and (orientation: landscape)";
   const heroUsesFlowLayout = () => matchMedia(heroFlowQuery).matches;
-  const syncHeroStripHeight = () => {
-    if (!hero || !heroSection || !heroStrip) return;
-    if (heroUsesFlowLayout()) {
-      heroSection.style.removeProperty("--hero-strip-h");
-      return;
+  if (hero && heroSection && heroStrip) {
+    const syncHeroStrip = (height) => {
+      if (heroUsesFlowLayout()) {
+        heroSection.style.removeProperty("--hero-strip-h");
+      } else if (height) {
+        heroSection.style.setProperty("--hero-strip-h", `${Math.round(height)}px`);
+      }
+    };
+    if ("ResizeObserver" in window) {
+      new ResizeObserver((entries) => {
+        const entry = entries[0];
+        const height = entry?.borderBoxSize?.[0]?.blockSize ?? entry?.contentRect?.height ?? heroStrip.getBoundingClientRect().height;
+        syncHeroStrip(height);
+      }).observe(heroStrip);
+    } else {
+      const sync = () => syncHeroStrip(heroStrip.getBoundingClientRect().height);
+      addEventListener("resize", sync, { passive: true });
+      requestAnimationFrame(sync);
     }
-    heroSection.style.setProperty("--hero-strip-h", `${heroStrip.getBoundingClientRect().height}px`);
-  };
-  syncHeroStripHeight();
-  addEventListener("resize", syncHeroStripHeight, { passive: true });
-  document.fonts?.ready.then(syncHeroStripHeight);
-  if (heroStrip && "ResizeObserver" in window) new ResizeObserver(syncHeroStripHeight).observe(heroStrip);
+  }
 
   if (hero && !reduced) {
     const updateHeroPosition = () => {
